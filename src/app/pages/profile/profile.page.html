@@ -1,0 +1,123 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Profile</ion-title>
+    <ion-buttons slot="end">
+      <ion-button>
+        <ion-icon name="pencil"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content >
+  <div>
+    <div class="w-100 image-container">
+      <img class="w-100" src="./../../../assets/man-avatar.png" alt="">
+      <span class="user-info p-1 pl-2">
+        <span class="d-block">Lorem ipsum dolor sit amet.</span>
+        <span class="d-block">Morocco</span>
+      </span>
+    </div>
+  </div>
+
+  <div class="p-3">
+    <ion-text class="text-danger">Basic information</ion-text>
+    <ion-list class="ml-3">
+      <ion-item lines="none">
+        <ion-label>
+          <ion-text class="d-block">Full Name</ion-text>
+          <ion-text class="d-block">noone</ion-text>
+        </ion-label>
+        <ion-icon name="person" size="default" slot="start"></ion-icon>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-label>
+          <ion-text class="d-block">Gender</ion-text>
+          <ion-text class="d-block">Male</ion-text>
+        </ion-label>
+        <ion-icon name="male" size="default" slot="start"></ion-icon>
+      </ion-item>
+      <ion-item lines="none">
+        <i class="fas fa-birthday-cake font-icon"></i>
+        <ion-label class="ml-1">
+          <ion-text class="d-block">Age</ion-text>
+          <ion-text class="d-block">22</ion-text>
+        </ion-label>
+      </ion-item>
+      <ion-item lines="none">
+        <i class="fas fa-map-marker-alt font-icon"></i>
+        <ion-label style="margin-left: 5px;" text-wrap>
+          <ion-text class="d-block">Lives in</ion-text>
+          <ion-text class="d-block">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis, sed.</ion-text>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+
+    <ion-text class="text-danger">Profession</ion-text>
+    <ion-item lines="none" class="ml-2 mb-2">
+      <!-- <i class="fas fa-briefcase"></i> -->
+      <ion-label class="ml-2">
+        Software enginner
+      </ion-label>
+    </ion-item>
+
+
+    <ion-text class="text-danger">School</ion-text>
+    <ion-item lines="none" class="ml-2 mb-2">
+      <!-- <i class="fas fa-briefcase"></i> -->
+      <ion-label class="ml-2">
+        NGT School
+      </ion-label>
+    </ion-item>
+
+    <ion-text class="text-danger">Education</ion-text>
+    <ion-item lines="none" class="ml-2 mb-2">
+      <!-- <i class="fas fa-briefcase"></i> -->
+      <ion-label class="ml-2">
+        Master degree
+      </ion-label>
+    </ion-item>
+
+    <ion-text class="text-danger mt-3">Intersets</ion-text>
+    <ion-row>
+      <ion-col class="text-center p-4" size="4" *ngFor="let interest of interests">
+        <div class="icon-circle" [style]="{color: interest.color, 'background-color': interest.background}">
+          <i [class]="interest.icon"></i>
+        </div>
+        <div class="pt-2">
+          <span>{{ interest.title }}</span>
+        </div>
+      </ion-col>
+    </ion-row>
+
+
+  </div>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="secondary">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="secondary">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-list side="top">
+      <!-- <ion-fab-button>
+        <ion-icon name="logo-facebook"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button>
+        <ion-icon name="logo-instagram"></ion-icon>
+      </ion-fab-button> -->
+      <ion-fab-button>
+        <ion-icon name="images"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button>
+        <ion-icon name="camera"></ion-icon>
+      </ion-fab-button>
+    </ion-fab-list>
+    </ion-fab>
+</ion-content>

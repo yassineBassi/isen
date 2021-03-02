@@ -1,0 +1,36 @@
+.image-container{
+  height: 250px;
+  overflow: hidden;
+  position: relative;
+}
+.panel{
+  background-color: rgb(var(--ion-color-secondary-rgb));
+}
+.user-info{
+  position: absolute;
+  width: 100%;
+  bottom: 0px;
+  left: 0px;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+.font-icon{
+  margin-right: 30px;
+  margin-left: 4px;
+  font-size: 19px;
+}
+.icon-circle{
+  width: 100%;
+  position: relative;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 25px;
+}
+
+.icon-circle:before{
+  content: "";
+  display: block;
+  padding-top: 100%;  /*What you want the height to be in relation to the width*/
+}
