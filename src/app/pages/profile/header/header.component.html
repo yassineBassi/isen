@@ -1,0 +1,20 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="back()" *ngIf="withBackButton">
+        <i class="fas fa-arrow-left"></i>
+      </ion-button>
+      <ion-menu-button *ngIf="!withBackButton"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>{{ title }}</ion-title>
+    <ion-buttons slot="end">
+      <ng-content select="#end-buttons"></ng-content>
+      <!-- <ion-button routerLink="/profile/form">
+        <i class="fas fa-pen"></i>
+      </ion-button> -->
+      <!-- <ion-button (click)="edit = false" *ngIf="edit">
+        <i class="fas fa-check"></i>
+      </ion-button> -->
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
