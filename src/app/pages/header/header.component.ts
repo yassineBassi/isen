@@ -8,14 +8,15 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
+  @Input() back = false;
+  @Input() menu = false;
   @Input() title = "";
-  @Input() withBackButton = false;
 
   constructor(private location: Location) { }
 
   ngOnInit() {}
 
-  back(){
+  goBack(){
     this.location.back();
   }
 

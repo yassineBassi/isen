@@ -1,10 +1,5 @@
-import { ProductFormComponent } from './product-form/product-form.component';
-import { ProductComponent } from './product/product.component';
-import { SellComponent } from './sell/sell.component';
-import { BuyComponent } from './buy/buy.component';
+import { SharingModule } from './../sharing/sharing.module';
 import { HomeComponent } from './home/home.component';
-import { BuyAndSellComponent } from './buy-and-sell/buy-and-sell.component';
-import { SmallBusinessComponent } from './small-business/small-business.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -20,17 +15,12 @@ import { ChannelsPage } from './channels.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    ChannelsPageRoutingModule
+    ChannelsPageRoutingModule,
+    SharingModule
   ],
   declarations: [
     ChannelsPage,
-    SmallBusinessComponent,
-    BuyAndSellComponent,
-    HomeComponent,
-    BuyComponent,
-    SellComponent,
-    ProductComponent,
-    ProductFormComponent
+    HomeComponent
   ]
 })
 export class ChannelsPageModule {}

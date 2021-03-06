@@ -9,16 +9,6 @@ export class ProfilePage implements OnInit {
 
 
   edit = false;
-  educationDegrees = [
-    'High school',
-    'College',
-    'Associates degree',
-    'Bachlors degree',
-    'Graduate degree',
-    'PhD'
-  ]
-
-
 
   constructor() { }
 

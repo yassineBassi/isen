@@ -1,0 +1,14 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()" *ngIf="back">
+        <i class="fas fa-arrow-left"></i>
+      </ion-button>
+      <ion-menu-button *ngIf="menu"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>{{ title }}</ion-title>
+    <ion-buttons slot="end">
+      <ng-content select="#end-buttons"></ng-content>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>

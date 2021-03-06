@@ -1,8 +1,3 @@
-import { ProductFormComponent } from './product-form/product-form.component';
-import { ProductComponent } from './product/product.component';
-import { SellComponent } from './sell/sell.component';
-import { BuyComponent } from './buy/buy.component';
-import { BuyAndSellComponent } from './buy-and-sell/buy-and-sell.component';
 import { HomeComponent } from './home/home.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -24,31 +19,15 @@ const routes: Routes = [
         component: HomeComponent
       },
       {
-        path: 'buy-and-sell',
-        component: BuyAndSellComponent
-      },
-      {
         path: 'small-business',
-        component: BuyAndSellComponent
+        loadChildren: () => import('./small-business/small-business.module').then( m => m.SmallBusinessPageModule)
       },
       {
-        path: 'buy',
-        component: BuyComponent
+        path: 'buy-and-sell',
+        loadChildren: () => import('./buy-and-sell/buy-and-sell.module').then( m => m.BuyAndSellPageModule)
       },
-      {
-        path: 'sell',
-        component: SellComponent
-      },
-      {
-        path: 'product',
-        component: ProductComponent
-      },
-      {
-        path: 'product/form',
-        component: ProductFormComponent
-      }
     ]
-  }
+  },
 ];
 
 @NgModule({
