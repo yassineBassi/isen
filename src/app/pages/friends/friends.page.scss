@@ -1,0 +1,21 @@
+// ion-tab-button{
+//   // --background: var(--ion-color-secondary);
+//   --color: white;
+//   --padding-start: 0px;
+//   --padding-end: 0px;
+
+// }
+// ion-tab-bar{
+//   --color: white;
+// }
+// .selected{
+//   border-top: 3px solid rgb(253, 255, 255);
+// }
+.tab-button{
+  --border-radius: 0px;
+  // color: rgb(255, 255, 255, 0.5);
+  // font-size: 11px;
+}
+.tab-button.selected{
+  border-bottom: 5px solid rgb(86, 165, 255);
+}

@@ -6,8 +6,10 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   public appPages = [
-    { title: 'Profile', url: '/profile', icon: 'person' },
-    { title: 'Upgrade', url: '/profilet', icon: 'crown' }
+    { title: 'Upgrade', url: '/profilet', icon: 'fas fa-crown', iconColor: 'rgb(222, 150, 0)'},
+    { title: 'Profile', url: '/profile', icon: 'fas fa-user' },
+    { title: 'Friends', url: '/friends', icon: 'fas fa-users' },
+    { title: 'Messages', url: '/messages', icon: 'fas fa-comments' }
     // { title: 'Outbox', url: '/folder/Outbox', icon: 'paper-plane' },
     // { title: 'Favorites', url: '/folder/Favorites', icon: 'heart' },
     // { title: 'Archived', url: '/folder/Archived', icon: 'archive' },
