@@ -1,15 +1,15 @@
 <ion-content>
   <ion-list class="p-0">
-    <ion-item *ngFor="let i of [0, 1, 2, 3, 4, 5, 6]" class="px-3">
-      <ion-avatar>
+    <ion-item *ngFor="let i of [0, 1, 2, 3, 4, 5, 6]">
+      <ion-avatar class="ml-2">
         <img src="./../../../../assets/man-avatar.png" alt="">
       </ion-avatar>
       <ion-label class="ml-2">
         <h6 class="mb-0 font-weight-bold d-block">User name</h6>
       </ion-label>
       <ion-buttons slot="end">
-        <ion-button size="small" color="secondary"><i class="fas fa-check"></i></ion-button>
-        <ion-button size="small" fill="clear" color="danger"><i class="fas fa-times"></i></ion-button>
+        <ion-button class="ion-no-padding ion-no-margin" shape="round" size="small" fill="outline" color="secondary"><i class="fas fa-check"></i></ion-button>
+        <ion-button class="ion-no-padding ion-no-margin" shape="round" size="small" fill="clear" color="danger"><i class="fas fa-times mx-1"></i></ion-button>
       </ion-buttons>
     </ion-item>
   </ion-list>

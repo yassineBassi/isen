@@ -1,43 +1,42 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-button (click)="back()">
-        <i class="fas fa-arrow-left"></i>
-      </ion-button>
-    </ion-buttons>
-    <ion-title>user name</ion-title>
-    <ion-buttons slot="end">
-      <ion-button>
-        <i class="fas fa-video"></i>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
+<app-header title="user name" [back]="true">
+  <div id="end-buttons">
+    <ion-button>
+      <i class="fas fa-video"></i>
+    </ion-button>
+  </div>
+</app-header>
 
-<ion-content>
-  <ion-row class="mt-2 mx-2 mr-3">
-    <ion-col class="his-message rounded" size="auto">
-      <ion-text class="d-block">Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero, doloremque?</ion-text>
-      <small class="float-right">14:25</small>
-    </ion-col>
-  </ion-row>
-  <ion-row class="mt-2 mx-2 mr-3">
-    <ion-col class="my-message rounded" size="auto">
-      <ion-text class="d-block">Lorem ipsum dolor sit  doloremque?</ion-text>
-      <small class="float-right">14:25</small>
-    </ion-col>
-  </ion-row>
+<ion-content #content>
+  <div class="overflow-auto h-100">
+    <div class="mt-2 mx-2 mr-3" *ngFor="let message of messages; let ind = index">
+      <div class="w-100 text-center mb-2" *ngIf="ind && allowToShowDate(ind)">
+        {{ message.date.toJSON().slice(0, 10) }}
+      </div>
+      <ion-row>
+        <ion-col [class]="[message.mine ? 'my-message' : 'his-message']" class="px-2" size="auto">
+          <img *ngIf="message.image" [src]="message.image" alt="">
+          <div class="d-flex w-100 justify-content-between">
+            <ion-text class="d-block">{{ message.text }}</ion-text>
+            <small [class]="[message.text ? 'mt-4' : 'mt-2']">{{ message.date | extractTime }}</small>
+          </div>
+        </ion-col>
+      </ion-row>
+    </div>
+  </div>
 </ion-content>
-<ion-footer class="py-2 border-0">
-  <ion-item lines="none" class="px-2">
+
+<ion-footer class="bg-danger ion-no-padding ion-no-margin">
+  <ion-item lines="none">
     <ion-buttons class="ion-no-margin" slot="start">
-      <ion-button size="large" shape="round">
+      <ion-button (click)="pickImage()" size="large" shape="round">
         <i class="fas fa-images"></i>
       </ion-button>
     </ion-buttons>
-    <ion-input class="mx-2 chat-input" placeholder="tape your message here"></ion-input>
-    <ion-buttons class="ion-no-margin" slot="end">
-      <ion-fab-button color="secondary">
+
+    <ion-input [(ngModel)]="messageText" class="mx-2 chat-input" placeholder="tape your message here"></ion-input>
+
+    <ion-buttons class="ion-no-margin py-2" slot="end">
+      <ion-fab-button (click)="addMessage()" color="secondary">
         <i class="fas fa-paper-plane"></i>
       </ion-fab-button>
     </ion-buttons>

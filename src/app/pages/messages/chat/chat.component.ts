@@ -1,18 +1,126 @@
-import { Location } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Message } from './../../../models/Message';
+import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { IonContent } from '@ionic/angular';
 
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss'],
 })
-export class ChatComponent implements OnInit {
+export class ChatComponent implements OnInit, AfterViewInit {
 
-  constructor(private location: Location) { }
+  image: string = null;
+  messageText = "";
+  @ViewChild('content') private content: IonContent;
 
-  ngOnInit() {}
+  messages: Message[] = [
+    new Message(
+      0,
+      'lorem test text od chat box 05/12/2020',
+      new Date('12-05-2020'),
+      true,
+      null
+    ),
+    new Message(
+      0,
+      'lorem test text od chat box 24/08/2020',
+      new Date('08-24-2020'),
+      false,
+      null
+    ),
+    new Message(
+      0,
+      'lorem test text od chat box 05/12/2020 2',
+      new Date('12-05-2020'),
+      true,
+      null
+    ),
+  ]
 
-  back(){
-    this.location.back();
+  constructor(private camera: Camera) { }
+
+  ngOnInit() {
+    this.sortMessages();
+  }
+
+  ionViewDidEnter(){
+    this.content.scrollToBottom(300);
+  }
+
+  ngAfterViewInit(){
+    // console.log(this.msgContainer);
+
+    // this.msgContainer.nativeElement.scrollTop = 0;:
+  }
+
+  sortMessages(){
+    this.messages.sort((msg1, msg2) => msg1.date.getTime() - msg2.date.getTime())
+  }
+
+  scrollToBottom(){
+    console.log("-----------");
+
+    // console.log(this.msgContainer.nativeElement.scrollHeight);
+    // console.log(this.msgContainer.nativeElement.scrollTop);
+    // setTimeout(() => {
+      // this.content.scrollToBottom(300);
+      // this.content.getScrollElement().then(r => r.scrollTo({
+      //   top: r.scrollHeight
+      // }));
+    //   let dimensions = this.content.getContentDimensions();
+    //   console.log(dimensions);
+
+    //   this.content.scrollTo(0, dimensions.scrollBottom, 0)
+    // this.content.scrollToBottom(300);
+    // console.log(this.msgContainer.nativeElement.scrollTop);
+    // }, 1000);
+
+  }
+
+  addMessage(){
+    if(this.messageText.length || this.image){
+      this.messages.push(new Message(
+        0,
+        this.messageText,
+        new Date(),
+        true,
+        this.image
+      ));
+      this.messageText = "";
+      this.image = null;
+      setTimeout(() => {
+        this.scrollToBottom();
+      }, 100);
+    }
+  }
+
+  pickImage(){
+    const options: CameraOptions = {
+      quality: 100,
+      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+      destinationType: this.camera.DestinationType.DATA_URL,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE
+    }
+
+    this.camera.getPicture(options).then((imageData) => {
+     // imageData is either a base64 encoded string or a file URI
+     // If it's base64 (DATA_URL):
+    //  let base64Image = 'data:image/jpeg;base64,' + imageData;
+      this.image = 'data:image/jpeg;base64,' + imageData;
+      this.addMessage()
+    }, (err) => {
+     // Handle error
+    // alert(err)
+    });
+  }
+
+  allowToShowDate(ind: number): boolean{
+    const currDate = this.messages[ind].date;
+    const lastDate = this.messages[ind - 1].date;
+    return currDate.getDay() != lastDate.getDay() || currDate.getMonth() != lastDate.getMonth()
+        || currDate.getFullYear() != lastDate.getFullYear()
+    // return (this.messages[ind].date.getDay() - 1) - (this.messages[ind - 1].date.getDay() - 1);
   }
 }

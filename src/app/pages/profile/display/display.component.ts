@@ -53,18 +53,4 @@ export class DisplayComponent implements OnInit {
     });
   }
 
-  selectImage(){
-    // const options = {
-    //     maximumImagesCount: 1,
-    //     // output type, defaults to FILE_URIs.
-    //     // available options are
-    //     // window.imagePicker.OutputType.FILE_URI (0) or
-    //     // window.imagePicker.OutputType.BASE64_STRING (1)
-    //     // outputType: int
-    // };
-    // this.imagePicker.getPictures(options).then((results) => {
-    //   console.log(results[0]);
-    // }, (err) => { });
-  }
-
 }

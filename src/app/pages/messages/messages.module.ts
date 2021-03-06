@@ -1,3 +1,6 @@
+import { SharingPipeModule } from './../../pipes/sharing/sharing-pipe.module';
+import { Camera } from '@ionic-native/camera/ngx';
+import { SharingModule } from './../sharing/sharing.module';
 import { ChatComponent } from './chat/chat.component';
 import { ListComponent } from './list/list.component';
 import { NgModule } from '@angular/core';
@@ -15,12 +18,17 @@ import { MessagesPage } from './messages.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    MessagesPageRoutingModule
+    MessagesPageRoutingModule,
+    SharingModule,
+    SharingPipeModule
   ],
   declarations: [
     MessagesPage,
     ChatComponent,
     ListComponent
+  ],
+  providers: [
+    Camera
   ]
 })
 export class MessagesPageModule {}

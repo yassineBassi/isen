@@ -5,7 +5,7 @@
 }
 .his-message{
   background-color: var(--ion-color-light);
-  border: 1px solid #000;
+  border: 1px solid rgb(73, 72, 72);
 }
 .chat-input{
   --background: var(--ion-color-light);
@@ -13,4 +13,7 @@
   padding-left: 8px!important;
   padding-right: 8px;
   border: 1px solid #000;
+}
+.his-message, .my-message{
+  border-radius: 12px;
 }
