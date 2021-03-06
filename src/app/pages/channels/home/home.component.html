@@ -1,0 +1,41 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>channels</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-row class="mt-2">
+    <ion-col class="ion-no-padding p-1" size="6">
+      <ion-chip routerLink="/channels/buy-and-sell" class="w-100 ion-no-margin chip">
+        <ion-label class="w-100 text-center">
+          <span class="d-block">Buy/Sell</span>
+          <small>products</small>
+        </ion-label>
+      </ion-chip>
+    </ion-col>
+    <ion-col class="ion-no-padding p-1 pr-2" size="6">
+      <ion-chip class="w-100 ion-no-margin chip">
+        <ion-label class="w-100 text-center">
+          <span class="d-block">Small Business</span>
+        </ion-label>
+      </ion-chip>
+    </ion-col>
+  </ion-row>
+
+  <ion-searchbar></ion-searchbar>
+
+  <ion-list>
+    <ion-item>
+      <ion-avatar class="avatar ml-2">
+        <img src="./../../../assets/menu-bg.jpg" alt="">
+      </ion-avatar>
+      <ion-label class="ml-2">
+        Channel name
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

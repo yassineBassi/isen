@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="back()">
+        <i class="fas fa-arrow-left"></i>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Buy/Sell</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="h-100 text-center d-flex align-items-center">
+    <div class="w-100 mx-5">
+      <span class="im d-block">I'm</span>
+      <ion-chip routerLink="/channels/buy" class="chip">
+        <ion-label class="w-100 text-center">
+          <span>Buyer</span>
+        </ion-label>
+      </ion-chip>
+      <div class="mx-2 position-relative">
+        <hr class="position-absolute bg-secondary">
+        <span class="">or</span>
+      </div>
+      <ion-chip routerLink="/channels/sell" class="chip">
+        <ion-label class="w-100 text-center">
+          <span>Seller</span>
+        </ion-label>
+      </ion-chip>
+    </div>
+  </div>
+</ion-content>

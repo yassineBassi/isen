@@ -9,12 +9,8 @@ export class AppComponent {
     { title: 'Upgrade', url: '/profilet', icon: 'fas fa-crown', iconColor: 'rgb(222, 150, 0)'},
     { title: 'Profile', url: '/profile', icon: 'fas fa-user' },
     { title: 'Friends', url: '/friends', icon: 'fas fa-users' },
-    { title: 'Messages', url: '/messages', icon: 'fas fa-comments' }
-    // { title: 'Outbox', url: '/folder/Outbox', icon: 'paper-plane' },
-    // { title: 'Favorites', url: '/folder/Favorites', icon: 'heart' },
-    // { title: 'Archived', url: '/folder/Archived', icon: 'archive' },
-    // { title: 'Trash', url: '/folder/Trash', icon: 'trash' },
-    // { title: 'Spam', url: '/folder/Spam', icon: 'warning' },
+    { title: 'Messages', url: '/messages', icon: 'fas fa-comments' },
+    { title: 'Channels', url: '/channels', icon: 'far fa-object-group' }
   ];
 
   // public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
