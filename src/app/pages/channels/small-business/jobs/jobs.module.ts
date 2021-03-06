@@ -1,4 +1,7 @@
-import { PostedComponent } from './posted/posted.component';
+import { ListComponent } from './list/list.component';
+import { JobComponent } from './job/job.component';
+import { Camera } from '@ionic-native/camera/ngx';
+import { JobFormComponent } from './job-form/job-form.component';
 import { SharingModule } from './../../../sharing/sharing.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -9,7 +12,6 @@ import { IonicModule } from '@ionic/angular';
 import { JobsPageRoutingModule } from './jobs-routing.module';
 
 import { JobsPage } from './jobs.page';
-import { AvailableComponent } from './available/available.component';
 
 @NgModule({
   imports: [
@@ -21,8 +23,12 @@ import { AvailableComponent } from './available/available.component';
   ],
   declarations: [
     JobsPage,
-    PostedComponent,
-    AvailableComponent
+    JobFormComponent,
+    JobComponent,
+    ListComponent
+  ],
+  providers: [
+    Camera
   ]
 })
 export class JobsPageModule {}

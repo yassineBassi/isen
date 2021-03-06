@@ -8,11 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProductComponent implements OnInit {
 
-  constructor(private location: Location) { }
+  constructor() { }
 
   ngOnInit() {}
-
-  back(){
-    this.location.back();
-  }
 }

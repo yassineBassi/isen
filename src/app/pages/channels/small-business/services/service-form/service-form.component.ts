@@ -2,19 +2,20 @@ import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-product-form',
-  templateUrl: './product-form.component.html',
-  styleUrls: ['./product-form.component.scss'],
+  selector: 'app-service-form',
+  templateUrl: './service-form.component.html',
+  styleUrls: ['./service-form.component.scss'],
 })
-export class ProductFormComponent implements OnInit {
+export class ServiceFormComponent implements OnInit {
 
-  productImage = "./../../../../../assets/default-img.png";
+  serviceImage = "./../../../../../assets/default-img.png";
 
   constructor(private camera: Camera) { }
 
   ngOnInit() {}
 
   pickImage(){
+
     const options: CameraOptions = {
       quality: 100,
       sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
@@ -24,7 +25,7 @@ export class ProductFormComponent implements OnInit {
     }
 
     this.camera.getPicture(options).then((imageData) => {
-      this.productImage = 'data:image/jpeg;base64,' + imageData;
+      this.serviceImage = 'data:image/jpeg;base64,' + imageData;
     });
   }
 }

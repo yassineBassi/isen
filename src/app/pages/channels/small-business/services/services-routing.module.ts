@@ -1,16 +1,15 @@
+import { ServiceFormComponent } from './service-form/service-form.component';
+import { ServiceComponent } from './service/service.component';
 import { ListComponent } from './list/list.component';
-import { JobComponent } from './job/job.component';
-import { JobFormComponent } from './job-form/job-form.component';
-
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { JobsPage } from './jobs.page';
+import { ServicesPage } from './services.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: JobsPage,
+    component: ServicesPage,
     children: [
       {
         path: '',
@@ -22,12 +21,12 @@ const routes: Routes = [
         component: ListComponent
       },
       {
-        path: 'job',
-        component: JobComponent
+        path: 'service',
+        component: ServiceComponent
       },
       {
         path: 'form',
-        component: JobFormComponent
+        component: ServiceFormComponent
       }
     ]
   }
@@ -37,4 +36,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class JobsPageRoutingModule {}
+export class ServicesPageRoutingModule {}

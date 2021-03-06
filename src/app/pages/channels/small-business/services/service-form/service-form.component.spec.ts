@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { PostedComponent } from './posted.component';
+import { ServiceFormComponent } from './service-form.component';
 
-describe('PostedComponent', () => {
-  let component: PostedComponent;
-  let fixture: ComponentFixture<PostedComponent>;
+describe('ServiceFormComponent', () => {
+  let component: ServiceFormComponent;
+  let fixture: ComponentFixture<ServiceFormComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ PostedComponent ],
+      declarations: [ ServiceFormComponent ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(PostedComponent);
+    fixture = TestBed.createComponent(ServiceFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

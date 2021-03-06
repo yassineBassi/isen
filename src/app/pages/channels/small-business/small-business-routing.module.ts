@@ -1,4 +1,3 @@
-import { ServiceComponent } from './service/service.component';
 import { SelectComponent } from './select/select.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -20,8 +19,8 @@ const routes: Routes = [
         component: SelectComponent
       },
       {
-        path: 'service',
-        component: ServiceComponent
+        path: 'services',
+        loadChildren: () => import('./services/services.module').then( m => m.ServicesPageModule)
       },
       {
         path: 'jobs',

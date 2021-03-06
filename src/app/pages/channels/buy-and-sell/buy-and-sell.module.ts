@@ -1,3 +1,4 @@
+import { Camera } from '@ionic-native/camera/ngx';
 import { ProductComponent } from './product/product.component';
 import { ProductFormComponent } from './product-form/product-form.component';
 import { SharingModule } from './../../sharing/sharing.module';
@@ -29,6 +30,9 @@ import { BuyAndSellPage } from './buy-and-sell.page';
     SelectComponent,
     ProductFormComponent,
     ProductComponent
+  ],
+  providers: [
+    Camera
   ]
 })
 export class BuyAndSellPageModule {}

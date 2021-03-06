@@ -1,5 +1,4 @@
 import { SharingModule } from './../../sharing/sharing.module';
-import { ServiceComponent } from './service/service.component';
 import { SelectComponent } from './select/select.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -21,8 +20,7 @@ import { SmallBusinessPage } from './small-business.page';
   ],
   declarations: [
     SmallBusinessPage,
-    SelectComponent,
-    ServiceComponent
+    SelectComponent
   ]
 })
 export class SmallBusinessPageModule {}
