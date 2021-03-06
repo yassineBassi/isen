@@ -1,3 +1,4 @@
+import { ProductFormComponent } from './product-form/product-form.component';
 import { ProductComponent } from './product/product.component';
 import { SellComponent } from './sell/sell.component';
 import { BuyComponent } from './buy/buy.component';
@@ -41,6 +42,10 @@ const routes: Routes = [
       {
         path: 'product',
         component: ProductComponent
+      },
+      {
+        path: 'product/form',
+        component: ProductFormComponent
       }
     ]
   }

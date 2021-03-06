@@ -1,3 +1,4 @@
+import { ProductFormComponent } from './product-form/product-form.component';
 import { ProductComponent } from './product/product.component';
 import { SellComponent } from './sell/sell.component';
 import { BuyComponent } from './buy/buy.component';
@@ -28,7 +29,8 @@ import { ChannelsPage } from './channels.page';
     HomeComponent,
     BuyComponent,
     SellComponent,
-    ProductComponent
+    ProductComponent,
+    ProductFormComponent
   ]
 })
 export class ChannelsPageModule {}
