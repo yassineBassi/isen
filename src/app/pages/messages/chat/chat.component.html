@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="back()">
+        <i class="fas fa-arrow-left"></i>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>user name</ion-title>
+    <ion-buttons slot="end">
+      <ion-button>
+        <i class="fas fa-video"></i>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-row class="mt-2 mx-2 mr-3">
+    <ion-col class="his-message rounded" size="auto">
+      <ion-text class="d-block">Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero, doloremque?</ion-text>
+      <small class="float-right">14:25</small>
+    </ion-col>
+  </ion-row>
+  <ion-row class="mt-2 mx-2 mr-3">
+    <ion-col class="my-message rounded" size="auto">
+      <ion-text class="d-block">Lorem ipsum dolor sit  doloremque?</ion-text>
+      <small class="float-right">14:25</small>
+    </ion-col>
+  </ion-row>
+</ion-content>
+<ion-footer class="py-2 border-0">
+  <ion-item lines="none" class="px-2">
+    <ion-buttons class="ion-no-margin" slot="start">
+      <ion-button size="large" shape="round">
+        <i class="fas fa-images"></i>
+      </ion-button>
+    </ion-buttons>
+    <ion-input class="mx-2 chat-input" placeholder="tape your message here"></ion-input>
+    <ion-buttons class="ion-no-margin" slot="end">
+      <ion-fab-button color="secondary">
+        <i class="fas fa-paper-plane"></i>
+      </ion-fab-button>
+    </ion-buttons>
+  </ion-item>
+</ion-footer>

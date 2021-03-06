@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>messages</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list class="p-0">
+    <ion-item routerLink="/messages/chat" *ngFor="let i of [0, 1, 2, 3, 4, 5, 6]">
+      <ion-avatar class="ml-2">
+        <img src="./../../../../assets/man-avatar.png" alt="">
+      </ion-avatar>
+      <ion-label class="ml-2">
+        <h6 class="mb-0 font-weight-bold d-block">User name</h6>
+        <small>last message</small>
+      </ion-label>
+      <small class="mr-2">14:35</small>
+    </ion-item>
+  </ion-list>
+</ion-content>

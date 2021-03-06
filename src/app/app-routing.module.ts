@@ -18,6 +18,10 @@ const routes: Routes = [
   {
     path: 'friends',
     loadChildren: () => import('./pages/friends/friends.module').then( m => m.FriendsPageModule)
+  },
+  {
+    path: 'messages',
+    loadChildren: () => import('./pages/messages/messages.module').then( m => m.MessagesPageModule)
   }
 ];
 
