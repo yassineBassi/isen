@@ -1,3 +1,45 @@
-<p>
-  product works!
-</p>
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="back()">
+        <i class="fas fa-arrow-left"></i>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>MacBook Pro</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="w-100">
+    <img src="../../../../assets/menu-bg.jpg" class="w-100 product-image" alt="">
+  </div>
+  <ion-item>
+    <ion-label class="ml-2">
+      <span class="product-title d-block">MacBook Pro</span>
+      <span class="font-weight-bold">1000$</span>
+    </ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-label class="ml-2" text-wrap>
+      <span class="product-title font-weight-bold d-block">Description</span>
+      <span>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Perferendis, facilis!, Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugit accusamus magnam, distinctio sed laudantium harum.</span>
+    </ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-label></ion-label>
+    <small>-Posted By Amal</small>
+  </ion-item>
+</ion-content>
+
+<ion-footer>
+  <ion-item>
+    <div class="w-100 pl-1">
+      <ion-button
+        expand="block"
+        size="default"
+      >
+        Chat with seller
+      </ion-button>
+    </div>
+  </ion-item>
+</ion-footer>

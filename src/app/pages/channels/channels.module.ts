@@ -1,3 +1,4 @@
+import { ProductComponent } from './product/product.component';
 import { SellComponent } from './sell/sell.component';
 import { BuyComponent } from './buy/buy.component';
 import { HomeComponent } from './home/home.component';
@@ -26,7 +27,8 @@ import { ChannelsPage } from './channels.page';
     BuyAndSellComponent,
     HomeComponent,
     BuyComponent,
-    SellComponent
+    SellComponent,
+    ProductComponent
   ]
 })
 export class ChannelsPageModule {}

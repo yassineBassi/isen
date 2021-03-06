@@ -1,3 +1,4 @@
+import { ProductComponent } from './product/product.component';
 import { SellComponent } from './sell/sell.component';
 import { BuyComponent } from './buy/buy.component';
 import { BuyAndSellComponent } from './buy-and-sell/buy-and-sell.component';
@@ -36,6 +37,10 @@ const routes: Routes = [
       {
         path: 'sell',
         component: SellComponent
+      },
+      {
+        path: 'product',
+        component: ProductComponent
       }
     ]
   }
