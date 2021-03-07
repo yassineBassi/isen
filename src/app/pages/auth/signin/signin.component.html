@@ -1,0 +1,48 @@
+<app-header title="Login" [back]="true"></app-header>
+
+<ion-content>
+  <div class="mx-3">
+    <ion-button
+      expand="block"
+      size="large"
+      class="mt-3"
+    >
+      <ion-icon slot="start" name="logo-facebook"></ion-icon>
+      Continue with Facebook
+    </ion-button>
+    <ion-button
+      expand="block"
+      size="large"
+      class="mt-3"
+      fill="outline"
+      color="danger"
+    >
+      <ion-icon slot="start" name="logo-google"></ion-icon>
+      Continue with Google
+    </ion-button>
+    <ion-list>
+      <ion-item>
+        <ion-label position="floating">Username</ion-label>
+        <ion-input></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Password</ion-label>
+        <ion-input></ion-input>
+      </ion-item>
+    </ion-list>
+    <ion-button
+      expand="block"
+      size="large"
+      class="mt-3"
+      color="secondary"
+    >
+      Login
+    </ion-button>
+    <ion-item>
+      <ion-label>
+        Forget Password ?
+      </ion-label>
+      <span>Register</span>
+    </ion-item>
+  </div>
+</ion-content>

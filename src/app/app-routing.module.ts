@@ -4,7 +4,7 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'profile',
+    redirectTo: 'auth',
     pathMatch: 'full'
   },
   // {
@@ -26,6 +26,14 @@ const routes: Routes = [
   {
     path: 'channels',
     loadChildren: () => import('./pages/channels/channels.module').then( m => m.ChannelsPageModule)
+  },
+  {
+    path: 'new-friends',
+    loadChildren: () => import('./pages/new-friends/new-friends.module').then( m => m.NewFriendsPageModule)
+  },
+  {
+    path: 'auth',
+    loadChildren: () => import('./pages/auth/auth.module').then( m => m.AuthPageModule)
   }
 ];
 

@@ -1,0 +1,55 @@
+<ion-content>
+  <ion-row>
+    <ion-col>
+      <ion-button
+        fill="clear"
+        shape="round"
+        size="large"
+        color="secondary"
+        (click)="back()"
+      >
+        <i class="fas fa-arrow-left"></i>
+      </ion-button>
+    </ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col class="px-3">
+      <ion-progress-bar  color="secondary" [value]="(step + 1) * 0.2"></ion-progress-bar>
+    </ion-col>
+  </ion-row>
+
+  <ion-row class="mt-4">
+    <ion-col class="text-center px-5" size="12">
+      <div class="form">
+        <h2 *ngIf="step == steps.length - 1" class="m-0">Almost done!</h2>
+        <h2>{{ steps[step].text }}</h2>
+        <ng-template #other>
+          <ion-item class="w-100">
+            <ion-label position="floating">{{ steps[step].label }}</ion-label>
+            <ion-input [class.mt-4]="steps[step].input == 'date'" [(ngModel)]="steps[step].value" [type]="steps[step].input"></ion-input>
+          </ion-item>
+        </ng-template>
+        <div *ngIf="steps[step].label == 'gender'; else other">
+          <ion-chip
+          >
+            male
+          </ion-chip>
+          <ion-chip class="mt-3">
+            female
+          </ion-chip>
+        </div>
+      </div>
+
+      <ion-button
+        shape="round"
+        class="continue-btn"
+        expand="block"
+        color="secondary"
+        (click)="continue()"
+      >
+        {{ step == steps.length - 1 ? 'Done' : 'Continue' }}
+      </ion-button>
+    </ion-col>
+  </ion-row>
+</ion-content>
