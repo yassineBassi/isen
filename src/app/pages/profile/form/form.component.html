@@ -6,84 +6,107 @@
   </div>
 </app-header>
 
+<app-loader *ngIf="pageLoading"></app-loader>
+
 <ion-content>
-  <div class="p-2">
+  <form class="p-2 ml-2" *ngIf="user" [formGroup]="form">
     <ion-text class="text-danger"><i class="fas fa-info-circle mr-2"></i> Basic information</ion-text>
     <ion-list class="mx-3">
-      <ion-item class="d-flex" lines="none">
-        <ion-label >
-          <ion-text class="d-block">Full Name: </ion-text>
-          <ion-input type="text" [(ngModel)]="user.firstName"></ion-input>
+      <ion-item>
+        <ion-label>
+          <ion-text class="d-block"><i class="fas fa-user mr-2"></i>First Name: </ion-text>
+          <ion-input type="text" formControlName="firstName"></ion-input>
         </ion-label>
       </ion-item>
 
-      <ion-item lines="none">
+      <ion-item class="mt-2">
         <ion-label>
-          <ion-text class="d-block">Gender: </ion-text>
-          <ion-item class="pl-3" line="none">
-            <ion-select [(ngModel)]="user.gender" class="w-100 ion-no-padding">
-              <ion-select-option value="female">Female</ion-select-option>
-              <ion-select-option value="male">Male</ion-select-option>
-            </ion-select>
-          </ion-item>
+          <ion-text class="d-block"><i class="fas fa-user mr-2"></i>Last Name: </ion-text>
+          <ion-input type="text" formControlName="lastName"></ion-input>
         </ion-label>
       </ion-item>
 
-      <ion-item lines="none">
+
+      <ion-item>
         <ion-label>
-          <ion-text class="d-block">Birth date: </ion-text>
-          <ion-datetime displayFormat="MM/DD/YYYY" min="1994-03-14" max="2012-12-09" [(ngModel)]="user.birthDate"></ion-datetime>
+          <ion-text class="d-block"><i class="fas fa-birthday-cake mr-2"></i>Birth Day: </ion-text>
+          <ion-input formControlName="birthDate" type="date"></ion-input>
         </ion-label>
       </ion-item>
-      <ion-item lines="none">
+
+      <!-- <ion-item class="gender-item" style="--inner-padding-end: 0px" class="mt-2" [button]="false" lines="none">
+        <ion-label>
+        </ion-label>
+      </ion-item> -->
+      <ion-text class="d-block mt-2">
+        <i class="fas fa-venus-mars mr-1"></i>
+        Gender:
+      </ion-text>
+      <ion-item>
+        <ion-select formControlName="gender" class="w-100 ion-no-padding pl-2">
+          <ion-select-option value="female">Female</ion-select-option>
+          <ion-select-option value="male">Male</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item class="mt-2" >
         <div class="w-100">
-          <ion-label>Address: </ion-label>
-          <ion-textarea [(ngModel)]="user.address" class="pl-2" rows="3" placeholder="your address"></ion-textarea>
+          <ion-label><i class="fas fa-map-marker-alt mr-2"></i>Address: </ion-label>
+          <ion-textarea formControlName="address" class="pl-2" rows="3" placeholder="your address"></ion-textarea>
         </div>
       </ion-item>
     </ion-list>
 
-    <ion-text class="text-danger"><i class="fas fa-briefcase mr-2"></i> Profession</ion-text>
-    <ion-item lines="none" class="pl-2">
-      <ion-label>
-        <ion-input type="text" [(ngModel)]="user.profession"></ion-input>
-      </ion-label>
-    </ion-item>
+    <div class="mt-4">
+      <ion-text class="text-danger"><i class="fas fa-briefcase mr-2"></i> Profession</ion-text>
+      <ion-item class="pl-2">
+        <ion-label>
+          <ion-input type="text" formControlName="profession"></ion-input>
+        </ion-label>
+      </ion-item>
+    </div>
 
-    <ion-text class="text-danger"><i class="fas fa-school mr-2"></i> School</ion-text>
-    <ion-item lines="none" class="pl-2">
-      <ion-label>
-        <ion-input type="text" [(ngModel)]="user.school"></ion-input>
-      </ion-label>
-    </ion-item>
+    <div class="mt-4">
+      <ion-text class="text-danger"><i class="fas fa-school mr-2"></i> School</ion-text>
+      <ion-item class="pl-2">
+        <ion-label>
+          <ion-input type="text" formControlName="school"></ion-input>
+        </ion-label>
+      </ion-item>
+    </div>
 
-    <ion-text class="text-danger"><i class="fas fa-graduation-cap mr-2"></i> Education</ion-text>
-    <ion-item lines="none" class="ml-3">
-      <ion-label>
-        <ion-item>
-          <ion-select class="w-100" [(ngModel)]="user.education">
-            <ion-select-option [value]="degree" *ngFor="let degree of educationDegrees"> {{ degree }} </ion-select-option>
-          </ion-select>
-        </ion-item>
-      </ion-label>
-    </ion-item>
+    <div class="mt-4" >
+      <ion-text class="text-danger"><i class="fas fa-graduation-cap mr-2"></i> Education</ion-text>
+      <ion-item class="ml-3" lines="none">
+        <ion-label>
+          <ion-item>
+            <ion-select class="w-100" formControlName="education">
+              <ion-select-option [value]="degree" *ngFor="let degree of educationDegrees"> {{ degree }} </ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-label>
+      </ion-item>
+    </div>
 
-    <ion-text class="text-danger mt-3"><i class="fas fa-heart mr-2"></i>  Intersets</ion-text>
-    <ion-row class="mt-3">
-      <ion-col class="text-center ion-no-padding p-0" size="auto" *ngFor="let interest of user.interests; let ind=index">
-        <ion-card class="text-center p-2 interest">
-          <span>{{ interest }}</span>
-          <span (click)="user.removeInterest(ind)" class="ml-2"><i class="fas fa-times"></i></span>
-        </ion-card>
-      </ion-col>
-    </ion-row>
-    <ion-item class="pl-2" lines="none">
-      <ion-input [(ngModel)]="newInterest" placeholder="new interest"></ion-input>
+    <div class="mt-4">
+      <ion-text class="text-danger"><i class="fas fa-heart mr-2"></i>  Intersets</ion-text>
+      <ion-row class="mt-3">
+        <ion-col class="text-center ion-no-padding p-0" size="auto" *ngFor="let interest of interests; let ind=index">
+          <ion-card class="text-center p-2 interest">
+            <span>{{ interest }}</span>
+            <span (click)="user.removeInterest(ind)" class="ml-2"><i class="fas fa-times"></i></span>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </div>
+
+    <ion-item class="pl-2 mb-4">
+      <ion-input formControlName="interest" placeholder="new interest"></ion-input>
       <ion-buttons (click)="addInterest()" >
         <ion-button>
           <i class="fas fa-plus"></i>
         </ion-button>
       </ion-buttons>
     </ion-item>
-  </div>
+  </form>
 </ion-content>

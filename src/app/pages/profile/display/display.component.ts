@@ -96,13 +96,12 @@ export class DisplayComponent implements OnInit {
     .then(
       (resp: any) => {
         console.log(resp.data.avatar);
-
         this.user.avatar = resp.data.avatar;
+        this.nativeStorage.setItem('user', this.user);
         this.presentSuccessToastr('your avatar has been updated successfully');
       },
       err =>{
         console.log(err);
-
         this.presentErrorToastr(err)
       }
     )

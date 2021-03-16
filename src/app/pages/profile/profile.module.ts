@@ -8,7 +8,7 @@ import { DisplayComponent } from './display/display.component';
 import { FormComponent } from './form/form.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { File } from '@ionic-native/file/ngx'
 
 import { IonicModule, Platform } from '@ionic/angular';
@@ -21,6 +21,7 @@ import { ProfilePage } from './profile.page';
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     IonicModule,
     SharingModule,
     ProfilePageRoutingModule,
@@ -36,7 +37,8 @@ import { ProfilePage } from './profile.page';
     NativeStorage,
     UploadFileService,
     FilePath,
-    File
+    File,
+    FormBuilder
   ]
 })
 export class ProfilePageModule {}
