@@ -1,3 +1,5 @@
+import { HTTP } from '@ionic-native/http/ngx';
+import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
@@ -15,7 +17,11 @@ import { AppRoutingModule } from './app-routing.module';
     IonicModule.forRoot(),
     AppRoutingModule,
   ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  providers: [
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    NativeStorage,
+    HTTP
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

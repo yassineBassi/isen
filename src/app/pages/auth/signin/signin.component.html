@@ -1,8 +1,9 @@
 <app-header title="Login" [back]="true"></app-header>
+<app-loader *ngIf="pageLoading"></app-loader>
 
 <ion-content>
-  <div class="mx-3">
-    <ion-button
+
+    <!-- <ion-button
       expand="block"
       size="large"
       class="mt-3"
@@ -19,30 +20,49 @@
     >
       <ion-icon slot="start" name="logo-google"></ion-icon>
       Continue with Google
-    </ion-button>
-    <ion-list>
-      <ion-item>
-        <ion-label position="floating">Username</ion-label>
-        <ion-input></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating">Password</ion-label>
-        <ion-input></ion-input>
-      </ion-item>
-    </ion-list>
-    <ion-button
-      expand="block"
-      size="large"
-      class="mt-3"
-      color="secondary"
-    >
-      Login
-    </ion-button>
-    <ion-item>
-      <ion-label>
-        Forget Password ?
-      </ion-label>
-      <span>Register</span>
-    </ion-item>
-  </div>
+    </ion-button> -->
+    <form [formGroup]="form">
+      <ion-list class="mx-3">
+        <ion-item>
+          <ion-label position="floating">E-mail</ion-label>
+          <ion-input formControlName="email"></ion-input>
+        </ion-item>
+        <div class="w-100 text-danger mt-1" *ngIf="validationErrors['email']">
+          <span *ngFor="let error of validationErrors['email']">{{ error }}</span>
+        </div>
+        <ion-item>
+          <ion-label position="floating">Password</ion-label>
+          <ion-input formControlName="password"></ion-input>
+        </ion-item>
+        <div class="w-100 text-danger mt-1" *ngIf="validationErrors['password']">
+          <span *ngFor="let error of validationErrors['password']">{{ error }}</span>
+        </div>
+            <ion-button
+              expand="block"
+              fill="outline"
+              size="small"
+              class="mt-4"
+              color="secondary"
+            >
+              Forget password ?
+            </ion-button>
+            <ion-button
+              expand="block"
+              size="small"
+              class="mt-2"
+            >
+              Register
+            </ion-button>
+      </ion-list>
+    </form>
 </ion-content>
+<ion-footer>
+  <ion-button
+    expand="block"
+    color="secondary"
+    class="my-2 mx-2"
+    (click)="submit()"
+  >
+    Login
+  </ion-button>
+</ion-footer>

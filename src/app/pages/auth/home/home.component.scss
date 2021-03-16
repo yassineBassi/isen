@@ -1,0 +1,23 @@
+.background{
+  --background: url('../../../../assets/menu-bg.jpg') no-repeat 100% 100%;
+}
+.logo-img{
+  width: 150px;
+  filter: invert(1);
+}
+.logo-text{
+  font-size: 40px;
+  font-weight: bold;
+  display: block;
+  color: white;
+  margin: 0px;
+  padding: 0px;
+}
+
+.desc{
+  font-size: 18px;
+  color: white;
+  display: block;
+  margin: 0px;
+  padding: 0px;
+}
