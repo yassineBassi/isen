@@ -34,7 +34,7 @@ export class User{
 
   initialize(user: User)
   {
-    this._id = user.id;
+    this._id = user._id;
     this._firstName = user.firstName;
     this._lastName = user.lastName;
     this._email = user.email;

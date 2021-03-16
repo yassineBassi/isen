@@ -13,7 +13,8 @@ export class UserService extends DataService {
     super('user', nativeStorage, http)
   }
 
-  get(id: number){
-    return  null;
+  update(id: number, data){
+    return this.sendRequest('put', `/${ id }`, data, {}, 'multipart')
   }
+
 }

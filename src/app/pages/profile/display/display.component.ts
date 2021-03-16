@@ -1,12 +1,11 @@
+import { ToastController } from '@ionic/angular';
+import { UploadFileService } from './../../../services/upload-file.service';
 import { AuthService } from './../../../services/auth.service';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { UserService } from './../../../services/user.service';
 import { User } from './../../../models/User';
 import { Component, OnInit } from '@angular/core';
-import { ImageResizer, ImageResizerOptions } from '@ionic-native/image-resizer/ngx';
-// import { ImagePicker } from '@ionic-native/image-picker/ngx';
-// import { Camera, CameraOptions } from '@ionic-native/camera';
 
 @Component({
   selector: 'app-display',
@@ -18,7 +17,9 @@ export class DisplayComponent implements OnInit {
   pageLoading = false;
   user: User = new User();
 
-  constructor(private auth: AuthService, private camera: Camera, private nativeStorage: NativeStorage) { }
+  constructor(private auth: AuthService, private camera: Camera, private nativeStorage: NativeStorage,
+              private userService: UserService, private uploadFileService: UploadFileService,
+              private toastController: ToastController) { }
 
   ngOnInit() {
   }
@@ -53,23 +54,58 @@ export class DisplayComponent implements OnInit {
   }
 
   getPicture(sourceType){
-    const options: CameraOptions = {
-      quality: 100,
-      sourceType: sourceType,
-      destinationType: this.camera.DestinationType.DATA_URL,
-      encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE
-    }
+    this.uploadFileService.takePicture(sourceType)
+    .then(
+      (res: any) => {
+        console.log(res);
+        this.updateAvatar(res.file, res.name)
+      },
+      err => {
+        console.log(err);
+        this.presentErrorToastr(err);
+      }
+    )
+  }
 
-    this.camera.getPicture(options).then((imageData) => {
-     // imageData is either a base64 encoded string or a file URI
-     // If it's base64 (DATA_URL):
-    //  let base64Image = 'data:image/jpeg;base64,' + imageData;
-      // this.user.avatar = 'data:image/jpeg;base64,' + imageData;
-    }, (err) => {
-     // Handle error
-    // alert(err)
+  async presentErrorToastr(err: string){
+    const toastr = await this.toastController.create({
+      message: err,
+      position: 'bottom',
+      color: 'danger',
+      duration: 2000,
     });
+
+    toastr.present();
+  }
+
+  async presentSuccessToastr(err: string){
+    const toastr = await this.toastController.create({
+      message: err,
+      position: 'bottom',
+      color: 'success',
+      duration: 2000,
+    });
+
+    toastr.present();
+  }
+
+  updateAvatar(file: File, name: string){
+    const form: FormData = new FormData();
+    form.append('avatar', file, name);
+    this.userService.update(this.user.id, form)
+    .then(
+      (resp: any) => {
+        console.log(resp.data.avatar);
+
+        this.user.avatar = resp.data.avatar;
+        this.presentSuccessToastr('your avatar has been updated successfully');
+      },
+      err =>{
+        console.log(err);
+
+        this.presentErrorToastr(err)
+      }
+    )
   }
 
 }

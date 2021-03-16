@@ -24,7 +24,7 @@ export class FormComponent implements OnInit {
   constructor(private userService: UserService, private router: Router) { }
 
   ngOnInit() {
-    this.user = this.userService.get(0);
+    this.user = null;
   }
 
   addInterest(){

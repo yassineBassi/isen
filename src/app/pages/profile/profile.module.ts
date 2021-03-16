@@ -1,3 +1,5 @@
+import { FilePath } from '@ionic-native/file-path/ngx';
+import { UploadFileService } from './../../services/upload-file.service';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { SharingModule } from './../sharing/sharing.module';
 import { ImageResizer } from '@ionic-native/image-resizer/ngx';
@@ -7,8 +9,9 @@ import { FormComponent } from './form/form.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { File } from '@ionic-native/file/ngx'
 
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, Platform } from '@ionic/angular';
 
 import { ProfilePageRoutingModule } from './profile-routing.module';
 
@@ -30,7 +33,10 @@ import { ProfilePage } from './profile.page';
   providers: [
     Camera,
     ImageResizer,
-    NativeStorage
+    NativeStorage,
+    UploadFileService,
+    FilePath,
+    File
   ]
 })
 export class ProfilePageModule {}

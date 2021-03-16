@@ -30,17 +30,17 @@ export class DataService{
   sendRequest(method: HttpMethod, url: string, data, header?, serializer: HttpSerializer = 'json') {
       return new Promise((resolve, reject) => {
         console.log(this.url + url);
+        console.log(serializer);
+
         this.getToken()
         .then((token: string) => {
           console.log(token);
           this.http.sendRequest(this.url + url, {
             method,
             params: method === 'get' ? data : '',
-            data: method === 'post' ? data : '',
+            data: method === 'post' || method == 'put' ? data : '',
             headers: {
               ...header,
-              Accept: 'application/json',
-              'Content-Type': 'application/json',
               // PLATFORM: this.platform.is('ios') ? 'ios' : 'android',
               // VERSION: Product.version,
               'Authorization': 'Bearer ' + token
@@ -56,16 +56,13 @@ export class DataService{
               }else if(err.status == 401){
                 this.nativeStorage.remove('token')
               }else{
-                reject(err)
+                console.log(err);
+
+                reject(err.error)
               }
             }
           )
         });
       });
   }
-
-  get(id: number){
-
-  }
-
 }
