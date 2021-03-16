@@ -15,9 +15,10 @@ import { ImageResizer, ImageResizerOptions } from '@ionic-native/image-resizer/n
 })
 export class DisplayComponent implements OnInit {
 
+  pageLoading = false;
   user: User = new User();
 
-  constructor(private auth: AuthService, private camera: Camera) { }
+  constructor(private auth: AuthService, private camera: Camera, private nativeStorage: NativeStorage) { }
 
   ngOnInit() {
   }
@@ -27,13 +28,17 @@ export class DisplayComponent implements OnInit {
   }
 
   getUser(){
+    this.pageLoading = true;
     this.auth.getAuthUser()
     .then(
       (resp: any) => {
-        this.user.initialize(resp.data)
-        console.log(resp);
+        this.user.initialize(resp.data);
+        this.nativeStorage.setItem('user', this.user);
+        console.log(this.user);
+        this.pageLoading = false;
       },
       err => {
+        this.pageLoading = false;
         console.log(err);
       }
     )

@@ -5,7 +5,7 @@ export class User{
   private _firstName: string;
   private _lastName: string;
   private _email: string;
-  private _birthDate: string;
+  private _birthDate: Date;
   private _gender: string;
   private _address: string;
   private _avatar: Avatar;
@@ -20,7 +20,7 @@ export class User{
     this._lastName = "";
     this._email = "";
     this._gender = "";
-    this._birthDate = "";
+    this._birthDate = null;
     this._address = "unknown";
     this._avatar = {
       path: '',
@@ -39,7 +39,7 @@ export class User{
     this._lastName = user.lastName;
     this._email = user.email;
     this._gender = user.gender;
-    this._birthDate = user.birthDate;
+    this._birthDate = new Date(user.birthDate);
     if(user.address) this._address = user.address;
     this._avatar = user.avatar;
     if(user.education) this._education = user.education;
@@ -55,9 +55,12 @@ export class User{
   get fullName(): string {return this._firstName + ' ' + this._lastName};
   get email(): string {return this._email};
   get gender(): string {return this._gender};
-  get birthDate(): string {return this._birthDate};
+  get birthDate(): Date {return this._birthDate};
   get age(): string {
-    return this.birthDate
+    if(this.birthDate){
+      return Math.round((new Date().getTime() - this.birthDate.getTime()) / 1000 / 60 / 60 / 24 / 365).toString();
+    }
+    return ''
   };
   get address(): string {return this._address};
   get avatar(): Avatar {return this._avatar};
@@ -71,7 +74,7 @@ export class User{
   set firstName(firstName: string){this._firstName = firstName}
   set lastName(lastName: string){this._lastName = lastName}
   set email(email: string){this._email = email}
-  set birthDate(birthDate: string){this._birthDate = birthDate}
+  set birthDate(birthDate: Date){this._birthDate = birthDate}
   set gender(gender: string){this._gender = gender}
   set address(address: string){this._address = address}
   set avatar(avatar: Avatar){this._avatar = avatar}
