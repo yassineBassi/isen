@@ -1,3 +1,4 @@
+import { MenuComponent } from './pages/menu/menu.component';
 import { HTTP } from '@ionic-native/http/ngx';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { NgModule } from '@angular/core';
@@ -10,7 +11,10 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [
+    AppComponent,
+    MenuComponent
+  ],
   entryComponents: [],
   imports: [
     BrowserModule,
