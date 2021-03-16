@@ -1,3 +1,4 @@
+import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { SharingModule } from './../sharing/sharing.module';
 import { ImageResizer } from '@ionic-native/image-resizer/ngx';
 import { Camera } from '@ionic-native/camera/ngx';
@@ -28,7 +29,8 @@ import { ProfilePage } from './profile.page';
   ],
   providers: [
     Camera,
-    ImageResizer
+    ImageResizer,
+    NativeStorage
   ]
 })
 export class ProfilePageModule {}

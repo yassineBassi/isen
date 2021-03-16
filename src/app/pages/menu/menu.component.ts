@@ -1,4 +1,7 @@
+import { NativeStorage } from '@ionic-native/native-storage/ngx';
+import { AuthService } from './../../services/auth.service';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-menu',
@@ -17,8 +20,21 @@ export class MenuComponent implements OnInit {
     { title: 'settings', url: '/settings', icon: 'fas fa-cog' }
   ];
 
-  constructor() { }
+  constructor(private auth: AuthService, private nativeStorage: NativeStorage, private router: Router,
+              ) { }
 
   ngOnInit() {}
 
+  signout(){
+    this.auth.signout()
+    .then(
+      () => {
+        this.nativeStorage.remove('token');
+        this.router.navigate(['/auth/signin']);
+      },
+      err => {
+
+      }
+    )
+  }
 }

@@ -9,32 +9,11 @@ import { User } from '../models/User';
 })
 export class UserService extends DataService {
 
-  user = new User(
-    1,
-    'noone',
-    '125',
-    'yassinebassii@gmail.com',
-    new Date('09/29/1999').toJSON(),
-    'male',
-    'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis, sed.',
-    './../../../assets/man-avatar.png',
-    'College',
-    'software engineer',
-    'NGT School',
-    [
-      'Nature',
-      'Reading books',
-      'Drawing',
-      'Drawing',
-      'Reading books'
-    ]
-  );
-
   constructor(nativeStorage: NativeStorage, http: HTTP) {
     super('user', nativeStorage, http)
   }
 
   get(id: number){
-    return  this.user;
+    return  null;
   }
 }

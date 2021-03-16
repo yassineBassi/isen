@@ -1,3 +1,5 @@
+import { AuthService } from './../../../services/auth.service';
+import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { UserService } from './../../../services/user.service';
 import { User } from './../../../models/User';
@@ -13,16 +15,28 @@ import { ImageResizer, ImageResizerOptions } from '@ionic-native/image-resizer/n
 })
 export class DisplayComponent implements OnInit {
 
-  user: User;
+  user: User = new User();
 
-  constructor(private userService: UserService, private camera: Camera, private imageResizer: ImageResizer) { }
+  constructor(private auth: AuthService, private camera: Camera) { }
 
   ngOnInit() {
+  }
+
+  ionViewWillEnter(){
     this.getUser();
   }
 
   getUser(){
-    this.user = this.userService.get(0);
+    this.auth.getAuthUser()
+    .then(
+      (resp: any) => {
+        this.user.initialize(resp.data)
+        console.log(resp);
+      },
+      err => {
+        console.log(err);
+      }
+    )
   }
 
   takePicture(){
@@ -46,7 +60,7 @@ export class DisplayComponent implements OnInit {
      // imageData is either a base64 encoded string or a file URI
      // If it's base64 (DATA_URL):
     //  let base64Image = 'data:image/jpeg;base64,' + imageData;
-      this.user.avatar = 'data:image/jpeg;base64,' + imageData;
+      // this.user.avatar = 'data:image/jpeg;base64,' + imageData;
     }, (err) => {
      // Handle error
     // alert(err)

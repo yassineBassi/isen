@@ -1,3 +1,4 @@
+import { Avatar } from './avatar';
 export class User{
 
   private _id: number;
@@ -7,28 +8,44 @@ export class User{
   private _birthDate: string;
   private _gender: string;
   private _address: string;
-  private _avatar: string;
+  private _avatar: Avatar;
   private _education: string;
   private _profession: string;
   private _school: string;
   private _interests: string[];
 
-  constructor(id: number, firstName: string, lastName: string, email: string, birthDate: string,
-  gender: string, address: string, avatar: string, education: string, profession: string,
-  school: string, interests: string[])
+  constructor(){
+    this._id = 0;
+    this._firstName = "";
+    this._lastName = "";
+    this._email = "";
+    this._gender = "";
+    this._birthDate = "";
+    this._address = "unknown";
+    this._avatar = {
+      path: '',
+      type: ''
+    };
+    this._education = "unknown";
+    this._profession = "unknown";
+    this._school = "unknown";
+    this._interests = [];
+  }
+
+  initialize(user: User)
   {
-    this._id = id;
-    this._firstName = firstName;
-    this._lastName = lastName;
-    this._email = email;
-    this._gender = gender;
-    this._birthDate = birthDate;
-    this._address = address;
-    this._avatar = avatar;
-    this._education = education;
-    this._profession = profession;
-    this._school = school;
-    this._interests = interests;
+    this._id = user.id;
+    this._firstName = user.firstName;
+    this._lastName = user.lastName;
+    this._email = user.email;
+    this._gender = user.gender;
+    this._birthDate = user.birthDate;
+    if(user.address) this._address = user.address;
+    this._avatar = user.avatar;
+    if(user.education) this._education = user.education;
+    if(user.profession) this._profession = user.profession;
+    if(user.school) this._school = user.school;
+    if(user.interests) this._interests = user.interests;
     this.sortInterests();
   }
 
@@ -39,9 +56,11 @@ export class User{
   get email(): string {return this._email};
   get gender(): string {return this._gender};
   get birthDate(): string {return this._birthDate};
-  get age(): string {return this._birthDate};
+  get age(): string {
+    return this.birthDate
+  };
   get address(): string {return this._address};
-  get avatar(): string {return this._avatar};
+  get avatar(): Avatar {return this._avatar};
   get education(): string {return this._education};
   get profession(): string {return this._profession};
   get school(): string {return this._school};
@@ -55,7 +74,7 @@ export class User{
   set birthDate(birthDate: string){this._birthDate = birthDate}
   set gender(gender: string){this._gender = gender}
   set address(address: string){this._address = address}
-  set avatar(avatar: string){this._avatar = avatar}
+  set avatar(avatar: Avatar){this._avatar = avatar}
   set education(education: string){this._education = education}
   set profession(profession: string){this._profession = profession}
   set school(school: string){this._school = school}

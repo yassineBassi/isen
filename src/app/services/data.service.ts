@@ -1,6 +1,7 @@
 import { HTTP } from '@ionic-native/http/ngx';
 import { Injectable } from '@angular/core';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
+import { Router } from '@angular/router';
 
 type HttpMethod = 'get' | 'post' | 'put' | 'patch' | 'head' | 'delete' | 'upload' | 'download';
 type HttpSerializer = 'json' | 'urlencoded' | 'utf8' | 'multipart' | 'raw';
@@ -21,7 +22,7 @@ export class DataService{
       this.nativeStorage.getItem('token')
       .then(
         token => resolve(token),
-        err => resolve(null)
+        err => resolve('')
       );
     })
   }
@@ -30,16 +31,19 @@ export class DataService{
       return new Promise((resolve, reject) => {
         console.log(this.url + url);
         this.getToken()
-        .then((token: any) => {
+        .then((token: string) => {
+          console.log(token);
           this.http.sendRequest(this.url + url, {
             method,
             params: method === 'get' ? data : '',
             data: method === 'post' ? data : '',
             headers: {
               ...header,
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
               // PLATFORM: this.platform.is('ios') ? 'ios' : 'android',
               // VERSION: Product.version,
-              'access-code': token ? token : ''
+              'Authorization': 'Bearer ' + token
             },
             serializer
           }).then(
@@ -49,6 +53,8 @@ export class DataService{
             err => {
               if(err.status == 400){
                 reject(JSON.parse(err.error));
+              }else if(err.status == 401){
+                this.nativeStorage.remove('token')
               }else{
                 reject(err)
               }

@@ -12,7 +12,7 @@ export class SignupComponent implements OnInit {
 
   gender = "male";
   step = 0;
-  steps = ['email', 'name', 'password', 'birthdate', 'gender', 'success']
+  steps = ['email', 'name', 'password', 'birthDate', 'gender', 'success']
   validationErrors = {};
   btnLoading = false;
   pageLoading = false;
@@ -34,7 +34,7 @@ export class SignupComponent implements OnInit {
               private cdr: ChangeDetectorRef) { }
 
   ionViewWillEnter(){
-    this.step = 0
+    this.step = 0;
   }
 
   ngOnInit() {
@@ -48,7 +48,7 @@ export class SignupComponent implements OnInit {
       password_confirmation: ['', [Validators.required, Validators.min(8)]],
       firstName: ['', [Validators.required, Validators.max(50)]],
       lastName: ['', [Validators.required, Validators.max(50)]],
-      birthdate: ['', [Validators.required]],
+      birthDate: ['', [Validators.required]],
     })
   }
 
@@ -74,14 +74,14 @@ export class SignupComponent implements OnInit {
       password: this.form.get('password').value,
       password_confirmation: this.form.get('password_confirmation').value,
       gender: this.gender,
-      birthdate: this.form.get('birthdate').value
+      birthDate: this.form.get('birthDate').value
     }
   }
 
   backToError(){
     for(let ind = 0; ind < this.steps.length; ++ind){
       const step = this.steps[ind]
-      if(this.validationErrors[step] || (step == 'name' && (this.validationErrors['firstNaùe'] || this.validationErrors['lastName']))){
+      if(this.validationErrors[step] || (step == 'name' && (this.validationErrors['firstName'] || this.validationErrors['lastName']))){
         console.log("selected ind : " + ind);
         this.step = ind;
         break;
