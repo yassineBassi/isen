@@ -16,8 +16,8 @@ export class ProductService extends DataService {
     return this.sendRequest('post', '', data, {}, 'multipart');
   }
 
-  index(page: number){
-    return this.sendRequest('get', '', {page: page.toString()});
+  index(page: number, query: string){
+    return this.sendRequest('get', '', {page: page.toString(), search: query});
   }
 
   get(id: string){

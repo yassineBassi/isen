@@ -15,19 +15,25 @@ export class SellComponent implements OnInit {
   products: Product[];
   domain = constants.DOMAIN_URL;
   page = 0;
+  searchQuery = "";
 
   constructor(private productService: ProductService, private toastService: ToastService) { }
 
   ngOnInit() {}
 
   ionViewWillEnter(){
+    this.pageLoading = true;
+    this.getProducts(null);
+  }
+
+  search(){
+    this.page = 0;
     this.getProducts(null);
   }
 
   getProducts(event){
     console.log(event);
-    if(!event) this.pageLoading = true;
-    this.productService.index(this.page++)
+    this.productService.index(this.page++, this.searchQuery)
     .then(
       (resp: any) => {
         if(!event) this.products = [];

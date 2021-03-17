@@ -5,8 +5,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class ExtractTimePipe implements PipeTransform {
 
-  transform(value: Date): string {
-    return value.toJSON().slice(11, 16);
+  transform(value: string): string {
+    return value.slice(11, 16);
   }
 
 }
