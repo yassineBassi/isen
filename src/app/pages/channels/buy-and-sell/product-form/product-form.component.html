@@ -1,8 +1,9 @@
 <app-header title="Add Product" [back]="true"></app-header>
+<app-loader *ngIf="pageLoading"></app-loader>
 
 <ion-content>
   <div class="w-100 image-container">
-    <img (click)="pickImage()" [src]="productImage" class="w-100 h-100" alt="">
+    <img (click)="pickImage()" [src]="productImage.url" class="w-100 h-100" alt="">
   </div>
   <form [formGroup]="form">
     <ion-list class="mx-3">
@@ -12,18 +13,26 @@
         </ion-label>
         <ion-input formControlName="label" class="ml-2"></ion-input>
       </ion-item>
+      <span class="text-danger" *ngIf="validatorErrors['label']">{{ validatorErrors['label'] }}</span>
+
       <ion-item>
         <ion-label position="floating" class="ml-2">
           Price:
         </ion-label>
         <ion-input formControlName="price" class="ml-2"></ion-input>
       </ion-item>
+      <span class="text-danger" *ngIf="validatorErrors['price']">{{ validatorErrors['price'] }}</span>
+
       <ion-item>
         <ion-label position="floating" class="ml-2">
           Description:
         </ion-label>
-        <ion-textarea formControlName="description" class="ml-2" rows="5"></ion-textarea>
+        <ion-textarea maxlength="255" formControlName="description" class="ml-2" rows="5"></ion-textarea>
       </ion-item>
+      <span class="text-danger">
+        <span *ngIf="validatorErrors['description']">{{ validatorErrors['description'] }}</span>
+        <span *ngIf="description.hasError('max')">the description must no have more than 255 caracters</span>
+      </span>
     </ion-list>
   </form>
 </ion-content>
@@ -35,6 +44,7 @@
         expand="block"
         size="default"
         color="secondary"
+        (click)="submit()"
       >
        Post
       </ion-button>

@@ -1,3 +1,4 @@
+import { WebView } from '@ionic-native/ionic-webview/ngx';
 import { FilePath } from '@ionic-native/file-path/ngx';
 import { File } from '@ionic-native/file/ngx';
 import { UploadFileService } from './../../../services/upload-file.service';
@@ -40,7 +41,8 @@ import { BuyAndSellPage } from './buy-and-sell.page';
     FormBuilder,
     UploadFileService,
     File,
-    FilePath
+    FilePath,
+    WebView
   ]
 })
 export class BuyAndSellPageModule {}
