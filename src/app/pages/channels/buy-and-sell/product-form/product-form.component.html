@@ -1,31 +1,31 @@
 <app-header title="Add Product" [back]="true"></app-header>
 
 <ion-content>
-  <ion-row class="mt-3">
-    <ion-col class="image-cotainer" size="10" offset="1">
-      <img (click)="pickImage()" class="w-100" [src]="productImage" alt="">
-    </ion-col>
-  </ion-row>
-  <ion-list class="mx-3">
-    <ion-item>
-      <ion-label position="floating" class="ml-2">
-        Product name:
-      </ion-label>
-      <ion-input class="ml-2"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label position="floating" class="ml-2">
-        Price:
-      </ion-label>
-      <ion-input class="ml-2"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label position="floating" class="ml-2">
-        Description:
-      </ion-label>
-      <ion-textarea class="ml-2" rows="5"></ion-textarea>
-    </ion-item>
-  </ion-list>
+  <div class="w-100 image-container">
+    <img (click)="pickImage()" [src]="productImage" class="w-100 h-100" alt="">
+  </div>
+  <form [formGroup]="form">
+    <ion-list class="mx-3">
+      <ion-item>
+        <ion-label position="floating" class="ml-2">
+          Product name:
+        </ion-label>
+        <ion-input formControlName="label" class="ml-2"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating" class="ml-2">
+          Price:
+        </ion-label>
+        <ion-input formControlName="price" class="ml-2"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating" class="ml-2">
+          Description:
+        </ion-label>
+        <ion-textarea formControlName="description" class="ml-2" rows="5"></ion-textarea>
+      </ion-item>
+    </ion-list>
+  </form>
 </ion-content>
 <ion-footer>
 

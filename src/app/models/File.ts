@@ -1,4 +1,4 @@
-export interface Avatar{
+export interface File{
   path: string;
   type: string;
 }

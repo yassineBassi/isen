@@ -1,3 +1,4 @@
+import { ToastService } from './../../../services/toast.service';
 import { ToastController } from '@ionic/angular';
 import { UploadFileService } from './../../../services/upload-file.service';
 import { AuthService } from './../../../services/auth.service';
@@ -19,7 +20,7 @@ export class DisplayComponent implements OnInit {
 
   constructor(private auth: AuthService, private camera: Camera, private nativeStorage: NativeStorage,
               private userService: UserService, private uploadFileService: UploadFileService,
-              private toastController: ToastController) { }
+              private toastService: ToastService) { }
 
   ngOnInit() {
   }
@@ -63,31 +64,9 @@ export class DisplayComponent implements OnInit {
       },
       err => {
         console.log(err);
-        this.presentErrorToastr(err);
+        this.toastService.presentErrorToastr(err);
       }
     )
-  }
-
-  async presentErrorToastr(err: string){
-    const toastr = await this.toastController.create({
-      message: err,
-      position: 'bottom',
-      color: 'danger',
-      duration: 2000,
-    });
-
-    toastr.present();
-  }
-
-  async presentSuccessToastr(err: string){
-    const toastr = await this.toastController.create({
-      message: err,
-      position: 'bottom',
-      color: 'success',
-      duration: 2000,
-    });
-
-    toastr.present();
   }
 
   updateAvatar(file: File, name: string){
@@ -99,11 +78,11 @@ export class DisplayComponent implements OnInit {
         console.log(resp.data.avatar);
         this.user.avatar = resp.data.avatar;
         this.nativeStorage.setItem('user', resp.data);
-        this.presentSuccessToastr('your avatar has been updated successfully');
+        this.toastService.presentSuccessToastr('your avatar has been updated successfully');
       },
       err =>{
         console.log(err);
-        this.presentErrorToastr(err)
+        this.toastService.presentErrorToastr(err)
       }
     )
   }

@@ -43,33 +43,33 @@ export class UploadFileService {
     });
   }
 
-    readImgSrc(imageData) {
-        return new Promise((resolve, reject) => {
-            this.file.resolveLocalFilesystemUrl(imageData)
-            .then((fileEntry) => {
-                (fileEntry as FileEntry).file(file => {
-                    resolve(this.generateBlobImg(file));
-                }, err => {
-                    reject(err);
-                });
-            }, err => {
-                reject(err);
-            });
-        });
-    }
-    generateBlobImg(file: IFile) {
+  readImgSrc(imageData) {
       return new Promise((resolve, reject) => {
-          const fileName = file.name.substring(0, file.name.lastIndexOf('.') + 1) + 'jpg';
-          const fileReader = new FileReader();
-
-          fileReader.readAsArrayBuffer(file);
-          fileReader.onload = evt => {
-              const imgBlob = new Blob([fileReader.result], { type: 'image/jpeg' });
-              resolve({file: imgBlob, name: fileName})
-          };
-          fileReader.onerror = error => {
-              reject(error);
-          };
+          this.file.resolveLocalFilesystemUrl(imageData)
+          .then((fileEntry) => {
+              (fileEntry as FileEntry).file(file => {
+                  resolve(this.generateBlobImg(file, imageData));
+              }, err => {
+                  reject(err);
+              });
+          }, err => {
+              reject(err);
+          });
       });
-    }
+  }
+  generateBlobImg(file: IFile,imageData) {
+    return new Promise((resolve, reject) => {
+        const fileName = file.name.substring(0, file.name.lastIndexOf('.') + 1) + 'jpg';
+        const fileReader = new FileReader();
+
+        fileReader.readAsArrayBuffer(file);
+        fileReader.onload = evt => {
+            const imgBlob = new Blob([fileReader.result], { type: 'image/jpeg' });
+            resolve({file: imgBlob, name: fileName, imageData})
+        };
+        fileReader.onerror = error => {
+            reject(error);
+        };
+    });
+  }
 }

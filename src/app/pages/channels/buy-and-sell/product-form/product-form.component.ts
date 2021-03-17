@@ -1,3 +1,5 @@
+import { UploadFileService } from './../../../../services/upload-file.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { Component, OnInit } from '@angular/core';
 
@@ -10,21 +12,33 @@ export class ProductFormComponent implements OnInit {
 
   productImage = "./../../../../../assets/default-img.png";
 
-  constructor(private camera: Camera) { }
+  form: FormGroup;
 
-  ngOnInit() {}
+  constructor(private camera: Camera, private formBuilder: FormBuilder, private uploadFile: UploadFileService) { }
+
+  ngOnInit() {
+    this.initializeForm();
+  }
+
+  initializeForm(){
+    this.form = this.formBuilder.group({
+      label: ['', [Validators.required]],
+      description: ['', [Validators.required]],
+      price: ['', [Validators.required]]
+    });
+  }
 
   pickImage(){
-    const options: CameraOptions = {
-      quality: 100,
-      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
-      destinationType: this.camera.DestinationType.DATA_URL,
-      encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE
-    }
+    this.uploadFile.takePicture(this.camera.PictureSourceType.PHOTOLIBRARY)
+    .then(
+      (resp: any) => {
+        console.log(resp.imageData);
+        this.productImage = resp.imageData;
+      },
+      err => {
+        console.log(err);
 
-    this.camera.getPicture(options).then((imageData) => {
-      this.productImage = 'data:image/jpeg;base64,' + imageData;
-    });
+      }
+    )
   }
 }

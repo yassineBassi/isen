@@ -1,3 +1,4 @@
+import { ToastService } from './../../../services/toast.service';
 import { ToastController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
@@ -58,7 +59,7 @@ export class FormComponent implements OnInit {
 
   constructor(private userService: UserService, private router: Router, private auth: AuthService,
               private nativeStorage: NativeStorage, private formBuilder: FormBuilder,
-              private toastController: ToastController) { }
+              private toastService: ToastService) { }
 
   ngOnInit() {
     this.getUser();
@@ -131,28 +132,6 @@ export class FormComponent implements OnInit {
     })
   }
 
-  async presentErrorToastr(err: string){
-    const toastr = await this.toastController.create({
-      message: err,
-      position: 'bottom',
-      color: 'danger',
-      duration: 2000,
-    });
-
-    toastr.present();
-  }
-
-  async presentSuccessToastr(err: string){
-    const toastr = await this.toastController.create({
-      message: err,
-      position: 'bottom',
-      color: 'success',
-      duration: 2000,
-    });
-
-    toastr.present();
-  }
-
   submit(){
     this.pageLoading = true;
     console.log(this.getUserForm());
@@ -161,11 +140,16 @@ export class FormComponent implements OnInit {
       resp => {
         this.pageLoading = false;
         console.log(resp);
-        this.presentSuccessToastr('your info has been updated successfully')
+        this.toastService.presentSuccessToastr('your info has been updated successfully')
       }, err => {
         this.pageLoading = false;
+        if(err.errors){
+          this.validatoErrors = err.errors;
+          this.toastService.presentErrorToastr('invalid data');
+        }else if(typeof err == 'string'){
+          this.toastService.presentErrorToastr(err);
+        }
         console.log(err);
-
       }
     )
   }
@@ -184,13 +168,8 @@ export class FormComponent implements OnInit {
       },
       err => {
         this.pageLoading = false;
-        if(err.errors){
-          this.validatoErrors = err.errors;
-          this.presentErrorToastr('invalid data');
-        }else if(typeof err == 'string'){
-          this.presentErrorToastr(err);
-        }
         console.log(err);
+        this.toastService.presentErrorToastr('enexpected error occured, please try again later')
       }
     )
   }

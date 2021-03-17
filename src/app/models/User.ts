@@ -1,4 +1,4 @@
-import { Avatar } from './avatar';
+import { File } from './File';
 export class User{
 
   private _id: number;
@@ -8,7 +8,7 @@ export class User{
   private _birthDate: Date;
   private _gender: string;
   private _address: string;
-  private _avatar: Avatar;
+  private _avatar: File;
   private _education: string;
   private _profession: string;
   private _school: string;
@@ -48,7 +48,7 @@ export class User{
     return ''
   };
   get address(): string {return this._address};
-  get avatar(): Avatar {return this._avatar};
+  get avatar(): File {return this._avatar};
   get education(): string {return this._education};
   get profession(): string {return this._profession};
   get school(): string {return this._school};
@@ -62,7 +62,7 @@ export class User{
   set birthDate(birthDate: Date){this._birthDate = birthDate}
   set gender(gender: string){this._gender = gender}
   set address(address: string){this._address = address}
-  set avatar(avatar: Avatar){this._avatar = avatar}
+  set avatar(avatar: File){this._avatar = avatar}
   set education(education: string){this._education = education}
   set profession(profession: string){this._profession = profession}
   set school(school: string){this._school = school}
