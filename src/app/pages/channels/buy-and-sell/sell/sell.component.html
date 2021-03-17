@@ -1,17 +1,19 @@
 <app-header [back]="true" title="Posted products"></app-header>
 
+<app-loader *ngIf="pageLoading"></app-loader>
+
 <ion-content>
   <ion-searchbar></ion-searchbar>
-  <ion-list>
-    <ion-item routerLink="/channels/buy-and-sell/product">
+  <ion-list *ngIf="products">
+    <ion-item *ngFor="let product of products" routerLink="/channels/buy-and-sell/product">
       <ion-thumbnail class="ml-2">
-        <ion-img src="./../../../../assets/menu-bg.jpg"></ion-img>
+        <ion-img [src]="url + product.photo.path"></ion-img>
       </ion-thumbnail>
       <ion-label class="ml-2">
-        <span class="d-block">MacBook Pro</span>
+        <span class="d-block">{{ product.label }}</span>
         <small>by Amal</small>
       </ion-label>
-      <span class="mr-2">1500$</span>
+      <span class="mr-2">{{ product.price }}</span>
     </ion-item>
   </ion-list>
 

@@ -1,7 +1,7 @@
 import { HTTP } from '@ionic-native/http/ngx';
 import { Injectable } from '@angular/core';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
-import { Router } from '@angular/router';
+import constants from './../helpers/constants';
 
 type HttpMethod = 'get' | 'post' | 'put' | 'patch' | 'head' | 'delete' | 'upload' | 'download';
 type HttpSerializer = 'json' | 'urlencoded' | 'utf8' | 'multipart' | 'raw';
@@ -11,7 +11,7 @@ type HttpSerializer = 'json' | 'urlencoded' | 'utf8' | 'multipart' | 'raw';
 })
 export class DataService{
 
-  url = 'http://192.168.1.114:3300/api/v1/'
+  url = constants.DOMAIN_URL + constants.API_V1;
 
   constructor(url: string, private nativeStorage: NativeStorage, protected http: HTTP) {
     this.url += url

@@ -15,4 +15,8 @@ export class ProductService extends DataService {
   store(data){
     return this.sendRequest('post', '', data, {}, 'multipart');
   }
+
+  index(){
+    return this.sendRequest('get', '', {});
+  }
 }

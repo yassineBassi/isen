@@ -7,15 +7,14 @@ export class Product{
   private _state: string;
   private _photo: File;
 
-  public initialize(id: number, label: string, description: string, price: string, state: string,
-  photo: File)
+  public initialize(product: Product)
   {
-    this._id = id;
-    this._label = label;
-    this._description = description;
-    this._price = price;
-    this._state = state;
-    this._photo = photo;
+    this._id = product._id;
+    this._label = product.label;
+    this._description = product.description;
+    this._price = product.price;
+    this._state = product.state;
+    this._photo = product.photo;
   }
 
   get id(): number{ return this._id }
