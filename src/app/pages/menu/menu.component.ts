@@ -1,3 +1,4 @@
+import { User } from './../../models/User';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { AuthService } from './../../services/auth.service';
 import { Component, OnInit } from '@angular/core';
@@ -10,7 +11,8 @@ import { Router } from '@angular/router';
 })
 export class MenuComponent implements OnInit {
 
-  public appPages = [
+  user: User;
+  appPages = [
     { title: 'Upgrade', url: '/profilet', icon: 'fas fa-crown', iconColor: 'rgb(222, 150, 0)'},
     { title: 'Profile', url: '/profile', icon: 'fas fa-user' },
     { title: 'Find New Friends', url: '/new-friends', icon: 'fas fa-search' },
@@ -34,6 +36,17 @@ export class MenuComponent implements OnInit {
       },
       err => {
 
+      }
+    )
+  }
+
+  updateUserData(){
+    console.log('hi');
+    this.nativeStorage.getItem('user')
+    .then(
+      user => {
+        this.user = new User();
+        this.user.initialize(user);
       }
     )
   }

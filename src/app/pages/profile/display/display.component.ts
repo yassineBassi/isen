@@ -35,7 +35,7 @@ export class DisplayComponent implements OnInit {
       (resp: any) => {
         this.user = new User();
         this.user.initialize(resp.data);
-        this.nativeStorage.setItem('user', this.user);
+        this.nativeStorage.setItem('user', resp.data);
         console.log(this.user);
         this.pageLoading = false;
       },
@@ -98,7 +98,7 @@ export class DisplayComponent implements OnInit {
       (resp: any) => {
         console.log(resp.data.avatar);
         this.user.avatar = resp.data.avatar;
-        this.nativeStorage.setItem('user', this.user);
+        this.nativeStorage.setItem('user', resp.data);
         this.presentSuccessToastr('your avatar has been updated successfully');
       },
       err =>{
