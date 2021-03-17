@@ -15,21 +15,6 @@ export class User{
   private _interests: string[];
 
   constructor(){
-    this._id = 0;
-    this._firstName = "";
-    this._lastName = "";
-    this._email = "";
-    this._gender = "";
-    this._birthDate = null;
-    this._address = "unknown";
-    this._avatar = {
-      path: '',
-      type: ''
-    };
-    this._education = "unknown";
-    this._profession = "unknown";
-    this._school = "unknown";
-    this._interests = [];
   }
 
   initialize(user: User)
@@ -45,8 +30,8 @@ export class User{
     if(user.education) this._education = user.education;
     if(user.profession) this._profession = user.profession;
     if(user.school) this._school = user.school;
-    if(user.interests) this._interests = user.interests;
-    this.sortInterests();
+    this._interests = user.interests;
+    if(user.interests) this.sortInterests();
   }
 
   get id(): number {return this._id};
@@ -83,19 +68,7 @@ export class User{
   set school(school: string){this._school = school}
   set interests(interests: string[]){
     this._interests = interests;
-    this.sortInterests();
-  }
-
-  public addInterest(interest: string): void{
-    if(!this._interests.includes(interest)){
-      this.interests.push(interest);
-      this.sortInterests();
-    }
-  }
-
-  public removeInterest(ind: number): void{
-    this.interests.splice(ind, 1);
-    this.sortInterests();
+    if(this.interests) this.sortInterests();
   }
 
   private sortInterests(){

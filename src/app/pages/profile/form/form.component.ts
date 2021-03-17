@@ -1,3 +1,4 @@
+import { ToastController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { AuthService } from './../../../services/auth.service';
@@ -23,30 +24,45 @@ export class FormComponent implements OnInit {
     'Graduate degree',
     'PhD'
   ];
-  interests: string[];
-  newInterest: string;
+  validatoErrors = {}
+  interests: string[] = [];
   form: FormGroup;
 
+  get firstName(){
+    return this.form.get('firstName')
+  }
+  get lastName(){
+    return this.form.get('lastName')
+  }
+  get gender(){
+    return this.form.get('gender')
+  }
+  get birthDate(){
+    return this.form.get('birthDate')
+  }
+  get address(){
+    return this.form.get('address')
+  }
+  get school(){
+    return this.form.get('school')
+  }
+  get education(){
+    return this.form.get('education')
+  }
+  get profession(){
+    return this.form.get('profession')
+  }
+  get interest(){
+    return this.form.get('interest');
+  }
+
   constructor(private userService: UserService, private router: Router, private auth: AuthService,
-              private nativeStorage: NativeStorage, private formBuilder: FormBuilder) { }
+              private nativeStorage: NativeStorage, private formBuilder: FormBuilder,
+              private toastController: ToastController) { }
 
   ngOnInit() {
     this.getUser();
     this.intiializeForm();
-  }
-
-  formPatchValues(){
-    this.form.patchValue({
-      firstName: this.user.firstName,
-      lastName: this.user.lastName,
-      gender: this.user.gender,
-      birthDate: this.user.birthDate.toJSON().slice(0, 10),
-      school: this.user.school,
-      profession: this.user.profession,
-      education: this.user.education
-    });
-    console.log(this.user.birthDate.toJSON().slice(0, 10));
-    this.interests = this.user.interests;
   }
 
   intiializeForm(){
@@ -63,13 +79,95 @@ export class FormComponent implements OnInit {
     })
   }
 
-  addInterest(){
-    this.user.addInterest(this.newInterest);
-    this.newInterest = "";
+  formPatchValues(){
+    this.form.patchValue({
+      firstName: this.user.firstName,
+      lastName: this.user.lastName,
+      gender: this.user.gender,
+      birthDate: this.user.birthDate.toJSON().slice(0, 10),
+      address: this.user.address,
+      school: this.user.school,
+      profession: this.user.profession,
+      education: this.user.education
+    });
+    console.log(this.user.birthDate.toJSON().slice(0, 10));
+    this.interests = this.user.interests;
   }
 
-  save(){
-    this.router.navigate(['/profile']);
+  getUserForm(){
+    return {
+      firstName: this.firstName.value,
+      lastName: this.lastName.value,
+      gender: this.gender.value,
+      birthDate: this.birthDate.value,
+      address: this.address.value,
+      school: this.school.value,
+      profession: this.profession.value,
+      education: this.education.value,
+      interests: this.interests
+    }
+  }
+
+  addInterest(){
+    if(!this.interests.includes(this.interest.value) && this.interest.valid){
+      console.log('hi wtf');
+      this.interests.push(this.interest.value);
+      if(this.interests) this.sortInterests();
+      console.log(this.interests);
+      this.form.patchValue({
+        interest: ''
+      })
+    }
+  }
+
+  public removeInterest(ind: number): void{
+    this.interests.splice(ind, 1);
+    this.sortInterests();
+  }
+
+  private sortInterests(){
+    this.interests = this.interests.sort((int1, int2) => {
+      return int1.length - int2.length;
+    })
+  }
+
+  async presentErrorToastr(err: string){
+    const toastr = await this.toastController.create({
+      message: err,
+      position: 'bottom',
+      color: 'danger',
+      duration: 2000,
+    });
+
+    toastr.present();
+  }
+
+  async presentSuccessToastr(err: string){
+    const toastr = await this.toastController.create({
+      message: err,
+      position: 'bottom',
+      color: 'success',
+      duration: 2000,
+    });
+
+    toastr.present();
+  }
+
+  submit(){
+    this.pageLoading = true;
+    console.log(this.getUserForm());
+    this.userService.update(this.user.id, this.getUserForm())
+    .then(
+      resp => {
+        this.pageLoading = false;
+        console.log(resp);
+        this.presentSuccessToastr('your info has been updated successfully')
+      }, err => {
+        this.pageLoading = false;
+        console.log(err);
+
+      }
+    )
   }
 
   getUser(){
@@ -86,8 +184,15 @@ export class FormComponent implements OnInit {
       },
       err => {
         this.pageLoading = false;
+        if(err.errors){
+          this.validatoErrors = err.errors;
+          this.presentErrorToastr('invalid data');
+        }else if(typeof err == 'string'){
+          this.presentErrorToastr(err);
+        }
         console.log(err);
       }
     )
   }
+
 }

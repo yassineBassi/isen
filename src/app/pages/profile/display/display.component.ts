@@ -15,7 +15,7 @@ import { Component, OnInit } from '@angular/core';
 export class DisplayComponent implements OnInit {
 
   pageLoading = false;
-  user: User = new User();
+  user: User;
 
   constructor(private auth: AuthService, private camera: Camera, private nativeStorage: NativeStorage,
               private userService: UserService, private uploadFileService: UploadFileService,
@@ -33,6 +33,7 @@ export class DisplayComponent implements OnInit {
     this.auth.getAuthUser()
     .then(
       (resp: any) => {
+        this.user = new User();
         this.user.initialize(resp.data);
         this.nativeStorage.setItem('user', this.user);
         console.log(this.user);
@@ -92,7 +93,7 @@ export class DisplayComponent implements OnInit {
   updateAvatar(file: File, name: string){
     const form: FormData = new FormData();
     form.append('avatar', file, name);
-    this.userService.update(this.user.id, form)
+    this.userService.updateAvatar(this.user.id, form)
     .then(
       (resp: any) => {
         console.log(resp.data.avatar);

@@ -9,7 +9,7 @@
 <app-loader *ngIf="pageLoading"></app-loader>
 
 <ion-content>
-    <div *ngIf="!pageLoading">
+    <div *ngIf="user">
         <div class="w-100 image-container" *ngIf="user">
             <img class="w-100" [src]="user.avatar.path" alt="">
             <span class="user-info p-1 pl-2">
@@ -33,7 +33,7 @@
         </div>
     </div>
 
-    <div class="p-3" *ngIf="!pageLoading">
+    <div class="p-3" *ngIf="user">
         <ion-text class="text-danger"><i class="fas fa-info-circle mr-2"></i> Basic information</ion-text>
         <ion-list class="ml-3">
             <ion-item class="d-flex" lines="none">

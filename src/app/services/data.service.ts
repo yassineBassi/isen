@@ -57,7 +57,6 @@ export class DataService{
                 this.nativeStorage.remove('token')
               }else{
                 console.log(err);
-
                 reject(err.error)
               }
             }

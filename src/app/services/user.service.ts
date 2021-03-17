@@ -14,7 +14,11 @@ export class UserService extends DataService {
   }
 
   update(id: number, data){
-    return this.sendRequest('put', `/${ id }`, data, {}, 'multipart')
+    return this.sendRequest('put', `/${ id }`, data)
+  }
+
+  updateAvatar(id: number, data){
+    return this.sendRequest('put', `/avatar/${ id }`, data, {}, 'multipart')
   }
 
 }
