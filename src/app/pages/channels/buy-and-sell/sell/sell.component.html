@@ -4,18 +4,30 @@
 
 <ion-content>
   <ion-searchbar></ion-searchbar>
-  <ion-list *ngIf="products">
-    <ion-item *ngFor="let product of products" routerLink="/channels/buy-and-sell/product">
-      <ion-thumbnail class="ml-2">
-        <ion-img [src]="url + product.photo.path"></ion-img>
-      </ion-thumbnail>
-      <ion-label class="ml-2">
-        <span class="d-block">{{ product.label }}</span>
-        <small>by Amal</small>
-      </ion-label>
-      <span class="mr-2">{{ product.price }}</span>
-    </ion-item>
-  </ion-list>
+
+<ion-list *ngIf="products">
+  <ion-item *ngFor="let product of products" [routerLink]="['/channels/buy-and-sell/product/' + product.id]">
+    <ion-thumbnail class="ml-2">
+      <ion-img [src]="domain + product.photo.path"></ion-img>
+    </ion-thumbnail>
+    <ion-label class="ml-2">
+      <span class="d-block">{{ product.label }}</span>
+      <small>by Amal</small>
+    </ion-label>
+    <span class="mr-2">{{ product.price }}</span>
+  </ion-item>
+</ion-list>
+
+<ion-infinite-scroll threshold="100px" (ionInfinite)="getProducts($event)">
+
+
+  <ion-infinite-scroll-content
+    loadingSpinner="bubbles"
+    loadingText="Loading more data..."
+  >
+  </ion-infinite-scroll-content>
+
+</ion-infinite-scroll>
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button color="secondary" routerLink="/channels/buy-and-sell/product/form" class="mr-2">

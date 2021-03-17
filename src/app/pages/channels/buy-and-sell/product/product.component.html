@@ -1,25 +1,29 @@
 <app-header title="MacBook Pro" [back]="true"></app-header>
 
+<app-loader *ngIf="pageLoading"></app-loader>
+
 <ion-content>
-  <div class="w-100">
-    <img src="../../../../assets/menu-bg.jpg" class="w-100 product-image" alt="">
-  </div>
-  <ion-item>
-    <ion-label class="ml-2">
-      <span class="product-title d-block">MacBook Pro</span>
-      <span class="font-weight-bold">1000$</span>
-    </ion-label>
-  </ion-item>
-  <ion-item>
-    <ion-label class="ml-2" text-wrap>
-      <span class="product-title font-weight-bold d-block">Description</span>
-      <span>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Perferendis, facilis!, Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugit accusamus magnam, distinctio sed laudantium harum.</span>
-    </ion-label>
-  </ion-item>
-  <ion-item>
-    <ion-label></ion-label>
-    <small>-Posted By Amal</small>
-  </ion-item>
+      <div *ngIf="product">
+        <div class="w-100">
+          <img [src]="product.photo.path" class="w-100 product-image" alt="">
+        </div>
+        <ion-item>
+          <ion-label class="ml-2">
+            <span class="product-title d-block">{{ product.label }}</span>
+            <span class="font-weight-bold">{{ product.price }}</span>
+          </ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label class="ml-2" text-wrap>
+            <span class="product-title font-weight-bold d-block">Description</span>
+            <span>{{ product.description }}</span>
+          </ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label></ion-label>
+          <small>-Posted By Amal</small>
+        </ion-item>
+      </div>
 </ion-content>
 
 <ion-footer>

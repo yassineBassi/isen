@@ -1,7 +1,7 @@
 import { File } from './File';
 export class User{
 
-  private _id: number;
+  private _id: string;
   private _firstName: string;
   private _lastName: string;
   private _email: string;
@@ -34,7 +34,7 @@ export class User{
     if(user.interests) this.sortInterests();
   }
 
-  get id(): number {return this._id};
+  get id(): string {return this._id};
   get firstName(): string {return this._firstName};
   get lastName(): string {return this._lastName};
   get fullName(): string {return this._firstName + ' ' + this._lastName};
@@ -55,7 +55,7 @@ export class User{
   get interests(): string[] {return this._interests};
 
 
-  set id(id: number){this._id = id}
+  set id(id: string){this._id = id}
   set firstName(firstName: string){this._firstName = firstName}
   set lastName(lastName: string){this._lastName = lastName}
   set email(email: string){this._email = email}

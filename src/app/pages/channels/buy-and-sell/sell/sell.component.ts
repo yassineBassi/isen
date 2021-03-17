@@ -13,31 +13,32 @@ export class SellComponent implements OnInit {
 
   pageLoading = false;
   products: Product[];
-  url = constants.DOMAIN_URL;
+  domain = constants.DOMAIN_URL;
+  page = 0;
 
   constructor(private productService: ProductService, private toastService: ToastService) { }
 
   ngOnInit() {}
 
   ionViewWillEnter(){
-    this.getProducts();
+    this.getProducts(null);
   }
 
-  getProducts(){
-    this.pageLoading = true;
-    this.productService.index()
+  getProducts(event){
+    console.log(event);
+    if(!event) this.pageLoading = true;
+    this.productService.index(this.page++)
     .then(
       (resp: any) => {
-        console.log(resp);
-        this.products = [];
+        if(!event) this.products = [];
+
         resp.data.forEach(prd => {
-          const product = new Product();
-          product.initialize(prd);
+          const product = new Product(prd);
           this.products.push(product);
         })
+        if(event) event.target.complete();
         this.pageLoading = false;
         console.log(this.products);
-
       },
       err => {
         console.log(err);

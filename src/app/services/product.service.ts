@@ -16,7 +16,11 @@ export class ProductService extends DataService {
     return this.sendRequest('post', '', data, {}, 'multipart');
   }
 
-  index(){
-    return this.sendRequest('get', '', {});
+  index(page: number){
+    return this.sendRequest('get', '', {page: page.toString()});
+  }
+
+  get(id: string){
+    return this.sendRequest('get', '/' + id, {});
   }
 }
