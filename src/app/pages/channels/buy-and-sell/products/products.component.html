@@ -8,6 +8,10 @@
 <ion-content>
   <ion-searchbar [(ngModel)]="searchQuery" (ionChange)="search()"></ion-searchbar>
 
+  <ion-card class="p-2 text-center" *ngIf="products && !products.length">
+    <ion-card-subtitle>There is no product to show</ion-card-subtitle>
+  </ion-card>
+
   <ion-list *ngIf="products">
     <ion-item *ngFor="let product of products" [routerLink]="['/channels/buy-and-sell/product/' + product.id]">
       <ion-thumbnail class="ml-2">

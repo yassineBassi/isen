@@ -19,6 +19,8 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {}
 
   goBack(){
+    console.log(this.backLink);
+
     if(this.backLink) this.router.navigateByUrl(this.backLink);
     else this.location.back();
   }

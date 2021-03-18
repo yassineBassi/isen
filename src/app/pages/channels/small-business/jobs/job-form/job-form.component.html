@@ -54,7 +54,7 @@
         <span class="d-block" *ngIf="validatorErrors['email']">{{ validatorErrors['email'][0] }}</span>
         <span class="d-block" *ngIf="email.hasError('required')">The email field is required</span>
         <span class="d-block" *ngIf="email.hasError('max')">The email must not contain more than 50 characters</span>
-        <span class="d-block" *ngIf="email.hasError('email')">This field must contain an email</span>
+        <span class="d-block" *ngIf="email.hasError('email')">This field must be a valid email</span>
       </span>
 
       <ion-item>

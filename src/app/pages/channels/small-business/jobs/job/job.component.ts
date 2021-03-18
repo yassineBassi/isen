@@ -102,4 +102,8 @@ export class JobComponent implements OnInit {
 
     await alert.present();
   }
+
+  openMail(){
+    window.open('mailto:' + this.job.email);
+  }
 }
