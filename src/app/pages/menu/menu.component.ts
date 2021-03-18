@@ -26,10 +26,12 @@ export class MenuComponent implements OnInit {
   constructor(private auth: AuthService, private nativeStorage: NativeStorage, private router: Router,
               private toastrService: ToastService) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.updateUserData();
+  }
 
   ionViewWillEnter(){
-    this.updateUserData()
+    this.updateUserData();
   }
 
   signout(){
@@ -50,8 +52,7 @@ export class MenuComponent implements OnInit {
     this.nativeStorage.getItem('user')
     .then(
       user => {
-        this.user = new User();
-        this.user.initialize(user);
+        this.user = new User(user);
       }
     )
   }

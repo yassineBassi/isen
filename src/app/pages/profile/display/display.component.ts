@@ -36,8 +36,7 @@ export class DisplayComponent implements OnInit {
     this.auth.getAuthUser()
     .then(
       (resp: any) => {
-        this.user = new User();
-        this.user.initialize(resp.data);
+        this.user = new User(resp.data);
         this.nativeStorage.setItem('user', resp.data);
         console.log(this.user);
         console.log(this.user.avatar.path);

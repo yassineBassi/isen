@@ -14,7 +14,8 @@ export class User{
   private _school: string;
   private _interests: string[];
 
-  constructor(){
+  constructor(user: User){
+    this.initialize(user);
   }
 
   initialize(user: User)

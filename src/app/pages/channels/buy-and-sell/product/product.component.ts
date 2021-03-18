@@ -1,3 +1,5 @@
+import { User } from './../../../../models/User';
+import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import constants from 'src/app/helpers/constants';
 import { ToastService } from './../../../../services/toast.service';
 import { ProductService } from './../../../../services/product.service';
@@ -19,10 +21,11 @@ export class ProductComponent implements OnInit {
   productId: string;
   domain = constants.DOMAIN_URL;
   page: number = 1;
+  user: User;
 
   constructor(private productService: ProductService, private route: ActivatedRoute,
               private toastService: ToastService, private alertCtrl: AlertController,
-              private router: Router) { }
+              private router: Router, private nativeStorage: NativeStorage) { }
 
   ngOnInit() {}
 
@@ -35,7 +38,13 @@ export class ProductComponent implements OnInit {
     .subscribe(
       params => {
         this.productId = params.get('id');
-        this.getProduct();
+        this.nativeStorage.getItem('user')
+        .then(
+          user => {
+            this.user = new User(user)
+            this.getProduct();
+          }
+        )
       }
     )
   }

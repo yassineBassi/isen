@@ -159,8 +159,7 @@ export class FormComponent implements OnInit {
     this.auth.getAuthUser()
     .then(
       (resp: any) => {
-        this.user = new User();
-        this.user.initialize(resp.data);
+        this.user = new User(resp.data);
         this.nativeStorage.setItem('user', this.user);
         this.formPatchValues();
         console.log(this.user);

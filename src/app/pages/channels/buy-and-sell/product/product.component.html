@@ -8,7 +8,7 @@
         <div class="w-100 image-container">
           <img [src]="domain + product.photo.path" class="w-100 product-image" alt="">
         </div>
-        <ion-fab horizontal="end" vertical="bottom" class=" mt-5">
+        <ion-fab horizontal="end" vertical="bottom" class="mt-5" *ngIf="product.user == user.id">
           <ion-fab-button (click)="removeConfirmation()" color="danger">
               <ion-icon name="trash"></ion-icon>
           </ion-fab-button>
@@ -16,7 +16,7 @@
       </div>
       <ion-item>
         <ion-label class="ml-2">
-          <span class="product-title font-weight-bold d-block">{{ product.label }}</span>
+          <span class="product-title font-weight-bold d-block">{{ product.label }} </span>
           <span class="">{{ product.price }}</span>
         </ion-label>
       </ion-item>

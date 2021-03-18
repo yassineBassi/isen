@@ -1,4 +1,7 @@
-<app-header [back]="true" title="Posted products"></app-header>
+<app-header
+  [back]="true"
+  [title]="type ? (type == 'buy' ? 'Available Product' : 'Posted products') : ''"
+></app-header>
 
 <app-loader *ngIf="pageLoading"></app-loader>
 

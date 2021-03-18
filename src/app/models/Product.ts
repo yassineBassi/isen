@@ -8,7 +8,7 @@ export class Product{
   private _state: string;
   private _photo: File;
   private _createdAt: string;
-
+  private _user: string
 
   constructor(product: Product){
     this.initialize(product)
@@ -22,6 +22,7 @@ export class Product{
     this._price = product.price;
     this._state = product.state;
     this._photo = product.photo;
+    this._user = product.user;
     this._createdAt = product.createdAt
   }
 
@@ -30,6 +31,7 @@ export class Product{
   get description(): string{ return this._description }
   get price(): string{ return this._price }
   get state(): string{ return this._state }
+  get user(): string{ return this._user }
   get photo(): File{ return this._photo }
   get createdAt(): string{ return this._createdAt }
 
@@ -38,6 +40,7 @@ export class Product{
   set description(description: string){ this._description = description }
   set price(price: string){ this._price = price }
   set state(state: string){ this._state = state }
+  set user(user: string){ this._user = user }
   set photo(photo: File){ this._photo = photo }
   set createdAt(createdAt: string){ this._createdAt = createdAt }
 }
