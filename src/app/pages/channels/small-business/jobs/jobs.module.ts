@@ -1,3 +1,7 @@
+import { WebView } from '@ionic-native/ionic-webview/ngx';
+import { FilePath } from '@ionic-native/file-path/ngx';
+import { File } from '@ionic-native/file/ngx';
+import { UploadFileService } from './../../../../services/upload-file.service';
 import { ListComponent } from './list/list.component';
 import { JobComponent } from './job/job.component';
 import { Camera } from '@ionic-native/camera/ngx';
@@ -5,7 +9,7 @@ import { JobFormComponent } from './job-form/job-form.component';
 import { SharingModule } from './../../../sharing/sharing.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, FormBuilder, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
@@ -17,6 +21,7 @@ import { JobsPage } from './jobs.page';
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     IonicModule,
     JobsPageRoutingModule,
     SharingModule
@@ -28,7 +33,12 @@ import { JobsPage } from './jobs.page';
     ListComponent
   ],
   providers: [
-    Camera
+    Camera,
+    FormBuilder,
+    UploadFileService,
+    File,
+    FilePath,
+    WebView
   ]
 })
 export class JobsPageModule {}
