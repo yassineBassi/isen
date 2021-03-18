@@ -13,7 +13,13 @@
         </ion-label>
         <ion-input formControlName="label" class="ml-2"></ion-input>
       </ion-item>
-      <span class="text-danger" *ngIf="validatorErrors['label']">{{ validatorErrors['label'] }}</span>
+      <span *ngIf="validatorErrors['label'] || (label.dirty && label.errors)">
+        <span class="text-danger" *ngIf="validatorErrors['label']">{{ validatorErrors['label'][0] }}</span>
+        <span class="text-danger" *ngIf="label.hasError('required')">The label field is required</span>
+        <span class="text-danger" *ngIf="label.hasError('maxlength')">
+          The label must not contain more than {{ label.errors.maxlength.requiredLength }} characters
+        </span>
+      </span>
 
       <ion-item>
         <ion-label position="floating" class="ml-2">
@@ -21,7 +27,13 @@
         </ion-label>
         <ion-input formControlName="price" class="ml-2"></ion-input>
       </ion-item>
-      <span class="text-danger" *ngIf="validatorErrors['price']">{{ validatorErrors['price'] }}</span>
+      <span *ngIf="validatorErrors['price'] || (price.dirty && price.errors)">
+        <span class="text-danger" *ngIf="validatorErrors['price']">{{ validatorErrors['price'][0] }}</span>
+        <span class="text-danger" *ngIf="price.hasError('required')">The price field is required</span>
+        <span class="text-danger" *ngIf="price.hasError('maxlength')">
+          The price must not contain more than {{ price.errors.maxlength.requiredLength }} characters
+        </span>
+      </span>
 
       <ion-item>
         <ion-label position="floating" class="ml-2">
@@ -29,10 +41,14 @@
         </ion-label>
         <ion-textarea maxlength="255" formControlName="description" class="ml-2" rows="5"></ion-textarea>
       </ion-item>
-      <span class="text-danger">
-        <span *ngIf="validatorErrors['description']">{{ validatorErrors['description'] }}</span>
-        <span *ngIf="description.hasError('max')">the description must no have more than 255 caracters</span>
+      <span *ngIf="validatorErrors['description'] || (description.dirty && description.errors)">
+        <span class="text-danger" *ngIf="validatorErrors['description']">{{ validatorErrors['description'][0] }}</span>
+        <span class="text-danger" *ngIf="description.hasError('required')">The description field is required</span>
+        <span class="text-danger" *ngIf="description.hasError('maxlength')">
+          The description must not contain more than {{ description.errors.maxlength.requiredLength }} characters
+        </span>
       </span>
+
     </ion-list>
   </form>
 </ion-content>

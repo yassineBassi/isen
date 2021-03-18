@@ -54,11 +54,11 @@ export class JobFormComponent implements OnInit {
 
   initializeForm(){
     this.form = this.formBuilder.group({
-      title: ['', [Validators.required, Validators.max(50)]],
-      description: ['', [Validators.required, Validators.max(255)]],
-      company: ['', [Validators.required, Validators.max(50)]],
-      location: ['', [Validators.required, Validators.max(50)]],
-      email: ['', [Validators.required, Validators.email, Validators.max(50)]]
+      title: ['', [Validators.required, Validators.maxLength(50)]],
+      description: ['', [Validators.required, Validators.maxLength(255)]],
+      company: ['', [Validators.required, Validators.maxLength(50)]],
+      location: ['', [Validators.required, Validators.maxLength(50)]],
+      email: ['', [Validators.required, Validators.email, Validators.maxLength(50)]]
     });
 
     console.log(this.form);

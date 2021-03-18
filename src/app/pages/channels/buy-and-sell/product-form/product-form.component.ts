@@ -45,9 +45,9 @@ export class ProductFormComponent implements OnInit {
 
   initializeForm(){
     this.form = this.formBuilder.group({
-      label: ['', [Validators.required]],
-      description: ['', [Validators.required, Validators.max(255)]],
-      price: ['', [Validators.required]]
+      label: ['', [Validators.required, Validators.maxLength(12)]],
+      description: ['', [Validators.required, Validators.maxLength(255)]],
+      price: ['', [Validators.required, Validators.maxLength(12)]]
     });
   }
 
