@@ -33,7 +33,7 @@
   <ion-searchbar [(ngModel)]="searchQuery" (ionChange)="search()"></ion-searchbar>
 
   <ion-list *ngIf="jobs">
-    <ion-item *ngFor="let job of jobs" [routerLink]="['/channels/buy-and-sell/job/' + job.id]">
+    <ion-item *ngFor="let job of jobs" [routerLink]="['/channels/small-business/jobs/job/' + job.id]">
       <ion-thumbnail class="ml-2">
         <ion-img [src]="domain + job.photo.path"></ion-img>
       </ion-thumbnail>

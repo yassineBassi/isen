@@ -22,7 +22,7 @@ const routes: Routes = [
         component: ListComponent
       },
       {
-        path: 'job',
+        path: 'job/:id',
         component: JobComponent
       },
       {

@@ -1,22 +1,45 @@
-<app-header title="MacBook Pro" [back]="true"></app-header>
+<app-header [title]="job ? job.title : ''" [back]="true"></app-header>
+
+<app-loader *ngIf="pageLoading"></app-loader>
 
 <ion-content>
-  <div class="w-100">
-    <img src="../../../../assets/menu-bg.jpg" class="w-100 product-image" alt="">
-  </div>
-  <ion-item>
-    <ion-label class="ml-2">
-      <span class="product-title d-block">Job Title</span>
-      <span class="d-block" >At company</span>
-      <span class="d-block" >In Location</span>
-    </ion-label>
-  </ion-item>
-  <ion-item>
-    <ion-label class="ml-2" text-wrap>
-      <span class="product-title font-weight-bold d-block">Job Description</span>
-      <span>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Perferendis, facilis!, Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugit accusamus magnam, distinctio sed laudantium harum.</span>
-    </ion-label>
-  </ion-item>
+    <div *ngIf="job">
+      <div class="position-relative">
+        <div class="w-100 image-container">
+          <img [src]="domain + job.photo.path" class="w-100 job-image" alt="">
+        </div>
+        <ion-fab horizontal="end" vertical="bottom" class="mt-5" *ngIf="job.user == user.id">
+          <ion-fab-button (click)="removeConfirmation()" color="danger">
+              <ion-icon name="trash"></ion-icon>
+          </ion-fab-button>
+        </ion-fab>
+      </div>
+      <ion-item>
+        <ion-label class="ml-2">
+          <span class="job-title font-weight-bold d-block">{{ job.title }} </span>
+          <span class="">{{ job.company }}</span>
+        </ion-label>
+        <span>{{ job.createdAt | extractDate }}</span>
+      </ion-item>
+      <ion-item>
+        <ion-label class="ml-2">
+          <span class="font-weight-bold d-block">Location</span>
+          <span class="d-block">{{ job.location }}</span>
+        </ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label class="ml-2">
+          <span class="font-weight-bold d-block">E-mail</span>
+          <span class="d-block">{{ job.email }}</span>
+        </ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label class="ml-2" text-wrap>
+          <span class="job-title font-weight-bold d-block">Description</span>
+          <span>{{ job.description }}</span>
+        </ion-label>
+      </ion-item>
+    </div>
 </ion-content>
 
 <ion-footer>
@@ -27,7 +50,7 @@
         size="default"
         color="secondary"
       >
-        Contact Us
+        Chat with seller
       </ion-button>
     </div>
   </ion-item>
