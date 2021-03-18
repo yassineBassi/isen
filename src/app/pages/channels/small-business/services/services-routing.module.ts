@@ -13,11 +13,11 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'list',
+        redirectTo: 'list/posted',
         pathMatch: 'full'
       },
       {
-        path: 'list',
+        path: 'list/:type',
         component: ListComponent
       },
       {

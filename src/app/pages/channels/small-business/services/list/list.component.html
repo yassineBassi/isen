@@ -1,5 +1,6 @@
-<app-header title="Services" [back]="true"></app-header>
+<app-header title="Services" [back]="true" [backLink]="'/channels/small-business'"></app-header>
 
+<app-loader *ngIf="pageLoading"></app-loader>
 <ion-row>
   <ion-col size="6" class="ion-no-padding">
     <ion-button
@@ -8,9 +9,9 @@
         size="default"
         color="secondary"
         routerLinkActive="selected"
-        routerLink="/channels/small-business/jobs/available"
+        routerLink="/channels/small-business/services/list/posted"
     >
-        Available Services
+        Posted Services
     </ion-button>
   </ion-col>
   <ion-col size="6" class="ion-no-padding">
@@ -20,29 +21,43 @@
         size="default"
         color="secondary"
         routerLinkActive="selected"
-        routerLink="/channels/small-business/jobs/posted"
+        routerLink="/channels/small-business/services/list/available"
     >
-        Posted Services
+        Available Services
     </ion-button>
   </ion-col>
 </ion-row>
 
 <ion-content>
-  <ion-searchbar></ion-searchbar>
+  <ion-searchbar [(ngModel)]="searchQuery" (ionChange)="search()"></ion-searchbar>
 
-  <ion-list>
+  <ion-card class="p-2 text-center" *ngIf="services && !services.length">
+    <ion-card-subtitle>There is no service to show</ion-card-subtitle>
+  </ion-card>
 
-    <ion-item routerLink="/channels/small-business/services/service">
+  <ion-list *ngIf="services">
+    <ion-item *ngFor="let service of services" [routerLink]="['/channels/small-business/services/service/' + service.id]">
       <ion-thumbnail class="ml-2">
-        <ion-img src="./../../../../assets/menu-bg.jpg"></ion-img>
+        <ion-img [src]="domain + service.photo.path"></ion-img>
       </ion-thumbnail>
       <ion-label class="ml-2">
-        <span class="d-block">job title</span>
-        <small>company name</small>
+        <span class="d-block">{{ service.title }}</span>
+        <small>{{ service.createdAt | extractDate }}</small>
       </ion-label>
-      <span class="mr-2">work location</span>
+      <span class="mr-2 text-right">
+        <span class="d-block">{{ service.company }}</span>
+        <small class="d-block">{{ service.location }}</small>
+      </span>
     </ion-item>
   </ion-list>
+
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="getServices($event)">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Loading more data..."
+    >
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 
   <ion-fab horizontal="end" vertical="bottom" slot="fixed">
     <ion-fab-button routerLink="/channels/small-business/services/form" class="mr-2" color="secondary">
