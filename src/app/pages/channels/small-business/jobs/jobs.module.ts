@@ -1,3 +1,4 @@
+import { SharingPipeModule } from './../../../../pipes/sharing/sharing-pipe.module';
 import { WebView } from '@ionic-native/ionic-webview/ngx';
 import { FilePath } from '@ionic-native/file-path/ngx';
 import { File } from '@ionic-native/file/ngx';
@@ -24,7 +25,8 @@ import { JobsPage } from './jobs.page';
     ReactiveFormsModule,
     IonicModule,
     JobsPageRoutingModule,
-    SharingModule
+    SharingModule,
+    SharingPipeModule
   ],
   declarations: [
     JobsPage,

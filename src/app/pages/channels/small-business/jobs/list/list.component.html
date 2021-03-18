@@ -8,9 +8,9 @@
         size="default"
         color="secondary"
         routerLinkActive="selected"
-        routerLink="/channels/small-business/jobs/available"
+        routerLink="/channels/small-business/jobs/list/posted"
     >
-        Available Jobs
+        Posted Jobs
     </ion-button>
   </ion-col>
   <ion-col size="6" class="ion-no-padding">
@@ -20,31 +20,41 @@
         size="default"
         color="secondary"
         routerLinkActive="selected"
-        routerLink="/channels/small-business/jobs/posted"
+        routerLink="/channels/small-business/jobs/list/Available"
     >
-        Posted Jobs
+        Available Jobs
     </ion-button>
   </ion-col>
 </ion-row>
 
-<!-- <app-loader *ng></app-loader> -->
+<app-loader *ngIf="pageLoading"></app-loader>
 
 <ion-content>
-  <ion-searchbar></ion-searchbar>
+  <ion-searchbar [(ngModel)]="searchQuery" (ionChange)="search()"></ion-searchbar>
 
-  <ion-list>
-
-    <ion-item routerLink="/channels/small-business/jobs/job">
+  <ion-list *ngIf="jobs">
+    <ion-item *ngFor="let job of jobs" [routerLink]="['/channels/buy-and-sell/job/' + job.id]">
       <ion-thumbnail class="ml-2">
-        <ion-img src="./../../../../assets/menu-bg.jpg"></ion-img>
+        <ion-img [src]="domain + job.photo.path"></ion-img>
       </ion-thumbnail>
       <ion-label class="ml-2">
-        <span class="d-block">job title</span>
-        <small>company name</small>
+        <span class="d-block">{{ job.title }}</span>
+        <small>{{ job.createdAt | extractDate }}</small>
       </ion-label>
-      <span class="mr-2">work location</span>
+      <span class="mr-2 text-right">
+        <span class="d-block">{{ job.company }}</span>
+        <small class="d-block">{{ job.location }}</small>
+      </span>
     </ion-item>
   </ion-list>
+
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="getJobs($event)">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Loading more data..."
+    >
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 
   <ion-fab horizontal="end" vertical="bottom" slot="fixed">
     <ion-fab-button routerLink="/channels/small-business/jobs/form" class="mr-2" color="secondary">

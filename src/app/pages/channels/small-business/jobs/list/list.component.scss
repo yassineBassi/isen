@@ -4,5 +4,6 @@
   height: 60px;
 }
 .tab-button.selected{
-  border-bottom: 5px solid rgb(86, 165, 255);
+  --ion-color-base: #fff!important;
+  --ion-color-contrast: #000!important;
 }
