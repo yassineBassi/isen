@@ -1,3 +1,4 @@
+import { ToastService } from './../../services/toast.service';
 import { User } from './../../models/User';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { AuthService } from './../../services/auth.service';
@@ -23,9 +24,13 @@ export class MenuComponent implements OnInit {
   ];
 
   constructor(private auth: AuthService, private nativeStorage: NativeStorage, private router: Router,
-              ) { }
+              private toastrService: ToastService) { }
 
   ngOnInit() {}
+
+  ionViewWillEnter(){
+    this.updateUserData()
+  }
 
   signout(){
     this.auth.signout()
@@ -35,7 +40,7 @@ export class MenuComponent implements OnInit {
         this.router.navigate(['/auth/signin']);
       },
       err => {
-
+        this.toastrService.presentErrorToastr('sorry an error has occured, please try again later')
       }
     )
   }

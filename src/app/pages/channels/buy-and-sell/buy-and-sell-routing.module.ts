@@ -1,3 +1,4 @@
+import { ProductsComponent } from './products/products.component';
 import { ProductFormComponent } from './product-form/product-form.component';
 import { ProductComponent } from './product/product.component';
 import { SelectComponent } from './select/select.component';
@@ -23,20 +24,16 @@ const routes: Routes = [
         component: SelectComponent
       },
       {
-        path: 'buy',
-        component: BuyComponent
-      },
-      {
-        path: 'sell',
-        component: SellComponent
-      },
-      {
-        path: 'product/:id',
-        component: ProductComponent
+        path: 'products/:type',
+        component: ProductsComponent
       },
       {
         path: 'product/form',
         component: ProductFormComponent
+      },
+      {
+        path: 'product/:id',
+        component: ProductComponent
       }
     ]
   }

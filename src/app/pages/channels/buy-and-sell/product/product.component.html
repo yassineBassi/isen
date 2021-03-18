@@ -1,11 +1,18 @@
-<app-header title="MacBook Pro" [back]="true"></app-header>
+<app-header [title]="product ? product.label : ''" [back]="true"></app-header>
 
 <app-loader *ngIf="pageLoading"></app-loader>
 
 <ion-content>
     <div *ngIf="product">
-      <div class="w-100">
-        <img [src]="domain + product.photo.path" class="w-100 product-image" alt="">
+      <div class="position-relative">
+        <div class="w-100 image-container">
+          <img [src]="domain + product.photo.path" class="w-100 product-image" alt="">
+        </div>
+        <ion-fab horizontal="end" vertical="bottom" class=" mt-5">
+          <ion-fab-button (click)="removeConfirmation()" color="danger">
+              <ion-icon name="trash"></ion-icon>
+          </ion-fab-button>
+        </ion-fab>
       </div>
       <ion-item>
         <ion-label class="ml-2">

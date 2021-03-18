@@ -1,6 +1,12 @@
 .product-image{
-  height: 250px;
+  height: 250px!important;
 }
+
+.image-container{
+  height: 250px;
+  background-color: #ccc;
+}
+
 .product-title{
   font-size: 18px;
 }

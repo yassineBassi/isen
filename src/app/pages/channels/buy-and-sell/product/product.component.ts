@@ -5,6 +5,7 @@ import { Product } from './../../../../models/Product';
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Route, Router, ActivatedRoute } from '@angular/router';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-product',
@@ -20,7 +21,8 @@ export class ProductComponent implements OnInit {
   page: number = 1;
 
   constructor(private productService: ProductService, private route: ActivatedRoute,
-              private toastService: ToastService) { }
+              private toastService: ToastService, private alertCtrl: AlertController,
+              private router: Router) { }
 
   ngOnInit() {}
 
@@ -54,5 +56,42 @@ export class ProductComponent implements OnInit {
         this.toastService.presentErrorToastr(err)
       }
     )
+  }
+
+  removeProduct(){
+    this.productService.remove(this.product.id)
+    .then(
+      (resp: any) => {
+        console.log(resp);
+        this.toastService.presentSuccessToastr(resp.message);
+        this.router.navigateByUrl('/channels/buy-and-sell/products/sell')
+      },
+      err => {
+        console.log(err);
+        this.toastService.presentErrorToastr(err);
+      }
+    )
+  }
+
+  async removeConfirmation(){
+    const alert = await this.alertCtrl.create({
+      message: 'Do you really want to delete this product ?',
+      header: 'Delete Product',
+      buttons: [
+        {
+          text: 'No',
+          role: 'cancel'
+        },
+        {
+          text: 'Yes',
+          cssClass: 'yes-btn',
+          handler: () => {
+            this.removeProduct();
+          }
+        }
+      ]
+    });
+
+    await alert.present();
   }
 }

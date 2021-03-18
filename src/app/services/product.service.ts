@@ -16,11 +16,19 @@ export class ProductService extends DataService {
     return this.sendRequest('post', '', data, {}, 'multipart');
   }
 
+  indexAll(page: number, query: string){
+    return this.sendRequest('get', '/all', {page: page.toString(), search: query});
+  }
+
   index(page: number, query: string){
     return this.sendRequest('get', '', {page: page.toString(), search: query});
   }
 
   get(id: string){
     return this.sendRequest('get', '/' + id, {});
+  }
+
+  remove(id: string){
+    return this.sendRequest('delete', '/' + id, {})
   }
 }

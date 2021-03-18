@@ -7,6 +7,7 @@ import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { UserService } from './../../../services/user.service';
 import { User } from './../../../models/User';
 import { Component, OnInit } from '@angular/core';
+import constants from 'src/app/helpers/constants';
 
 @Component({
   selector: 'app-display',
@@ -17,6 +18,7 @@ export class DisplayComponent implements OnInit {
 
   pageLoading = false;
   user: User;
+  domaine = constants.DOMAIN_URL;
 
   constructor(private auth: AuthService, private camera: Camera, private nativeStorage: NativeStorage,
               private userService: UserService, private uploadFileService: UploadFileService,
@@ -38,6 +40,7 @@ export class DisplayComponent implements OnInit {
         this.user.initialize(resp.data);
         this.nativeStorage.setItem('user', resp.data);
         console.log(this.user);
+        console.log(this.user.avatar.path);
         this.pageLoading = false;
       },
       err => {

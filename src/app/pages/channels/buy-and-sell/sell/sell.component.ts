@@ -14,8 +14,8 @@ export class SellComponent implements OnInit {
   pageLoading = false;
   products: Product[];
   domain = constants.DOMAIN_URL;
-  page = 0;
-  searchQuery = "";
+  page;
+  searchQuery;
 
   constructor(private productService: ProductService, private toastService: ToastService) { }
 
@@ -23,6 +23,8 @@ export class SellComponent implements OnInit {
 
   ionViewWillEnter(){
     this.pageLoading = true;
+    this.searchQuery = "";
+    this.page = 0;
     this.getProducts(null);
   }
 

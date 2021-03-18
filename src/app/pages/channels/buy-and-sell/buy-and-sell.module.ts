@@ -1,3 +1,4 @@
+import { ProductsComponent } from './products/products.component';
 import { SharingPipeModule } from './../../../pipes/sharing/sharing-pipe.module';
 import { WebView } from '@ionic-native/ionic-webview/ngx';
 import { FilePath } from '@ionic-native/file-path/ngx';
@@ -32,8 +33,7 @@ import { BuyAndSellPage } from './buy-and-sell.page';
   ],
   declarations: [
     BuyAndSellPage,
-    BuyComponent,
-    SellComponent,
+    ProductsComponent,
     SelectComponent,
     ProductFormComponent,
     ProductComponent
