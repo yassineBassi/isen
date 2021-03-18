@@ -14,6 +14,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { ServicesPageRoutingModule } from './services-routing.module';
 import { ServicesPage } from './services.page';
+import { CallNumber } from '@ionic-native/call-number/ngx';
 
 @NgModule({
   imports: [
@@ -36,7 +37,8 @@ import { ServicesPage } from './services.page';
     UploadFileService,
     File,
     FilePath,
-    WebView
+    WebView,
+    CallNumber
   ]
 })
 export class ServicesPageModule {}
