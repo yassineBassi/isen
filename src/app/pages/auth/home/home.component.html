@@ -1,29 +1,30 @@
 <ion-content class="background">
   <ion-row class="h-100">
-    <ion-col size="12" class="text-center mt-auto">
-      <img class="logo-img" src="../../../../assets/logo.svg" alt="">
-      <span class="logo-text">Geloo</span>
-      <span class="desc">Break the ice</span>
+    <ion-col size="12" class="d-flex mt-5 justify-content-center">
+      <img class="logo-img" src="../../../../assets/logo.png" alt="">
+      <div class="text-center ml-3" >
+        <span class="logo-text">GELOO</span>
+        <span class="desc">Break the ice</span>
+      </div>
     </ion-col>
-    <ion-col size="12" class="mt-auto">
+    <ion-col class="text-white footer mt-auto" size="12">
+      <h4 class="mb-0">Welcome to GELOO Application</h4>
+      <span>You are using version 1.0.0</span>
       <ion-button
           routerLink="/auth/signin"
           expand="block"
-          color="secondary"
-          class="my-2"
+          color="light"
+          class="my-3"
       >
-        <i class="fas fa-sign-in-alt mx-2"></i>
         Login
       </ion-button>
       <ion-button
           routerLink="/auth/signup"
           expand="block"
-          color="light"
-          fill="outline"
-          class="my-2"
+          color="warning"
+          class="my-3"
       >
-        <i class="fas fa-user-plus mx-2"></i>
-        Signup
+        Create an account
       </ion-button>
     </ion-col>
   </ion-row>

@@ -1,13 +1,14 @@
 .background{
-  --background: url('../../../../assets/menu-bg.jpg') no-repeat 100% 100%;
+  --background: linear-gradient(rgb(112, 43, 43), rgb(216, 68, 68) 50%, rgb(112, 43, 43)) !important;;
 }
 .logo-img{
-  width: 150px;
+  width: 60px;
+  height: 100px;
   filter: invert(1);
 }
 .logo-text{
-  font-size: 40px;
-  font-weight: bold;
+  font-size: 50px;
+  font-weight: bolder;
   display: block;
   color: white;
   margin: 0px;
@@ -15,9 +16,15 @@
 }
 
 .desc{
-  font-size: 18px;
+  font-size: 22px;
   color: white;
   display: block;
-  margin: 0px;
+  margin-top: -10px;
   padding: 0px;
+}
+
+.footer{
+  background-color: rgba(var(--ion-color-dark-rgb), 0.7);
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
 }
