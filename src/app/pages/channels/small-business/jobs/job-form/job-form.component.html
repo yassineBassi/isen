@@ -3,84 +3,105 @@
 <app-loader *ngIf="pageLoading"></app-loader>
 
 <ion-content>
-  <div class="w-100 image-container">
-    <img (click)="pickImage()" [src]="jobImage.url" class="w-100 h-100" alt="">
+
+  <ion-row class="h-100" *ngIf="!storePermission">
+    <ion-col class="text-center text-container pb-3 px-3" size="12">
+      <span class="title1 mt-4 d-block">SORRY<br>You can't post another job today</span>
+      <span class="d-block">As a standard account you can only post one job per day.</span>
+      <span class="d-block">Your next post will be after: </span>
+      <span class="timer d-block">{{ restTime.hours }} : {{ restTime.minutes }} : {{ restTime.seconds }}</span>
+    </ion-col>
+    <ion-col class="text-center mt-4 px-3" size="12">
+      <span class=" d-block">What are you waiting for ? upgrade now and post infinite number of jobs !</span>
+      <ion-button
+        color="warning"
+        class="mt-3"
+        size="large"
+      >
+          <i class="fas fa-crown text-white mr-2"></i> Upgrade
+      </ion-button>
+    </ion-col>
+  </ion-row>
+  <div *ngIf="storePermission && !pageLoading">
+    <div class="w-100 image-container">
+      <img (click)="pickImage()" [src]="jobImage.url" class="w-100 h-100" alt="">
+    </div>
+    <form [formGroup]="form">
+      <ion-list class="mx-3">
+        <ion-item>
+          <ion-label position="floating" class="ml-2">
+            Company name:
+          </ion-label>
+          <ion-input formControlName="company" class="ml-2"></ion-input>
+        </ion-item>
+        <span class="text-danger" *ngIf="(company.dirty && !company.valid) || validatorErrors['company']">
+          <span class="d-block" *ngIf="validatorErrors['company']">{{ validatorErrors['company'][0] }}</span>
+          <span class="d-block" *ngIf="company.hasError('required')">The company name field is required</span>
+          <span class="d-block" *ngIf="company.hasError('maxlength')">
+            The company name must not contain more than {{ company.errors.maxlength.requiredLength }} characters
+          </span>
+        </span>
+
+        <ion-item>
+          <ion-label position="floating" class="ml-2">
+            Job Title:
+          </ion-label>
+          <ion-input formControlName="title" class="ml-2"></ion-input>
+        </ion-item>
+        <span class="text-danger" *ngIf="(title.dirty && !title.valid) || validatorErrors['title']">
+          <span class="d-block" *ngIf="validatorErrors['title']">{{ validatorErrors['title'][0] }}</span>
+          <span class="d-block" *ngIf="title.hasError('required')">The title field is required</span>
+          <span class="d-block" *ngIf="title.hasError('maxlength')">
+            The title must not contain more than {{ title.errors.maxlength.requiredLength }} characters
+          </span>
+        </span>
+
+        <ion-item>
+          <ion-label position="floating" class="ml-2">
+            Work Location:
+          </ion-label>
+          <ion-input formControlName="location" class="ml-2"></ion-input>
+        </ion-item>
+        <span class="text-danger" *ngIf="(location.dirty && !location.valid) || validatorErrors['location']">
+          <span class="d-block" *ngIf="validatorErrors['location']">{{ validatorErrors['location'][0] }}</span>
+          <span class="d-block" *ngIf="location.hasError('required')">The location field is required</span>
+          <span class="d-block" *ngIf="location.hasError('maxlength')">
+            The location must not contain more than {{ location.errors.maxlength.requiredLength }} characters
+          </span>
+        </span>
+
+        <ion-item>
+          <ion-label position="floating" class="ml-2">
+            Company Email:
+          </ion-label>
+          <ion-input formControlName="email" type="email" class="ml-2"></ion-input>
+        </ion-item>
+        <span class="text-danger" *ngIf="(email.dirty && !email.valid) || validatorErrors['email']">
+          <span class="d-block" *ngIf="validatorErrors['email']">{{ validatorErrors['email'][0] }}</span>
+          <span class="d-block" *ngIf="email.hasError('required')">The email field is required</span>
+          <span class="d-block" *ngIf="email.hasError('maxlength')">
+            The email must not contain more than {{ email.errors.maxlength.requiredLength }} characters
+          </span>
+          <span class="d-block" *ngIf="email.hasError('email')">This field must be a valid email</span>
+        </span>
+
+        <ion-item>
+          <ion-label position="floating" class="ml-2">
+            Job Description:
+          </ion-label>
+          <ion-textarea formControlName="description" class="ml-2" rows="5"></ion-textarea>
+        </ion-item>
+        <span class="text-danger" *ngIf="(description.dirty && !description.valid) || validatorErrors['description']">
+          <span class="d-block" *ngIf="validatorErrors['description']">{{ validatorErrors['description'][0] }}</span>
+          <span class="d-block" *ngIf="description.hasError('required')">The description field is required</span>
+          <span class="d-block" *ngIf="description.hasError('maxlength')">
+            The description must not contain more than {{ description.errors.maxlength.requiredLength }} characters
+          </span>
+        </span>
+
+      </ion-list>
+    </form>
   </div>
-  <form [formGroup]="form">
-    <ion-list class="mx-3">
-      <ion-item>
-        <ion-label position="floating" class="ml-2">
-          Company name:
-        </ion-label>
-        <ion-input formControlName="company" class="ml-2"></ion-input>
-      </ion-item>
-      <span class="text-danger" *ngIf="(company.dirty && !company.valid) || validatorErrors['company']">
-        <span class="d-block" *ngIf="validatorErrors['company']">{{ validatorErrors['company'][0] }}</span>
-        <span class="d-block" *ngIf="company.hasError('required')">The company name field is required</span>
-        <span class="d-block" *ngIf="company.hasError('maxlength')">
-          The company name must not contain more than {{ company.errors.maxlength.requiredLength }} characters
-        </span>
-      </span>
-
-      <ion-item>
-        <ion-label position="floating" class="ml-2">
-          Job Title:
-        </ion-label>
-        <ion-input formControlName="title" class="ml-2"></ion-input>
-      </ion-item>
-      <span class="text-danger" *ngIf="(title.dirty && !title.valid) || validatorErrors['title']">
-        <span class="d-block" *ngIf="validatorErrors['title']">{{ validatorErrors['title'][0] }}</span>
-        <span class="d-block" *ngIf="title.hasError('required')">The title field is required</span>
-        <span class="d-block" *ngIf="title.hasError('maxlength')">
-          The title must not contain more than {{ title.errors.maxlength.requiredLength }} characters
-        </span>
-      </span>
-
-      <ion-item>
-        <ion-label position="floating" class="ml-2">
-          Work Location:
-        </ion-label>
-        <ion-input formControlName="location" class="ml-2"></ion-input>
-      </ion-item>
-      <span class="text-danger" *ngIf="(location.dirty && !location.valid) || validatorErrors['location']">
-        <span class="d-block" *ngIf="validatorErrors['location']">{{ validatorErrors['location'][0] }}</span>
-        <span class="d-block" *ngIf="location.hasError('required')">The location field is required</span>
-        <span class="d-block" *ngIf="location.hasError('maxlength')">
-          The location must not contain more than {{ location.errors.maxlength.requiredLength }} characters
-        </span>
-      </span>
-
-      <ion-item>
-        <ion-label position="floating" class="ml-2">
-          Company Email:
-        </ion-label>
-        <ion-input formControlName="email" type="email" class="ml-2"></ion-input>
-      </ion-item>
-      <span class="text-danger" *ngIf="(email.dirty && !email.valid) || validatorErrors['email']">
-        <span class="d-block" *ngIf="validatorErrors['email']">{{ validatorErrors['email'][0] }}</span>
-        <span class="d-block" *ngIf="email.hasError('required')">The email field is required</span>
-        <span class="d-block" *ngIf="email.hasError('maxlength')">
-          The email must not contain more than {{ email.errors.maxlength.requiredLength }} characters
-        </span>
-        <span class="d-block" *ngIf="email.hasError('email')">This field must be a valid email</span>
-      </span>
-
-      <ion-item>
-        <ion-label position="floating" class="ml-2">
-          Job Description:
-        </ion-label>
-        <ion-textarea formControlName="description" class="ml-2" rows="5"></ion-textarea>
-      </ion-item>
-      <span class="text-danger" *ngIf="(description.dirty && !description.valid) || validatorErrors['description']">
-        <span class="d-block" *ngIf="validatorErrors['description']">{{ validatorErrors['description'][0] }}</span>
-        <span class="d-block" *ngIf="description.hasError('required')">The description field is required</span>
-        <span class="d-block" *ngIf="description.hasError('maxlength')">
-          The description must not contain more than {{ description.errors.maxlength.requiredLength }} characters
-        </span>
-      </span>
-
-    </ion-list>
-  </form>
 </ion-content>
 <ion-footer>
 
@@ -92,6 +113,7 @@
         color="secondary"
         (click)="submit()"
         [disabled]="!form.valid"
+        *ngIf="storePermission && !pageLoading"
       >
        Post
       </ion-button>
