@@ -21,12 +21,12 @@
     </ion-col>
   </ion-row>
 
-  <ion-row class="mt-4">
-    <ion-col size="12" class="text-center">
+  <ion-row [class]="[step == steps.length - 1 ? 'h-100' : 'mt-4']">
+    <ion-col size="12" class="text-center" *ngIf="step < steps.length - 1">
       <img src="../../../../assets/logo.svg" class="logo-img" alt="">
     </ion-col>
-    <ion-col class="text-center px-5" size="12">
-      <form [formGroup]="form" class="form">
+    <ion-col [class]="[step == steps.length - 1 ? 'my-auto' : 'px-5']" class="text-center" size="12">
+      <form [formGroup]="form" *ngIf="step < steps.length - 1" class="form">
 
         <!-- user email -->
         <div class="form-group" *ngIf="steps[step] == 'email'">
@@ -115,12 +115,24 @@
           </div>
         </div>
 
-        <!-- success  -->
-        <div class="w-100 text-center" *ngIf="steps[step] == 'success'">
-          <h1 class="text-success font-wieght-bold">Congratulation !! </h1>
-          <span class="success-icon">Your Account has been created successfully !!</span>
-        </div>
       </form>
+
+      <!-- success  -->
+      <div class="w-100 text-center" *ngIf="steps[step] == 'success'">
+        <span class="d-block"><i class="far fa-check-circle text-success check-icon"></i></span>
+        <span class="text-success d-block congrats-text mt-2">Congratulation !! </span>
+        <span class="success-icon d-block desc-text mt-1">Your <b>GELOO</b> Account has been created successfully !!</span>
+        <ion-button
+          routerLink="/auth/signin"
+          expand="block"
+          color="secondary"
+          size="default"
+          class="my-2 mx-2"
+          *ngIf="steps[step] == 'success'"
+        >
+          Login now !
+        </ion-button>
+      </div>
     </ion-col>
   </ion-row>
 </ion-content>
@@ -136,14 +148,5 @@
   >
     <span *ngIf="btnLoading"><i class="fas fa-circle-notch fa-spin"></i></span>
     <span *ngIf="!btnLoading">{{ step == steps.length - 2 ? 'Done' : 'Continue' }}</span>
-  </ion-button>
-  <ion-button
-    routerLink="/auth/signin"
-    expand="block"
-    color="secondary"
-    class="my-2 mx-2"
-    *ngIf="steps[step] == 'success'"
-  >
-    Login now !
   </ion-button>
 </ion-footer>
