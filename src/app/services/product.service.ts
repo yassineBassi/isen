@@ -28,6 +28,10 @@ export class ProductService extends DataService {
     return this.sendRequest('get', '/' + id, {});
   }
 
+  getStorePermession(){
+    return this.sendRequest('get', '/storePermession', {});
+  }
+
   remove(id: string){
     return this.sendRequest('delete', '/' + id, {})
   }

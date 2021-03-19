@@ -57,7 +57,7 @@ export class ServiceFormComponent implements OnInit {
       description: ['', [Validators.required, Validators.maxLength(255)]],
       company: ['', [Validators.required, Validators.maxLength(50)]],
       location: ['', [Validators.required, Validators.maxLength(50)]],
-      phone: ['', [Validators.required, Validators.pattern("^[+]?[(]?[0-9]{3}[)]?[- \.]?[0-9]{3}[- \.]?[0-9]{4,6}$"), Validators.maxLength(50)]]
+      phone: ['', [Validators.required, Validators.pattern("^[+]?[(]?[0-9]{3}[)]?[- \.]?[0-9]{3}[- \.]?[0-9]{4,6}$"), Validators.maxLength(20)]]
     });
   }
 
