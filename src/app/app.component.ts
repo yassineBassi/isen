@@ -1,3 +1,4 @@
+import { Platform } from '@ionic/angular';
 import { Component } from '@angular/core';
 @Component({
   selector: 'app-root',
@@ -6,7 +7,24 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
 
-  // public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
+    // private statusBar: StatusBar
+    // private splashScreen: SplashScreen,
+  constructor(
+    private platform: Platform,
+  ) {
+    this.initializeApp();
+  }
 
-  constructor() {}
+  initializeApp() {
+    this.platform.ready().then(() => {
+      // this.statusBar.styleLightContent();
+      // setTimeout(() => {
+      //   this.splashScreen.hide();
+      // }, 1000);
+      // this.network.onDisconnect().subscribe(() => {
+      //   this.onOffline();
+      // });
+      // this.migrateToNativeStorage();
+    });
+  }
 }

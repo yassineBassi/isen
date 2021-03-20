@@ -11,13 +11,11 @@ import { IonicModule, IonicRouteStrategy, Platform } from '@ionic/angular';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { FilePath } from '@ionic-native/file-path';
-import { ExtractDatePipe } from './pipes/extract-date.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MenuComponent
+    MenuComponent,
   ],
   entryComponents: [],
   imports: [

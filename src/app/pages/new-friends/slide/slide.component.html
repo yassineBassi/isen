@@ -1,12 +1,34 @@
-<ion-row class="ion-align-items-center h-100">
-  <ion-col class="ion-no-padding" size="12">
-    <img class="w-100" src="./../../../../assets/menu-bg.jpg" alt="">
-  </ion-col>
-</ion-row>
-<div class="absolute-row">
-  <div class="px-2 user-info">
-    <h4 class="mb-0">User Name</h4>
-    <small>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex nam sint ipsum, nesciunt aperiam nemo? Lorem ipsum dolor sit amet.</small>
+<div class="position-relative h-100 w-100">
+  <ion-row class="ion-align-items-center h-100">
+    <ion-col class="ion-no-padding my-auto" size="12">
+      <img class="w-100" [src]="user.avatar.path" alt="">
+    </ion-col>
+  </ion-row>
+  <div class="user-info w-100 text-left">
+    <div class="p-2 pb-4 pl-3">
+      <span class="user-name d-flex align-items-center">
+        {{ user.fullName }}, {{ user.age }}
+        <i class="fas fa-circle online-icon ml-2"></i>
+      </span>
+      <span class="d-block text-left other-info ">{{ user.gender }}, City</span>
+    </div>
+    <ion-row>
+      <ion-col class="ion-no-padding text-center" size="4">
+        <ion-button size="large" shape="round" color="light" fill="clear">
+          <span><i class="fas fa-video"></i></span>
+        </ion-button>
+      </ion-col>
+      <ion-col class="ion-no-padding text-center" size="4">
+        <ion-button size="large" shape="round" color="light" fill="clear">
+          <span><i class="fas fa-user-plus"></i></span>
+        </ion-button>
+      </ion-col>
+      <ion-col class="ion-no-padding text-center" size="4">
+        <ion-button size="large" shape="round" color="light" fill="clear">
+          <span><i class="fas fa-comments"></i></span>
+        </ion-button>
+      </ion-col>
+    </ion-row>
   </div>
 </div>
 <!-- <ion-footer class="bg-dark">

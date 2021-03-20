@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { User } from './../../../models/User';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-slide',
@@ -6,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./slide.component.scss'],
 })
 export class SlideComponent implements OnInit {
+
+  @Input() user: User;
 
   constructor() { }
 

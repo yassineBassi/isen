@@ -1,4 +1,6 @@
-<app-header title="New Friends" [menu]="true"></app-header>
+<app-loader *ngIf="pageLoading" ></app-loader>
+
 <ion-content>
-  <ion-router-outlet></ion-router-outlet>
+  <app-list *ngIf="initialSlide == null" (showUser)="showUser($event)" (loadMore)="getNearUsers($event)" [users]="users"></app-list>
+  <app-slides (back)="initialSlide = null" *ngIf="initialSlide != null" [initialSlide]="initialSlide" [users]="users"></app-slides>
 </ion-content>

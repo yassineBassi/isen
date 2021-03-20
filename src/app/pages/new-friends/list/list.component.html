@@ -1,3 +1,23 @@
+<app-header title="New Friends" [menu]="true"></app-header>
+
+
 <ion-content>
-test
+  <ion-row class="mt-1" *ngIf="users">
+    <ion-col size="6" *ngFor="let user of users; let ind = index" (click)="showUser.emit(ind)" >
+      <div class="photo-container">
+        <img class="w-100" [src]="user.avatar.path" alt="">
+        <div class="w-100 info-container p-2">
+          <ion-label><i class="fas fa-circle online-icon mr-2"></i>{{ user.fullName }}</ion-label>
+        </div>
+      </div>
+    </ion-col>
+  </ion-row>
+
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadMore.emit($event)">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Loading more data..."
+    >
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>

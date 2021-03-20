@@ -40,6 +40,13 @@ export class SigninComponent implements OnInit {
     })
   }
 
+  clearForm(){
+    this.form.patchValue({
+      email: '',
+      password: ''
+    })
+  }
+
   submit(){
     this.pageLoading = true;
     this.auth.signin({email: this.email, password: this.password})
@@ -48,7 +55,8 @@ export class SigninComponent implements OnInit {
         this.pageLoading = false;
         this.nativeStorage.setItem('token', resp.data.token);
         this.nativeStorage.setItem('user', resp.data.user);
-        this.router.navigate(['/profile'])
+        this.router.navigate(['/profile']);
+        this.clearForm();
       },
       err => {
         console.log(err);

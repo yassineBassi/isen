@@ -44,7 +44,14 @@ export class User{
   get birthDate(): Date {return this._birthDate};
   get age(): string {
     if(this.birthDate){
-      return Math.round((new Date().getTime() - this.birthDate.getTime()) / 1000 / 60 / 60 / 24 / 365).toString();
+      // calc the difference between the birth day and the current day
+      let diff = (new Date().getTime() - this.birthDate.getTime());
+      //convert ms to years
+      diff = diff  / 1000 / 60 / 60 / 24 / 365;
+      //get the integer part and turn it to a string
+      const age = Math.floor(diff).toString();
+
+      return age;
     }
     return ''
   };

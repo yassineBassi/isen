@@ -53,6 +53,7 @@ export class ProductsComponent implements OnInit {
       const product = new Product(prd);
       this.products.push(product);
     })
+
     if(event) event.target.complete();
     this.pageLoading = false;
     console.log(this.products);

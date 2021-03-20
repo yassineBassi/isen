@@ -21,4 +21,8 @@ export class UserService extends DataService {
     return this.sendRequest('put', `/avatar/${ id }`, data, {}, 'multipart')
   }
 
+  getNearUsers(page: number){
+    return this.sendRequest('get', '/nearUsers', {page: page.toString()});
+  }
+
 }

@@ -1,14 +1,12 @@
 <ion-content color="dark" [fullscreen]="true">
-  <ion-slides pager="false" [options]="slideOpts">
-    <ion-slide>
-      <h1><app-slide></app-slide></h1>
-    </ion-slide>
-    <ion-slide>
-      <h1><app-slide></app-slide></h1>
-    </ion-slide>
-    <ion-slide>
-      <h1><app-slide></app-slide></h1>
+  <div class="backbtn-container">
+    <ion-button (click)="goBack()" fill="clear" shape="round" color="light">
+      <span class="backbtn"><i class="fas fa-arrow-left"></i></span>
+    </ion-button>
+  </div>
+  <ion-slides class="h-100" pager="false" [options]="slideOpts">
+    <ion-slide class="h-100" *ngFor="let user of users">
+      <app-slide class="h-100 w-100" [user]="user"></app-slide>
     </ion-slide>
   </ion-slides>
-
 </ion-content>

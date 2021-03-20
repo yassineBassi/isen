@@ -8,22 +8,7 @@ import { NewFriendsPage } from './new-friends.page';
 const routes: Routes = [
   {
     path: '',
-    component: NewFriendsPage,
-    children: [
-      {
-        path: '',
-        redirectTo: 'slides',
-        pathMatch: 'full'
-      },
-      {
-        path: 'list',
-        component: ListComponent
-      },
-      {
-        path: 'slides',
-        component: SlidesComponent
-      }
-    ]
+    component: NewFriendsPage
   }
 ];
 

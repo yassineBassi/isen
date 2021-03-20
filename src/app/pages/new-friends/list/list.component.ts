@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { User } from './../../../models/User';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-list',
@@ -6,6 +7,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./list.component.scss'],
 })
 export class ListComponent implements OnInit {
+
+  @Input() users: User[];
+  @Output() loadMore = new EventEmitter();
+  @Output() showUser = new EventEmitter();
 
   constructor() { }
 
