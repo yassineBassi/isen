@@ -5,7 +5,7 @@
     </ion-col>
   </ion-row>
   <div class="user-info w-100 text-left">
-    <div class="p-2 pb-4 pl-3">
+    <div class="p-2 pb-5 pl-3">
       <span class="user-name d-flex align-items-center">
         {{ user.fullName }}, {{ user.age }}
         <i class="fas fa-circle online-icon ml-2"></i>
@@ -13,17 +13,27 @@
       <span class="d-block text-left other-info ">{{ user.gender }}, City</span>
     </div>
     <ion-row>
-      <ion-col class="ion-no-padding text-center" size="4">
-        <ion-button size="large" shape="round" color="light" fill="clear">
-          <span><i class="fas fa-video"></i></span>
+      <ion-col class="ion-no-padding text-center" size="3">
+        <ion-button (click)="requestFriend()" size="large" shape="round" color="light" fill="clear">
+          <span *ngIf="user.friend"><i class="text-success fas fa-user"></i></span>
+          <span *ngIf="!user.friend">
+            <span *ngIf="user.request == null"><i class="fas fa-user-plus"></i></span>
+            <span *ngIf="user.request == 'requesting'"><i class="text-secondary fas fa-user-minus"></i></span>
+            <span *ngIf="user.request == 'requested'"><i class="text-primary fas fa-user-check"></i></span>
+          </span>
         </ion-button>
       </ion-col>
-      <ion-col class="ion-no-padding text-center" size="4">
+      <ion-col class="ion-no-padding text-center" size="3">
         <ion-button size="large" shape="round" color="light" fill="clear">
-          <span><i class="fas fa-user-plus"></i></span>
+          <span class="text-success"><i class="fas fa-video"></i></span>
         </ion-button>
       </ion-col>
-      <ion-col class="ion-no-padding text-center" size="4">
+      <ion-col class="ion-no-padding text-center" size="3">
+        <ion-button (click)="follow()" size="large" shape="round" color="light" fill="clear">
+          <span [class.text-warning]="user.followed"><i class="fas fa-star"></i></span>
+        </ion-button>
+      </ion-col>
+      <ion-col class="ion-no-padding text-center" size="3">
         <ion-button size="large" shape="round" color="light" fill="clear">
           <span><i class="fas fa-comments"></i></span>
         </ion-button>
@@ -31,23 +41,3 @@
     </ion-row>
   </div>
 </div>
-<!-- <ion-footer class="bg-dark">
-
-  <ion-row>
-    <ion-col class="d-flex ion-no-padding" size="4">
-      <ion-button class="mx-auto ion-no-margin" shape="round" color="light" fill="clear">
-        <i class="fas fa-video"></i>
-      </ion-button>
-    </ion-col>
-    <ion-col class="d-flex ion-no-padding" size="4">
-      <ion-button class="mx-auto ion-no-margin" shape="round" color="light" fill="clear">
-        <i class="fas fa-user-plus"></i>
-      </ion-button>
-    </ion-col>
-    <ion-col class="d-flex ion-no-padding" size="4">
-      <ion-button class="mx-auto ion-no-margin" shape="round" color="light" fill="clear">
-        <i class="fas fa-comments"></i>
-      </ion-button>
-    </ion-col>
-  </ion-row>
-</ion-footer> -->

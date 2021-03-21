@@ -1,3 +1,7 @@
+import { User } from './../../../models/User';
+import { RequestService } from './../../../services/request.service';
+import { Platform } from '@ionic/angular';
+import { ToastService } from './../../../services/toast.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,8 +11,39 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ListComponent implements OnInit {
 
-  constructor() { }
+  pageLoading = false;
+  friends: User[];
+  page: number;
+
+  constructor(private requestService: RequestService, private platform: Platform, private toastService: ToastService){ }
 
   ngOnInit() {}
 
+  ionViewWillEnter(){
+    this.platform.ready()
+    .then(() => this.getFriends(null))
+    this.page = 0;
+  }
+
+  getFriends(event){
+    this.pageLoading = true
+    this.requestService.getFriends(this.page++)
+    .then(
+      (resp: any) => {
+        console.log(resp);
+        if(!event) this.friends = [];
+        resp.data.forEach(usr => {
+          this.friends.push(new User(usr));
+        })
+        this.pageLoading = false
+
+        if(event) event.target.complete();
+        this.pageLoading = false;
+      },
+      err => {
+        console.log(err);
+        this.pageLoading = false
+      }
+    )
+  }
 }

@@ -11,6 +11,7 @@ import { IonicModule, IonicRouteStrategy, Platform } from '@ionic/angular';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { Toast } from '@ionic-native/toast/ngx';
 
 @NgModule({
   declarations: [
@@ -20,13 +21,16 @@ import { AppRoutingModule } from './app-routing.module';
   entryComponents: [],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(),
+    IonicModule.forRoot({
+      animated: true
+    }),
     AppRoutingModule,
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     NativeStorage,
-    HTTP
+    HTTP,
+    Toast
   ],
   bootstrap: [AppComponent]
 })

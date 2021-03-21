@@ -1,3 +1,5 @@
+import { SharingPipeModule } from './../../pipes/sharing/sharing-pipe.module';
+import { FriendsHeaderComponent } from './friends-header/friends-header.component';
 import { SharingModule } from './../sharing/sharing.module';
 import { RequestsComponent } from './requests/requests.component';
 import { ListComponent } from './list/list.component';
@@ -17,12 +19,14 @@ import { FriendsPage } from './friends.page';
     FormsModule,
     IonicModule,
     FriendsPageRoutingModule,
-    SharingModule
+    SharingModule,
+    SharingPipeModule
   ],
   declarations: [
     FriendsPage,
     ListComponent,
-    RequestsComponent
+    RequestsComponent,
+    FriendsHeaderComponent
   ]
 })
 export class FriendsPageModule {}

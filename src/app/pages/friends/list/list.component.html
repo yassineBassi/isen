@@ -1,13 +1,28 @@
+
+<app-friends-header></app-friends-header>
+
+<app-loader *ngIf="pageLoading"></app-loader>
+
 <ion-content>
-  <ion-list class="p-0">
-    <ion-item *ngFor="let i of [0, 1, 2, 3, 4, 5, 6]" class="px-3">
+  <ion-list class="p-0 mt-2">
+    <ion-item *ngFor="let friend of friends" class="px-3">
       <ion-avatar>
-        <img src="./../../../../assets/man-avatar.png" alt="">
+        <img [src]="friend.avatar.path" alt="">
       </ion-avatar>
       <ion-label class="ml-2">
-        <h6 class="mb-0 font-weight-bold d-block">User name</h6>
+        <h6 class="mb-0 font-weight-bold d-block">{{ friend.fullName }}</h6>
       </ion-label>
-      <small>online</small>
+      <span>
+        <small class="d-block"><i class="fas fa-circle online-icon"></i></small>
+        <span class="d-block"><i class="fas fa-comments"></i></span>
+      </span>
     </ion-item>
   </ion-list>
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="getFriends($event)">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Loading more data..."
+    >
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>

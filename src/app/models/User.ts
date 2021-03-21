@@ -1,4 +1,6 @@
 import { File } from './File';
+type Request = 'requesting' | 'requested';
+
 export class User{
 
   private _id: string;
@@ -13,6 +15,10 @@ export class User{
   private _profession: string;
   private _school: string;
   private _interests: string[];
+
+  private _followed: Boolean;
+  private _friend: Boolean;
+  private _request: Request;
 
   constructor(user: User){
     this.initialize(user);
@@ -33,6 +39,9 @@ export class User{
     if(user.school) this._school = user.school;
     this._interests = user.interests;
     if(user.interests) this.sortInterests();
+    if(user.followed) this.followed = user.followed;
+    if(user.friend) this.friend = user.friend;
+    if(user.request) this.request = user.request;
   }
 
   get id(): string {return this._id};
@@ -42,6 +51,7 @@ export class User{
   get email(): string {return this._email};
   get gender(): string {return this._gender};
   get birthDate(): Date {return this._birthDate};
+
   get age(): string {
     if(this.birthDate){
       // calc the difference between the birth day and the current day
@@ -55,12 +65,16 @@ export class User{
     }
     return ''
   };
+
   get address(): string {return this._address};
   get avatar(): File {return this._avatar};
   get education(): string {return this._education};
   get profession(): string {return this._profession};
   get school(): string {return this._school};
   get interests(): string[] {return this._interests};
+  get followed(): Boolean {return this._followed};
+  get friend(): Boolean {return this._friend};
+  get request(): Request {return this._request};
 
 
   set id(id: string){this._id = id}
@@ -78,6 +92,9 @@ export class User{
     this._interests = interests;
     if(this.interests) this.sortInterests();
   }
+  set followed(followed: Boolean) {this._followed = followed};
+  set friend(friend: Boolean) {this._friend = friend};
+  set request(request: Request) {this._request = request};
 
   private sortInterests(){
     this._interests = this._interests.sort((int1, int2) => {

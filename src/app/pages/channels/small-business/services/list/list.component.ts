@@ -14,7 +14,6 @@ export class ListComponent implements OnInit {
 
   pageLoading = false;
   services: Service[];
-  domain = constants.DOMAIN_URL;
   page: number;
   searchQuery: string;
   type: string;

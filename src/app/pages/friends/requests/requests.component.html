@@ -1,16 +1,35 @@
+
+<app-friends-header></app-friends-header>
+
+<app-loader *ngIf="pageLoading"></app-loader>
+
 <ion-content>
-  <ion-list class="p-0">
-    <ion-item *ngFor="let i of [0, 1, 2, 3, 4, 5, 6]">
+
+  <ion-card class="p-2 mt-2 text-center" *ngIf="(!requests || !requests.length) && !pageLoading">
+    <ion-card-subtitle>You don't have any friend requests</ion-card-subtitle>
+  </ion-card>
+
+  <ion-list class="p-0 mt-2">
+    <ion-item *ngFor="let request of requests">
       <ion-avatar class="ml-2">
-        <img src="./../../../../assets/man-avatar.png" alt="">
+        <img [src]="request.from.avatar.path" alt="">
       </ion-avatar>
       <ion-label class="ml-2">
-        <h6 class="mb-0 font-weight-bold d-block">User name</h6>
+        <h6 class="mb-0 font-weight-bold d-block">{{ request.from.fullName }}</h6>
+        <small>{{ request.createdAt | extractDate }}</small>
       </ion-label>
       <ion-buttons slot="end">
-        <ion-button class="ion-no-padding ion-no-margin" shape="round" size="small" fill="outline" color="secondary"><i class="fas fa-check"></i></ion-button>
-        <ion-button class="ion-no-padding ion-no-margin" shape="round" size="small" fill="clear" color="danger"><i class="fas fa-times mx-1"></i></ion-button>
+        <ion-button (click)="acceptRequest(request)" class="ion-no-padding ion-no-margin" shape="round" size="small" fill="outline" color="secondary"><i class="fas fa-check"></i></ion-button>
+        <ion-button (click)="rejectConfirmation(request)" class="ion-no-padding ion-no-margin" shape="round" size="small" fill="clear" color="danger"><i class="fas fa-times mx-1"></i></ion-button>
       </ion-buttons>
     </ion-item>
   </ion-list>
+
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="getRequests($event)">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Loading more data..."
+    >
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>

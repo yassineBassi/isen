@@ -25,4 +25,8 @@ export class UserService extends DataService {
     return this.sendRequest('get', '/nearUsers', {page: page.toString()});
   }
 
+  follow(id: string){
+    return this.sendRequest('post', '/follow/' + id, {});
+  }
+
 }
