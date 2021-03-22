@@ -1,3 +1,5 @@
+import { User } from './models/User';
+import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { Platform } from '@ionic/angular';
 import { Component } from '@angular/core';
 @Component({
@@ -7,16 +9,19 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
 
+  user: User;
     // private statusBar: StatusBar
     // private splashScreen: SplashScreen,
   constructor(
     private platform: Platform,
+    private nativeStorage: NativeStorage
   ) {
     this.initializeApp();
   }
 
   initializeApp() {
     this.platform.ready().then(() => {
+      this.getUserData();
       // this.statusBar.styleLightContent();
       // setTimeout(() => {
       //   this.splashScreen.hide();
@@ -26,5 +31,15 @@ export class AppComponent {
       // });
       // this.migrateToNativeStorage();
     });
+  }
+
+  getUserData(){
+    console.log('hi');
+    this.nativeStorage.getItem('user')
+    .then(
+      user => {
+        this.user = new User(user);
+      }
+    )
   }
 }

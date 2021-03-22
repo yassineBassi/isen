@@ -25,6 +25,7 @@
     "@ionic-native/core": "^5.31.1",
     "@ionic-native/file": "^5.31.1",
     "@ionic-native/file-path": "^5.31.1",
+    "@ionic-native/geolocation": "^5.31.1",
     "@ionic-native/http": "^5.31.1",
     "@ionic-native/image-resizer": "^5.31.1",
     "@ionic-native/ionic-webview": "^5.31.1",
@@ -57,6 +58,7 @@
     "cordova-plugin-device": "^2.0.2",
     "cordova-plugin-file": "^6.0.2",
     "cordova-plugin-filepath": "^1.6.0",
+    "cordova-plugin-geolocation": "^4.1.0",
     "cordova-plugin-ionic-keyboard": "^2.2.0",
     "cordova-plugin-ionic-webview": "^4.2.1",
     "cordova-plugin-nativestorage": "^2.3.2",
@@ -94,7 +96,10 @@
       "cordova-plugin-advanced-http": {},
       "cordova-plugin-filepath": {},
       "mx.ferreyra.callnumber": {},
-      "cordova-plugin-x-toast": {}
+      "cordova-plugin-x-toast": {},
+      "cordova-plugin-geolocation": {
+        "GPS_REQUIRED": "true"
+      }
     },
     "platforms": [
       "android"

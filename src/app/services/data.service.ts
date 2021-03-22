@@ -31,7 +31,7 @@ export class DataService{
       return new Promise((resolve, reject) => {
         console.log(this.url + url);
         console.log(serializer);
-
+        this.getLocation()
         this.getToken()
         .then((token: string) => {
           console.log(token);
@@ -63,5 +63,9 @@ export class DataService{
           )
         });
       });
+  }
+
+  getLocation(){
+
   }
 }

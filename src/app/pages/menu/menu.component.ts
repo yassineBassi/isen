@@ -2,7 +2,7 @@ import { ToastService } from './../../services/toast.service';
 import { User } from './../../models/User';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { AuthService } from './../../services/auth.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 })
 export class MenuComponent implements OnInit {
 
-  user: User;
+  @Input() user: User;
   appPages = [
     { title: 'Upgrade', url: '/profilet', icon: 'fas fa-crown', iconColor: 'rgb(222, 150, 0)'},
     { title: 'Profile', url: '/profile', icon: 'fas fa-user' },
@@ -27,7 +27,6 @@ export class MenuComponent implements OnInit {
               private toastrService: ToastService) { }
 
   ngOnInit() {
-    this.updateUserData();
   }
 
   ionViewWillEnter(){
