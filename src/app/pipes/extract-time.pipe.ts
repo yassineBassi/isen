@@ -6,7 +6,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class ExtractTimePipe implements PipeTransform {
 
   transform(value: string): string {
-    return value.slice(11, 16);
+    return value ? value.slice(11, 16) : '';
   }
 
 }

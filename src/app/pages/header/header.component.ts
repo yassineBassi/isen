@@ -13,6 +13,7 @@ export class HeaderComponent implements OnInit {
   @Input() menu = false;
   @Input() title = "";
   @Input() backLink = undefined;
+  @Input() avatar;
 
   constructor(private location: Location, private router: Router) { }
 

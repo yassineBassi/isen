@@ -8,9 +8,9 @@
     <ion-card-subtitle>You don't have any friend yet</ion-card-subtitle>
   </ion-card>
 
-  <ion-list class="p-0 mt-2">
-    <ion-item *ngFor="let friend of friends" class="px-3">
-      <ion-avatar>
+  <ion-list class="p-0">
+    <ion-item [routerLink]="['/profile/' + friend.id]" *ngFor="let friend of friends">
+      <ion-avatar class="ml-2">
         <img [src]="friend.avatar.path" alt="">
       </ion-avatar>
       <ion-label class="ml-2">
@@ -20,9 +20,11 @@
         </span>
         <span>{{ friend.country }}</span>
       </ion-label>
-      <span>
-        <span class="d-block"><i class="fas fa-comments"></i></span>
-      </span>
+      <ion-buttons [routerLink]="['/messages/chat/' + friend.id]" slot="end">
+        <ion-button shape="round">
+          <i class="fas fa-comments"></i>
+        </ion-button>
+      </ion-buttons>
     </ion-item>
   </ion-list>
   <ion-infinite-scroll threshold="100px" (ionInfinite)="getFriends($event)">

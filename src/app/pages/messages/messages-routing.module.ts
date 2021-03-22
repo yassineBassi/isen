@@ -20,7 +20,7 @@ const routes: Routes = [
         component: ListComponent
       },
       {
-        path: 'chat',
+        path: 'chat/:id',
         component: ChatComponent
       }
     ]

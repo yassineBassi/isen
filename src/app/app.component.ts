@@ -2,6 +2,11 @@ import { User } from './models/User';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { Platform } from '@ionic/angular';
 import { Component } from '@angular/core';
+import { io } from 'socket.io-client/';
+import constants from './helpers/constants';
+import { Socket } from 'ngx-socket-io';
+
+
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -14,7 +19,8 @@ export class AppComponent {
     // private splashScreen: SplashScreen,
   constructor(
     private platform: Platform,
-    private nativeStorage: NativeStorage
+    private nativeStorage: NativeStorage,
+    private socket: Socket
   ) {
     this.initializeApp();
   }
@@ -22,6 +28,8 @@ export class AppComponent {
   initializeApp() {
     this.platform.ready().then(() => {
       this.getUserData();
+      // this.socket.connect()
+      // this.socket.connect()
       // this.statusBar.styleLightContent();
       // setTimeout(() => {
       //   this.splashScreen.hide();

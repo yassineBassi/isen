@@ -1,12 +1,14 @@
 <ion-header>
   <ion-toolbar>
-    <ion-buttons slot="start">
+    <ion-buttons class="ion-no-padding ion-no-margin" slot="start">
       <ion-button shape="round" (click)="goBack()" *ngIf="back">
         <i class="fas fa-arrow-left"></i>
       </ion-button>
       <ion-menu-button *ngIf="menu"></ion-menu-button>
     </ion-buttons>
-    <ion-title>{{ title }}</ion-title>
+    <ion-title class="d-flex">
+      <span>{{ title }}</span>
+    </ion-title>
     <ion-buttons slot="end">
       <ng-content select="#end-buttons"></ng-content>
     </ion-buttons>

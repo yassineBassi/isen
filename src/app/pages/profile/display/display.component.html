@@ -62,7 +62,7 @@
                 </ion-fab-list>
             </ion-fab>
 
-            <ion-fab *ngIf="!myProfile" horizontal="end" vertical="bottom" >
+            <ion-fab [routerLink]="['/messages/chat/' + user.id]" *ngIf="!myProfile" horizontal="end" vertical="bottom" >
                 <ion-fab-button color="secondary">
                   <i class="fas fa-comments"></i>
                 </ion-fab-button>

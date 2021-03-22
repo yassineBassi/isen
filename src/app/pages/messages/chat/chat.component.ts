@@ -1,7 +1,12 @@
+import { User } from './../../../models/User';
+import { ActivatedRoute } from '@angular/router';
+import { UserService } from './../../../services/user.service';
 import { Message } from './../../../models/Message';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { IonContent } from '@ionic/angular';
+import { io, Socket } from 'socket.io-client/';
+import constants from 'src/app/helpers/constants';
 
 @Component({
   selector: 'app-chat',
@@ -12,6 +17,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
 
   image: string = null;
   messageText = "";
+  connected = false;
   @ViewChild('content') private content: IonContent;
 
   messages: Message[] = [
@@ -36,16 +42,45 @@ export class ChatComponent implements OnInit, AfterViewInit {
       true,
       null
     ),
-  ]
+  ];
+  socket;
+  user: User;
+  pageLoading = false;
 
-  constructor(private camera: Camera) { }
+  constructor(private camera: Camera, private userService: UserService, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.sortMessages();
   }
 
-  ionViewDidEnter(){
+  ionViewWillEnter(){
     this.content.scrollToBottom(300);
+    this.socket = io(constants.DOMAIN_URL)
+    this.getUserId();
+  }
+
+  getUserId(){
+    this.route.paramMap
+    .subscribe(
+      params => {
+        const id = params.get('id')
+        this.getUser(id)
+      }
+    )
+  }
+
+  getUser(id: string){
+    this.pageLoading = true;
+    this.userService.getUserProfile(id)
+    .then(
+      (resp: any) => {
+        this.pageLoading = false;
+        this.user = new User(resp.data)
+      },
+      err => {
+        this.pageLoading = false;
+      }
+    )
   }
 
   ngAfterViewInit(){
@@ -55,7 +90,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
   }
 
   sortMessages(){
-    this.messages.sort((msg1, msg2) => msg1.date.getTime() - msg2.date.getTime())
+    // this.messages.sort((msg1, msg2) => msg1.date.getTime() - msg2.date.getTime())
   }
 
   scrollToBottom(){
@@ -79,20 +114,25 @@ export class ChatComponent implements OnInit, AfterViewInit {
   }
 
   addMessage(){
-    if(this.messageText.length || this.image){
-      this.messages.push(new Message(
-        0,
-        this.messageText,
-        new Date(),
-        true,
-        this.image
-      ));
-      this.messageText = "";
-      this.image = null;
-      setTimeout(() => {
-        this.scrollToBottom();
-      }, 100);
-    }
+    console.log('hii')
+    this.socket.emit('add-message', {
+      message: this.messageText,
+
+    })
+    // if(this.messageText.length || this.image){
+    //   this.messages.push(new Message(
+    //     0,
+    //     this.messageText,
+    //     new Date(),
+    //     true,
+    //     this.image
+    //   ));
+    //   this.messageText = "";
+    //   this.image = null;
+    //   setTimeout(() => {
+    //     this.scrollToBottom();
+    //   }, 100);
+    // }
   }
 
   pickImage(){
