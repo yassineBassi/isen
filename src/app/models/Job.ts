@@ -7,22 +7,22 @@ export class Job{
   private _company: string;
   private _email: string;
   private _location: string;
-  private _state: string;
+  private _enabled: boolean;
   private _photo: File;
   private _createdAt: string;
   private _user: string
 
-  constructor(product: Job){
-    this._id = product._id;
-    this._title = product.title;
-    this._description = product.description;
-    this._company = product.company;
-    this._email = product.email;
-    this._location = product.location;
-    this._state = product.state;
-    this._photo = product.photo;
-    this._user = product.user;
-    this._createdAt = new Date(product.createdAt).toString()
+  constructor(job: Job){
+    this.id = job._id;
+    this.title = job.title;
+    this.description = job.description;
+    this.company = job.company;
+    this.email = job.email;
+    this.location = job.location;
+    this.enabled = job.enabled;
+    this.photo = job.photo;
+    this.user = job.user;
+    this.createdAt = new Date(job.createdAt).toString()
   }
 
   get id(): string{ return this._id }
@@ -31,7 +31,7 @@ export class Job{
   get company(): string{ return this._company }
   get email(): string{ return this._email }
   get location(): string{ return this._location }
-  get state(): string{ return this._state }
+  get enabled(): boolean{ return this._enabled }
   get user(): string{ return this._user }
   get photo(): File{ return this._photo }
   get createdAt(): string{ return this._createdAt }
@@ -42,7 +42,7 @@ export class Job{
   set company(company: string){ this._company = company }
   set email(email: string){ this._email = email }
   set location(location: string){ this._location = location }
-  set state(state: string){ this._state = state }
+  set enabled(enabled: boolean){ this._enabled = enabled }
   set user(user: string){ this._user = user }
   set photo(photo: File){ this._photo = photo }
   set createdAt(createdAt: string){ this._createdAt = createdAt }

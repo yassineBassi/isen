@@ -35,4 +35,8 @@ export class ProductService extends DataService {
   remove(id: string){
     return this.sendRequest('delete', '/' + id, {})
   }
+
+  disable(id: string){
+    return this.sendRequest('post', '/disable/' + id, {})
+  }
 }

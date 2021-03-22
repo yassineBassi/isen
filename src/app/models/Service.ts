@@ -13,16 +13,16 @@ export class Service{
   private _user: string
 
   constructor(product: Service){
-    this._id = product._id;
-    this._title = product.title;
-    this._description = product.description;
-    this._company = product.company;
-    this._phone = product.phone;
-    this._location = product.location;
-    this._state = product.state;
-    this._photo = product.photo;
-    this._user = product.user;
-    this._createdAt = new Date(product.createdAt).toString()
+    this.id = product._id;
+    this.title = product.title;
+    this.description = product.description;
+    this.company = product.company;
+    this.phone = product.phone;
+    this.location = product.location;
+    this.state = product.state;
+    this.photo = product.photo;
+    this.user = product.user;
+    this.createdAt = new Date(product.createdAt).toString()
   }
 
   get id(): string{ return this._id }

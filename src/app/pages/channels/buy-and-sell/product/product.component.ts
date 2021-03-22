@@ -103,4 +103,24 @@ export class ProductComponent implements OnInit {
 
     await alert.present();
   }
+
+  markAsSold(){
+    this.pageLoading = true;
+    this.productService.disable(this.product.id)
+    .then(
+      (resp: any) => {
+        this.toastService.presentStdToastr(resp.message)
+        this.product.enabled = false;
+        console.log(resp);
+        this.pageLoading = false;
+
+      },
+      err => {
+        this.toastService.presentStdToastr(err)
+        console.log(err);
+        this.pageLoading = false;
+
+      }
+    )
+  }
 }

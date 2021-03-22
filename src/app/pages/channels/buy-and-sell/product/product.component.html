@@ -6,6 +6,7 @@
     <div *ngIf="product">
       <div class="position-relative">
         <div class="w-100 image-container">
+          <img *ngIf="!product.enabled" class="sold-image" src="../../../../../assets/sold.png" alt="">
           <img [src]="domain + product.photo.path" class="w-100 product-image" alt="">
         </div>
         <ion-fab horizontal="end" vertical="bottom" class="mt-5" *ngIf="product.user == user.id">
@@ -30,14 +31,24 @@
 </ion-content>
 
 <ion-footer>
-  <ion-item>
+  <ion-item *ngIf="product">
     <div class="w-100 pl-1">
       <ion-button
         expand="block"
         size="default"
         color="secondary"
+        *ngIf="product.user != user.id"
       >
         Chat with seller
+      </ion-button>
+      <ion-button
+        expand="block"
+        size="default"
+        color="secondary"
+        (click)="markAsSold()"
+        *ngIf="product.user == user.id && product.enabled"
+      >
+        {{ 'Mark as sold' }}
       </ion-button>
     </div>
   </ion-item>
