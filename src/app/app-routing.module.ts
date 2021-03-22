@@ -11,6 +11,10 @@ const routes: Routes = [
   },
   {
     path: 'profile',
+    redirectTo: 'profile/null'
+  },
+  {
+    path: 'profile/:id',
     loadChildren: () => import('./pages/profile/profile.module').then( m => m.ProfilePageModule),
     canActivate: [AuthGuard]
   },

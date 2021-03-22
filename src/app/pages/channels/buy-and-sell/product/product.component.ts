@@ -24,8 +24,8 @@ export class ProductComponent implements OnInit {
   user: User;
 
   constructor(private productService: ProductService, private route: ActivatedRoute,
-              private toastService: ToastService, private alertCtrl: AlertController,
-              private router: Router, private nativeStorage: NativeStorage) { }
+              private toastService: ToastService, private alertCtrl: AlertController, private router: Router,
+              private nativeStorage: NativeStorage) { }
 
   ngOnInit() {}
 

@@ -1,3 +1,4 @@
+import { ActivatedRoute } from '@angular/router';
 import { ToastService } from './../../../services/toast.service';
 import { ToastController } from '@ionic/angular';
 import { UploadFileService } from './../../../services/upload-file.service';
@@ -17,21 +18,55 @@ import constants from 'src/app/helpers/constants';
 export class DisplayComponent implements OnInit {
 
   pageLoading = false;
+  authUser: User;
   user: User;
   domaine = constants.DOMAIN_URL;
+  myProfile = false;
 
   constructor(private auth: AuthService, private camera: Camera, private nativeStorage: NativeStorage,
               private userService: UserService, private uploadFileService: UploadFileService,
-              private toastService: ToastService) { }
+              private toastService: ToastService, private route: ActivatedRoute) { }
 
   ngOnInit() {
   }
 
   ionViewWillEnter(){
-    this.getUser();
+    this.getUserId();
   }
 
-  getUser(){
+  getUserId(){
+    this.route.paramMap
+    .subscribe(
+      params => {
+        const id = params.get('id');
+        console.log(id);
+        if(id){
+          this.getUser(id);
+        }else{
+          this.getAuthUser();
+          this.myProfile = true;
+        }
+      }
+    )
+  }
+
+  getUser(id: string){
+    this.pageLoading = true;
+    this.userService.getUserProfile(id)
+    .then(
+      (resp: any) => {
+        this.pageLoading = false;
+        this.user = new User(resp.data);
+        console.log(resp);
+      },
+      err => {
+        this.pageLoading = false;
+        console.log(err);
+      }
+    )
+  }
+
+  getAuthUser(){
     this.pageLoading = true;
     this.auth.getAuthUser()
     .then(
@@ -39,7 +74,6 @@ export class DisplayComponent implements OnInit {
         this.user = new User(resp.data);
         this.nativeStorage.setItem('user', resp.data);
         console.log(this.user);
-        console.log(this.user.avatar.path);
         this.pageLoading = false;
       },
       err => {

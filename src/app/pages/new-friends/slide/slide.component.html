@@ -1,7 +1,7 @@
 <div class="position-relative h-100 w-100">
   <ion-row class="ion-align-items-center h-100">
     <ion-col class="ion-no-padding my-auto" size="12">
-      <img class="w-100" [src]="user.avatar.path" alt="">
+      <img (click)="showProfile()" class="w-100" [src]="user.avatar.path" alt="">
     </ion-col>
   </ion-row>
   <div class="user-info w-100 text-left">

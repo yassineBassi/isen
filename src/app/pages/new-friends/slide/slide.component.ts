@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { RequestService } from './../../../services/request.service';
 import { ToastService } from './../../../services/toast.service';
@@ -15,7 +16,7 @@ export class SlideComponent implements OnInit {
   @Input() user: User;
 
   constructor(private userService: UserService, private requestService: RequestService, private toastService: ToastService,
-              private alertCtrl: AlertController) { }
+              private alertCtrl: AlertController, private router: Router) { }
 
   ngOnInit() {}
 
@@ -85,5 +86,9 @@ export class SlideComponent implements OnInit {
         }
       )
     })
+  }
+
+  showProfile(){
+    this.router.navigateByUrl('/profile/' + this.user.id)
   }
 }

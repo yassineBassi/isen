@@ -25,6 +25,7 @@
     "@ionic-native/core": "^5.31.1",
     "@ionic-native/file": "^5.31.1",
     "@ionic-native/file-path": "^5.31.1",
+    "@ionic-native/full-screen-image": "^5.31.1",
     "@ionic-native/geolocation": "^5.31.1",
     "@ionic-native/http": "^5.31.1",
     "@ionic-native/image-resizer": "^5.31.1",

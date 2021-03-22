@@ -1,5 +1,5 @@
 .image-container{
-  height: 250px;
+  height: 300px;
   overflow: hidden;
   position: relative;
 }
@@ -37,4 +37,17 @@
 
 .interest{
   font-size: 18px;
+}
+.header{
+  --ion-background-color: rgba(0, 0, 0, 0.3)!important;
+  color: white;
+  position: absolute;
+  top: 0px;
+  width: 100%;
+}
+.header-text{
+  font-size: 20px;
+}
+.user-name{
+  font-size: 20px;
 }

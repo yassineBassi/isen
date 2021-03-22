@@ -29,4 +29,8 @@ export class UserService extends DataService {
     return this.sendRequest('post', '/follow/' + id, {});
   }
 
+  getUserProfile(id: string){
+    return this.sendRequest('get', '/profile/' + id, {})
+  }
+
 }
