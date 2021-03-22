@@ -38,7 +38,7 @@
   <ion-list *ngIf="services">
     <ion-item *ngFor="let service of services" [routerLink]="['/channels/small-business/services/service/' + service.id]">
       <ion-thumbnail class="ml-2">
-        <ion-img [src]="domain + service.photo.path"></ion-img>
+        <ion-img [src]="service.photo.path"></ion-img>
       </ion-thumbnail>
       <ion-label class="ml-2">
         <span class="d-block">{{ service.title }}</span>

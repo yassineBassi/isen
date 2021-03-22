@@ -14,18 +14,18 @@
     </div>
     <ion-row>
       <ion-col class="ion-no-padding text-center" size="3">
-        <ion-button (click)="requestFriend()" size="large" shape="round" color="light" fill="clear">
-          <span *ngIf="user.friend"><i class="text-success fas fa-user"></i></span>
+        <ion-button (click)="!user.friend ? requestFriendship() : removeFriendship()" size="large" shape="round" color="light" fill="clear">
+          <span *ngIf="user.friend"><i class="text-success fas fa-user-minus"></i></span>
           <span *ngIf="!user.friend">
             <span *ngIf="user.request == null"><i class="fas fa-user-plus"></i></span>
-            <span *ngIf="user.request == 'requesting'"><i class="text-secondary fas fa-user-minus"></i></span>
-            <span *ngIf="user.request == 'requested'"><i class="text-primary fas fa-user-check"></i></span>
+            <span *ngIf="user.request == 'requesting'"><i class="text-secondary fas fa-user-times"></i></span>
+            <span *ngIf="user.request == 'requested'"><i class="text-secondary fas fa-user-check"></i></span>
           </span>
         </ion-button>
       </ion-col>
       <ion-col class="ion-no-padding text-center" size="3">
         <ion-button size="large" shape="round" color="light" fill="clear">
-          <span class="text-success"><i class="fas fa-video"></i></span>
+          <span><i class="fas fa-video"></i></span>
         </ion-button>
       </ion-col>
       <ion-col class="ion-no-padding text-center" size="3">

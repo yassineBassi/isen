@@ -15,6 +15,7 @@ export class User{
   private _profession: string;
   private _school: string;
   private _interests: string[];
+  private _country: string
 
   private _followed: Boolean;
   private _friend: Boolean;
@@ -26,18 +27,19 @@ export class User{
 
   initialize(user: User)
   {
-    this._id = user._id;
-    this._firstName = user.firstName;
-    this._lastName = user.lastName;
-    this._email = user.email;
-    this._gender = user.gender;
-    this._birthDate = new Date(user.birthDate);
+    this.id = user._id;
+    this.firstName = user.firstName;
+    this.lastName = user.lastName;
+    this.email = user.email;
+    this.gender = user.gender;
+    this.birthDate = new Date(user.birthDate);
     if(user.address) this._address = user.address;
-    this._avatar = user.avatar;
-    if(user.education) this._education = user.education;
-    if(user.profession) this._profession = user.profession;
-    if(user.school) this._school = user.school;
-    this._interests = user.interests;
+    this.avatar = user.avatar;
+    if(user.education) this.education = user.education;
+    if(user.profession) this.profession = user.profession;
+    if(user.school) this.school = user.school;
+    this.interests = user.interests;
+    this.country = user.country;
     if(user.interests) this.sortInterests();
     if(user.followed) this.followed = user.followed;
     if(user.friend) this.friend = user.friend;
@@ -72,6 +74,8 @@ export class User{
   get profession(): string {return this._profession};
   get school(): string {return this._school};
   get interests(): string[] {return this._interests};
+  get country(): string {return this._country};
+
   get followed(): Boolean {return this._followed};
   get friend(): Boolean {return this._friend};
   get request(): Request {return this._request};
@@ -88,6 +92,7 @@ export class User{
   set education(education: string){this._education = education}
   set profession(profession: string){this._profession = profession}
   set school(school: string){this._school = school}
+  set country(country: string){this._country = country}
   set interests(interests: string[]){
     this._interests = interests;
     if(this.interests) this.sortInterests();

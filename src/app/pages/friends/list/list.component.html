@@ -4,16 +4,23 @@
 <app-loader *ngIf="pageLoading"></app-loader>
 
 <ion-content>
+  <ion-card class="p-2 mt-2 text-center" *ngIf="(!friends || !friends.length) && !pageLoading">
+    <ion-card-subtitle>You don't have any friend yet</ion-card-subtitle>
+  </ion-card>
+
   <ion-list class="p-0 mt-2">
     <ion-item *ngFor="let friend of friends" class="px-3">
       <ion-avatar>
         <img [src]="friend.avatar.path" alt="">
       </ion-avatar>
       <ion-label class="ml-2">
-        <h6 class="mb-0 font-weight-bold d-block">{{ friend.fullName }}</h6>
+        <span class="d-flex align-items-center">
+          <span class="user-name">{{ friend.fullName }}, {{ friend.age }}</span>
+          <i class="fas fa-circle ml-2 online-icon"></i>
+        </span>
+        <span>{{ friend.country }}</span>
       </ion-label>
       <span>
-        <small class="d-block"><i class="fas fa-circle online-icon"></i></small>
         <span class="d-block"><i class="fas fa-comments"></i></span>
       </span>
     </ion-item>

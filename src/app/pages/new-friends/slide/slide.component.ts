@@ -1,3 +1,4 @@
+import { AlertController } from '@ionic/angular';
 import { RequestService } from './../../../services/request.service';
 import { ToastService } from './../../../services/toast.service';
 import { UserService } from './../../../services/user.service';
@@ -13,7 +14,8 @@ export class SlideComponent implements OnInit {
 
   @Input() user: User;
 
-  constructor(private userService: UserService, private requestService: RequestService, private toastService: ToastService) { }
+  constructor(private userService: UserService, private requestService: RequestService, private toastService: ToastService,
+              private alertCtrl: AlertController) { }
 
   ngOnInit() {}
 
@@ -31,23 +33,57 @@ export class SlideComponent implements OnInit {
     )
   }
 
-  requestFriend(){
+  requestFriendship(){
     this.requestService.request(this.user.id)
     .then(
       (resp: any) => {
         console.log(resp);
         this.user.request = resp.data.request;
         this.user.friend = resp.data.friend;
-        if(this.user.request == 'requesting'){
-          this.toastService.presentStdToastr('Friendship request is sent');
-        }else if(this.user.request == null){
-          this.toastService.presentStdToastr('Friendship request is deleted');
-        }
+        this.toastService.presentStdToastr(resp.message);
       },
       err => {
         console.log(err);
         this.toastService.presentStdToastr(err);
       }
     )
+  }
+
+  async removeFriendShipConfirmation(removeFn){
+    const alert = await this.alertCtrl.create({
+      header: 'Remove Friendship',
+      message: 'do you really want to remove your friendship ?',
+      buttons: [
+        {
+          text: 'CANCEL',
+          role: 'cancel'
+        },
+        {
+          text: 'REMOVE',
+          handler: removeFn
+        }
+      ]
+    })
+    await alert.present()
+  }
+
+  removeFriendship(){
+    console.log('hi there');
+
+    this.removeFriendShipConfirmation(() => {
+      this.requestService.removeFriendship(this.user.id)
+      .then(
+        (resp: any) => {
+          this.toastService.presentStdToastr(resp.message)
+          if(resp.data){
+            this.user.friend = false;
+            this.user.request = null
+          }
+        },
+        err => {
+          this.toastService.presentStdToastr(err);
+        }
+      )
+    })
   }
 }
