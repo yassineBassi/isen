@@ -12,6 +12,7 @@ import { IonicModule, IonicRouteStrategy, Platform } from '@ionic/angular';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { Toast } from '@ionic-native/toast/ngx';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { Toast } from '@ionic-native/toast/ngx';
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     NativeStorage,
     HTTP,
-    Toast
+    Toast,
+    Geolocation
   ],
   bootstrap: [AppComponent]
 })

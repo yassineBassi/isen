@@ -1,6 +1,7 @@
+import { RequestService } from './../../../services/request.service';
 import { ActivatedRoute } from '@angular/router';
 import { ToastService } from './../../../services/toast.service';
-import { ToastController } from '@ionic/angular';
+import { ToastController, AlertController } from '@ionic/angular';
 import { UploadFileService } from './../../../services/upload-file.service';
 import { AuthService } from './../../../services/auth.service';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
@@ -9,6 +10,7 @@ import { UserService } from './../../../services/user.service';
 import { User } from './../../../models/User';
 import { Component, OnInit } from '@angular/core';
 import constants from 'src/app/helpers/constants';
+import { FullScreenImage } from '@ionic-native/full-screen-image/ngx';
 
 @Component({
   selector: 'app-display',
@@ -24,8 +26,9 @@ export class DisplayComponent implements OnInit {
   myProfile = false;
 
   constructor(private auth: AuthService, private camera: Camera, private nativeStorage: NativeStorage,
-              private userService: UserService, private uploadFileService: UploadFileService,
-              private toastService: ToastService, private route: ActivatedRoute) { }
+  private userService: UserService, private uploadFileService: UploadFileService, private toastService: ToastService,
+  private route: ActivatedRoute, private requestService: RequestService, private alertCtrl: AlertController,
+  private fullScreenImage: FullScreenImage) { }
 
   ngOnInit() {
   }
@@ -40,7 +43,7 @@ export class DisplayComponent implements OnInit {
       params => {
         const id = params.get('id');
         console.log(id);
-        if(id){
+        if(id != "null"){
           this.getUser(id);
         }else{
           this.getAuthUser();
@@ -123,4 +126,78 @@ export class DisplayComponent implements OnInit {
     )
   }
 
+  follow(){
+    this.userService.follow(this.user.id)
+    .then(
+      (resp: any) => {
+        console.log(resp);
+        this.user.followed = resp.data;
+        this.toastService.presentStdToastr(this.user.followed ? 'follow' : 'unfollow')
+      },
+      err => {
+        console.log(err);
+        this.toastService.presentErrorToastr(err);
+      }
+    )
+  }
+
+  requestFriendship(){
+    this.requestService.request(this.user.id)
+    .then(
+      (resp: any) => {
+        console.log(resp);
+        this.user.request = resp.data.request;
+        this.user.friend = resp.data.friend;
+        this.toastService.presentStdToastr(resp.message);
+      },
+      err => {
+        console.log(err);
+        this.toastService.presentStdToastr(err);
+      }
+    )
+  }
+
+  async removeFriendShipConfirmation(removeFn){
+    const alert = await this.alertCtrl.create({
+      header: 'Remove Friendship',
+      message: 'do you really want to remove your friendship ?',
+      buttons: [
+        {
+          text: 'CANCEL',
+          role: 'cancel'
+        },
+        {
+          text: 'REMOVE',
+          handler: removeFn
+        }
+      ]
+    })
+    await alert.present()
+  }
+
+  removeFriendship(){
+    console.log('hi there');
+
+    this.removeFriendShipConfirmation(() => {
+      this.requestService.removeFriendship(this.user.id)
+      .then(
+        (resp: any) => {
+          this.toastService.presentStdToastr(resp.message)
+          if(resp.data){
+            this.user.friend = false;
+            this.user.request = null
+          }
+        },
+        err => {
+          this.toastService.presentStdToastr(err);
+        }
+      )
+    })
+  }
+
+  showImage(){
+    this.fullScreenImage.showImageURL(this.user.avatar.path)
+    .then((data: any) => console.log(data))
+    .catch((error: any) => console.error(error));
+  }
 }

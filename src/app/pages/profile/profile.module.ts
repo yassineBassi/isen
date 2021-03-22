@@ -1,3 +1,4 @@
+import { FullScreenImage } from '@ionic-native/full-screen-image/ngx';
 import { FilePath } from '@ionic-native/file-path/ngx';
 import { UploadFileService } from './../../services/upload-file.service';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
@@ -38,7 +39,8 @@ import { ProfilePage } from './profile.page';
     UploadFileService,
     FilePath,
     File,
-    FormBuilder
+    FormBuilder,
+    FullScreenImage
   ]
 })
 export class ProfilePageModule {}

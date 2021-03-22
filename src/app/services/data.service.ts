@@ -2,6 +2,7 @@ import { HTTP } from '@ionic-native/http/ngx';
 import { Injectable } from '@angular/core';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import constants from './../helpers/constants';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
 
 type HttpMethod = 'get' | 'post' | 'put' | 'patch' | 'head' | 'delete' | 'upload' | 'download';
 type HttpSerializer = 'json' | 'urlencoded' | 'utf8' | 'multipart' | 'raw';
@@ -13,7 +14,7 @@ export class DataService{
 
   url = constants.DOMAIN_URL + constants.API_V1;
 
-  constructor(url: string, private nativeStorage: NativeStorage, protected http: HTTP) {
+  constructor(url: string, private nativeStorage: NativeStorage, protected http: HTTP, private geo: Geolocation) {
     this.url += url
   }
 
@@ -66,6 +67,13 @@ export class DataService{
   }
 
   getLocation(){
+    this.geo.getCurrentPosition().then((resp) => {
+      // resp.coords.latitude
+      // resp.coords.longitude
+      console.log(resp);
 
+     }).catch((error) => {
+       console.log('Error getting location', error);
+     });
   }
 }

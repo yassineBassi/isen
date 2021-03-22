@@ -38,7 +38,7 @@ export class MenuComponent implements OnInit {
     .then(
       () => {
         this.nativeStorage.remove('token');
-        this.router.navigate(['/auth/signin']);
+        this.router.navigate(['/auth/home']);
       },
       err => {
         this.toastrService.presentErrorToastr('sorry an error has occured, please try again later')

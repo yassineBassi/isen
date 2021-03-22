@@ -2,14 +2,15 @@ import { HTTP } from '@ionic-native/http/ngx';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { DataService } from './data.service';
 import { Injectable } from '@angular/core';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
 
 @Injectable({
   providedIn: 'root'
 })
 export class JobService extends DataService{
 
-  constructor(nativeStorage: NativeStorage, http: HTTP) {
-    super('job', nativeStorage, http);
+  constructor(nativeStorage: NativeStorage, http: HTTP, geo: Geolocation) {
+    super('job', nativeStorage, http, geo);
   }
 
   store(data){
