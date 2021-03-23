@@ -30,12 +30,12 @@ export class DataService{
 
   sendRequest(method: HttpMethod, url: string, data, header?, serializer: HttpSerializer = 'json') {
       return new Promise((resolve, reject) => {
-        console.log(this.url + url);
-        console.log(serializer);
+        // console.log(this.url + url);
+        // console.log(serializer);
         this.getLocation()
         this.getToken()
         .then((token: string) => {
-          console.log(token);
+          // console.log(token);
           this.http.sendRequest(this.url + url, {
             method,
             params: method === 'get' ? data : '',
@@ -70,10 +70,10 @@ export class DataService{
     this.geo.getCurrentPosition().then((resp) => {
       // resp.coords.latitude
       // resp.coords.longitude
-      console.log(resp);
+      // console.log(resp);
 
      }).catch((error) => {
-       console.log('Error getting location', error);
+      //  console.log('Error getting location', error);
      });
   }
 }

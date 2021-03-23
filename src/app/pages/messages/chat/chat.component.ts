@@ -1,11 +1,14 @@
+import { MessageService } from './../../../services/message.service';
+import { NativeStorage } from '@ionic-native/native-storage/ngx';
+import { AuthService } from './../../../services/auth.service';
 import { User } from './../../../models/User';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from './../../../services/user.service';
 import { Message } from './../../../models/Message';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { IonContent } from '@ionic/angular';
-import { io, Socket } from 'socket.io-client/';
+import { IonContent, Platform } from '@ionic/angular';
+import { io } from 'socket.io-client/';
 import constants from 'src/app/helpers/constants';
 
 @Component({
@@ -15,48 +18,55 @@ import constants from 'src/app/helpers/constants';
 })
 export class ChatComponent implements OnInit, AfterViewInit {
 
+  more = true
+  page = 0;
+  sentMessages = {};
+  index = 1;
   image: string = null;
   messageText = "";
   connected = false;
   @ViewChild('content') private content: IonContent;
 
-  messages: Message[] = [
-    new Message(
-      0,
-      'lorem test text od chat box 05/12/2020',
-      new Date('12-05-2020'),
-      true,
-      null
-    ),
-    new Message(
-      0,
-      'lorem test text od chat box 24/08/2020',
-      new Date('08-24-2020'),
-      false,
-      null
-    ),
-    new Message(
-      0,
-      'lorem test text od chat box 05/12/2020 2',
-      new Date('12-05-2020'),
-      true,
-      null
-    ),
-  ];
+  messages: Message[] = [];
   socket;
   user: User;
+  authUser: User;
   pageLoading = false;
 
-  constructor(private camera: Camera, private userService: UserService, private route: ActivatedRoute) { }
+  constructor(private camera: Camera, private userService: UserService, private route: ActivatedRoute,
+              private nativeStorage: NativeStorage, private messageService: MessageService,
+              private platfrom: Platform) { }
 
   ngOnInit() {
     this.sortMessages();
   }
 
   ionViewWillEnter(){
-    this.content.scrollToBottom(300);
+
+    this.platfrom.ready()
+    .then(
+      () => {
+        this.content.scrollToBottom(300);
+        this.getAuthUser();
+      }
+    )
+  }
+
+  initializeSocket(){
     this.socket = io(constants.DOMAIN_URL)
-    this.getUserId();
+    this.socket.emit('addUser', this.authUser.id)
+    this.initSocketListeners();
+  }
+
+  getAuthUser(){
+    this.pageLoading = true;
+    this.nativeStorage.getItem('user')
+    .then(
+      user => {
+        this.authUser = new User(user);
+        this.getUserId();
+      }
+    )
   }
 
   getUserId(){
@@ -70,15 +80,37 @@ export class ChatComponent implements OnInit, AfterViewInit {
   }
 
   getUser(id: string){
-    this.pageLoading = true;
     this.userService.getUserProfile(id)
     .then(
       (resp: any) => {
-        this.pageLoading = false;
         this.user = new User(resp.data)
+        this.initializeSocket();
+        this.getMessages(null);
       },
       err => {
+      }
+    )
+  }
+
+  getMessages(event){
+    this.messageService.indexMessages(this.user.id, this.page++)
+    .then(
+      (resp: any) => {
+        if(!event) this.messages = [];
+        else event.target.compete()
         this.pageLoading = false;
+        resp.data.messages.forEach(message => {
+          this.messages.push(new Message().initialize(message));
+        })
+        if(event && !resp.data.more) event.target.disabled = true;
+        this.more = resp.data.more;
+        console.log(resp.data.more);
+
+      },
+      err => {
+        console.log(err);
+        this.pageLoading = false;
+
       }
     )
   }
@@ -113,26 +145,40 @@ export class ChatComponent implements OnInit, AfterViewInit {
 
   }
 
-  addMessage(){
-    console.log('hii')
-    this.socket.emit('add-message', {
-      message: this.messageText,
+  initSocketListeners(){
+    this.socket.on('addMessage', (from, user) => {
+      alert('message added')
+      console.log("from: " + from);
+      console.log("user: " + user);
+    })
+
+    this.socket.on('messageSent', (message, ind) => {
+      if(this.sentMessages[ind])
+        this.sentMessages[ind].id = message._id
+        this.sentMessages[ind].state = 'sent';
+
+      this.sentMessages[ind] = undefined
+    })
+
+    this.socket.on('sendError', () => {
+      console.log("error");
 
     })
-    // if(this.messageText.length || this.image){
-    //   this.messages.push(new Message(
-    //     0,
-    //     this.messageText,
-    //     new Date(),
-    //     true,
-    //     this.image
-    //   ));
-    //   this.messageText = "";
-    //   this.image = null;
-    //   setTimeout(() => {
-    //     this.scrollToBottom();
-    //   }, 100);
-    // }
+  }
+
+  addMessage(){
+    const message = new Message();
+    message.from = this.authUser.id;
+    message.to = this.user.id;
+    message.text = this.messageText;
+    message.state = '';
+    message.createdAt = new Date()
+
+    this.messages.push(message)
+    this.sentMessages[this.index++] = message
+
+    this.messageText = "";
+    this.socket.emit('addMessage', message.from, message.to, message.text, message.createdAt, this.index)
   }
 
   pickImage(){
@@ -157,8 +203,8 @@ export class ChatComponent implements OnInit, AfterViewInit {
   }
 
   allowToShowDate(ind: number): boolean{
-    const currDate = this.messages[ind].date;
-    const lastDate = this.messages[ind - 1].date;
+    const currDate = this.messages[ind].createdAt;
+    const lastDate = this.messages[ind - 1].createdAt;
     return currDate.getDay() != lastDate.getDay() || currDate.getMonth() != lastDate.getMonth()
         || currDate.getFullYear() != lastDate.getFullYear()
     // return (this.messages[ind].date.getDay() - 1) - (this.messages[ind - 1].date.getDay() - 1);

@@ -1,29 +1,45 @@
 export class Message{
-  private _id: number;
+  private _id: string;
+  private _from: string;
+  private _to: string;
   private _text: string;
-  private _date: Date;
-  private _mine: boolean;
-  private _image: string;
+  private _state: string;
+  private _createdAt: Date;
+  private _image: File;
 
-  constructor(id: number, text: string, date: Date, mine: boolean, image: string){
-    this._id = id;
-    this._text = text;
-    this._date = date;
-    this._mine = mine;
-    this._image = image;
+  constructor(){
   }
 
-  get id(): number {return this._id};
+  initialize(message: Message){
+    this.id = message._id;
+    this.from = message.from;
+    this.to = message.to
+    this.text = message.text;
+    this.createdAt = new Date(message.createdAt);
+    this.image = message.image;
+    this.state = message.state;
+    return this;
+  }
+
+  get id(): string {return this._id};
+  get from(): string {return this._from};
+  get to(): string {return this._to};
   get text(): string {return this._text};
-  get date(): Date {return this._date};
-  get mine(): boolean {return this._mine};
-  get image(): string {return this._image};
+  get state(): string {return this._state};
+  get createdAt(): Date {return this._createdAt};
+  get image(): File {return this._image};
 
 
-  set id(id: number) {this._id = id};
+  set id(id: string) {this._id = id};
+  set from(from: string) {this._from = from};
+  set to(to: string) {this._to = to};
   set text(text: string) {this._text = text};
-  set date(date: Date) {this._date = date};
-  set mine(mine: boolean) {this._mine = mine};
-  set image(image: string) {this._image = image};
+  set state(state: string) {this._state = state};
+  set createdAt(createdAt: Date) {this._createdAt = createdAt};
+  set image(image: File) {this._image = image};
 
+
+  isMine(id): boolean{
+    return this.from === id
+  }
 }

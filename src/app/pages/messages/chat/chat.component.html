@@ -7,13 +7,41 @@
 </app-header>
 
 <ion-content #content>
-  <div class="overflow-auto h-100">
+  <ion-infinite-scroll *ngIf="more" threshold="100px" (ionInfinite)="getMessages($event)">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Loading more data..."
+    >
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+  <ion-list *ngIf="authUser && user">
+    <ion-item lines="none" class="message" *ngFor="let message of messages; let ind = index">
+      <ion-row class="w-100 text-center mb-2" *ngIf="ind && allowToShowDate(ind)">
+        <ion-col>{{ message.createdAt.toJSON().slice(0, 10) }}</ion-col>
+      </ion-row>
+      <ion-row class="mx-2 my-2 w-100">
+        <ion-col [class]="[message.isMine(authUser.id) ? 'my-message' : 'his-message']" class="px-2" size="auto">
+          <img *ngIf="message.image" [src]="message.image" alt="">
+          <div class="d-flex w-100 text-wrap justify-content-between">
+            <ion-text class="d-block ">{{ message.text }}</ion-text>
+            <small [class]="[message.text ? 'mt-4' : 'mt-2']">
+              <span>{{ message.createdAt.toJSON() | extractTime }}</span>
+              <span *ngIf="message.state == ''"><i class="far fa-clock ml-2"></i></span>
+              <span *ngIf="message.state == 'sent'"><i class="fas fa-check ml-2"></i></span>
+            </small>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-item>
+  </ion-list>
+  <!-- <div class="overflow-auto h-100">
     <div class="mt-2 mx-2 mr-3" *ngFor="let message of messages; let ind = index">
       <div class="w-100 text-center mb-2" *ngIf="ind && allowToShowDate(ind)">
-        {{ message.date.toJSON().slice(0, 10) }}
+        {{ message.createdAt.toJSON().slice(0, 10) }}
       </div>
       <ion-row>
-        <ion-col [class]="[message.mine ? 'my-message' : 'his-message']" class="px-2" size="auto">
+        <ion-col [class]="[true ? 'my-message' : 'his-message']" class="px-2" size="auto">
           <img *ngIf="message.image" [src]="message.image" alt="">
           <div class="d-flex w-100 justify-content-between">
             <ion-text class="d-block">{{ message.text }}</ion-text>
@@ -22,7 +50,7 @@
         </ion-col>
       </ion-row>
     </div>
-  </div>
+  </div> -->
 </ion-content>
 
 <ion-footer class="bg-danger ion-no-padding ion-no-margin">
@@ -37,7 +65,7 @@
 
     <ion-buttons class="ion-no-margin py-2" slot="end">
       <ion-fab-button (click)="addMessage()" color="secondary">
-        <i class="fas fa-paper-plane"></i>
+        <ion-icon name="send-outline"></ion-icon>
       </ion-fab-button>
     </ion-buttons>
   </ion-item>
