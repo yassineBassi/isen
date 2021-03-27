@@ -5,9 +5,12 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class ExtractDatePipe implements PipeTransform {
 
-  transform(value: string): string {
-    if(value) return value.slice(3, 10).split(' ').reverse().join(' ') + value.slice(10, 15)
-    return value
+  transform(value: Date): string {
+    // if(value) return (value.getMonth() < 10 ? '0' : '') + value.getDay() + '-'
+    // + (value.getMonth() < 10 ? '0' : '') +value.getMonth() + '-'+ value.getFullYear()
+
+    // return value.toJSON()
+    return value ? value.toJSON().slice(0, 10) : ''
   }
 
 }

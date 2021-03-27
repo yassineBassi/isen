@@ -6,6 +6,7 @@ export class Message{
   private _state: string;
   private _createdAt: Date;
   private _image: File;
+  private _failed: boolean = false;
 
   constructor(){
   }
@@ -28,7 +29,7 @@ export class Message{
   get state(): string {return this._state};
   get createdAt(): Date {return this._createdAt};
   get image(): File {return this._image};
-
+  get failed(): boolean {return this._failed};
 
   set id(id: string) {this._id = id};
   set from(from: string) {this._from = from};
@@ -37,7 +38,7 @@ export class Message{
   set state(state: string) {this._state = state};
   set createdAt(createdAt: Date) {this._createdAt = createdAt};
   set image(image: File) {this._image = image};
-
+  set failed(failed: boolean) {this._failed = failed};
 
   isMine(id): boolean{
     return this.from === id

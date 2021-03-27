@@ -2,9 +2,6 @@ import { User } from './models/User';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { Platform } from '@ionic/angular';
 import { Component } from '@angular/core';
-import { io } from 'socket.io-client/';
-import constants from './helpers/constants';
-import { Socket } from 'ngx-socket-io';
 
 
 @Component({
@@ -19,8 +16,7 @@ export class AppComponent {
     // private splashScreen: SplashScreen,
   constructor(
     private platform: Platform,
-    private nativeStorage: NativeStorage,
-    private socket: Socket
+    private nativeStorage: NativeStorage
   ) {
     this.initializeApp();
   }

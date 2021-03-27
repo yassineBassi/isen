@@ -11,9 +11,6 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { Toast } from '@ionic-native/toast/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
-import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
-import constants from './helpers/constants';
-const config: SocketIoConfig = { url: "http://127.0.0.1:3300", options: {} };
 
 @NgModule({
   declarations: [
@@ -27,7 +24,6 @@ const config: SocketIoConfig = { url: "http://127.0.0.1:3300", options: {} };
       animated: true
     }),
     AppRoutingModule,
-    SocketIoModule.forRoot(config)
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },

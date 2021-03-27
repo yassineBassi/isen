@@ -1,6 +1,5 @@
 import { MessageService } from './../../../services/message.service';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
-import { AuthService } from './../../../services/auth.service';
 import { User } from './../../../models/User';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from './../../../services/user.service';
@@ -18,16 +17,18 @@ import constants from 'src/app/helpers/constants';
 })
 export class ChatComponent implements OnInit, AfterViewInit {
 
-  more = true
   page = 0;
+
   sentMessages = {};
-  index = 1;
+  index = 0;
+
   image: string = null;
   messageText = "";
+
   connected = false;
   @ViewChild('content') private content: IonContent;
 
-  messages: Message[] = [];
+  messages: Message[];
   socket;
   user: User;
   authUser: User;
@@ -38,19 +39,38 @@ export class ChatComponent implements OnInit, AfterViewInit {
               private platfrom: Platform) { }
 
   ngOnInit() {
-    this.sortMessages();
+  }
+
+  ionViewDidEnter(){
+    const timer = setInterval(() => {
+       if(this.messages && this.messages.length){
+        setTimeout(() => {
+          this.content.scrollToBottom(200);
+        }, 1000);
+        clearInterval(timer)
+      }
+    }, 10)
+  }
+
+  ngAfterViewInit(){
+    const timer = setInterval(() => {
+      if(this.messages && this.messages.length){
+        console.log('stop timer');
+        this.content.scrollToBottom(200);
+        clearInterval(timer)
+      }
+    }, 10)
   }
 
   ionViewWillEnter(){
-
     this.platfrom.ready()
     .then(
       () => {
-        this.content.scrollToBottom(300);
         this.getAuthUser();
       }
     )
   }
+
 
   initializeSocket(){
     this.socket = io(constants.DOMAIN_URL)
@@ -64,6 +84,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
     .then(
       user => {
         this.authUser = new User(user);
+        this.initializeSocket();
         this.getUserId();
       }
     )
@@ -96,73 +117,53 @@ export class ChatComponent implements OnInit, AfterViewInit {
     this.messageService.indexMessages(this.user.id, this.page++)
     .then(
       (resp: any) => {
-        if(!event) this.messages = [];
-        else event.target.compete()
         this.pageLoading = false;
-        resp.data.messages.forEach(message => {
-          this.messages.push(new Message().initialize(message));
-        })
-        if(event && !resp.data.more) event.target.disabled = true;
-        this.more = resp.data.more;
-        console.log(resp.data.more);
 
+        if(!event){
+          this.messages = [];
+          resp.data.messages.reverse().forEach(message => {
+            this.messages.push(new Message().initialize(message));
+          });
+        }else{
+          event.target.complete()
+          resp.data.messages.reverse().forEach(message => {
+            this.messages.unshift(new Message().initialize(message));
+          });
+
+          if(!resp.data.more) event.target.disabled = true;
+        }
       },
       err => {
         console.log(err);
         this.pageLoading = false;
-
       }
     )
   }
 
-  ngAfterViewInit(){
-    // console.log(this.msgContainer);
-
-    // this.msgContainer.nativeElement.scrollTop = 0;:
-  }
-
-  sortMessages(){
-    // this.messages.sort((msg1, msg2) => msg1.date.getTime() - msg2.date.getTime())
-  }
-
-  scrollToBottom(){
-    console.log("-----------");
-
-    // console.log(this.msgContainer.nativeElement.scrollHeight);
-    // console.log(this.msgContainer.nativeElement.scrollTop);
-    // setTimeout(() => {
-      // this.content.scrollToBottom(300);
-      // this.content.getScrollElement().then(r => r.scrollTo({
-      //   top: r.scrollHeight
-      // }));
-    //   let dimensions = this.content.getContentDimensions();
-    //   console.log(dimensions);
-
-    //   this.content.scrollTo(0, dimensions.scrollBottom, 0)
-    // this.content.scrollToBottom(300);
-    // console.log(this.msgContainer.nativeElement.scrollTop);
-    // }, 1000);
-
-  }
 
   initSocketListeners(){
-    this.socket.on('addMessage', (from, user) => {
-      alert('message added')
-      console.log("from: " + from);
-      console.log("user: " + user);
+    this.socket.on('addMessage', (message) => {
+      if(this.user && message.from == this.user.id){
+        this.messages.push(new Message().initialize(message));
+        setTimeout(() => {
+          this.content.scrollToBottom(200)
+        }, 100);
+      }
     })
 
     this.socket.on('messageSent', (message, ind) => {
-      if(this.sentMessages[ind])
+      if(this.sentMessages[ind]){
         this.sentMessages[ind].id = message._id
         this.sentMessages[ind].state = 'sent';
+      }
 
       this.sentMessages[ind] = undefined
     })
 
-    this.socket.on('sendError', () => {
-      console.log("error");
-
+    this.socket.on('sendError', (ind) => {
+      if(this.sentMessages[ind]){
+        this.sentMessages[ind].failed = true
+      }
     })
   }
 
@@ -175,10 +176,14 @@ export class ChatComponent implements OnInit, AfterViewInit {
     message.createdAt = new Date()
 
     this.messages.push(message)
-    this.sentMessages[this.index++] = message
+    this.sentMessages[this.index] = message
 
     this.messageText = "";
-    this.socket.emit('addMessage', message.from, message.to, message.text, message.createdAt, this.index)
+    setTimeout(() => {
+      this.content.scrollToBottom(200)
+    }, 100);
+
+    this.socket.emit('addMessage', message.from, message.to, message.text, message.createdAt, this.index++)
   }
 
   pickImage(){
@@ -203,10 +208,21 @@ export class ChatComponent implements OnInit, AfterViewInit {
   }
 
   allowToShowDate(ind: number): boolean{
-    const currDate = this.messages[ind].createdAt;
-    const lastDate = this.messages[ind - 1].createdAt;
-    return currDate.getDay() != lastDate.getDay() || currDate.getMonth() != lastDate.getMonth()
-        || currDate.getFullYear() != lastDate.getFullYear()
-    // return (this.messages[ind].date.getDay() - 1) - (this.messages[ind - 1].date.getDay() - 1);
+    const currDate = {
+      year: this.messages[ind].createdAt.toJSON().slice(0, 4),
+      month: this.messages[ind].createdAt.toJSON().slice(5, 7),
+      day: this.messages[ind].createdAt.toJSON().slice(8, 10)
+    }
+    if(ind){
+      const lastDate = {
+        year: this.messages[ind].createdAt.toJSON().slice(0, 4),
+        month: this.messages[ind].createdAt.toJSON().slice(5, 7),
+        day: this.messages[ind].createdAt.toJSON().slice(8, 10)
+      };
+
+      return currDate.day != lastDate.day || currDate.month != lastDate.month
+          || currDate.year != lastDate.year
+    }
+    return true
   }
 }
