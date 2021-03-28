@@ -1,3 +1,5 @@
+import { WebView } from '@ionic-native/ionic-webview/ngx';
+import { UploadFileService } from './../../../services/upload-file.service';
 import { MessageService } from './../../../services/message.service';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { User } from './../../../models/User';
@@ -18,11 +20,13 @@ import constants from 'src/app/helpers/constants';
 export class ChatComponent implements OnInit, AfterViewInit {
 
   page = 0;
+  resend = [];
 
   sentMessages = {};
   index = 0;
 
   image: string = null;
+  imageFile: File = null;
   messageText = "";
 
   connected = false;
@@ -36,7 +40,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
 
   constructor(private camera: Camera, private userService: UserService, private route: ActivatedRoute,
               private nativeStorage: NativeStorage, private messageService: MessageService,
-              private platfrom: Platform) { }
+              private platfrom: Platform, private uploadFileService: UploadFileService, private webView: WebView) { }
 
   ngOnInit() {
   }
@@ -155,6 +159,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
       if(this.sentMessages[ind]){
         this.sentMessages[ind].id = message._id
         this.sentMessages[ind].state = 'sent';
+        if(this.resend.includes(ind)) this.resend.splice(this.resend.indexOf(ind), 1)
       }
 
       this.sentMessages[ind] = undefined
@@ -162,49 +167,62 @@ export class ChatComponent implements OnInit, AfterViewInit {
 
     this.socket.on('sendError', (ind) => {
       if(this.sentMessages[ind]){
-        this.sentMessages[ind].failed = true
+        this.sentMessages[ind].state = 'failed';
+        if(this.resend.includes(ind)) this.resend.splice(this.resend.indexOf(ind), 1)
       }
     })
   }
 
+  resendMessage(message){
+    this.resend.push(message.id);
+    this.sendMessage(message, message.id);
+  }
+
+  sendMessage(message, ind){
+    this.socket.emit('addMessage', {
+      text: message.text,
+      from: message.from,
+      to: message.to,
+    }, this.imageFile, ind)
+  }
+
   addMessage(){
     const message = new Message();
+    message.id = this.index.toString();
     message.from = this.authUser.id;
     message.to = this.user.id;
     message.text = this.messageText;
     message.state = '';
     message.createdAt = new Date()
+    if(this.image){
+      message.image = {
+        path: this.image,
+        type: 'png'
+      };
+    }
 
     this.messages.push(message)
     this.sentMessages[this.index] = message
 
-    this.messageText = "";
     setTimeout(() => {
       this.content.scrollToBottom(200)
     }, 100);
 
-    this.socket.emit('addMessage', message.from, message.to, message.text, message.createdAt, this.index++)
+    this.sendMessage(message, this.index++);
+
+    this.messageText = "";
+    // this.image
   }
 
   pickImage(){
-    const options: CameraOptions = {
-      quality: 100,
-      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
-      destinationType: this.camera.DestinationType.DATA_URL,
-      encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE
-    }
-
-    this.camera.getPicture(options).then((imageData) => {
-     // imageData is either a base64 encoded string or a file URI
-     // If it's base64 (DATA_URL):
-    //  let base64Image = 'data:image/jpeg;base64,' + imageData;
-      this.image = 'data:image/jpeg;base64,' + imageData;
-      this.addMessage()
-    }, (err) => {
-     // Handle error
-    // alert(err)
-    });
+    this.uploadFileService.takePicture(this.camera.PictureSourceType.PHOTOLIBRARY)
+    .then(
+      (resp: any) => {
+        this.image = this.webView.convertFileSrc(resp.imageData);
+        this.imageFile = resp.file;
+        this.addMessage();
+      }
+    )
   }
 
   allowToShowDate(ind: number): boolean{

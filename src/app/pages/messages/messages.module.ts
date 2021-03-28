@@ -1,3 +1,7 @@
+import { WebView } from '@ionic-native/ionic-webview/ngx';
+import { FilePath } from '@ionic-native/file-path/ngx';
+import { File } from '@ionic-native/file/ngx';
+import { UploadFileService } from './../../services/upload-file.service';
 import { SharingPipeModule } from './../../pipes/sharing/sharing-pipe.module';
 import { Camera } from '@ionic-native/camera/ngx';
 import { SharingModule } from './../sharing/sharing.module';
@@ -28,7 +32,11 @@ import { MessagesPage } from './messages.page';
     ListComponent
   ],
   providers: [
-    Camera
+    Camera,
+    UploadFileService,
+    File,
+    FilePath,
+    WebView
   ]
 })
 export class MessagesPageModule {}

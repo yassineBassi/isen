@@ -26,7 +26,12 @@
 
       <ion-item lines="none" class="message" >
         <ion-row class="mx-2 my-2 w-100">
-          <ion-col [class]="[message.isMine(authUser.id) ? 'my-message' : 'his-message']" [class.failed]="message.failed" class="px-2" size="auto">
+          <ion-col
+            [class]="[message.isMine(authUser.id) ? 'my-message' : 'his-message']"
+            [class.failed]="message.state == 'failed'"
+            class="px-2"
+            size="auto"
+          >
             <img *ngIf="message.image" [src]="message.image" alt="">
             <div class="d-flex w-100 text-wrap justify-content-between">
               <ion-text class="d-block ">{{ message.text }}</ion-text>
@@ -41,9 +46,13 @@
         <ion-button
           color="dark"
           fill="clear"
-          *ngIf="message.failed"
+          shape="round"
+          [disabled]="resend.includes(message.id)"
+          *ngIf="message.state == 'failed'"
+          (click)="resendMessage(message)"
         >
-          <i class="fas fa-sync-alt"></i>
+          <span *ngIf="resend.includes(message.id)" ><i class="fas fa-circle-notch fa-spin"></i></span>
+          <span *ngIf="!resend.includes(message.id)"><i class="fas fa-sync-alt"></i></span>
         </ion-button>
       </ion-item>
     </div>

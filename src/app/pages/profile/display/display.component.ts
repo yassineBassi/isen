@@ -176,8 +176,6 @@ export class DisplayComponent implements OnInit {
   }
 
   removeFriendship(){
-    console.log('hi there');
-
     this.removeFriendShipConfirmation(() => {
       this.requestService.removeFriendship(this.user.id)
       .then(
