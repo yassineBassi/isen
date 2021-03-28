@@ -29,17 +29,19 @@
           <ion-col
             [class]="[message.isMine(authUser.id) ? 'my-message' : 'his-message']"
             [class.failed]="message.state == 'failed'"
-            class="px-2"
+            class="p-2"
             size="auto"
           >
-            <img *ngIf="message.image" [src]="message.image" alt="">
-            <div class="d-flex w-100 text-wrap justify-content-between">
-              <ion-text class="d-block ">{{ message.text }}</ion-text>
-              <small [class]="[message.text ? 'mt-4' : 'mt-2']">
-                <span>{{ message.createdAt | extractTime }}</span>
-                <span *ngIf="message.state == ''"><i class="far fa-clock ml-2"></i></span>
-                <span *ngIf="message.state == 'sent'"><i class="fas fa-check ml-2"></i></span>
-              </small>
+            <div class="w-100 position-relative">
+              <img class="image" *ngIf="message.image" [src]="message.image.path" alt="">
+              <div [class.absolute]="!message.text && message.image" class="d-flex w-100 text-wrap justify-content-between">
+                <ion-text class="d-block">{{ message.text }}</ion-text>
+                <small [class]="[message.text ? 'mt-4' : 'mt-2']">
+                  <span>{{ message.createdAt | extractTime }}</span>
+                  <span *ngIf="message.state == ''"><i class="far fa-clock ml-2"></i></span>
+                  <span *ngIf="message.state == 'sent'"><i class="fas fa-check ml-2"></i></span>
+                </small>
+              </div>
             </div>
           </ion-col>
         </ion-row>

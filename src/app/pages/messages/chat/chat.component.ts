@@ -17,7 +17,7 @@ import constants from 'src/app/helpers/constants';
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss'],
 })
-export class ChatComponent implements OnInit, AfterViewInit {
+export class ChatComponent implements OnInit {
 
   page = 0;
   resend = [];
@@ -49,18 +49,8 @@ export class ChatComponent implements OnInit, AfterViewInit {
     const timer = setInterval(() => {
        if(this.messages && this.messages.length){
         setTimeout(() => {
-          this.content.scrollToBottom(200);
+          this.content.scrollToPoint(0, 1000 * 1000)
         }, 1000);
-        clearInterval(timer)
-      }
-    }, 10)
-  }
-
-  ngAfterViewInit(){
-    const timer = setInterval(() => {
-      if(this.messages && this.messages.length){
-        console.log('stop timer');
-        this.content.scrollToBottom(200);
         clearInterval(timer)
       }
     }, 10)
@@ -121,6 +111,8 @@ export class ChatComponent implements OnInit, AfterViewInit {
     this.messageService.indexMessages(this.user.id, this.page++)
     .then(
       (resp: any) => {
+        console.log(resp);
+
         this.pageLoading = false;
 
         if(!event){
@@ -187,6 +179,8 @@ export class ChatComponent implements OnInit, AfterViewInit {
   }
 
   addMessage(){
+    if(!this.messageText && !this.imageFile) return;
+
     const message = new Message();
     message.id = this.index.toString();
     message.from = this.authUser.id;
@@ -211,7 +205,8 @@ export class ChatComponent implements OnInit, AfterViewInit {
     this.sendMessage(message, this.index++);
 
     this.messageText = "";
-    // this.image
+    this.image = null;
+    this.imageFile = null;
   }
 
   pickImage(){
