@@ -22,7 +22,7 @@ export class ListComponent implements OnInit {
     this.getUsersMessages(null)
   }
 
-  getUsersMessages(event){
+  getUsersMessages(event, refresh?: boolean){
     this.pageLoading = true
     this.messageService.usersMessages(this.page)
     .then(
@@ -30,11 +30,12 @@ export class ListComponent implements OnInit {
         this.pageLoading = false
         console.log(resp);
 
-        if(!event){
+        if(!event || refresh){
           this.users = [];
-        }else{
+        }
+        if(event){
           event.target.complete()
-          if(!resp.data.more) event.target.disabled = true;
+          if(!resp.data.more && !refresh) event.target.disabled = true;
         }
 
         resp.data.forEach(usr => {
@@ -48,4 +49,5 @@ export class ListComponent implements OnInit {
       }
     )
   }
+
 }

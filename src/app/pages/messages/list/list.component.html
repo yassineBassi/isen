@@ -3,6 +3,10 @@
 <app-loader *ngIf="pageLoading"></app-loader>
 
 <ion-content>
+  <ion-refresher slot="fixed" pullFactor="0.5" pullMin="100" pullMax="200"  (ionRefresh)="getUsersMessages($event, true)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
   <ion-list class="p-0">
     <ion-item [routerLink]="['/messages/chat/' + user.id]" *ngFor="let user of users">
       <ion-avatar class="ml-2">
