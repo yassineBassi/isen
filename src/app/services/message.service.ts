@@ -16,4 +16,8 @@ export class MessageService extends DataService {
   indexMessages(id: string, page: number){
     return this.sendRequest('get', '/' + id, {page: page.toString()})
   }
+
+  usersMessages(page: number){
+    return this.sendRequest('get', '/users', {page: page.toString()})
+  }
 }

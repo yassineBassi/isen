@@ -1,3 +1,4 @@
+import { Message } from './Message';
 import { File } from './File';
 type Request = 'requesting' | 'requested';
 
@@ -21,6 +22,8 @@ export class User{
   private _friend: Boolean;
   private _request: Request;
 
+  private _lastMessage: Message;
+
   constructor(user: User){
     this.initialize(user);
   }
@@ -30,20 +33,24 @@ export class User{
     this.id = user._id;
     this.firstName = user.firstName;
     this.lastName = user.lastName;
+    this.avatar = user.avatar;
     this.email = user.email;
     this.gender = user.gender;
     this.birthDate = new Date(user.birthDate);
-    if(user.address) this._address = user.address;
-    this.avatar = user.avatar;
-    if(user.education) this.education = user.education;
-    if(user.profession) this.profession = user.profession;
-    if(user.school) this.school = user.school;
+    this._address = user.address;
+
+    this.education = user.education;
+    this.profession = user.profession;
+    this.school = user.school;
     this.interests = user.interests;
     this.country = user.country;
     if(user.interests) this.sortInterests();
-    if(user.followed) this.followed = user.followed;
-    if(user.friend) this.friend = user.friend;
-    if(user.request) this.request = user.request;
+
+    this.followed = user.followed;
+    this.friend = user.friend;
+    this.request = user.request;
+
+    if(user.lastMessage) this.lastMessage = new Message().initialize(user.lastMessage)
   }
 
   get id(): string {return this._id};
@@ -79,6 +86,7 @@ export class User{
   get followed(): Boolean {return this._followed};
   get friend(): Boolean {return this._friend};
   get request(): Request {return this._request};
+  get lastMessage(): Message {return this._lastMessage};
 
 
   set id(id: string){this._id = id}
@@ -100,6 +108,7 @@ export class User{
   set followed(followed: Boolean) {this._followed = followed};
   set friend(friend: Boolean) {this._friend = friend};
   set request(request: Request) {this._request = request};
+  set lastMessage(lastMessage: Message) {this._lastMessage = lastMessage};
 
   private sortInterests(){
     this._interests = this._interests.sort((int1, int2) => {

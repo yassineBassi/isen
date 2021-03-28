@@ -1,16 +1,27 @@
 <app-header title="Messages" [menu]="true"></app-header>
 
+<app-loader *ngIf="pageLoading"></app-loader>
+
 <ion-content>
   <ion-list class="p-0">
-    <ion-item routerLink="/messages/chat" *ngFor="let i of [0, 1, 2, 3, 4, 5, 6]">
+    <ion-item [routerLink]="['/messages/chat/' + user.id]" *ngFor="let user of users">
       <ion-avatar class="ml-2">
-        <img src="./../../../../assets/man-avatar.png" alt="">
+        <img [src]="user.avatar.path" alt="">
       </ion-avatar>
       <ion-label class="ml-2">
-        <h6 class="mb-0 font-weight-bold d-block">User name</h6>
-        <small>last message</small>
+        <span class="mb-0 title font-weight-bold d-block">{{ user.fullName }}</span>
+        <span><span *ngIf="user.lastMessage.image" class="text-secondary"><i class="fas fa-image mr-1"></i></span>{{ user.lastMessage.text }}</span>
       </ion-label>
-      <small class="mr-2">14:35</small>
+      <small class="mr-2">{{ user.lastMessage.createdAt | extractTime }}</small>
     </ion-item>
   </ion-list>
+
+  <ion-infinite-scroll position="top" (ionInfinite)="getUsersMessages($event)">
+    <ion-infinite-scroll-content
+      loadingSpinner="crescent"
+      loadingText="Loading more messages ...">
+    >
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
 </ion-content>
