@@ -45,13 +45,14 @@ export class ListComponent implements OnInit {
     this.getServices(null);
   }
 
-  handleResponse(event, resp: any){
-    if(!event) this.services = [];
+  handleResponse(event, refresh, resp: any){
+    if(!event || refresh) this.services = [];
 
     resp.data.forEach(prd => {
       const service = new Service(prd);
       this.services.push(service);
     })
+
     if(event) event.target.complete();
     this.pageLoading = false;
     console.log(this.services);
@@ -63,18 +64,18 @@ export class ListComponent implements OnInit {
     this.toastService.presentErrorToastr(err);
   }
 
-  getServices(event){
-    console.log(event);
+  getServices(event, refresh?){
+    if(refresh) this.page = 0;
     if(this.type == 'posted'){
       this.serviceService.posted(this.page++, this.searchQuery)
       .then(
-        resp => this.handleResponse(event, resp),
+        resp => this.handleResponse(event, refresh, resp),
         err => this.handleError(err)
       );
     }else{
       this.serviceService.available(this.page++, this.searchQuery)
       .then(
-        resp => this.handleResponse(event, resp),
+        resp => this.handleResponse(event, refresh, resp),
         err => this.handleError(err)
       );
     }
