@@ -26,13 +26,15 @@ export class RequestsComponent implements OnInit {
     this.page = 0;
   }
 
-  getRequests(event){
-    this.pageLoading = true
+  getRequests(event, refresh?){
+    this.pageLoading = true;
+    if(refresh) this.page = 0;
     this.requestService.requests(this.page++)
     .then(
       (resp: any) => {
         console.log(resp);
-        if(!event) this.requests = [];
+        if(!event || refresh) this.requests = [];
+
         resp.data.forEach(rqst => {
           this.requests.push(new Request(rqst));
         })
