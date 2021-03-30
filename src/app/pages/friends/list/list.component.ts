@@ -25,13 +25,14 @@ export class ListComponent implements OnInit {
     this.page = 0;
   }
 
-  getFriends(event){
-    this.pageLoading = true
+  getFriends(event, refresh?){
+    this.pageLoading = true;
+    if(refresh) this.page = 0;
     this.requestService.getFriends(this.page++)
     .then(
       (resp: any) => {
         console.log(resp);
-        if(!event) this.friends = [];
+        if(!event || refresh) this.friends = [];
         resp.data.forEach(usr => {
           this.friends.push(new User(usr));
         })

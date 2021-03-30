@@ -29,14 +29,14 @@ export class NewFriendsPage implements OnInit {
     });
   }
 
-  getNearUsers(event){
-    console.log('hi');
-
+  getNearUsers(event, refresh?){
     this.pageLoading = true;
+    if(refresh) this.page = 0
     this.userService.getNearUsers(this.page++)
     .then(
       (resp: any) => {
-        if(!event) this.users = [];
+        if(!event || refresh) this.users = [];
+
         resp.data.forEach(user => {
           this.users.push(new User(user));
         })
@@ -58,7 +58,6 @@ export class NewFriendsPage implements OnInit {
 
   showUser(ind){
     console.log(ind);
-
     this.initialSlide = ind;
   }
 }

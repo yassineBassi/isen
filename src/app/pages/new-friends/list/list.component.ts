@@ -11,6 +11,7 @@ export class ListComponent implements OnInit {
   @Input() users: User[];
   @Output() loadMore = new EventEmitter();
   @Output() showUser = new EventEmitter();
+  @Output() refresh = new EventEmitter();
 
   constructor() { }
 

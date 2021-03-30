@@ -61,7 +61,7 @@ export class ListComponent implements OnInit {
   handleError(err){
     console.log(err);
     this.pageLoading = false;
-    this.toastService.presentErrorToastr(err);
+    this.toastService.presentStdToastr(err);
   }
 
   getServices(event, refresh?){
