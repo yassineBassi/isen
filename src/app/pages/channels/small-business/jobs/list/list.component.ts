@@ -46,8 +46,8 @@ export class ListComponent implements OnInit {
     this.getJobs(null);
   }
 
-  handleResponse(event, resp: any){
-    if(!event) this.jobs = [];
+  handleResponse(event, refresh, resp: any){
+    if(!event || refresh) this.jobs = [];
 
     resp.data.forEach(prd => {
       const job = new Job(prd);
@@ -64,18 +64,18 @@ export class ListComponent implements OnInit {
     this.toastService.presentErrorToastr(err);
   }
 
-  getJobs(event){
-    console.log(event);
+  getJobs(event, refresh?){
+    if(refresh) this.page = 0;
     if(this.type == 'posted'){
       this.jobService.posted(this.page++, this.searchQuery)
       .then(
-        resp => this.handleResponse(event, resp),
+        resp => this.handleResponse(event, refresh, resp),
         err => this.handleError(err)
       );
     }else{
       this.jobService.available(this.page++, this.searchQuery)
       .then(
-        resp => this.handleResponse(event, resp),
+        resp => this.handleResponse(event, refresh, resp),
         err => this.handleError(err)
       );
     }
