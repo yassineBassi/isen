@@ -9,8 +9,6 @@ import { ProductComponent } from './product/product.component';
 import { ProductFormComponent } from './product-form/product-form.component';
 import { SharingModule } from './../../sharing/sharing.module';
 import { SelectComponent } from './select/select.component';
-import { SellComponent } from './sell/sell.component';
-import { BuyComponent } from './buy/buy.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';

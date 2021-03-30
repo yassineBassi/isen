@@ -107,7 +107,7 @@ export class ServiceComponent implements OnInit {
   call(){
     this.callNumber.callNumber(this.service.phone, true)
       .then(res => console.log('Launched dialer!', res))
-      .catch(err => this.toastService.presentErrorToastr('Cannot make this call'));
+      .catch(err => this.toastService.presentStdToastr('Cannot make this call'));
   }
 
 }

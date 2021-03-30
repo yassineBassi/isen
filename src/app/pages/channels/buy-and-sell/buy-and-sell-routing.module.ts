@@ -2,8 +2,6 @@ import { ProductsComponent } from './products/products.component';
 import { ProductFormComponent } from './product-form/product-form.component';
 import { ProductComponent } from './product/product.component';
 import { SelectComponent } from './select/select.component';
-import { SellComponent } from './sell/sell.component';
-import { BuyComponent } from './buy/buy.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 

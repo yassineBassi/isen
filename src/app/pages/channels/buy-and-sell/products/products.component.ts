@@ -46,8 +46,8 @@ export class ProductsComponent implements OnInit {
     this.getProducts(null);
   }
 
-  handleResponse(event, resp: any){
-    if(!event) this.products = [];
+  handleResponse(event, refresh, resp: any){
+    if(!event || refresh) this.products = [];
 
     resp.data.forEach(prd => {
       const product = new Product(prd);
@@ -65,21 +65,21 @@ export class ProductsComponent implements OnInit {
     this.toastService.presentErrorToastr(err);
   }
 
-  getProducts(event){
+  getProducts(event, refresh?){
+    if(refresh) this.page = 0;
     if(this.type == 'sell'){
       this.productService.posted(this.page++, this.searchQuery)
       .then(
-        resp => this.handleResponse(event, resp),
+        resp => this.handleResponse(event, refresh, resp),
         err => this.handleError(err)
       );
     }else{
       this.productService.available(this.page++, this.searchQuery)
       .then(
-        resp => this.handleResponse(event, resp),
+        resp => this.handleResponse(event, refresh, resp),
         err => this.handleError(err)
       );
     }
-
   }
 
 }
