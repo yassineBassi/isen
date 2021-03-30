@@ -25,8 +25,8 @@
         </span>
         <span>{{ friend.country }}</span>
       </ion-label>
-      <ion-buttons [routerLink]="['/messages/chat/' + friend.id]" slot="end">
-        <ion-button shape="round">
+      <ion-buttons slot="end">
+        <ion-button [routerLink]="['/messages/chat/' + friend.id]" shape="round" color="secondary">
           <i class="fas fa-comments"></i>
         </ion-button>
       </ion-buttons>
