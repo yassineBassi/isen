@@ -27,8 +27,7 @@ export class DisplayComponent implements OnInit {
 
   constructor(private auth: AuthService, private camera: Camera, private nativeStorage: NativeStorage,
   private userService: UserService, private uploadFileService: UploadFileService, private toastService: ToastService,
-  private route: ActivatedRoute, private requestService: RequestService, private alertCtrl: AlertController,
-  private fullScreenImage: FullScreenImage) { }
+  private route: ActivatedRoute, private requestService: RequestService, private alertCtrl: AlertController) { }
 
   ngOnInit() {
   }
@@ -114,7 +113,6 @@ export class DisplayComponent implements OnInit {
     this.userService.updateAvatar(this.user.id, form)
     .then(
       (resp: any) => {
-        console.log(resp.data.avatar);
         this.user.avatar = resp.data.avatar;
         this.nativeStorage.setItem('user', resp.data);
         this.toastService.presentSuccessToastr('your avatar has been updated successfully');
@@ -193,9 +191,4 @@ export class DisplayComponent implements OnInit {
     })
   }
 
-  showImage(){
-    this.fullScreenImage.showImageURL(this.user.avatar.path)
-    .then((data: any) => console.log(data))
-    .catch((error: any) => console.error(error));
-  }
 }

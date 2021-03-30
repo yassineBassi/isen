@@ -17,15 +17,15 @@ export class UploadFileService {
       : (this.platform.is('android') ? this.camera.DestinationType.FILE_URI : this.camera.DestinationType.DATA_URL);
 
     const options = {
-      quality: 75,
-      DestinationType,
+      quality: 100,
+      targetWidth: 900,
+      targetHeight: 600,
+      destinationType: DestinationType,
       encodingType: this.camera.EncodingType.JPEG,
       mediaType: this.camera.MediaType.PICTURE,
-      sourceType,
-      targetWidth: 1024,
-      targetHeight: 1024,
-      allowEdit: false,
-      saveToPhotoAlbum: false
+      saveToPhotoAlbum: false,
+      allowEdit: true,
+      sourceType: sourceType
     };
 
     return new Promise((resolve, reject) => {
