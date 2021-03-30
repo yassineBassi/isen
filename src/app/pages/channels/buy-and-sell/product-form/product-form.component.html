@@ -22,8 +22,14 @@
   </ion-row>
 
   <div *ngIf="storePermission && !pageLoading">
-    <div class="w-100 image-container">
-      <img (click)="pickImage()" [src]="productImage.url" class="w-100 h-100" alt="">
+    <div (click)="pickImage()" class="w-100 image-container">
+      <div *ngIf="!productImage.url" class="w-100 h-100 bg-light d-flex justify-content-center align-items-center">
+        <span class="text-center">
+          <span class="d-block camera"><i class="fas fa-camera"></i></span>
+          <span class="d-block">Select product image</span>
+        </span>
+      </div>
+      <img *ngIf="productImage.url" [src]="productImage.url" class="w-100" alt="">
     </div>
     <form [formGroup]="form">
       <ion-list class="mx-3">

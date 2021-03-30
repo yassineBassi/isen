@@ -66,13 +66,13 @@ export class ListComponent implements OnInit {
   getServices(event){
     console.log(event);
     if(this.type == 'posted'){
-      this.serviceService.index(this.page++, this.searchQuery)
+      this.serviceService.posted(this.page++, this.searchQuery)
       .then(
         resp => this.handleResponse(event, resp),
         err => this.handleError(err)
       );
     }else{
-      this.serviceService.indexAll(this.page++, this.searchQuery)
+      this.serviceService.available(this.page++, this.searchQuery)
       .then(
         resp => this.handleResponse(event, resp),
         err => this.handleError(err)

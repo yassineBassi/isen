@@ -39,7 +39,7 @@
   <ion-list *ngIf="jobs">
     <ion-item *ngFor="let job of jobs" [routerLink]="['/channels/small-business/jobs/job/' + job.id]">
       <ion-thumbnail class="ml-2">
-        <ion-img [src]="domain + job.photo.path"></ion-img>
+        <ion-img [src]="job.photo.path"></ion-img>
       </ion-thumbnail>
       <ion-label class="ml-2">
         <span class="d-block">{{ job.title }}</span>
@@ -60,7 +60,7 @@
     </ion-infinite-scroll-content>
   </ion-infinite-scroll>
 
-  <ion-fab horizontal="end" vertical="bottom" slot="fixed">
+  <ion-fab horizontal="end" vertical="bottom" slot="fixed" *ngIf="type == 'posted'">
     <ion-fab-button routerLink="/channels/small-business/jobs/form" class="mr-2" color="secondary">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>

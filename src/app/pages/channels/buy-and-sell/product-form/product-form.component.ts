@@ -23,7 +23,7 @@ export class ProductFormComponent implements OnInit {
   }
   pageLoading = false;
   productImage = {
-    url: "./../../../../../assets/default-img.png",
+    url: "",
     file: null,
     name: ''
   };
@@ -137,7 +137,7 @@ export class ProductFormComponent implements OnInit {
       price: ''
     })
     this.productImage = {
-      url: "./../../../../../assets/default-img.png",
+      url: "",
       file: null,
       name: ''
     }
@@ -159,7 +159,7 @@ export class ProductFormComponent implements OnInit {
           this.storePermission = false;
           this.startTimer();
         }else{
-          this.toastService.presentSuccessToastr('product created successfully');
+          this.toastService.presentStdToastr('product created successfully');
           this.router.navigateByUrl('/channels/buy-and-sell/products/sell');
         }
         console.log(resp);
@@ -171,7 +171,7 @@ export class ProductFormComponent implements OnInit {
           this.validatorErrors = err.errors;
         }
         if(typeof err == 'string'){
-          this.toastService.presentErrorToastr(err);
+          this.toastService.presentStdToastr(err);
         }
         console.log(err);
       }

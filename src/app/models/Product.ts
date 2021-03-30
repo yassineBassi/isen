@@ -7,7 +7,7 @@ export class Product{
   private _price: string;
   private _enabled: boolean;
   private _photo: File;
-  private _createdAt: string;
+  private _createdAt: Date;
   private _user: string
 
   constructor(product: Product){
@@ -18,7 +18,7 @@ export class Product{
     this.enabled = product.enabled;
     this.photo = product.photo;
     this.user = product.user;
-    this.createdAt = product.createdAt
+    this.createdAt = new Date(product.createdAt)
   }
 
   get id(): string{ return this._id }
@@ -28,7 +28,7 @@ export class Product{
   get enabled(): boolean{ return this._enabled }
   get user(): string{ return this._user }
   get photo(): File{ return this._photo }
-  get createdAt(): string{ return this._createdAt }
+  get createdAt(): Date{ return this._createdAt }
 
   set id(id: string){ this._id = id }
   set label(label: string){ this._label = label }
@@ -37,5 +37,5 @@ export class Product{
   set enabled(enabled: boolean){ this._enabled = enabled }
   set user(user: string){ this._user = user }
   set photo(photo: File){ this._photo = photo }
-  set createdAt(createdAt: string){ this._createdAt = createdAt }
+  set createdAt(createdAt: Date){ this._createdAt = createdAt }
 }

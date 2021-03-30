@@ -16,7 +16,7 @@ export class ServiceFormComponent implements OnInit {
 
   pageLoading = false;
   serviceImage = {
-    url: "./../../../../../assets/default-img.png",
+    url: "",
     file: null,
     name: ''
   };
@@ -97,7 +97,7 @@ export class ServiceFormComponent implements OnInit {
       phone: ''
     })
     this.serviceImage = {
-      url: "./../../../../../assets/default-img.png",
+      url: "",
       file: null,
       name: ''
     }
@@ -115,7 +115,7 @@ export class ServiceFormComponent implements OnInit {
       resp => {
         this.pageLoading = false;
         console.log(resp);
-        this.toastService.presentSuccessToastr('service created successfully');
+        this.toastService.presentStdToastr('service created successfully');
         this.router.navigateByUrl('/channels/small-business/services');
         this.clearProductForm();
       },
@@ -125,7 +125,7 @@ export class ServiceFormComponent implements OnInit {
           this.validatorErrors = err.errors;
         }
         if(typeof err == 'string'){
-          this.toastService.presentErrorToastr(err);
+          this.toastService.presentStdToastr(err);
         }
         console.log(err);
       }

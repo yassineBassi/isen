@@ -67,13 +67,13 @@ export class ListComponent implements OnInit {
   getJobs(event){
     console.log(event);
     if(this.type == 'posted'){
-      this.jobService.index(this.page++, this.searchQuery)
+      this.jobService.posted(this.page++, this.searchQuery)
       .then(
         resp => this.handleResponse(event, resp),
         err => this.handleError(err)
       );
     }else{
-      this.jobService.indexAll(this.page++, this.searchQuery)
+      this.jobService.available(this.page++, this.searchQuery)
       .then(
         resp => this.handleResponse(event, resp),
         err => this.handleError(err)

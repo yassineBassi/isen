@@ -24,7 +24,7 @@ export class JobFormComponent implements OnInit {
   }
   pageLoading = false;
   jobImage = {
-    url: "./../../../../../assets/default-img.png",
+    url: "",
     file: null,
     name: ''
   };
@@ -156,7 +156,7 @@ export class JobFormComponent implements OnInit {
       email: ''
     })
     this.jobImage = {
-      url: "./../../../../../assets/default-img.png",
+      url: "",
       file: null,
       name: ''
     }
@@ -174,7 +174,7 @@ export class JobFormComponent implements OnInit {
       resp => {
         this.pageLoading = false;
         console.log(resp);
-        this.toastService.presentSuccessToastr('job created successfully');
+        this.toastService.presentStdToastr('job created successfully');
         this.router.navigateByUrl('/channels/small-business/jobs');
         this.clearProductForm();
       },
@@ -184,7 +184,7 @@ export class JobFormComponent implements OnInit {
           this.validatorErrors = err.errors;
         }
         if(typeof err == 'string'){
-          this.toastService.presentErrorToastr(err);
+          this.toastService.presentStdToastr(err);
         }
         console.log(err);
       }

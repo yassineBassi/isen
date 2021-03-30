@@ -66,15 +66,14 @@ export class ProductsComponent implements OnInit {
   }
 
   getProducts(event){
-    console.log(event);
     if(this.type == 'sell'){
-      this.productService.index(this.page++, this.searchQuery)
+      this.productService.posted(this.page++, this.searchQuery)
       .then(
         resp => this.handleResponse(event, resp),
         err => this.handleError(err)
       );
     }else{
-      this.productService.indexAll(this.page++, this.searchQuery)
+      this.productService.available(this.page++, this.searchQuery)
       .then(
         resp => this.handleResponse(event, resp),
         err => this.handleError(err)

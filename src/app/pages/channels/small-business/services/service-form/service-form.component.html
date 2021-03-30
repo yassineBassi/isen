@@ -3,8 +3,14 @@
 <app-loader *ngIf="pageLoading"></app-loader>
 
 <ion-content>
-  <div class="w-100 image-container">
-    <img (click)="pickImage()" [src]="serviceImage.url" class="w-100 h-100" alt="">
+  <div (click)="pickImage()" class="w-100 image-container">
+    <div *ngIf="!serviceImage.url" class="w-100 h-100 bg-light d-flex justify-content-center align-items-center">
+      <span class="text-center">
+        <span class="d-block camera"><i class="fas fa-camera"></i></span>
+        <span class="d-block">Select service image</span>
+      </span>
+    </div>
+    <img *ngIf="serviceImage.url"  [src]="serviceImage.url" class="w-100" alt="">
   </div>
   <form [formGroup]="form">
     <ion-list class="mx-3">

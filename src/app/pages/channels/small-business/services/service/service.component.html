@@ -50,6 +50,7 @@
         size="default"
         color="secondary"
         (click)="call()"
+        *ngIf="service && user && service.user != user.id"
       >
         Call
       </ion-button>

@@ -59,7 +59,7 @@
     </ion-infinite-scroll-content>
   </ion-infinite-scroll>
 
-  <ion-fab horizontal="end" vertical="bottom" slot="fixed">
+  <ion-fab horizontal="end" vertical="bottom" slot="fixed" *ngIf="type == 'posted'">
     <ion-fab-button routerLink="/channels/small-business/services/form" class="mr-2" color="secondary">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>

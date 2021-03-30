@@ -50,6 +50,7 @@
         size="default"
         color="secondary"
         (click)="openMail()"
+        *ngIf="job && user && job.user != user.id"
       >
         Contact Us
       </ion-button>

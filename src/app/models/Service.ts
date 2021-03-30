@@ -9,7 +9,7 @@ export class Service{
   private _location: string;
   private _state: string;
   private _photo: File;
-  private _createdAt: string;
+  private _createdAt: Date;
   private _user: string
 
   constructor(product: Service){
@@ -22,7 +22,7 @@ export class Service{
     this.state = product.state;
     this.photo = product.photo;
     this.user = product.user;
-    this.createdAt = new Date(product.createdAt).toString()
+    this.createdAt = new Date(product.createdAt)
   }
 
   get id(): string{ return this._id }
@@ -34,7 +34,7 @@ export class Service{
   get state(): string{ return this._state }
   get user(): string{ return this._user }
   get photo(): File{ return this._photo }
-  get createdAt(): string{ return this._createdAt }
+  get createdAt(): Date{ return this._createdAt }
 
   set id(id: string){ this._id = id }
   set title(title: string){ this._title = title }
@@ -45,5 +45,5 @@ export class Service{
   set state(state: string){ this._state = state }
   set user(user: string){ this._user = user }
   set photo(photo: File){ this._photo = photo }
-  set createdAt(createdAt: string){ this._createdAt = createdAt }
+  set createdAt(createdAt: Date){ this._createdAt = createdAt }
 }
