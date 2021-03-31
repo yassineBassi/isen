@@ -1,15 +1,7 @@
-<!-- <app-header [title]="user ? user.fullName : ''" [back]="true" >
-  <div id="end-buttons">
-    <ion-button>
-      <i class="fas fa-video"></i>
-    </ion-button>
-  </div>
-</app-header> -->
-
 <ion-header no-border>
   <ion-toolbar>
      <ion-buttons slot="start">
-       <ion-button>
+       <ion-button shape="round" [routerLink]="['/messages']">
           <i class="fas fa-arrow-left"></i>
         </ion-button>
      </ion-buttons>
