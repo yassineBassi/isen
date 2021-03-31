@@ -10,7 +10,7 @@ import { UserService } from './../../../services/user.service';
 import { Message } from './../../../models/Message';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { IonContent, Platform } from '@ionic/angular';
+import { IonContent, IonInfiniteScroll, Platform } from '@ionic/angular';
 import { io } from 'socket.io-client/';
 import constants from 'src/app/helpers/constants';
 
@@ -33,6 +33,7 @@ export class ChatComponent implements OnInit {
 
   connected = false;
   @ViewChild('content') private content: IonContent;
+  @ViewChild('infScroll') private infScroll: IonInfiniteScroll;
 
   messages: Message[];
   socket;
@@ -129,12 +130,15 @@ export class ChatComponent implements OnInit {
           resp.data.messages.reverse().forEach(message => {
             this.messages.push(new Message().initialize(message));
           });
+          if(!resp.data.more){
+            this.infScroll.disabled = true
+          }
         }else{
           event.target.complete()
           resp.data.messages.reverse().forEach(message => {
             this.messages.unshift(new Message().initialize(message));
           });
-
+          console.log(resp.data.more);
           if(!resp.data.more) event.target.disabled = true;
         }
       },

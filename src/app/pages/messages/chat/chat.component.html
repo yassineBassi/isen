@@ -1,19 +1,41 @@
-<app-header [title]="user ? user.fullName : ''" [back]="true" >
+<!-- <app-header [title]="user ? user.fullName : ''" [back]="true" >
   <div id="end-buttons">
     <ion-button>
       <i class="fas fa-video"></i>
     </ion-button>
   </div>
-</app-header>
+</app-header> -->
+
+<ion-header no-border>
+  <ion-toolbar>
+     <ion-buttons slot="start">
+       <ion-button>
+          <i class="fas fa-arrow-left"></i>
+        </ion-button>
+     </ion-buttons>
+     <ion-title *ngIf="user" class="d-flex">
+       <div class="d-flex align-items-center">
+          <ion-avatar class="avatar">
+            <img [src]="user.avatar.path" alt="">
+          </ion-avatar>
+          <span class="ml-3">{{ user.fullName }}</span>
+        </div>
+      </ion-title>
+      <ion-buttons slot="end">
+        <ion-button>
+           <i class="fas fa-video"></i>
+         </ion-button>
+      </ion-buttons>
+   </ion-toolbar>
+ </ion-header>
 
 <app-loader *ngIf="pageLoading" ></app-loader>
 
 <ion-content #content>
-  <ion-infinite-scroll position="top" (ionInfinite)="getMessages($event)">
+  <ion-infinite-scroll #infScroll position="top" (ionInfinite)="getMessages($event)">
     <ion-infinite-scroll-content
       loadingSpinner="crescent"
       loadingText="Loading more messages ...">
-    >
     </ion-infinite-scroll-content>
   </ion-infinite-scroll>
 

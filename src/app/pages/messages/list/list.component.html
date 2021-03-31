@@ -7,6 +7,10 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
+  <ion-card class="p-2 mt-2 text-center" *ngIf="(!users || !users.length) && !pageLoading">
+    <ion-card-subtitle>You don't have any message yet</ion-card-subtitle>
+  </ion-card>
+
   <ion-list class="p-0">
     <ion-item [routerLink]="['/messages/chat/' + user.id]" *ngFor="let user of users">
       <ion-avatar class="ml-2">
