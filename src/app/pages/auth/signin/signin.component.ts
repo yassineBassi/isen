@@ -1,9 +1,11 @@
+import { ToastService } from './../../../services/toast.service';
+import constants from 'src/app/helpers/constants';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { Router } from '@angular/router';
 import { AuthService } from './../../../services/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
-import { ToastController } from '@ionic/angular';
+import { io } from 'socket.io-client/';
 
 @Component({
   selector: 'app-signin',
@@ -12,6 +14,7 @@ import { ToastController } from '@ionic/angular';
 })
 export class SigninComponent implements OnInit {
 
+  socket
   form: FormGroup
   pageLoading = false;
   validationErrors = {};
@@ -24,13 +27,17 @@ export class SigninComponent implements OnInit {
     return this.form.get('password').value;
   }
 
-  constructor(private formBuilder: FormBuilder, private auth: AuthService, private toastController: ToastController,
+  constructor(private formBuilder: FormBuilder, private auth: AuthService, private toastService: ToastService,
               private router: Router, private nativeStorage: NativeStorage) {
 
   }
 
   ngOnInit() {
     this.initializeForm();
+  }
+
+  ionViewWillEnter(){
+    this.clearForm();
   }
 
   initializeForm(){
@@ -55,8 +62,11 @@ export class SigninComponent implements OnInit {
         this.pageLoading = false;
         this.nativeStorage.setItem('token', resp.data.token);
         this.nativeStorage.setItem('user', resp.data.user);
+
+        this.socket = io(constants.DOMAIN_URL);
+        this.socket.emit('connectUser', resp.data.user.id);
+
         this.router.navigate(['/profile']);
-        this.clearForm();
       },
       err => {
         console.log(err);
@@ -64,23 +74,9 @@ export class SigninComponent implements OnInit {
         if(err.errors){
           this.validationErrors = err.errors
         }else if(typeof err == "string"){
-          this.presentToast(err);
+          this.toastService.presentStdToastr(err);
         }
       }
     )
   }
-
-  async presentToast(message) {
-    const toast = await this.toastController.create({
-      message: message,
-      duration: 2000,
-      color: "danger",
-      cssClass: 'mb-5',
-      position: 'bottom',
-      translucent: true,
-      keyboardClose: true,
-    });
-    toast.present();
-  }
-
 }

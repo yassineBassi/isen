@@ -1,7 +1,9 @@
+import constants from 'src/app/helpers/constants';
 import { User } from './models/User';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { Platform } from '@ionic/angular';
 import { Component } from '@angular/core';
+import { io } from 'socket.io-client/';
 
 
 @Component({
@@ -11,6 +13,7 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
 
+  socket
   user: User;
     // private statusBar: StatusBar
     // private splashScreen: SplashScreen,
@@ -37,12 +40,18 @@ export class AppComponent {
     });
   }
 
+  connectUser(){
+    this.socket = io(constants.DOMAIN_URL)
+    this.socket.emit('connectUser', this.user.id)
+  }
+
   getUserData(){
     console.log('hi');
     this.nativeStorage.getItem('user')
     .then(
       user => {
         this.user = new User(user);
+        this.connectUser();
       }
     )
   }

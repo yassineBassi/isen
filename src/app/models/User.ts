@@ -17,10 +17,13 @@ export class User{
   private _school: string;
   private _interests: string[];
   private _country: string
+  private _city: string
 
   private _followed: Boolean;
   private _friend: Boolean;
   private _request: Request;
+
+  private _online: boolean;
 
   private _lastMessage: Message;
 
@@ -44,11 +47,15 @@ export class User{
     this.school = user.school;
     this.interests = user.interests;
     this.country = user.country;
+    this.city = user._city;
+
     if(user.interests) this.sortInterests();
 
     this.followed = user.followed;
     this.friend = user.friend;
     this.request = user.request;
+
+    this._online = user.online
 
     if(user.lastMessage) this.lastMessage = new Message().initialize(user.lastMessage)
   }
@@ -81,11 +88,13 @@ export class User{
   get profession(): string {return this._profession};
   get school(): string {return this._school};
   get interests(): string[] {return this._interests};
+  get city(): string {return this.city};
   get country(): string {return this._country};
 
   get followed(): Boolean {return this._followed};
   get friend(): Boolean {return this._friend};
   get request(): Request {return this._request};
+  get online(): boolean {return this._online};
   get lastMessage(): Message {return this._lastMessage};
 
 
@@ -101,13 +110,17 @@ export class User{
   set profession(profession: string){this._profession = profession}
   set school(school: string){this._school = school}
   set country(country: string){this._country = country}
+  set city(city: string){this._city = city}
+
   set interests(interests: string[]){
     this._interests = interests;
     if(this.interests) this.sortInterests();
   }
+
   set followed(followed: Boolean) {this._followed = followed};
   set friend(friend: Boolean) {this._friend = friend};
   set request(request: Request) {this._request = request};
+  set online(online: boolean) {this._online = online};
   set lastMessage(lastMessage: Message) {this._lastMessage = lastMessage};
 
   private sortInterests(){

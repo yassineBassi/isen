@@ -19,17 +19,12 @@
         <img [src]="friend.avatar.path" alt="">
       </ion-avatar>
       <ion-label class="ml-2">
-        <span class="d-flex align-items-center">
+        <span>
           <span class="user-name">{{ friend.fullName }}, {{ friend.age }}</span>
-          <i class="fas fa-circle ml-2 online-icon"></i>
         </span>
-        <span>{{ friend.country }}</span>
+        <span>{{ friend.city }}</span>
       </ion-label>
-      <ion-buttons slot="end">
-        <ion-button [routerLink]="['/messages/chat/' + friend.id]" shape="round" color="secondary">
-          <i class="fas fa-comments"></i>
-        </ion-button>
-      </ion-buttons>
+      <span *ngIf="friend.online"><i class="fas fa-circle ml-2 online-icon"></i></span>
     </ion-item>
   </ion-list>
   <ion-infinite-scroll threshold="100px" (ionInfinite)="getFriends($event)">

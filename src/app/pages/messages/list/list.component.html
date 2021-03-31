@@ -20,7 +20,10 @@
         <span class="mb-0 title font-weight-bold d-block">{{ user.fullName }}</span>
         <span><span *ngIf="user.lastMessage.image" class="text-secondary"><i class="fas fa-image mr-1"></i> Photo</span>{{ user.lastMessage.text }}</span>
       </ion-label>
-      <small class="mr-2">{{ user.lastMessage.createdAt | extractTime }}</small>
+      <span class="text-center">
+        <span *ngIf="user.online" class="d-block"><i class="fas fa-circle online-icon"></i></span>
+        <small class="mr-2">{{ user.lastMessage.createdAt | extractTime }}</small>
+      </span>
     </ion-item>
   </ion-list>
 

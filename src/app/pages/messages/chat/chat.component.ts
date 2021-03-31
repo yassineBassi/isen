@@ -8,8 +8,8 @@ import { User } from './../../../models/User';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from './../../../services/user.service';
 import { Message } from './../../../models/Message';
-import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { Camera } from '@ionic-native/camera/ngx';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { IonContent, IonInfiniteScroll, Platform } from '@ionic/angular';
 import { io } from 'socket.io-client/';
 import constants from 'src/app/helpers/constants';
@@ -72,7 +72,7 @@ export class ChatComponent implements OnInit {
 
   initializeSocket(){
     this.socket = io(constants.DOMAIN_URL)
-    this.socket.emit('addUser', this.authUser.id)
+    this.socket.emit('connectUser', this.authUser.id)
     this.initSocketListeners();
   }
 
