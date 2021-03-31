@@ -1,6 +1,7 @@
 <app-header
   [back]="true"
   [title]="type ? (type == 'buy' ? 'Available Product' : 'Posted products') : ''"
+  [backLink]="'/channels/buy-and-sell'"
 ></app-header>
 
 <app-loader *ngIf="pageLoading"></app-loader>

@@ -38,6 +38,7 @@
         size="default"
         color="secondary"
         *ngIf="product.user != user.id"
+        [routerLink]="['/messages/chat/' + product.user]"
       >
         Chat with seller
       </ion-button>

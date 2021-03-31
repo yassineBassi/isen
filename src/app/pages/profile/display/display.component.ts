@@ -115,11 +115,11 @@ export class DisplayComponent implements OnInit {
       (resp: any) => {
         this.user.avatar = resp.data.avatar;
         this.nativeStorage.setItem('user', resp.data);
-        this.toastService.presentSuccessToastr('your avatar has been updated successfully');
+        this.toastService.presentStdToastr('your avatar has been updated successfully');
       },
       err =>{
         console.log(err);
-        this.toastService.presentErrorToastr(err)
+        this.toastService.presentStdToastr(err)
       }
     )
   }

@@ -1,3 +1,5 @@
+import { Location } from '@angular/common';
+import { ToastService } from './../../../services/toast.service';
 import { WebView } from '@ionic-native/ionic-webview/ngx';
 import { UploadFileService } from './../../../services/upload-file.service';
 import { MessageService } from './../../../services/message.service';
@@ -40,7 +42,8 @@ export class ChatComponent implements OnInit {
 
   constructor(private camera: Camera, private userService: UserService, private route: ActivatedRoute,
               private nativeStorage: NativeStorage, private messageService: MessageService,
-              private platfrom: Platform, private uploadFileService: UploadFileService, private webView: WebView) { }
+              private platfrom: Platform, private uploadFileService: UploadFileService, private webView: WebView,
+              private toastService: ToastService, private location: Location) { }
 
   ngOnInit() {
   }
@@ -80,6 +83,9 @@ export class ChatComponent implements OnInit {
         this.authUser = new User(user);
         this.initializeSocket();
         this.getUserId();
+      },
+      err => {
+        this.pageLoading = false;
       }
     )
   }
@@ -103,6 +109,9 @@ export class ChatComponent implements OnInit {
         this.getMessages(null);
       },
       err => {
+        this.pageLoading = false;
+        this.toastService.presentStdToastr('Sorry, this user is not available');
+        this.location.back()
       }
     )
   }
@@ -132,6 +141,7 @@ export class ChatComponent implements OnInit {
       err => {
         console.log(err);
         this.pageLoading = false;
+        this.toastService.presentStdToastr('')
       }
     )
   }
