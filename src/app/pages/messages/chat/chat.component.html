@@ -14,7 +14,7 @@
         </div>
       </ion-title>
       <ion-buttons slot="end">
-        <ion-button>
+        <ion-button shape="round" [routerLink]="['/messages/video/' + (user ? user.id : '')]">
            <i class="fas fa-video"></i>
          </ion-button>
       </ion-buttons>

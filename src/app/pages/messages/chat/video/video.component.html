@@ -1,0 +1,57 @@
+<app-loader *ngIf="pageLoading"></app-loader>
+
+<ion-content color="dark" *ngIf="user">
+  <div class="w-100 mt-3 d-flex justify-content-center">
+    <ion-avatar>
+      <img [src]="user.avatar.path" alt="">
+    </ion-avatar>
+  </div>
+  <div class="w-100 text-center">
+    <span class="d-block user-name">{{ user.fullName }}</span>
+    <span class="d-block" >Calling ...</span>
+  </div>
+
+  <video
+    id="partner-video"
+    (click)="swapVideo('my-video')"
+    autoplay
+    playsinline
+    [ngClass]="{'top-video': topVideoFrame === 'partner-video', 'main-video': topVideoFrame != 'partner-video'}"
+    *ngIf="calling"
+  ></video>
+
+  <video
+    id="my-video"
+    (click)="swapVideo('partner-video')"
+    autoplay
+    playsinline
+    [ngClass]="{'top-video': topVideoFrame === 'my-video', 'main-video': topVideoFrame != 'my-video'}"
+    ></video>
+
+    <div class="buttons-div w-100 mb-3">
+      <ion-row class="mb-4">
+        <ion-col size='12' class="d-flex justify-content-center">
+          <ion-fab-button color="danger">
+            <i class="fas fa-phone-slash"></i>
+          </ion-fab-button>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="4" class="d-flex justify-content-center">
+          <ion-fab-button color="light">
+            <i class="fas fa-microphone"></i>
+          </ion-fab-button>
+        </ion-col>
+        <ion-col size="4" class="d-flex justify-content-center">
+          <ion-fab-button color="light">
+            <i class="fas fa-camera"></i>
+          </ion-fab-button>
+        </ion-col>
+        <ion-col size="4" class="d-flex justify-content-center">
+          <ion-fab-button color="light">
+            <i class="fas fa-retweet"></i>
+          </ion-fab-button>
+        </ion-col>
+      </ion-row>
+    </div>
+</ion-content>

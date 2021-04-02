@@ -40,14 +40,14 @@ export class User{
     this.email = user.email;
     this.gender = user.gender;
     this.birthDate = new Date(user.birthDate);
-    this._address = user.address;
+    this.address = user.address;
 
     this.education = user.education;
     this.profession = user.profession;
     this.school = user.school;
     this.interests = user.interests;
     this.country = user.country;
-    this.city = user._city;
+    this.city = user.city;
 
     if(user.interests) this.sortInterests();
 
@@ -55,7 +55,7 @@ export class User{
     this.friend = user.friend;
     this.request = user.request;
 
-    this._online = user.online
+    this.online = user.online
 
     if(user.lastMessage) this.lastMessage = new Message().initialize(user.lastMessage)
   }
@@ -88,7 +88,7 @@ export class User{
   get profession(): string {return this._profession};
   get school(): string {return this._school};
   get interests(): string[] {return this._interests};
-  get city(): string {return this.city};
+  get city(): string {return this._city};
   get country(): string {return this._country};
 
   get followed(): Boolean {return this._followed};

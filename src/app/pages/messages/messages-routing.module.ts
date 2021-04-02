@@ -1,3 +1,4 @@
+import { VideoComponent } from './chat/video/video.component';
 import { ChatComponent } from './chat/chat.component';
 import { ListComponent } from './list/list.component';
 import { NgModule } from '@angular/core';
@@ -22,6 +23,10 @@ const routes: Routes = [
       {
         path: 'chat/:id',
         component: ChatComponent
+      },
+      {
+        path: 'video/:id',
+        component: VideoComponent
       }
     ]
   }

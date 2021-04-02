@@ -1,3 +1,5 @@
+import { WebrtcService } from './../../services/webrtc.service';
+import { VideoComponent } from './chat/video/video.component';
 import { WebView } from '@ionic-native/ionic-webview/ngx';
 import { FilePath } from '@ionic-native/file-path/ngx';
 import { File } from '@ionic-native/file/ngx';
@@ -29,14 +31,16 @@ import { MessagesPage } from './messages.page';
   declarations: [
     MessagesPage,
     ChatComponent,
-    ListComponent
+    ListComponent,
+    VideoComponent
   ],
   providers: [
     Camera,
     UploadFileService,
     File,
     FilePath,
-    WebView
+    WebView,
+    WebrtcService
   ]
 })
 export class MessagesPageModule {}

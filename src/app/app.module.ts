@@ -11,6 +11,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { Toast } from '@ionic-native/toast/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
     NativeStorage,
     HTTP,
     Toast,
-    Geolocation
+    Geolocation,
+    AndroidPermissions
   ],
   bootstrap: [AppComponent]
 })
