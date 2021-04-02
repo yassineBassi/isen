@@ -6,14 +6,14 @@ import { AuthService } from './../../../../services/auth.service';
 import { User } from './../../../../models/User';
 import { WebrtcService } from './../../../../services/webrtc.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Component, ElementRef, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-video',
   templateUrl: './video.component.html',
   styleUrls: ['./video.component.scss'],
 })
-export class VideoComponent implements OnInit, AfterV {
+export class VideoComponent implements OnInit, AfterViewInit {
 
   calling = false;
   pageLoading = false;
@@ -35,7 +35,9 @@ export class VideoComponent implements OnInit, AfterV {
 
   ngOnInit() {}
 
-  ngA
+  ngAfterViewInit(){
+
+  }
 
   ionViewWillEnter(){
     this.pageLoading = true;

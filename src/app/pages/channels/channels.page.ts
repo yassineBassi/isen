@@ -11,5 +11,4 @@ export class ChannelsPage implements OnInit {
 
   ngOnInit() {
   }
-
 }

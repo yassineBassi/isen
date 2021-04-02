@@ -1,5 +1,7 @@
 <app-header title="channels" [menu]="true"></app-header>
 
+<app-loader *ngIf="pageLoading"></app-loader>
+
 <ion-content>
   <ion-row class="mt-2">
     <ion-col class="ion-no-padding p-1" size="6">
@@ -21,13 +23,14 @@
 
   <ion-searchbar></ion-searchbar>
 
-  <ion-list>
-    <ion-item>
+  <ion-list *ngIf="channels && channels.length">
+    <ion-item *ngFor="let channel of channels">
       <ion-avatar class="avatar ml-2">
-        <img src="./../../../assets/menu-bg.jpg" alt="">
+        <img [src]="channel.photo.path" alt="">
       </ion-avatar>
       <ion-label class="ml-2">
-        Channel name
+        <span class="channel-name d-block">{{ channel.name }}</span>
+        <small class=" d-block">{{ channel.followerSize }} Follower</small>
       </ion-label>
     </ion-item>
   </ion-list>
