@@ -1,0 +1,64 @@
+<app-header title="New Channel" [back]="true"></app-header>
+<app-loader *ngIf="pageLoading"></app-loader>
+
+<ion-content>
+  <div>
+    <div (click)="pickImage()" class="w-100 image-container">
+      <div *ngIf="!channelImage.url" class="w-100 h-100 bg-light d-flex justify-content-center align-items-center">
+        <span class="text-center">
+          <span class="d-block camera"><i class="fas fa-camera"></i></span>
+          <span class="d-block">Select product image</span>
+        </span>
+      </div>
+      <img *ngIf="channelImage.url" [src]="channelImage.url" class="w-100" alt="">
+    </div>
+    <form [formGroup]="form">
+      <ion-list class="mx-3">
+        <ion-item>
+          <ion-label position="floating" class="ml-2">
+            Channel name:
+          </ion-label>
+          <ion-input formControlName="name" class="ml-2"></ion-input>
+        </ion-item>
+        <span *ngIf="validatorErrors['name'] || (name.dirty && name.errors)">
+          <span class="text-danger" *ngIf="validatorErrors['name']">{{ validatorErrors['name'][0] }}</span>
+          <span class="text-danger" *ngIf="name.hasError('required')">The name field is required</span>
+          <span class="text-danger" *ngIf="name.hasError('maxlength')">
+            The name must not contain more than {{ name.errors.maxlength.requiredLength }} characters
+          </span>
+        </span>
+
+        <ion-item>
+          <ion-label position="floating" class="ml-2">
+            Description:
+          </ion-label>
+          <ion-textarea maxlength="255" formControlName="description" class="ml-2" rows="5"></ion-textarea>
+        </ion-item>
+        <span *ngIf="validatorErrors['description'] || (description.dirty && description.errors)">
+          <span class="text-danger" *ngIf="validatorErrors['description']">{{ validatorErrors['description'][0] }}</span>
+          <span class="text-danger" *ngIf="description.hasError('required')">The description field is required</span>
+          <span class="text-danger" *ngIf="description.hasError('maxlength')">
+            The description must not contain more than {{ description.errors.maxlength.requiredLength }} characters
+          </span>
+        </span>
+
+      </ion-list>
+    </form>
+  </div>
+</ion-content>
+<ion-footer>
+
+  <ion-item>
+    <div class="w-100 pl-1">
+      <ion-button
+        expand="block"
+        size="default"
+        color="secondary"
+        (click)="submit()"
+        [disabled]="!form.valid"
+      >
+       Post
+      </ion-button>
+    </div>
+  </ion-item>
+</ion-footer>

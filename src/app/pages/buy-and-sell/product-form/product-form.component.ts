@@ -145,7 +145,7 @@ export class ProductFormComponent implements OnInit {
 
   submit(){
     if(!this.productImage.file){
-      this.toastService.presentErrorToastr('Please select an image for your product')
+      this.toastService.presentStdToastr('Please select an image for your product')
       return
     }
     this.validatorErrors = {}
@@ -160,7 +160,7 @@ export class ProductFormComponent implements OnInit {
           this.startTimer();
         }else{
           this.toastService.presentStdToastr('product created successfully');
-          this.router.navigateByUrl('/channels/buy-and-sell/products/sell');
+          this.router.navigateByUrl('/buy-and-sell/products/sell');
         }
         console.log(resp);
         this.clearProductForm();

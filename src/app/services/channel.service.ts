@@ -16,4 +16,8 @@ export class ChannelService extends DataService {
   getMyChannels(page: number, search: string){
     return this.sendRequest('get', '', {page: page.toString(), search})
   }
+
+  store(data){
+    return this.sendRequest('post', '', data, {}, 'multipart');
+  }
 }

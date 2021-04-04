@@ -1,8 +1,15 @@
+import { WebView } from '@ionic-native/ionic-webview/ngx';
+import { Camera } from '@ionic-native/camera/ngx';
+import { FilePath } from '@ionic-native/file-path/ngx';
+import { File } from '@ionic-native/file/ngx';
+import { UploadFileService } from './../../services/upload-file.service';
+import { ChannelFormComponent } from './channel-form/channel-form.component';
+import { ChannelsHeaderComponent } from './channels-header/channels-header.component';
+import { ListComponent } from './list/list.component';
 import { SharingModule } from './../sharing/sharing.module';
-import { HomeComponent } from './home/home.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
@@ -14,13 +21,23 @@ import { ChannelsPage } from './channels.page';
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     IonicModule,
     ChannelsPageRoutingModule,
     SharingModule
   ],
   declarations: [
     ChannelsPage,
-    HomeComponent
+    ListComponent,
+    ChannelsHeaderComponent,
+    ChannelFormComponent
+  ],
+  providers: [
+    UploadFileService,
+    File,
+    FilePath,
+    Camera,
+    WebView
   ]
 })
 export class ChannelsPageModule {}
