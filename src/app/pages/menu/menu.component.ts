@@ -20,6 +20,8 @@ export class MenuComponent implements OnInit {
     { title: 'Friends', url: '/friends', icon: 'fas fa-users' },
     { title: 'Messages', url: '/messages', icon: 'fas fa-comments' },
     { title: 'Channels', url: '/channels', icon: 'far fa-object-group' },
+    { title: 'buy and sell', url: '/buy-and-sell', icon: 'fas fa-store' },
+    { title: 'small business', url: '/small-business', icon: 'fas fa-briefcase' },
     { title: 'settings', url: '/settings', icon: 'fas fa-cog' }
   ];
 

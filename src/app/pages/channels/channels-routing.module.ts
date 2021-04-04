@@ -18,14 +18,6 @@ const routes: Routes = [
         path: 'home',
         component: HomeComponent
       },
-      {
-        path: 'small-business',
-        loadChildren: () => import('./small-business/small-business.module').then( m => m.SmallBusinessPageModule)
-      },
-      {
-        path: 'buy-and-sell',
-        loadChildren: () => import('./buy-and-sell/buy-and-sell.module').then( m => m.BuyAndSellPageModule)
-      },
     ]
   },
 ];

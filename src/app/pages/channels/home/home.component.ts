@@ -11,8 +11,10 @@ import { Component, OnInit } from '@angular/core';
 export class HomeComponent implements OnInit {
 
   pageLoading = false;
-  page;
+  page: number;
   channels: Channel[];
+  searchWord = "";
+  anonyme: boolean;
 
   constructor(private channelService: ChannelService, private toastService: ToastService) { }
 
@@ -24,9 +26,14 @@ export class HomeComponent implements OnInit {
     this.getMyChannels();
   }
 
+  search(searchWord: string){
+    this.searchWord = searchWord;
+    this.getMyChannels();
+  }
+
   getMyChannels(event?, refresh?){
     this.pageLoading = true;
-    this.channelService.getMyChannels(this.page)
+    this.channelService.getMyChannels(this.page, this.searchWord)
     .then(
       (resp: any) => {
         this.pageLoading = false;
@@ -34,6 +41,9 @@ export class HomeComponent implements OnInit {
         resp.data.forEach(channel => {
           this.channels.push(new Channel(channel));
         })
+        if(event) event.target.complete();
+        if(event && !resp.data.more) event.target.disabled = true;
+
         console.log(this.channels);
       },
       err => {

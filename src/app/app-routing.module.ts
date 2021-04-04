@@ -20,19 +20,33 @@ const routes: Routes = [
   },
   {
     path: 'friends',
-    loadChildren: () => import('./pages/friends/friends.module').then( m => m.FriendsPageModule)
+    loadChildren: () => import('./pages/friends/friends.module').then( m => m.FriendsPageModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'messages',
-    loadChildren: () => import('./pages/messages/messages.module').then( m => m.MessagesPageModule)
+    loadChildren: () => import('./pages/messages/messages.module').then( m => m.MessagesPageModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'channels',
-    loadChildren: () => import('./pages/channels/channels.module').then( m => m.ChannelsPageModule)
+    loadChildren: () => import('./pages/channels/channels.module').then( m => m.ChannelsPageModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'new-friends',
-    loadChildren: () => import('./pages/new-friends/new-friends.module').then( m => m.NewFriendsPageModule)
+    loadChildren: () => import('./pages/new-friends/new-friends.module').then( m => m.NewFriendsPageModule),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'small-business',
+    loadChildren: () => import('./pages/small-business/small-business.module').then( m => m.SmallBusinessPageModule),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'buy-and-sell',
+    loadChildren: () => import('./pages/buy-and-sell/buy-and-sell.module').then( m => m.BuyAndSellPageModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'auth',
