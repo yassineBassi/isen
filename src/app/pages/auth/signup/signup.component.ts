@@ -1,7 +1,10 @@
+import { ListSearchComponent } from './../../list-search/list-search.component';
 import { AuthService } from './../../../services/auth.service';
 import { Router } from '@angular/router';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import countriesOject from '../../../../assets/json/countries';
+import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-signup',
@@ -12,29 +15,48 @@ export class SignupComponent implements OnInit {
 
   gender = "male";
   step = 0;
-  steps = ['email', 'name', 'password', 'birthDate', 'gender', 'success']
+  steps = ['email', 'name', 'password', 'birthDate', 'gender', 'location', 'success']
   validationErrors = {};
   btnLoading = false;
   pageLoading = false;
   form: FormGroup
+  countriesList;
+  countries: string[] = [];
+  selectedCountry: string;
+  cities: string[];
+  selectedCity: string;
+
+  get firstName(){
+    return this.form.get('firstName');
+  }
+
+  get lastName(){
+    return this.form.get('lastName');
+  }
 
   get email(){
-    return this.form.get('email').value;
+    return this.form.get('email');
   }
 
   get password(){
-    return this.form.get('password').value;
+    return this.form.get('password');
   }
 
   get password_confirmation(){
-    return this.form.get('password_confirmation').value;
+    return this.form.get('password_confirmation');
+  }
+
+  get birthDate(){
+    return this.form.get('birthDate');
   }
 
   constructor(private router: Router, private auth: AuthService, private formBuilder: FormBuilder,
-              private cdr: ChangeDetectorRef) { }
+              private cdr: ChangeDetectorRef, private modalController: ModalController) { }
 
   ionViewWillEnter(){
     this.step = 0;
+    this.countriesList = countriesOject;
+    this.countries = Object.keys(this.countriesList);
   }
 
   ngOnInit() {
@@ -68,13 +90,15 @@ export class SignupComponent implements OnInit {
 
   getUserInfo(){
     return {
-      firstName: this.form.get('firstName').value,
-      lastName: this.form.get('lastName').value,
-      email: this.form.get('email').value,
-      password: this.form.get('password').value,
-      password_confirmation: this.form.get('password_confirmation').value,
+      firstName: this.firstName.value,
+      lastName: this.lastName.value,
+      email: this.email.value,
+      password: this.password.value,
+      password_confirmation: this.password_confirmation.value,
+      city: this.selectedCity,
+      country: this.selectedCountry,
       gender: this.gender,
-      birthDate: this.form.get('birthDate').value
+      birthDate: this.birthDate.value
     }
   }
 
@@ -91,7 +115,7 @@ export class SignupComponent implements OnInit {
 
   verifyEmail(){
     this.btnLoading = true;
-    this.auth.verifyEmail(this.email)
+    this.auth.verifyEmail(this.email.value)
     .then((resp: any) => {
       console.log(resp);
         this.btnLoading = false;
@@ -119,19 +143,34 @@ export class SignupComponent implements OnInit {
       if(err.errors){
         this.validationErrors = err.errors;
         this.backToError();
-        console.log(err.errors);
       }
     })
   }
 
   isValid(){
     if(this.steps[this.step] == 'name'){
-      return this.form.get('firstName').valid && this.form.get('lastName');
+      return this.firstName.valid && this.lastName;
     }else if(this.steps[this.step] == 'password'){
-      return this.form.get('password').valid && this.form.get('password').value === this.form.get('password_confirmation').value;
+      return this.password.valid && this.password.value === this.password_confirmation.value;
+    }else if(this.steps[this.step] == 'location'){
+      return this.selectedCountry && this.selectedCity;
     }else if(this.steps[this.step] != 'gender'){
       return this.form.get(this.steps[this.step]).valid;
     }
     return true
+  }
+
+  async presentCountriesModal(){
+    const modal = await this.modalController.create({
+      componentProps: {
+        data: this.countries,
+        title: 'Countries'
+      },
+      component: ListSearchComponent
+    });
+    await modal.present();
+    const { data } = await modal.onDidDismiss();
+    this.selectedCountry = data.data;
+    this.cities = this.countriesList[this.selectedCountry]
   }
 }

@@ -13,8 +13,12 @@ export class ChannelService extends DataService {
     super('channel', nativeStorage, http, geo)
   }
 
-  getMyChannels(page: number, search: string){
+  myChannels(page: number, search: string){
     return this.sendRequest('get', '', {page: page.toString(), search})
+  }
+
+  followedChannels(page: number, search: string){
+    return this.sendRequest('get', '/followed', {page: page.toString(), search})
   }
 
   store(data){

@@ -12,11 +12,11 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'list',
+        redirectTo: 'list/mines',
         pathMatch: 'full'
       },
       {
-        path: 'list',
+        path: 'list/:type',
         component: ListComponent
       },
       {

@@ -1,4 +1,10 @@
-<app-header title="Friends" [menu]="true"></app-header>
+<app-header title="Friends" [menu]="true">
+  <div id="end-buttons">
+    <ion-button routerLink="/channels/list/explore" shape="round">
+      <i class="fas fa-globe-americas"></i>
+    </ion-button>
+  </div>
+</app-header>
 
 <ion-row>
   <ion-col size="6" class="ion-no-padding">
@@ -8,9 +14,9 @@
         size="default"
         color="secondary"
         routerLinkActive="selected"
-        routerLink="/channels/list"
+        routerLink="/channels/list/mines"
     >
-      Subscription
+      My channels
     </ion-button>
   </ion-col>
   <ion-col size="6" class="ion-no-padding">
@@ -20,9 +26,9 @@
         size="default"
         color="secondary"
         routerLinkActive="selected"
-        routerLink="/channels/list/explore"
+        routerLink="/channels/list/followed"
     >
-      Explore more
+      Followed channels
     </ion-button>
   </ion-col>
 </ion-row>
