@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { HTTP } from '@ionic-native/http/ngx';
 import { Injectable } from '@angular/core';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
@@ -14,7 +15,8 @@ export class DataService{
 
   url = constants.DOMAIN_URL + constants.API_V1;
 
-  constructor(url: string, private nativeStorage: NativeStorage, protected http: HTTP, private geo: Geolocation) {
+  constructor(url: string, private nativeStorage: NativeStorage, protected http: HTTP,
+              private geo: Geolocation, private router: Router) {
     this.url += url
   }
 
@@ -30,12 +32,11 @@ export class DataService{
 
   sendRequest(method: HttpMethod, url: string, data, header?, serializer: HttpSerializer = 'json') {
       return new Promise((resolve, reject) => {
-        // console.log(this.url + url);
-        // console.log(serializer);
+        console.log(this.url + url);
         this.getLocation()
         this.getToken()
         .then((token: string) => {
-          // console.log(token);
+          console.log("token", token);
           this.http.sendRequest(this.url + url, {
             method,
             params: method === 'get' ? data : '',
@@ -49,21 +50,30 @@ export class DataService{
             serializer
           }).then(
             resp => {
+              console.log("resp");
+              console.log(resp);
               resolve(JSON.parse(resp.data));
             },
             err => {
+              console.log("err");
+              console.log(err);
               if(err.status == 400){
                 reject(JSON.parse(err.error));
               }else if(err.status == 401){
-                this.nativeStorage.remove('token')
+                this.logout();
               }else{
-                console.log(err);
                 reject(err.error)
               }
             }
           )
         });
       });
+  }
+
+  logout(){
+    this.nativeStorage.remove('token');
+    this.nativeStorage.remove('user');
+    this.router.navigateByUrl('/auth')
   }
 
   getLocation(){

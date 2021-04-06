@@ -10,6 +10,7 @@ export class Channel{
   private _createdAt: Date;
   private _user: string;
 
+  private _followed: boolean;
   private _followerSize: number;
 
   constructor(channel: Channel){
@@ -23,6 +24,7 @@ export class Channel{
     this.createdAt = new Date(channel.createdAt);
 
     this.followerSize = channel.followerSize;
+    this.followed = channel.followed;
   }
 
   get id(): string{ return this._id }
@@ -34,6 +36,7 @@ export class Channel{
   get photo(): File{ return this._photo }
   get createdAt(): Date{ return this._createdAt }
 
+  get followed(): boolean{ return this._followed }
   get followerSize(): number{ return this._followerSize }
 
   set id(id: string){ this._id = id }
@@ -46,4 +49,5 @@ export class Channel{
   set createdAt(createdAt: Date){ this._createdAt = createdAt }
 
   set followerSize(followerSize: number){ this._followerSize = followerSize }
+  set followed(followed: boolean){ this._followed = followed }
 }

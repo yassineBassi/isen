@@ -1,10 +1,10 @@
 <app-channels-header *ngIf="type && type != 'explore'"></app-channels-header>
 
-<app-header *ngIf="type && type == 'explore'" [back]="true" title="explore channels"></app-header>
+<app-header *ngIf="type && type == 'explore'" [back]="true" [title]="'explore channels (' + (user ? user.city : '') + ')'"></app-header>
 
 <ion-content>
 
-  <ion-refresher slot="fixed" pullFactor="0.5" pullMin="100" pullMax="200"  (ionRefresh)="getMyChannels($event, true)">
+  <ion-refresher slot="fixed" pullFactor="0.5" pullMin="100" pullMax="200"  (ionRefresh)="getChannels($event, true)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
@@ -29,11 +29,25 @@
         <span class="channel-name d-block">{{ channel.name }}</span>
         <small class=" d-block">{{ channel.followerSize }} Follower</small>
       </ion-label>
-      <small class="mr-2 text-danger"><i class="fas fa-thumbtack"></i></small>
+      <ion-button
+        [color]="!channel.followed ? 'secondary' : 'danger'"
+        [disabled]="followLoading.includes(channel.id)"
+        fill="outline"
+        (click)="follow(channel)"
+      >
+          <span *ngIf="!channel.followed">
+            <span *ngIf="!followLoading.includes(channel.id)"><i class="fas fa-plus mr-1"></i></span>
+            <span *ngIf="followLoading.includes(channel.id)">
+              <i class="fas fa-circle-notch fa-spin mr-1"></i>
+            </span>
+             Follow
+          </span>
+          <span *ngIf="channel.followed"><i class="fas fa-minus"></i> Unfollow</span>
+      </ion-button>
     </ion-item>
   </ion-list>
 
-  <ion-infinite-scroll threshold="100px" (ionInfinite)="getMyChannels($event)">
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="getChannels($event)">
     <ion-infinite-scroll-content
       loadingSpinner="bubbles"
       loadingText="Loading more data..."

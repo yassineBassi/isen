@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { DataService } from './data.service';
 import { HTTP } from '@ionic-native/http/ngx';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
@@ -9,8 +10,8 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 })
 export class ServiceService extends DataService {
 
-  constructor(nativeStorage: NativeStorage, http: HTTP, geo: Geolocation) {
-    super('service', nativeStorage, http, geo);
+  constructor(nativeStorage: NativeStorage, http: HTTP, geo: Geolocation, router: Router) {
+    super('service', nativeStorage, http, geo, router);
   }
 
   store(data){

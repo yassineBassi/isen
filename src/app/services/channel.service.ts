@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { HTTP } from '@ionic-native/http/ngx';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
@@ -9,8 +10,8 @@ import { Injectable } from '@angular/core';
 })
 export class ChannelService extends DataService {
 
-  constructor(nativeStorage: NativeStorage, http: HTTP, geo: Geolocation) {
-    super('channel', nativeStorage, http, geo)
+  constructor(nativeStorage: NativeStorage, http: HTTP, geo: Geolocation, router: Router) {
+    super('channel', nativeStorage, http, geo, router)
   }
 
   myChannels(page: number, search: string){
@@ -21,7 +22,16 @@ export class ChannelService extends DataService {
     return this.sendRequest('get', '/followed', {page: page.toString(), search})
   }
 
+  exploreChannels(page: number, search: string){
+    return this.sendRequest('get', '/explore', {page: page.toString(), search})
+  }
+
   store(data){
     return this.sendRequest('post', '', data, {}, 'multipart');
+  }
+
+  follow(id: string){
+    console.log("here we are");
+    return this.sendRequest('post', '/follow/' + id, {});
   }
 }

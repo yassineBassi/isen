@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { HTTP } from '@ionic-native/http/ngx';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
@@ -9,8 +10,8 @@ import { Injectable } from '@angular/core';
 })
 export class MessageService extends DataService {
 
-  constructor(nativeStorage: NativeStorage, http: HTTP, geo: Geolocation) {
-    super('message', nativeStorage, http, geo);
+  constructor(nativeStorage: NativeStorage, http: HTTP, geo: Geolocation, router: Router) {
+    super('message', nativeStorage, http, geo, router);
   }
 
   indexMessages(id: string, page: number){
