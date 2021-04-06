@@ -22,6 +22,10 @@ const routes: Routes = [
         component: FormComponent
       }
     ]
+  },
+  {
+    path: '**',
+    redirectTo: ''
   }
 ];
 

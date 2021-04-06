@@ -3,7 +3,7 @@ import { AuthService } from './../../../services/auth.service';
 import { Router } from '@angular/router';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import countriesOject from '../../../../assets/json/countries';
+import countriesOject from './../../../helpers/countries';
 import { ModalController } from '@ionic/angular';
 
 @Component({

@@ -1,12 +1,14 @@
+import { ListSearchComponent } from './../../list-search/list-search.component';
 import { ToastService } from './../../../services/toast.service';
-import { ToastController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { AuthService } from './../../../services/auth.service';
 import { UserService } from './../../../services/user.service';
 import { User } from './../../../models/User';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import countriesObject from './../../../helpers/countries'
+import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-form',
@@ -14,6 +16,11 @@ import { Router } from '@angular/router';
   styleUrls: ['./form.component.scss'],
 })
 export class FormComponent implements OnInit {
+
+  countires: string[];
+  cities: string[];
+  selectedCountry: string;
+  selectedCity: string;
 
   pageLoading = false;
   user: User
@@ -59,11 +66,12 @@ export class FormComponent implements OnInit {
 
   constructor(private userService: UserService, private router: Router, private auth: AuthService,
               private nativeStorage: NativeStorage, private formBuilder: FormBuilder,
-              private toastService: ToastService) { }
+              private toastService: ToastService, private modalController: ModalController) { }
 
   ngOnInit() {
     this.getUser();
     this.intiializeForm();
+    this.countires = Object.keys(countriesObject);
   }
 
   intiializeForm(){
@@ -72,6 +80,7 @@ export class FormComponent implements OnInit {
       lastName:  ['', [Validators.required, Validators.max(50)]],
       gender:  ['', [Validators.required]],
       birthDate: ['', [Validators.required]],
+      city: ['', [Validators.required]],
       address: ['', [Validators.max(255)]],
       school:  ['', [Validators.max(50)]],
       education:  ['', [Validators.max(30)]],
@@ -160,6 +169,14 @@ export class FormComponent implements OnInit {
     .then(
       (resp: any) => {
         this.user = new User(resp.data);
+        this.selectedCountry = this.user.country;
+        if(this.user.country && countriesObject[this.user.country])
+          this.cities = countriesObject[this.user.country];
+
+        this.form.patchValue({
+          city: this.user.city
+        })
+          this.selectedCity = this.user.city
         this.nativeStorage.setItem('user', this.user);
         this.formPatchValues();
         console.log(this.user);
@@ -171,6 +188,23 @@ export class FormComponent implements OnInit {
         this.toastService.presentErrorToastr('enexpected error occured, please try again later')
       }
     )
+  }
+
+  async presentCountriesModal(){
+    const modal = await this.modalController.create({
+      componentProps: {
+        data: this.countires,
+        title: 'Countries'
+      },
+      component: ListSearchComponent
+    });
+    await modal.present();
+    const { data } = await modal.onDidDismiss();
+    this.selectedCountry = data.data;
+    this.cities = countriesObject[this.selectedCountry];
+    this.form.patchValue({
+      city: ''
+    })
   }
 
 }

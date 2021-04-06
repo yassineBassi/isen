@@ -12,6 +12,8 @@ export class User{
   private _gender: string;
   private _address: string;
   private _avatar: File;
+  private _status: string;
+
   private _education: string;
   private _profession: string;
   private _school: string;
@@ -40,6 +42,7 @@ export class User{
     this.email = user.email;
     this.gender = user.gender;
     this.birthDate = new Date(user.birthDate);
+    this.status = user.status;
     this.address = user.address;
 
     this.education = user.education;
@@ -83,6 +86,7 @@ export class User{
   };
 
   get address(): string {return this._address};
+  get status(): string {return this._status};
   get avatar(): File {return this._avatar};
   get education(): string {return this._education};
   get profession(): string {return this._profession};
@@ -106,6 +110,8 @@ export class User{
   set gender(gender: string){this._gender = gender}
   set address(address: string){this._address = address}
   set avatar(avatar: File){this._avatar = avatar}
+  set status(status: string){this._status = status}
+
   set education(education: string){this._education = education}
   set profession(profession: string){this._profession = profession}
   set school(school: string){this._school = school}

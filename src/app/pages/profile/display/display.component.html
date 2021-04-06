@@ -42,7 +42,7 @@
 
     <div *ngIf="user">
         <div class="w-100 image-container" *ngIf="user">
-            <img (click)="showImage()" class="w-100" [src]="user.avatar.path" alt="">
+            <img class="w-100" [src]="user.avatar.path" alt="">
             <span class="user-info p-1 pl-2">
                 <span class="d-block user-name">{{ user.fullName }}, {{ user.age }}</span>
                 <span class="d-block">{{ user.country }}</span>
@@ -97,11 +97,11 @@
                 </ion-label>
             </ion-item>
 
-            <ion-item *ngIf="user.address" lines="none" class="d-flex align-items-center">
+            <ion-item *ngIf="user.city && user.country" lines="none" class="d-flex align-items-center">
                 <i class="fas fa-map-marker-alt font-icon"></i>
                 <ion-label class="" style="margin-left: 5px;" text-wrap>
                     <ion-text class="d-block">Lives in</ion-text>
-                    <ion-text class="d-block">{{ user.address }}</ion-text>
+                    <ion-text class="d-block">{{ user.country }}, {{ user.city }}</ion-text>
                 </ion-label>
             </ion-item>
         </ion-list>
