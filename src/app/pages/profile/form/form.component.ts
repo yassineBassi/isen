@@ -8,6 +8,8 @@ import { User } from './../../../models/User';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import countriesObject from './../../../helpers/countries'
+import professions from './../../../helpers/professions'
+import interests from './../../../helpers/interests'
 import { ModalController } from '@ionic/angular';
 
 @Component({
@@ -16,6 +18,9 @@ import { ModalController } from '@ionic/angular';
   styleUrls: ['./form.component.scss'],
 })
 export class FormComponent implements OnInit {
+
+  selectedProfession: string;
+  selectedInterest: string;
 
   countires: string[];
   cities: string[];
@@ -48,20 +53,14 @@ export class FormComponent implements OnInit {
   get birthDate(){
     return this.form.get('birthDate')
   }
-  get address(){
-    return this.form.get('address')
-  }
   get school(){
     return this.form.get('school')
   }
   get education(){
     return this.form.get('education')
   }
-  get profession(){
-    return this.form.get('profession')
-  }
-  get interest(){
-    return this.form.get('interest');
+  get city(){
+    return this.form.get('city')
   }
 
   constructor(private userService: UserService, private router: Router, private auth: AuthService,
@@ -83,9 +82,7 @@ export class FormComponent implements OnInit {
       city: ['', [Validators.required]],
       address: ['', [Validators.max(255)]],
       school:  ['', [Validators.max(50)]],
-      education:  ['', [Validators.max(30)]],
-      profession:  ['', [Validators.max(30)]],
-      interest: ['', [Validators.required]]
+      education:  ['', [Validators.max(30)]]
     })
   }
 
@@ -95,12 +92,16 @@ export class FormComponent implements OnInit {
       lastName: this.user.lastName,
       gender: this.user.gender,
       birthDate: this.user.birthDate.toJSON().slice(0, 10),
-      address: this.user.address,
+      city: this.user.city,
       school: this.user.school,
       profession: this.user.profession,
       education: this.user.education
     });
-    console.log(this.user.birthDate.toJSON().slice(0, 10));
+    this.selectedCountry = this.user.country;
+    if(this.user.country && countriesObject[this.user.country])
+      this.cities = countriesObject[this.user.country];
+    this.selectedCity = this.user.city
+
     this.interests = this.user.interests;
   }
 
@@ -110,23 +111,20 @@ export class FormComponent implements OnInit {
       lastName: this.lastName.value,
       gender: this.gender.value,
       birthDate: this.birthDate.value,
-      address: this.address.value,
+      city: this.city.value,
+      country: this.selectedCountry,
       school: this.school.value,
-      profession: this.profession.value,
+      profession: this.selectedProfession,
       education: this.education.value,
       interests: this.interests
     }
   }
 
   addInterest(){
-    if(!this.interests.includes(this.interest.value) && this.interest.valid){
+    if(!this.interests.includes(this.selectedInterest)){
       console.log('hi wtf');
-      this.interests.push(this.interest.value);
+      this.interests.push(this.selectedInterest);
       if(this.interests) this.sortInterests();
-      console.log(this.interests);
-      this.form.patchValue({
-        interest: ''
-      })
     }
   }
 
@@ -154,9 +152,9 @@ export class FormComponent implements OnInit {
         this.pageLoading = false;
         if(err.errors){
           this.validatoErrors = err.errors;
-          this.toastService.presentErrorToastr('invalid data');
+          this.toastService.presentStdToastr('invalid data');
         }else if(typeof err == 'string'){
-          this.toastService.presentErrorToastr(err);
+          this.toastService.presentStdToastr(err);
         }
         console.log(err);
       }
@@ -169,14 +167,6 @@ export class FormComponent implements OnInit {
     .then(
       (resp: any) => {
         this.user = new User(resp.data);
-        this.selectedCountry = this.user.country;
-        if(this.user.country && countriesObject[this.user.country])
-          this.cities = countriesObject[this.user.country];
-
-        this.form.patchValue({
-          city: this.user.city
-        })
-          this.selectedCity = this.user.city
         this.nativeStorage.setItem('user', this.user);
         this.formPatchValues();
         console.log(this.user);
@@ -205,6 +195,33 @@ export class FormComponent implements OnInit {
     this.form.patchValue({
       city: ''
     })
+  }
+
+  async presentProfessionsModal(){
+    const modal = await this.modalController.create({
+      componentProps: {
+        data: professions,
+        title: 'Professions'
+      },
+      component: ListSearchComponent
+    });
+    await modal.present();
+    const { data } = await modal.onDidDismiss();
+    this.selectedProfession = data.data;
+  }
+
+  async presentInterestsModal(){
+    const modal = await this.modalController.create({
+      componentProps: {
+        data: interests,
+        title: 'Interests'
+      },
+      component: ListSearchComponent
+    });
+    await modal.present();
+    const { data } = await modal.onDidDismiss();
+    this.selectedInterest = data.data;
+    this.addInterest();
   }
 
 }

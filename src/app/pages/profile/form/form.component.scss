@@ -3,14 +3,12 @@ ion-input{
   --padding-bottom: 0px;
   padding-bottom: 0px;
 }
-
 ion-label{
   --padding-bottom: 0px;
   padding-bottom: 0px;
 }
 
 ion-textarea{
-
   --padding-start: 0px;
   --padding-end: 0px;
   --padding-top: 0px;
@@ -28,7 +26,9 @@ ion-item.gender-item:hover{
   color: red;
   font-weight: bold;
 }
-
 .country-btn{
   font-size: 16px;
+}
+.interest{
+  color: #000;
 }
