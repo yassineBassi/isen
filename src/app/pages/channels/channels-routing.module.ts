@@ -22,6 +22,10 @@ const routes: Routes = [
       {
         path: 'form',
         component: ChannelFormComponent
+      },
+      {
+        path: 'channel/:id',
+        component: ChannelFormComponent
       }
     ]
   },

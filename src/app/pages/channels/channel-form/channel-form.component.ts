@@ -14,6 +14,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ChannelFormComponent implements OnInit {
 
+  imageLoading = false;
   pageLoading = false;
   channelImage = {
     url: "",
@@ -48,19 +49,22 @@ export class ChannelFormComponent implements OnInit {
   }
 
   pickImage(){
+    this.imageLoading = true;
     this.uploadFile.takePicture(this.camera.PictureSourceType.PHOTOLIBRARY)
     .then(
       (resp: any) => {
+        this.imageLoading = false;
         this.channelImage = {
           url: this.webView.convertFileSrc(resp.imageData),
           file: resp.file,
           name: resp.name
         }
-      },
-      err => {
-        this.toastService.presentErrorToastr(err);
       }
     )
+    .catch(err => {
+      this.imageLoading = false;
+      this.toastService.presentStdToastr(err);
+    })
   }
 
   getProductForm(){

@@ -29,35 +29,45 @@ export class UploadFileService {
     };
 
     return new Promise((resolve, reject) => {
-        this.camera.getPicture(options)
-        .then((imageData) => {
-          if (this.platform.is('android') && sourceType === this.camera.PictureSourceType.PHOTOLIBRARY) {
-            this.filePath.resolveNativePath(imageData)
-              .then(filePath => {
-                resolve(this.readImgSrc(filePath));
-              });
-          } else {
-            resolve(this.readImgSrc(imageData));
-          }
-        });
+      console.log("hi there new");
+      this.camera.getPicture(options)
+      .then((imageData) => {
+        console.log("then");
+
+        if (this.platform.is('android') && sourceType === this.camera.PictureSourceType.PHOTOLIBRARY) {
+          this.filePath.resolveNativePath(imageData)
+            .then(filePath => {
+              resolve(this.readImgSrc(filePath));
+            },err => {
+              reject(err);
+            });
+        } else {
+          resolve(this.readImgSrc(imageData));
+        }
+      },
+      err => {
+        reject(err);
+      });
     });
   }
 
   readImgSrc(imageData) {
-      return new Promise((resolve, reject) => {
-          this.file.resolveLocalFilesystemUrl(imageData)
-          .then((fileEntry) => {
-              (fileEntry as FileEntry).file(file => {
-                  resolve(this.generateBlobImg(file, imageData));
-              }, err => {
-                  reject(err);
-              });
-          }, err => {
-              reject(err);
-          });
-      });
+    console.log("readImgSrc");
+    return new Promise((resolve, reject) => {
+        this.file.resolveLocalFilesystemUrl(imageData)
+        .then((fileEntry) => {
+            (fileEntry as FileEntry).file(file => {
+                resolve(this.generateBlobImg(file, imageData));
+            }, err => {
+                reject(err);
+            });
+        }, err => {
+            reject(err);
+        });
+    });
   }
   generateBlobImg(file: IFile,imageData) {
+    console.log("generateBlobImg");
     return new Promise((resolve, reject) => {
         const fileName = file.name.substring(0, file.name.lastIndexOf('.') + 1) + 'jpg';
         const fileReader = new FileReader();

@@ -91,7 +91,7 @@ export class ListComponent implements OnInit {
       );
     }
     if(this.type == 'explore'){
-      this.channelService.exploreChannels(this.page++, this.searchWord)
+      this.channelService.exploreChannels(this.page++, this.searchWord, this.user.city)
       .then(
         (resp: any) => this.handleResponse(resp, event, refresh),
         err => this.handleError(err)

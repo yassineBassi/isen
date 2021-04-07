@@ -1,6 +1,7 @@
 <app-channels-header *ngIf="type && type != 'explore'"></app-channels-header>
+<app-header *ngIf="type && type == 'explore'" [back]="true" [title]="'explore channels (' + (user ? (user.city ? user.city : 'Global') : '') + ')'"></app-header>
 
-<app-header *ngIf="type && type == 'explore'" [back]="true" [title]="'explore channels (' + (user ? user.city : '') + ')'"></app-header>
+<app-loader *ngIf="pageLoading"></app-loader>
 
 <ion-content>
 
@@ -8,7 +9,7 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  <ion-item>
+  <ion-item  *ngIf="channels && channels.length">
     <span class="ml-3"><i class="fas fa-user-secret"></i></span>
     <ion-label class="ml-2">
       Anonymity in Channels
@@ -16,12 +17,18 @@
     <ion-toggle [(ngModel)]="anonyme" color="secondary"></ion-toggle>
   </ion-item>
 
-  <ion-card class="p-2" *ngIf="channels && !channels.length">
-    <ion-card-subtitle>You didn't create any channel yet !</ion-card-subtitle>
+  <ion-card class="p-2" *ngIf="channels && !channels.length && !pageLoading">
+    <ion-card-subtitle>
+      <span *ngIf="type == 'mines'">You didn't create any channel yet !</span>
+      <span *ngIf="type == 'followed'">You didn't follow any channel yet !</span>
+      <span *ngIf="type == 'explore'">
+        there is no other channels available in your city !
+      </span>
+    </ion-card-subtitle>
   </ion-card>
 
   <ion-list *ngIf="channels && channels.length">
-    <ion-item *ngFor="let channel of channels">
+    <ion-item [routerLink]="['/channel/' + channel.id]" *ngFor="let channel of channels">
       <ion-avatar class="avatar ml-2">
         <img [src]="channel.photo.path" alt="">
       </ion-avatar>
@@ -34,6 +41,7 @@
         [disabled]="followLoading.includes(channel.id)"
         fill="outline"
         (click)="follow(channel)"
+        *ngIf="user && channel.user != user.id"
       >
           <span *ngIf="!channel.followed">
             <span *ngIf="!followLoading.includes(channel.id)"><i class="fas fa-plus mr-1"></i></span>
@@ -55,9 +63,14 @@
     </ion-infinite-scroll-content>
   </ion-infinite-scroll>
 
-  <ion-fab position="fixed" vertical="bottom" horizontal="end" *ngIf="!anonyme">
+  <ion-fab position="fixed" vertical="bottom" horizontal="end" *ngIf="!anonyme && type == 'mines'">
     <ion-fab-button routerLink="/channels/form" color="secondary">
       <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+  <ion-fab position="fixed" vertical="bottom" horizontal="end" *ngIf="type == 'followed'">
+    <ion-fab-button  routerLink="/channels/list/explore" color="secondary">
+      <i class="fas fa-globe-americas"></i>
     </ion-fab-button>
   </ion-fab>
 </ion-content>

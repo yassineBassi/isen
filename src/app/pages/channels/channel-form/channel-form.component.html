@@ -5,9 +5,17 @@
   <div>
     <div (click)="pickImage()" class="w-100 image-container">
       <div *ngIf="!channelImage.url" class="w-100 h-100 bg-light d-flex justify-content-center align-items-center">
-        <span class="text-center">
-          <span class="d-block camera"><i class="fas fa-camera"></i></span>
-          <span class="d-block">Select product image</span>
+        <span *ngIf="!imageLoading" class="text-center">
+          <span class="d-block camera">
+            <i class="fas fa-camera"></i>
+          </span>
+          <span class="d-block">Select product picture</span>
+        </span>
+        <span *ngIf="imageLoading" class="text-center">
+          <span class="d-block camera">
+            <i class="fas fa-spinner fa-spin"></i>
+          </span>
+          <span class="d-block">Imprting picture ...</span>
         </span>
       </div>
       <img *ngIf="channelImage.url" [src]="channelImage.url" class="w-100" alt="">

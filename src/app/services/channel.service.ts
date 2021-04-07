@@ -22,8 +22,8 @@ export class ChannelService extends DataService {
     return this.sendRequest('get', '/followed', {page: page.toString(), search})
   }
 
-  exploreChannels(page: number, search: string){
-    return this.sendRequest('get', '/explore', {page: page.toString(), search})
+  exploreChannels(page: number, search: string, city: string){
+    return this.sendRequest('get', '/explore', {page: page.toString(), search, city})
   }
 
   store(data){

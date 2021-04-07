@@ -147,7 +147,7 @@ export class FormComponent implements OnInit {
       resp => {
         this.pageLoading = false;
         console.log(resp);
-        this.toastService.presentSuccessToastr('your info has been updated successfully')
+        this.toastService.presentStdToastr('your info has been updated successfully')
       }, err => {
         this.pageLoading = false;
         if(err.errors){
@@ -194,7 +194,8 @@ export class FormComponent implements OnInit {
     this.cities = countriesObject[this.selectedCountry];
     this.form.patchValue({
       city: ''
-    })
+    });
+    this.submit();
   }
 
   async presentProfessionsModal(){
@@ -208,6 +209,7 @@ export class FormComponent implements OnInit {
     await modal.present();
     const { data } = await modal.onDidDismiss();
     this.selectedProfession = data.data;
+    this.submit();
   }
 
   async presentInterestsModal(){
@@ -222,6 +224,7 @@ export class FormComponent implements OnInit {
     const { data } = await modal.onDidDismiss();
     this.selectedInterest = data.data;
     this.addInterest();
+    this.submit();
   }
 
 }
