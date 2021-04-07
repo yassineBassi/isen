@@ -29,8 +29,6 @@ export class ListComponent implements OnInit {
     .then(
       (resp: any) => {
         this.pageLoading = false
-        console.log(resp);
-
         if(!event || refresh){
           this.users = [];
         }

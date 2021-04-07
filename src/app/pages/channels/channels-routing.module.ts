@@ -1,3 +1,4 @@
+import { ChannelComponent } from './channel/channel.component';
 import { ChannelFormComponent } from './channel-form/channel-form.component';
 import { ListComponent } from './list/list.component';
 import { NgModule } from '@angular/core';
@@ -24,8 +25,8 @@ const routes: Routes = [
         component: ChannelFormComponent
       },
       {
-        path: 'channel/:id',
-        component: ChannelFormComponent
+        path: 'channel',
+        component: ChannelComponent
       }
     ]
   },

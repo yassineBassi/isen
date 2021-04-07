@@ -28,7 +28,11 @@
   </ion-card>
 
   <ion-list *ngIf="channels && channels.length">
-    <ion-item [routerLink]="['/channel/' + channel.id]" *ngFor="let channel of channels">
+    <ion-item
+      [routerLink]="['/channels/channel']"
+      [queryParams]="{ id: channel.id, name: channel.name }"
+      *ngFor="let channel of channels"
+    >
       <ion-avatar class="avatar ml-2">
         <img [src]="channel.photo.path" alt="">
       </ion-avatar>

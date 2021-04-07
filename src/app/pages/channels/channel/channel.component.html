@@ -1,3 +1,14 @@
-<p>
-  channel works!
-</p>
+<app-header [title]="channelName ? channelName : ''" [back]="true"></app-header>
+
+<app-loader *ngIf="pageLoading" ></app-loader>
+
+<ion-content>
+  <app-post-form [channelId]="channelId" *ngIf="channelId"></app-post-form>
+
+  <ion-fab position="fixed" vertical="bottom" horizontal="center">
+    <ion-fab-button color="secondary">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>

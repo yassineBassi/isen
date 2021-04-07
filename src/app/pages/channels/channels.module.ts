@@ -1,3 +1,5 @@
+import { PostFormComponent } from './channel/post-form/post-form.component';
+import { ChannelComponent } from './channel/channel.component';
 import { WebView } from '@ionic-native/ionic-webview/ngx';
 import { Camera } from '@ionic-native/camera/ngx';
 import { FilePath } from '@ionic-native/file-path/ngx';
@@ -30,7 +32,9 @@ import { ChannelsPage } from './channels.page';
     ChannelsPage,
     ListComponent,
     ChannelsHeaderComponent,
-    ChannelFormComponent
+    ChannelFormComponent,
+    ChannelComponent,
+    PostFormComponent
   ],
   providers: [
     UploadFileService,

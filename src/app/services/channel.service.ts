@@ -31,7 +31,14 @@ export class ChannelService extends DataService {
   }
 
   follow(id: string){
-    console.log("here we are");
     return this.sendRequest('post', '/follow/' + id, {});
+  }
+
+  getPosts(id: string, page: number){
+    return this.sendRequest('get', '/' + id + '/post/', {page: page.toString()})
+  }
+
+  storePost(id: string, data){
+    return this.sendRequest('post', '/' + id + '/post', data)
   }
 }
