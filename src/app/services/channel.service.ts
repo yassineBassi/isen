@@ -41,4 +41,12 @@ export class ChannelService extends DataService {
   storePost(id: string, data){
     return this.sendRequest('post', '/' + id + '/post', data)
   }
+
+  deletePost(id: string){
+    return this.sendRequest('delete', '/post/' + id, {})
+  }
+
+  voteOnPost(id: string, vote: number){
+    return this.sendRequest('post', '/post/' + id + '/vote', {vote})
+  }
 }

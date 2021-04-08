@@ -73,4 +73,7 @@ export class ChannelComponent implements OnInit {
   addPost(post: Post){
     this.posts.unshift(post);
   }
+  deletePost(post: Post){
+    this.posts.splice(this.posts.indexOf(post), 1);
+  }
 }

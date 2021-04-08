@@ -3,7 +3,8 @@ export class Post{
 
   private _id: string;
   private _text: string;
-  private _vote: number;
+  private _votes: number;
+  private _voted: number;
   private _comments: any[];
   private _anonyme: boolean;
   private _backgroundColor: string;
@@ -18,7 +19,8 @@ export class Post{
   constructor(post: Post){
     this.id = post._id;
     this.text = post.text;
-    this.vote = post.vote;
+    this.votes = post.votes
+    this.voted = post.voted
     this.comments = post.comments;
     this.anonyme = post.anonyme;
     this.backgroundColor = post.backgroundColor;
@@ -33,7 +35,8 @@ export class Post{
 
   get id(): string{ return this._id }
   get text(): string{ return this._text }
-  get vote(): number{ return this._vote }
+  get votes(): number{ return this._votes }
+  get voted(): number{ return this._voted }
   get comments(): any[]{ return this._comments }
   get anonyme(): boolean{ return this._anonyme }
   get backgroundColor(): string{ return this._backgroundColor }
@@ -47,7 +50,8 @@ export class Post{
 
   set id(id: string){ this._id = id }
   set text(text: string){ this._text = text }
-  set vote(vote: number){ this._vote = vote }
+  set votes(votes: number){ this._votes = votes }
+  set voted(voted: number){ this._voted = voted }
   set comments(comments: any[]){ this._comments = comments }
   set anonyme(anonyme: boolean){ this._anonyme = anonyme }
   set backgroundColor(backgroundColor: string){ this._backgroundColor = backgroundColor }

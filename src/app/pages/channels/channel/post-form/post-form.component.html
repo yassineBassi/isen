@@ -34,6 +34,7 @@
           <ion-button
             color="secondary"
             (click)="addPost()"
+            [disabled]="postLoading"
           >
             <span *ngIf="postLoading">
               <i class="fas fa-circle-notch fa-spin"></i>

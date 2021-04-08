@@ -3,10 +3,10 @@
 <app-loader *ngIf="pageLoading" ></app-loader>
 
 <ion-content>
-  <app-post-form (closeForm)="showPostForm = false" [channelId]="channelId" *ngIf="channelId && showPostForm"></app-post-form>
+  <app-post-form (newPost)="addPost($event)" (closeForm)="showPostForm = false" [channelId]="channelId" *ngIf="channelId && showPostForm"></app-post-form>
 
   <div *ngIf="posts && posts.length">
-    <app-post *ngFor="let post of posts" [post]="post"></app-post>
+    <app-post (removePost)="deletePost(post)" *ngFor="let post of posts" [post]="post"></app-post>
   </div>
 
   <ion-fab
