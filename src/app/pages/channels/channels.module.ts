@@ -1,3 +1,5 @@
+import { PostComponent } from './channel/post/post.component';
+import { SharingPipeModule } from './../../pipes/sharing/sharing-pipe.module';
 import { PostFormComponent } from './channel/post-form/post-form.component';
 import { ChannelComponent } from './channel/channel.component';
 import { WebView } from '@ionic-native/ionic-webview/ngx';
@@ -26,7 +28,8 @@ import { ChannelsPage } from './channels.page';
     ReactiveFormsModule,
     IonicModule,
     ChannelsPageRoutingModule,
-    SharingModule
+    SharingModule,
+    SharingPipeModule
   ],
   declarations: [
     ChannelsPage,
@@ -34,7 +37,8 @@ import { ChannelsPage } from './channels.page';
     ChannelsHeaderComponent,
     ChannelFormComponent,
     ChannelComponent,
-    PostFormComponent
+    PostFormComponent,
+    PostComponent
   ],
   providers: [
     UploadFileService,

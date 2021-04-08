@@ -14,6 +14,7 @@ export class PostFormComponent implements OnInit {
   @ViewChild('textColorInput') textColorInput: ElementRef;
 
   @Output() newPost = new EventEmitter();
+  @Output() closeForm = new EventEmitter();
   @Input() channelId;
 
   postLoading = false;

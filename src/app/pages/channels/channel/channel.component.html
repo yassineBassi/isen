@@ -3,9 +3,19 @@
 <app-loader *ngIf="pageLoading" ></app-loader>
 
 <ion-content>
-  <app-post-form [channelId]="channelId" *ngIf="channelId"></app-post-form>
+  <app-post-form (closeForm)="showPostForm = false" [channelId]="channelId" *ngIf="channelId && showPostForm"></app-post-form>
 
-  <ion-fab position="fixed" vertical="bottom" horizontal="center">
+  <div *ngIf="posts && posts.length">
+    <app-post *ngFor="let post of posts" [post]="post"></app-post>
+  </div>
+
+  <ion-fab
+    (click)="showPostForm = true"
+    position="fixed"
+    vertical="bottom"
+    horizontal="center"
+    *ngIf="!showPostForm"
+  >
     <ion-fab-button color="secondary">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>

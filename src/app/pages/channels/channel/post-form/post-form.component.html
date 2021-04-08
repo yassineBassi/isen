@@ -1,27 +1,33 @@
 
   <ion-card>
     <ion-card-content class="p-1">
-      <ion-item class="post-textarea" [style]="{'--background': postBackColor, '--color': postTextColor}" >
+      <ion-item
+        class="post-textarea"
+        [style]="{'--background': postBackColor, '--color': postTextColor}"
+      >
         <ion-textarea rows="4" class="pl-2 ion-no-padding" [(ngModel)]="postText" placeholder="Enter your post text"></ion-textarea>
       </ion-item>
+      <div>
+        <ion-button
+        class="color-btn"
+        [style]="{'--background': postBackColor}"
+        (click)="selectBackColor()"
+      ></ion-button>
+      <ion-button
+        class="color-btn ml-2"
+        [style]="{'--background': postTextColor}"
+        (click)="selectTextColor()"
+      ></ion-button>
+      </div>
       <div class="w-100 mt-3 text-right d-flex justify-content-between">
         <div>
-          <ion-button
-            class="color-btn"
-            [style]="{'--background': postBackColor}"
-            (click)="selectBackColor()"
-          ></ion-button>
-          <ion-button
-            class="color-btn ml-2"
-            [style]="{'--background': postTextColor}"
-            (click)="selectTextColor()"
-          ></ion-button>
           <input #backColorInput type="color" class="d-none" [(ngModel)]="postBackColor">
           <input #textColorInput type="color" class="d-none" [(ngModel)]="postTextColor">
         </div>
         <div>
           <ion-button
             color="light"
+            (click)="closeForm.emit()"
           >
             Cancel
           </ion-button>

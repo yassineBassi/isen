@@ -12,6 +12,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { Toast } from '@ionic-native/toast/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
+import { ExtractDiffTimePipe } from './pipes/extract-diff-time.pipe';
 
 @NgModule({
   declarations: [

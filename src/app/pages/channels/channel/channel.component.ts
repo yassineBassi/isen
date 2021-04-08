@@ -1,3 +1,4 @@
+import { User } from './../../../models/User';
 import { ToastService } from './../../../services/toast.service';
 import { Post } from './../../../models/Post';
 import { ActivatedRoute } from '@angular/router';
@@ -20,6 +21,8 @@ export class ChannelComponent implements OnInit {
   posts: Post[];
   page = 0;
 
+  showPostForm = false;
+
   constructor(private channelService: ChannelService, private route: ActivatedRoute, private toastService:
               ToastService) { }
 
@@ -37,6 +40,7 @@ export class ChannelComponent implements OnInit {
         this.pageLoading = false;
         this.channelId = params.get('id');
         this.channelName= params.get('name');
+        this.getChannelPosts();
       }
     )
   }
@@ -47,6 +51,8 @@ export class ChannelComponent implements OnInit {
     this.channelService.getPosts(this.channelId, this.page++)
     .then(
       (resp: any) => {
+        console.log(resp);
+
         if(!event || refresh){
           this.posts = [];
         }
@@ -64,5 +70,7 @@ export class ChannelComponent implements OnInit {
       }
     )
   }
-
+  addPost(post: Post){
+    this.posts.unshift(post);
+  }
 }

@@ -1,3 +1,72 @@
-<p>
-  post works!
-</p>
+<ion-card
+  [style]="{'--background': post.backgroundColor, '--color': post.color}"
+  class="mb-0"
+>
+  <ion-card-header class="py-2 pr-2 d-flex justify-content-between">
+    <div>
+      <ion-card-title
+        [style]="{'--color': post.color}"
+      >
+        {{ postUserName(post) }}
+      </ion-card-title>
+      <small [style]="{'color': post.color}" class="d-block date">{{ post.createdAt | extractDiffTime }}</small>
+    </div>
+    <div>
+      <ion-card-title
+      [style]="{'--color': post.color}"
+    >
+      <span class="mr-2">45</span>
+      <i class="fas fa-star"></i>
+    </ion-card-title>
+    </div>
+  </ion-card-header>
+  <ion-card-content class="pt-0">
+    <ion-card-subtitle
+      [style]="{'--color': post.color}"
+    >
+      {{ post.text }}
+    </ion-card-subtitle>
+  </ion-card-content>
+</ion-card>
+<ion-card class="p-1 pb-0 pl-0 pt-0 mt-0">
+  <ion-card-content class="p-0 m-0 d-flex justify-content-between">
+    <div>
+      <ion-button
+        size="small"
+        shape="round"
+        fill="clear"
+        color="dark"
+      >
+        <i class="far fa-thumbs-up"></i>
+      </ion-button>
+      <ion-button
+        size="small"
+        shape="round"
+        fill="clear"
+        color="dark"
+      >
+        <i class="far fa-thumbs-down"></i>
+      </ion-button>
+      <ion-button
+        size="small"
+        shape="round"
+        fill="clear"
+        color="dark"
+      >
+        <i class="far fa-comments mr-1"></i>
+        <span>{{ post.comments.length }}</span>
+      </ion-button>
+    </div>
+    <div>
+      <ion-button
+        [style]="{'--color': post.color}"
+        fill="clear"
+        shape="round"
+        size="small"
+        color="dark"
+      >
+        <i class="far fa-trash-alt"></i>
+      </ion-button>
+    </div>
+  </ion-card-content>
+</ion-card>
