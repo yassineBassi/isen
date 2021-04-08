@@ -1,9 +1,9 @@
+
 <ion-card
   [style]="{'--background': backgroundColor, '--color': color}"
 >
   <ion-card-header
-    class="pt-2 pb-2 pr-2 d-flex justify-content-between border-bottom"
-    [style]="{'border-color': color + '!important'}"
+    class="pt-2 pb-2 pr-2 d-flex justify-content-between"
   >
     <div>
       <ion-card-title
@@ -12,7 +12,7 @@
         {{ commentUserName(comment) }} {{color}}
       </ion-card-title>
       <small [style]="{'color': color}" class="d-block date">
-        {{ comment.createdAt | extractDiffTime }} ago
+        {{ comment.createdAt | extractDiffTime }}
       </small>
     </div>
     <ion-button

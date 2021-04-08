@@ -1,8 +1,9 @@
+import { IonInfiniteScroll } from '@ionic/angular';
 import { Comment } from './../../../../models/Commentt';
 import { ToastService } from './../../../../services/toast.service';
 import { ChannelService } from './../../../../services/channel.service';
 import { Post } from './../../../../models/Post';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-comments',
@@ -10,6 +11,8 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
   styleUrls: ['./comments.component.scss'],
 })
 export class CommentsComponent implements OnInit {
+
+  @ViewChild('infinitScroll') infinitScroll: IonInfiniteScroll;
 
   @Output() addComment = new EventEmitter();
   @Input() post: Post;
@@ -29,7 +32,7 @@ export class CommentsComponent implements OnInit {
   }
 
   getComments(event?, refresh?){
-    this.pageLoading = true;
+    if(!event) this.pageLoading = true;
     if(refresh) this.page = 0;
     this.channelService.getComments(this.post.id)
     .then(
@@ -39,11 +42,14 @@ export class CommentsComponent implements OnInit {
         if(!event || refresh){
           this.comments = [];
         }
+
+        if(refresh) this.infinitScroll.disabled = false
+
         if(event){
           event.target.complete()
           if(!resp.data.more && !refresh) event.target.disabled = true;
         }
-        resp.data.forEach(pst => {
+        resp.data.comments.forEach(pst => {
           this.comments.push(new Comment(pst));
         })
         this.pageLoading = false;
@@ -59,7 +65,7 @@ export class CommentsComponent implements OnInit {
     this.channelService.storeComment(this.post.id, {text: this.commentText})
     .then(
       (resp: any) => {
-        this.comments.push(new Comment(resp.data))
+        this.comments.unshift(new Comment(resp.data))
         this.commentText = "";
       },
       err => {

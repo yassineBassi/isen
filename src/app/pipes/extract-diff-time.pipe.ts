@@ -25,9 +25,9 @@ export class ExtractDiffTimePipe implements PipeTransform {
         }
         return Math.floor(hours) + "h"
       }
-      return Math.floor(mins) + "min"
+      return Math.floor(mins) + " min"
     }
-    return Math.floor(secs) + 'sec'
+    return Math.floor(secs) + ' sec'
   }
 
 }

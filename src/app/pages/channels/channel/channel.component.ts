@@ -1,3 +1,4 @@
+import { IonInfiniteScroll } from '@ionic/angular';
 import { User } from './../../../models/User';
 import { ToastService } from './../../../services/toast.service';
 import { Post } from './../../../models/Post';
@@ -12,6 +13,8 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
   styleUrls: ['./channel.component.scss'],
 })
 export class ChannelComponent implements OnInit {
+
+  @ViewChild('infinitScroll') infinitScroll: IonInfiniteScroll;
 
   channelId: string;
   channelName: string;
@@ -46,7 +49,7 @@ export class ChannelComponent implements OnInit {
   }
 
   getChannelPosts(event?, refresh?){
-    this.pageLoading = true;
+    if(!event) this.pageLoading = true;
     if(refresh) this.page = 0;
     this.channelService.getPosts(this.channelId, this.page++)
     .then(
@@ -56,11 +59,14 @@ export class ChannelComponent implements OnInit {
         if(!event || refresh){
           this.posts = [];
         }
+
+        if(refresh) this.infinitScroll.disabled = false
+
         if(event){
           event.target.complete()
           if(!resp.data.more && !refresh) event.target.disabled = true;
         }
-        resp.data.forEach(pst => {
+        resp.data.posts.forEach(pst => {
           this.posts.push(new Post(pst));
         })
         this.pageLoading = false;

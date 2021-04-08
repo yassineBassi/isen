@@ -1,4 +1,7 @@
 authorisation -> channels / posts / comments
-refresh and infinit scroll -> channels / posts / comments
 limited colors for posts
 resume text -> posts / comments
+change the inifinit scroll icon to crescent
+add more option for inifinit scroll // hide pageLoading when refresh or scroll
+set more to false when refresh
+when delete post delete its comments
