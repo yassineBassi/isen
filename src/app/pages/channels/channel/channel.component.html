@@ -6,7 +6,7 @@
   <app-post-form (newPost)="addPost($event)" (closeForm)="showPostForm = false" [channelId]="channelId" *ngIf="channelId && showPostForm"></app-post-form>
 
   <div *ngIf="posts && posts.length">
-    <app-post (removePost)="deletePost(post)" *ngFor="let post of posts" [post]="post"></app-post>
+    <app-post class="my-3" (removePost)="deletePost(post)" *ngFor="let post of posts" [post]="post"></app-post>
   </div>
 
   <ion-fab

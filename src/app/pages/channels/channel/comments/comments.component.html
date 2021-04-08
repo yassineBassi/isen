@@ -2,9 +2,16 @@
 
 <app-loader *ngIf="pageLoading"></app-loader>
 
-<ion-content
->
-  <app-comment [backgroundColor]="post.backgroundColor" [color]="post.color" [comment]="comment" *ngFor="let comment of comments"></app-comment>
+<ion-content>
+
+  <app-comment
+    (removeComment)="removeComment(ind)"
+    [backgroundColor]="post.backgroundColor"
+    [color]="post.color"
+    [comment]="comment"
+    *ngFor="let comment of comments; let ind = index"
+  ></app-comment>
+
 </ion-content>
 
 <ion-footer>

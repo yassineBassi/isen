@@ -59,13 +59,17 @@ export class CommentsComponent implements OnInit {
     this.channelService.storeComment(this.post.id, {text: this.commentText})
     .then(
       (resp: any) => {
-        this.addComment.emit(resp.data);
+        this.comments.push(new Comment(resp.data))
         this.commentText = "";
       },
       err => {
         this.toastService.presentStdToastr(err);
       }
     )
+  }
+
+  removeComment(commentInd: number){
+    this.comments.splice(commentInd, 1);
   }
 
 }

@@ -57,4 +57,9 @@ export class ChannelService extends DataService {
   getComments(id: string){
     return this.sendRequest('get', '/post/' + id + '/comment', {})
   }
+
+  deleteComment(id: string){
+    return this.sendRequest('delete', '/post/comment/' + id, {})
+  }
+
 }
