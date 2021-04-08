@@ -9,11 +9,14 @@
       >
         {{ postUserName(post) }}
       </ion-card-title>
-      <small [style]="{'color': post.color}" class="d-block date">{{ post.createdAt | extractDiffTime }}</small>
+      <small [style]="{'color': post.color}" class="d-block date">
+        {{ post.createdAt | extractDiffTime }} ago
+      </small>
     </div>
     <div>
       <ion-card-title
       [style]="{'--color': post.color}"
+      class="mr-1"
     >
       <span class="mr-2">{{ post.votes }}</span>
       <i class="fas fa-star"></i>
@@ -57,6 +60,7 @@
         shape="round"
         fill="clear"
         color="dark"
+        (click)="showComments()"
       >
         <i class="far fa-comments mr-1"></i>
         <span>{{ post.comments.length }}</span>

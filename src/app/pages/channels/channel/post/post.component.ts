@@ -1,6 +1,7 @@
+import { CommentsComponent } from './../comments/comments.component';
 import { ToastService } from './../../../../services/toast.service';
 import { ChannelService } from './../../../../services/channel.service';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
 import { Post } from './../../../../models/Post';
 import { User } from './../../../../models/User';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
@@ -18,7 +19,7 @@ export class PostComponent implements OnInit {
   deleteLoading = false;
 
   constructor(private alertCtrl: AlertController, private channelService: ChannelService, private toastService:
-              ToastService) { }
+              ToastService, private modalCtrl: ModalController) { }
 
   ngOnInit() {}
 
@@ -68,8 +69,6 @@ export class PostComponent implements OnInit {
     this.channelService.voteOnPost(this.post.id, vote)
     .then(
       (resp: any) => {
-        console.log(resp);
-
         this.post.voted = resp.data.voted;
         this.post.votes = resp.data.votes;
       },
@@ -77,5 +76,15 @@ export class PostComponent implements OnInit {
         this.toastService.presentStdToastr(err);
       }
     )
+  }
+  async showComments(){
+    const modal = await this.modalCtrl.create({
+      component: CommentsComponent,
+      animated: true,
+      componentProps: {
+        post: this.post
+      }
+    });
+    await modal.present();
   }
 }

@@ -1,3 +1,5 @@
+import { CommentComponent } from './channel/comment/comment.component';
+import { CommentsComponent } from './channel/comments/comments.component';
 import { PostComponent } from './channel/post/post.component';
 import { SharingPipeModule } from './../../pipes/sharing/sharing-pipe.module';
 import { PostFormComponent } from './channel/post-form/post-form.component';
@@ -38,7 +40,9 @@ import { ChannelsPage } from './channels.page';
     ChannelFormComponent,
     ChannelComponent,
     PostFormComponent,
-    PostComponent
+    PostComponent,
+    CommentsComponent,
+    CommentComponent
   ],
   providers: [
     UploadFileService,

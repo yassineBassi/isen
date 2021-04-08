@@ -49,4 +49,12 @@ export class ChannelService extends DataService {
   voteOnPost(id: string, vote: number){
     return this.sendRequest('post', '/post/' + id + '/vote', {vote})
   }
+
+  storeComment(id: string, data){
+    return this.sendRequest('post', '/post/' + id + '/comment', data)
+  }
+
+  getComments(id: string){
+    return this.sendRequest('get', '/post/' + id + '/comment', {})
+  }
 }

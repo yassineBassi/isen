@@ -1,6 +1,7 @@
 import { Location } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
+import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-header',
@@ -14,19 +15,19 @@ export class HeaderComponent implements OnInit {
   @Input() title = "";
   @Input() backLink = undefined;
   @Input() search = false;
+  @Input() modal = false;
 
   @Output() searchKeyUp = new EventEmitter();
 
   showSearch = false;
 
-  constructor(private location: Location, private router: Router) { }
+  constructor(private location: Location, private router: Router, private modalCtrl: ModalController) { }
 
   ngOnInit() {}
 
   goBack(){
-    console.log(this.backLink);
-
-    if(this.backLink) this.router.navigateByUrl(this.backLink);
+    if(this.modal) this.modalCtrl.dismiss({});
+    else if(this.backLink) this.router.navigateByUrl(this.backLink);
     else this.location.back();
   }
 

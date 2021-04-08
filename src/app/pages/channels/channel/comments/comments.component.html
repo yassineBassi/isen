@@ -1,0 +1,33 @@
+<app-header [back]="true" [modal]="true" [title]="'comments'"></app-header>
+
+<app-loader *ngIf="pageLoading"></app-loader>
+
+<ion-content
+>
+  <app-comment [backgroundColor]="post.backgroundColor" [color]="post.color" [comment]="comment" *ngFor="let comment of comments"></app-comment>
+</ion-content>
+
+<ion-footer>
+  <ion-item>
+    <ion-input
+      [(ngModel)]="commentText"
+      type="text"
+      class="pl-2"
+      placeholder="enter your comment"
+      (keydown.enter)="storeComment()"
+    ></ion-input>
+
+    <ion-button
+      size="default"
+      color="dark"
+      fill="clear"
+      shape="round"
+      class="ion-no-padding"
+      (click)="storeComment()"
+    >
+      <span class="px-2">
+        <ion-icon name="send-outline"></ion-icon>
+      </span>
+    </ion-button>
+  </ion-item>
+</ion-footer>

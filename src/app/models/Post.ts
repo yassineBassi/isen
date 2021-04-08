@@ -1,3 +1,4 @@
+import { Comment } from './Commentt';
 import { User } from './User';
 export class Post{
 
@@ -5,7 +6,7 @@ export class Post{
   private _text: string;
   private _votes: number;
   private _voted: number;
-  private _comments: any[];
+  private _comments: Comment[];
   private _anonyme: boolean;
   private _backgroundColor: string;
   private _color: string;
@@ -21,7 +22,7 @@ export class Post{
     this.text = post.text;
     this.votes = post.votes
     this.voted = post.voted
-    this.comments = post.comments;
+    this.comments = post.comments.map(comment => new Comment(comment));
     this.anonyme = post.anonyme;
     this.backgroundColor = post.backgroundColor;
     this.color = post.color;
