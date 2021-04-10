@@ -3,83 +3,83 @@
   class="mb-0"
 >
   <ion-card-header
-    class="py-2 pr-2 d-flex justify-content-between"
+    class="p-2 d-flex justify-content-between"
   >
     <div>
-      <ion-card-title
+      <ion-card-subtitle
+        class="user-name"
         [style]="{'--color': post.color}"
       >
-        {{ postUserName(post) }} {{ post.backgroundColor }}
-      </ion-card-title>
-      <small [style]="{'color': post.color}" class="d-block date">
-        {{ post.createdAt | extractDiffTime }}
-      </small>
+        {{ postUserName(post) }}
+        <small class="date">
+          {{ post.createdAt | extractDiffTime }}
+        </small>
+      </ion-card-subtitle>
     </div>
     <div>
       <ion-card-title
       [style]="{'--color': post.color}"
-      class="mr-1"
+      class="mr-1 star-value"
     >
       <span class="mr-2">{{ post.votes }}</span>
       <i class="fas fa-star"></i>
     </ion-card-title>
     </div>
   </ion-card-header>
-  <ion-card-content class="pt-2">
+  <ion-card-content class="p-0">
     <ion-card-subtitle
+      class="mx-2 post-text"
       [style]="{'--color': post.color}"
     >
       {{ post.text }}
     </ion-card-subtitle>
-  </ion-card-content>
-</ion-card>
-<ion-card class="p-1 pb-0 pl-0 pt-0 mt-0">
-  <ion-card-content class="p-0 m-0 d-flex justify-content-between">
-    <div>
-      <ion-button
-        size="small"
-        shape="round"
-        fill="clear"
-        color="dark"
-        (click)="voteOnPost(1)"
-      >
-        <span *ngIf="post.voted != 1"><i class="far fa-thumbs-up"></i></span>
-        <span *ngIf="post.voted == 1"><i class="fas fa-thumbs-up"></i></span>
+    <div class="d-flex justify-content-between">
+      <div>
+        <ion-button
+          size="small"
+          shape="round"
+          fill="clear"
+          [style]="{'color': post.color}"
+          (click)="voteOnPost(1)"
+        >
+          <span *ngIf="post.voted != 1"><i class="far fa-thumbs-up"></i></span>
+          <span *ngIf="post.voted == 1"><i class="fas fa-thumbs-up"></i></span>
 
-      </ion-button>
-      <ion-button
-        size="small"
-        shape="round"
-        fill="clear"
-        color="dark"
-        (click)="voteOnPost(-1)"
-      >
-        <span *ngIf="post.voted != -1"><i class="far fa-thumbs-down"></i></span>
-        <span *ngIf="post.voted == -1"><i class="fas fa-thumbs-down"></i></span>
-      </ion-button>
-      <ion-button
-        size="small"
-        shape="round"
-        fill="clear"
-        color="dark"
-        (click)="showComments()"
-      >
-        <i class="far fa-comments mr-1"></i>
-        <span>{{ post.comments.length }}</span>
-      </ion-button>
-    </div>
-    <div>
-      <ion-button
-        [style]="{'--color': post.color}"
-        fill="clear"
-        shape="round"
-        size="small"
-        color="dark"
-        (click)="deletePostConf()"
-      >
-        <span *ngIf="!deleteLoading"><i class="far fa-trash-alt"></i></span>
-        <span *ngIf="deleteLoading" ><i class="fas fa-spinner fa-spin"></i></span>
-      </ion-button>
+        </ion-button>
+        <ion-button
+          size="small"
+          shape="round"
+          fill="clear"
+          [style]="{'color': post.color}"
+          (click)="voteOnPost(-1)"
+        >
+          <span *ngIf="post.voted != -1"><i class="far fa-thumbs-down"></i></span>
+          <span *ngIf="post.voted == -1"><i class="fas fa-thumbs-down"></i></span>
+        </ion-button>
+        <ion-button
+          size="small"
+          shape="round"
+          fill="clear"
+          [style]="{'color': post.color}"
+          (click)="showComments()"
+        >
+          <i class="far fa-comments mr-1"></i>
+          <span>{{ post.comments.length }}</span>
+        </ion-button>
+      </div>
+      <div>
+        <ion-button
+          [style]="{'--color': post.color}"
+          fill="clear"
+          shape="round"
+          size="small"
+          [style]="{'color': post.color}"
+          (click)="deletePostConf()"
+        >
+          <span *ngIf="!deleteLoading"><i class="far fa-trash-alt"></i></span>
+          <span *ngIf="deleteLoading" ><i class="fas fa-spinner fa-spin"></i></span>
+        </ion-button>
+      </div>
     </div>
   </ion-card-content>
 </ion-card>
