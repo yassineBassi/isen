@@ -1,5 +1,11 @@
-<ion-header>
-  <ion-toolbar>
+<ion-header
+>
+  <ion-toolbar
+    [style]="{
+      '--background': backgroundColor ? (backgroundColor + '!important') : '',
+      '--color': textColor ? (textColor + '!important') : ''
+    }"
+  >
     <ion-buttons class="ion-no-padding ion-no-margin" slot="start" *ngIf="!showSearch">
       <ion-button shape="round" (click)="goBack()" *ngIf="back">
         <i class="fas fa-arrow-left"></i>

@@ -9,7 +9,7 @@
       <ion-card-title
         [style]="{'--color': post.color}"
       >
-        {{ postUserName(post) }}
+        {{ postUserName(post) }} {{ post.backgroundColor }}
       </ion-card-title>
       <small [style]="{'color': post.color}" class="d-block date">
         {{ post.createdAt | extractDiffTime }}

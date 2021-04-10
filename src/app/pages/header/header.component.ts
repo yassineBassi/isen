@@ -16,6 +16,8 @@ export class HeaderComponent implements OnInit {
   @Input() backLink = undefined;
   @Input() search = false;
   @Input() modal = false;
+  @Input() backgroundColor: string;
+  @Input() textColor: string;
 
   @Output() searchKeyUp = new EventEmitter();
 

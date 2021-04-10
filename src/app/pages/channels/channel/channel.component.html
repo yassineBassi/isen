@@ -8,8 +8,6 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  <app-post-form (newPost)="addPost($event)" (closeForm)="showPostForm = false" [channelId]="channelId" *ngIf="channelId && showPostForm"></app-post-form>
-
   <div *ngIf="posts && posts.length">
     <app-post class="my-3" (removePost)="deletePost(post)" *ngFor="let post of posts" [post]="post"></app-post>
   </div>
@@ -22,15 +20,13 @@
   </ion-infinite-scroll>
 
   <ion-fab
-    (click)="showPostForm = true"
     slot="fixed"
     vertical="bottom"
     horizontal="center"
-    *ngIf="!showPostForm"
+    (click)="showPostForm()"
   >
     <ion-fab-button color="secondary">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>
-
 </ion-content>

@@ -16,6 +16,7 @@ export class PostComponent implements OnInit {
   @Output() removePost = new EventEmitter();
   @Input() post: Post;
 
+
   deleteLoading = false;
 
   constructor(private alertCtrl: AlertController, private channelService: ChannelService, private toastService:

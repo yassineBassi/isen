@@ -1,4 +1,5 @@
-import { IonInfiniteScroll } from '@ionic/angular';
+import { PostFormComponent } from './post-form/post-form.component';
+import { IonInfiniteScroll, ModalController } from '@ionic/angular';
 import { User } from './../../../models/User';
 import { ToastService } from './../../../services/toast.service';
 import { Post } from './../../../models/Post';
@@ -13,7 +14,6 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
   styleUrls: ['./channel.component.scss'],
 })
 export class ChannelComponent implements OnInit {
-
   @ViewChild('infinitScroll') infinitScroll: IonInfiniteScroll;
 
   channelId: string;
@@ -24,10 +24,8 @@ export class ChannelComponent implements OnInit {
   posts: Post[];
   page = 0;
 
-  showPostForm = false;
-
-  constructor(private channelService: ChannelService, private route: ActivatedRoute, private toastService:
-              ToastService) { }
+  constructor(private channelService: ChannelService, private route: ActivatedRoute, private modalCtrl:
+              ModalController) { }
 
   ngOnInit() {}
 
@@ -76,10 +74,24 @@ export class ChannelComponent implements OnInit {
       }
     )
   }
+
   addPost(post: Post){
     this.posts.unshift(post);
   }
+
   deletePost(post: Post){
     this.posts.splice(this.posts.indexOf(post), 1);
+  }
+
+  async showPostForm(){
+    const modal = await this.modalCtrl.create({
+      component: PostFormComponent,
+      componentProps: {
+        channelId: this.channelId
+      }
+    });
+    await modal.present()
+    const { data } = await modal.onWillDismiss();
+    this.addPost(data.post);
   }
 }
