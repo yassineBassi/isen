@@ -1,5 +1,5 @@
 import { PostFormComponent } from './post-form/post-form.component';
-import { IonInfiniteScroll, ModalController } from '@ionic/angular';
+import { IonInfiniteScroll, ModalController, IonContent } from '@ionic/angular';
 import { User } from './../../../models/User';
 import { ToastService } from './../../../services/toast.service';
 import { Post } from './../../../models/Post';
@@ -15,6 +15,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 })
 export class ChannelComponent implements OnInit {
   @ViewChild('infinitScroll') infinitScroll: IonInfiniteScroll;
+  @ViewChild('content') content: IonContent;
 
   channelId: string;
   channelName: string;
@@ -77,6 +78,7 @@ export class ChannelComponent implements OnInit {
 
   addPost(post: Post){
     this.posts.unshift(post);
+    this.content.scrollToTop(200)
   }
 
   deletePost(post: Post){

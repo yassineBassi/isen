@@ -45,9 +45,9 @@ export class CommentComponent implements OnInit {
     )
   }
 
-  async deletePostConf(){
+  async deleteCommentConf(){
     const alert = await this.alertCtrl.create({
-      header: 'Delete Post',
+      header: 'Delete Comment',
       message: 'do you really want to delete this comment ?',
       buttons: [
         {
@@ -64,5 +64,18 @@ export class CommentComponent implements OnInit {
       ]
     })
     await alert.present()
+  }
+
+  voteOnComment(vote: number){
+    this.channelService.voteOnComment(this.comment.id, vote)
+    .then(
+      (resp: any) => {
+        this.comment.voted = resp.data.voted;
+        this.comment.votes = resp.data.votes;
+      },
+      err => {
+        this.toastService.presentStdToastr(err);
+      }
+    )
   }
 }

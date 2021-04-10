@@ -1,8 +1,16 @@
-<app-header [back]="true" [modal]="true" [title]="'comments'"></app-header>
+<app-header
+  [back]="true"
+  [modal]="true"
+  [backgroundColor]="'#fff'"
+  [textColor]="'#000'"
+  title="Comments"
+></app-header>
 
 <app-loader *ngIf="pageLoading"></app-loader>
 
-<ion-content>
+<ion-content
+  [style]="{'--background': post.backgroundColor}"
+>
 
   <ion-refresher slot="fixed" pullFactor="0.5" pullMin="100" pullMax="200"  (ionRefresh)="getComments($event, true)">
     <ion-refresher-content></ion-refresher-content>

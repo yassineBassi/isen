@@ -14,32 +14,28 @@ export class PostFormComponent implements OnInit {
 
   colors = [
     {
-      background: '#f7f731',
-      text: '#000'
-    },
-    {
-      background: '#ff6eca',
+      background: '#ff9908',
       text: '#fff'
     },
     {
-      background: '#ffa6dd',
-      text: '#000'
+      background: '#9ec31b',
+      text: '#fff'
     },
     {
-      background: '#7494a1',
+      background: '#dd5f60',
+      text: '#fff'
+    },
+    {
+      background: '#06a4cb',
       text: '#fff'
     },
     {
       background: '#a3baa0',
-      text: '#000'
+      text: '#fff'
     },
     {
-      background: '#9999ff',
-      text: '#000'
-    },
-    {
-      background: '#ffb9b5',
-      text: '#000'
+      background: '#babcb0',
+      text: '#fff'
     }
   ];
 

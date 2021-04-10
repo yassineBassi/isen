@@ -62,4 +62,7 @@ export class ChannelService extends DataService {
     return this.sendRequest('delete', '/post/comment/' + id, {})
   }
 
+  voteOnComment(id: string, vote: number){
+    return this.sendRequest('post', '/post/comment/' + id + '/vote', {vote})
+  }
 }

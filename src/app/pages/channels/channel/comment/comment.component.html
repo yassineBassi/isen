@@ -1,37 +1,76 @@
 
 <ion-card
   [style]="{'--background': backgroundColor, '--color': color}"
+  class="m-1"
 >
   <ion-card-header
-    class="pt-2 pb-2 pr-2 d-flex justify-content-between"
+    class="p-2 d-flex justify-content-between"
   >
     <div>
       <ion-card-title
+        class="user-name"
         [style]="{'--color': color}"
       >
-        {{ commentUserName(comment) }} {{color}}
+        {{ commentUserName(comment) }}
+        <small class="date">
+          {{ comment.createdAt | extractDiffTime }}
+        </small>
       </ion-card-title>
-      <small [style]="{'color': color}" class="d-block date">
-        {{ comment.createdAt | extractDiffTime }}
-      </small>
     </div>
-    <ion-button
-      [style]="{'--color': color}"
-      fill="clear"
-      shape="round"
-      size="small"
-      color="dark"
-      (click)="deletePostConf()"
-    >
-      <span *ngIf="!deleteLoading"><i class="far fa-trash-alt"></i></span>
-      <span *ngIf="deleteLoading" ><i class="fas fa-spinner fa-spin"></i></span>
-    </ion-button>
+    <div>
+      <ion-card-title
+        [style]="{'--color': color}"
+        class="mr-1 star-value"
+      >
+        <span class="mr-2">{{ comment.votes }}</span>
+        <i class="fas fa-star"></i>
+      </ion-card-title>
+    </div>
   </ion-card-header>
-  <ion-card-content class="pt-2">
+  <ion-card-content class="p-0">
     <ion-card-subtitle
       [style]="{'--color': color}"
+      class="mx-2 post-text"
     >
       {{ comment.text }}
     </ion-card-subtitle>
+    <div class="d-flex justify-content-between">
+      <div>
+        <ion-button
+          size="small"
+          shape="round"
+          fill="clear"
+          [style]="{'color': color}"
+          (click)="voteOnComment(1)"
+        >
+          <span *ngIf="comment.voted != 1"><i class="far fa-thumbs-up"></i></span>
+          <span *ngIf="comment.voted == 1"><i class="fas fa-thumbs-up"></i></span>
+
+        </ion-button>
+        <ion-button
+          size="small"
+          shape="round"
+          fill="clear"
+          [style]="{'color': color}"
+          (click)="voteOnComment(-1)"
+        >
+          <span *ngIf="comment.voted != -1"><i class="far fa-thumbs-down"></i></span>
+          <span *ngIf="comment.voted == -1"><i class="fas fa-thumbs-down"></i></span>
+        </ion-button>
+      </div>
+      <div>
+        <ion-button
+          [style]="{'--color': color}"
+          fill="clear"
+          shape="round"
+          size="small"
+          [style]="{'color': color}"
+          (click)="deleteCommentConf()"
+        >
+          <span *ngIf="!deleteLoading"><i class="far fa-trash-alt"></i></span>
+          <span *ngIf="deleteLoading" ><i class="fas fa-spinner fa-spin"></i></span>
+        </ion-button>
+      </div>
+    </div>
   </ion-card-content>
 </ion-card>
