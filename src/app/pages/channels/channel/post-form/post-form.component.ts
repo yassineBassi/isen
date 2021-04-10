@@ -12,6 +12,8 @@ import { Component, OnInit, ViewChild, ElementRef, Input, Output, EventEmitter }
 export class PostFormComponent implements OnInit {
   @Input() channelId;
 
+  anonyme = false;
+
   colors = [
     {
       background: '#ff9908',
@@ -61,7 +63,8 @@ export class PostFormComponent implements OnInit {
     this.channelService.storePost(this.channelId, {
       text: this.postText,
       backgroundColor: this.postBackColor,
-      color: this.postTextColor
+      color: this.postTextColor,
+      anonyme: this.anonyme
     })
     .then(
       (resp: any) => {

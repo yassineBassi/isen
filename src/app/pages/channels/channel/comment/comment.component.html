@@ -11,6 +11,7 @@
         class="user-name"
         [style]="{'--color': color}"
       >
+        <span class="mr-1" *ngIf="comment.anonyme"><i class="fas fa-user-secret"></i></span>
         {{ commentUserName(comment) }}
         <small class="date">
           {{ comment.createdAt | extractDiffTime }}

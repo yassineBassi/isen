@@ -17,6 +17,8 @@ export class ChannelComponent implements OnInit {
   @ViewChild('infinitScroll') infinitScroll: IonInfiniteScroll;
   @ViewChild('content') content: IonContent;
 
+  anonyme = false;
+
   channelId: string;
   channelName: string;
 
@@ -94,6 +96,7 @@ export class ChannelComponent implements OnInit {
     });
     await modal.present()
     const { data } = await modal.onWillDismiss();
-    this.addPost(data.post);
+    if(data.post)
+      this.addPost(data.post);
   }
 }

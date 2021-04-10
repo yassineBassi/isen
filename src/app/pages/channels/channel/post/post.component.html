@@ -10,6 +10,7 @@
         class="user-name"
         [style]="{'--color': post.color}"
       >
+        <span class="mr-1" *ngIf="post.anonyme"><i class="fas fa-user-secret"></i></span>
         {{ postUserName(post) }}
         <small class="date">
           {{ post.createdAt | extractDiffTime }}

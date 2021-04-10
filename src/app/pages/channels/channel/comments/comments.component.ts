@@ -16,6 +16,9 @@ export class CommentsComponent implements OnInit {
 
   @Output() addComment = new EventEmitter();
   @Input() post: Post;
+
+  anonyme = false;
+
   commentText = "";
 
   comments: Comment[];
@@ -62,7 +65,7 @@ export class CommentsComponent implements OnInit {
 
   storeComment(){
     if(!this.commentText.length) return;
-    this.channelService.storeComment(this.post.id, {text: this.commentText})
+    this.channelService.storeComment(this.post.id, {text: this.commentText, anonyme: this.anonyme})
     .then(
       (resp: any) => {
         this.comments.unshift(new Comment(resp.data))

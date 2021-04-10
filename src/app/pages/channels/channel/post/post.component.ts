@@ -78,6 +78,7 @@ export class PostComponent implements OnInit {
       }
     )
   }
+
   async showComments(){
     const modal = await this.modalCtrl.create({
       component: CommentsComponent,

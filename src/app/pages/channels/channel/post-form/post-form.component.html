@@ -19,6 +19,17 @@
 <ion-content
   [style]="{'--background': postBackColor, '--color': postTextColor}"
 >
+
+  <ion-item
+    [style]="{'--background': 'transparent', '--color': postTextColor}"
+  >
+    <span class="ml-3"><i class="fas fa-user-secret"></i></span>
+    <ion-label class="ml-2">
+      Anonyme
+    </ion-label>
+    <ion-toggle [(ngModel)]="anonyme"></ion-toggle>
+  </ion-item>
+
   <ion-item
     class="post-textarea h-100"
     [style]="{'--color': postTextColor}"
