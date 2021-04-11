@@ -42,7 +42,7 @@
           </ion-label>
           <ion-textarea maxlength="255" formControlName="description" class="ml-2" rows="5"></ion-textarea>
         </ion-item>
-        <span *ngIf="validatorErrors['description'] || (description.dirty && description.errors)">
+        <span *ngIf="validatorErrors['description'] || (description.dirty && description.errors)" class="mt-1">
           <span class="text-danger" *ngIf="validatorErrors['description']">{{ validatorErrors['description'][0] }}</span>
           <span class="text-danger" *ngIf="description.hasError('required')">The description field is required</span>
           <span class="text-danger" *ngIf="description.hasError('maxlength')">

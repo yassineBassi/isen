@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { ToastService } from './../../../../services/toast.service';
 import { ChannelService } from './../../../../services/channel.service';
 import { AlertController } from '@ionic/angular';
@@ -16,16 +17,17 @@ export class CommentComponent implements OnInit {
   @Input() comment: Comment;
   @Input() backgroundColor: string;
   @Input() color: string;
+  @Input() user: User;
 
   deleteLoading = false;
 
   constructor(private alertCtrl: AlertController, private channelService: ChannelService, private toastService:
-             ToastService) { }
+             ToastService, private router: Router) { }
 
   ngOnInit() {}
 
   commentUserName(comment: Comment){
-    const user: User = comment.user as User
+    const user = comment.user
     return comment.anonyme ? 'Anonyme' : (user.firstName + ' ' + user.lastName);
   }
 
@@ -77,5 +79,10 @@ export class CommentComponent implements OnInit {
         this.toastService.presentStdToastr(err);
       }
     )
+  }
+
+  showUserProfile(id: string){
+    if(!this.comment.anonyme)
+      this.router.navigate(['/profile/display/' + id])
   }
 }

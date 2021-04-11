@@ -38,7 +38,7 @@ export class ListComponent implements OnInit {
         }
 
         resp.data.forEach(usr => {
-          this.users.push(new User(usr));
+          this.users.push(new User().initialize(usr));
         })
       },
       err => {

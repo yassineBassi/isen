@@ -9,14 +9,6 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  <ion-item  *ngIf="channels && channels.length">
-    <span class="ml-3"><i class="fas fa-user-secret"></i></span>
-    <ion-label class="ml-2">
-      Anonymity in Channels
-    </ion-label>
-    <ion-toggle [(ngModel)]="anonyme" color="secondary"></ion-toggle>
-  </ion-item>
-
   <ion-card class="p-2" *ngIf="channels && !channels.length && !pageLoading">
     <ion-card-subtitle>
       <span *ngIf="type == 'mines'">You didn't create any channel yet !</span>
@@ -29,9 +21,14 @@
 
   <ion-list *ngIf="channels && channels.length">
     <ion-item
-      [routerLink]="['/channels/channel']"
-      [queryParams]="{ id: channel.id, name: channel.name }"
       *ngFor="let channel of channels"
+      [routerLink]="['/channels/channel']"
+      [queryParams]="{
+        id: channel.id,
+        name: channel.name,
+        channelIsFollowed: channel.followed,
+        myChannel: type == 'mines' ? true : false
+      }"
     >
       <ion-avatar class="avatar ml-2">
         <img [src]="channel.photo.path" alt="">
@@ -45,7 +42,7 @@
         [disabled]="followLoading.includes(channel.id)"
         fill="outline"
         (click)="follow(channel)"
-        *ngIf="user && channel.user != user.id"
+        *ngIf="user && channel.user.id != user.id"
       >
           <span *ngIf="!channel.followed">
             <span *ngIf="!followLoading.includes(channel.id)"><i class="fas fa-plus mr-1"></i></span>
@@ -67,7 +64,7 @@
     </ion-infinite-scroll-content>
   </ion-infinite-scroll>
 
-  <ion-fab position="fixed" vertical="bottom" horizontal="end" *ngIf="!anonyme && type == 'mines'">
+  <ion-fab position="fixed" vertical="bottom" horizontal="end" *ngIf="type == 'mines'">
     <ion-fab-button routerLink="/channels/form" color="secondary">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>

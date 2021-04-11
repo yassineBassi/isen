@@ -1,3 +1,4 @@
+import { Channel } from './Channel';
 import { Comment } from './Commentt';
 import { User } from './User';
 export class Post{
@@ -11,18 +12,21 @@ export class Post{
   private _backgroundColor: string;
   private _color: string;
 
-  private _channel: string;
-  private _user: string | User;
+  private _channel: Channel;
+  private _user: User;
 
   private _deletedAt: Date;
   private _createdAt: Date;
 
-  constructor(post: Post){
+  constructor(){
+  }
+
+  initialize(post: Post){
     this.id = post._id;
     this.text = post.text;
     this.votes = post.votes
     this.voted = post.voted
-    this.comments = post.comments.map(comment => new Comment(comment));
+    this.comments = post.comments.map(comment => new Comment().initialize(comment));
     this.anonyme = post.anonyme;
     this.backgroundColor = post.backgroundColor;
     this.color = post.color;
@@ -32,6 +36,8 @@ export class Post{
 
     this.channel = post.channel;
     this.user = post.user;
+
+    return this;
   }
 
   get id(): string{ return this._id }
@@ -43,8 +49,8 @@ export class Post{
   get backgroundColor(): string{ return this._backgroundColor }
   get color(): string{ return this._color }
 
-  get channel(): string{ return this._channel }
-  get user(): string | User{ return this._user }
+  get channel(): Channel{ return this._channel }
+  get user(): User{ return this._user }
 
   get createdAt(): Date{ return this._createdAt }
   get deletedAt(): Date{ return this._deletedAt }
@@ -58,8 +64,26 @@ export class Post{
   set backgroundColor(backgroundColor: string){ this._backgroundColor = backgroundColor }
   set color(color: string){ this._color = color }
 
-  set channel(channel: string){ this._channel = channel }
-  set user(user: string | User){ this._user = user }
+  set channel(channel: Channel){
+    if(channel){
+      if(typeof channel == 'string'){
+        this._channel = new Channel();
+        this._channel.id = channel
+      }else{
+        this._channel = new Channel().initialize(channel);
+      }
+    }
+  }
+  set user(user: User){
+    if(user){
+      if(typeof user == 'string'){
+        this._user = new User();
+        this._user.id = user
+      }else{
+        this._user = new User().initialize(user);
+      }
+    }
+  }
 
   set createdAt(createdAt: Date){ this._createdAt = createdAt }
   set deletedAt(deletedAt: Date){ this._deletedAt = deletedAt }

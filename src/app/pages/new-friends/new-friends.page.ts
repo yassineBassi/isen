@@ -38,7 +38,7 @@ export class NewFriendsPage implements OnInit {
         if(!event || refresh) this.users = [];
 
         resp.data.forEach(user => {
-          this.users.push(new User(user));
+          this.users.push(new User().initialize(user));
         })
 
         if(event) event.target.complete();

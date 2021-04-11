@@ -52,7 +52,9 @@ export class DataService{
             resp => {
               console.log("resp");
               console.log(resp);
-              resolve(JSON.parse(resp.data));
+              resp = JSON.parse(resp.data);
+              console.log(resp);
+              resolve(resp);
             },
             err => {
               console.log("err");

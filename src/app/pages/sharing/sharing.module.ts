@@ -1,3 +1,4 @@
+import { DropDownComponent } from './../drop-down/drop-down.component';
 import { ListSearchComponent } from './../list-search/list-search.component';
 import { LoaderComponent } from './../loader/loader.component';
 import { IonicModule } from '@ionic/angular';
@@ -11,7 +12,8 @@ import { CommonModule } from '@angular/common';
   declarations: [
     HeaderComponent,
     LoaderComponent,
-    ListSearchComponent
+    ListSearchComponent,
+    DropDownComponent
   ],
   imports: [
     CommonModule,

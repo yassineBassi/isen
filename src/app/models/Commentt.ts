@@ -1,3 +1,4 @@
+import { Post } from './Post';
 import { User } from './User';
 export class Comment{
 
@@ -8,12 +9,15 @@ export class Comment{
   private _votes: number;
   private _voted: number;
 
-  private _post: string;
-  private _user: string | User;
+  private _post: Post;
+  private _user: User;
 
   private _createdAt: Date;
 
-  constructor(comment: Comment){
+  constructor(){
+  }
+
+  initialize(comment: Comment){
     this.id = comment._id;
     this.text = comment.text;
     this.anonyme = comment.anonyme;
@@ -25,6 +29,8 @@ export class Comment{
 
     this.post = comment.post;
     this.user = comment.user;
+
+    return this;
   }
 
   get id(): string{ return this._id }
@@ -34,11 +40,10 @@ export class Comment{
   get votes(): number{ return this._votes }
   get voted(): number{ return this._voted }
 
-  get post(): string{ return this._post }
-  get user(): string | User{ return this._user }
+  get post(): Post{ return this._post }
+  get user(): User{ return this._user }
 
   get createdAt(): Date{ return this._createdAt }
-
 
 
   set id(id: string){ this._id = id }
@@ -48,8 +53,26 @@ export class Comment{
   set votes(votes: number){ this._votes = votes }
   set voted(voted: number){ this._voted = voted }
 
-  set post(post: string){ this._post = post }
-  set user(user: string | User){ this._user = user }
+  set post(post: Post){
+    if(post){
+      if(typeof post == 'string'){
+        this._post = new Post();
+        this._post.id = post
+      }else{
+        this._post = new Post().initialize(post);
+      }
+    }
+  }
+  set user(user: User){
+    if(user){
+      if(typeof user == 'string'){
+        this._user = new User();
+        this._user.id = user
+      }else{
+        this._user = new User().initialize(user);
+      }
+    }
+  }
 
   set createdAt(createdAt: Date){ this._createdAt = createdAt }
 }

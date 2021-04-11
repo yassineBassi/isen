@@ -81,7 +81,7 @@ export class ChatComponent implements OnInit {
     this.nativeStorage.getItem('user')
     .then(
       user => {
-        this.authUser = new User(user);
+        this.authUser = new User().initialize(user);
         this.initializeSocket();
         this.getUserId();
       },
@@ -105,7 +105,7 @@ export class ChatComponent implements OnInit {
     this.userService.getUserProfile(id)
     .then(
       (resp: any) => {
-        this.user = new User(resp.data)
+        this.user = new User().initialize(resp.data);
         this.initializeSocket();
         this.getMessages(null);
       },

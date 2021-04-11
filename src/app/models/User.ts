@@ -29,8 +29,7 @@ export class User{
 
   private _lastMessage: Message;
 
-  constructor(user: User){
-    this.initialize(user);
+  constructor(){
   }
 
   initialize(user: User)
@@ -60,7 +59,9 @@ export class User{
 
     this.online = user.online
 
-    if(user.lastMessage) this.lastMessage = new Message().initialize(user.lastMessage)
+    if(user.lastMessage) this.lastMessage = new Message().initialize(user.lastMessage);
+
+    return this;
   }
 
   get id(): string {return this._id};

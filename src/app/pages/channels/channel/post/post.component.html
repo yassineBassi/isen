@@ -9,8 +9,10 @@
       <ion-card-subtitle
         class="user-name"
         [style]="{'--color': post.color}"
+        (click)="showUserProfile(post.user.id)"
       >
         <span class="mr-1" *ngIf="post.anonyme"><i class="fas fa-user-secret"></i></span>
+        <span class="mr-1" *ngIf="!post.anonyme"><i class="fas fa-user"></i></span>
         {{ postUserName(post) }}
         <small class="date">
           {{ post.createdAt | extractDiffTime }}
@@ -76,6 +78,7 @@
           size="small"
           [style]="{'color': post.color}"
           (click)="deletePostConf()"
+          *ngIf="post.user.id == user.id"
         >
           <span *ngIf="!deleteLoading"><i class="far fa-trash-alt"></i></span>
           <span *ngIf="deleteLoading" ><i class="fas fa-spinner fa-spin"></i></span>

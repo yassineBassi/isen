@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { CommentsComponent } from './../comments/comments.component';
 import { ToastService } from './../../../../services/toast.service';
 import { ChannelService } from './../../../../services/channel.service';
@@ -15,17 +16,17 @@ export class PostComponent implements OnInit {
 
   @Output() removePost = new EventEmitter();
   @Input() post: Post;
-
+  @Input() user: User;
 
   deleteLoading = false;
 
   constructor(private alertCtrl: AlertController, private channelService: ChannelService, private toastService:
-              ToastService, private modalCtrl: ModalController) { }
+              ToastService, private modalCtrl: ModalController, private router: Router) { }
 
   ngOnInit() {}
 
   postUserName(post: Post){
-    const user: User = post.user as User
+    const user = post.user
     return post.anonyme ? 'Anonyme' : (user.firstName + ' ' + user.lastName);
   }
 
@@ -84,9 +85,15 @@ export class PostComponent implements OnInit {
       component: CommentsComponent,
       animated: true,
       componentProps: {
-        post: this.post
+        post: this.post,
+        user: this.user
       }
     });
     await modal.present();
+  }
+
+  showUserProfile(id: string){
+    if(!this.post.anonyme)
+      this.router.navigate(['/profile/display/' + id])
   }
 }

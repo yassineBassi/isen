@@ -34,7 +34,7 @@ export class ListComponent implements OnInit {
         console.log(resp);
         if(!event || refresh) this.friends = [];
         resp.data.forEach(usr => {
-          this.friends.push(new User(usr));
+          this.friends.push(new User().initialize(usr));
         })
         if(event) event.target.complete();
         this.pageLoading = false;

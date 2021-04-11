@@ -18,7 +18,6 @@ export class ListComponent implements OnInit {
   page: number;
   channels: Channel[];
   searchWord = "";
-  anonyme: boolean;
   type: string;
 
   followLoading = [];
@@ -42,7 +41,7 @@ export class ListComponent implements OnInit {
         this.nativeStorage.getItem('user')
         .then(
           user => {
-            this.user = new User(user);
+            this.user = new User().initialize(user);
             this.getChannels();
           }
         )
@@ -60,11 +59,13 @@ export class ListComponent implements OnInit {
     this.pageLoading = false;
     if(!event || refresh) this.channels = []
     resp.data.forEach(channel => {
-      this.channels.push(new Channel(channel));
+      this.channels.push(new Channel().initialize(channel));
     })
     console.log(resp);
-    if(event) event.target.complete();
-    if(event && !resp.data.more) event.target.disabled = true;
+    if(event){
+      event.target.complete();
+      if(!refresh && !resp.data.more) event.target.disabled = true;
+    }
   }
 
   handleError(err){

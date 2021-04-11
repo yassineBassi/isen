@@ -1,3 +1,4 @@
+import { User } from 'src/app/models/User';
 import { File } from './File';
 export class Channel{
 
@@ -8,23 +9,30 @@ export class Channel{
   private _activated: boolean;
   private _photo: File;
   private _createdAt: Date;
-  private _user: string;
+  private _user: User;
 
   private _followed: boolean;
   private _followerSize: number;
 
-  constructor(channel: Channel){
+  constructor(){
+  }
+
+  initialize(channel: Channel){
     this.id = channel._id;
     this.name = channel.name;
     this.description = channel.description;
     this.activated = channel.activated;
     this.photo = channel.photo;
     this.pin = channel.pin;
+
     this.user = channel.user;
+
     this.createdAt = new Date(channel.createdAt);
 
     this.followerSize = channel.followerSize;
     this.followed = channel.followed;
+
+    return this;
   }
 
   get id(): string{ return this._id }
@@ -32,7 +40,7 @@ export class Channel{
   get description(): string{ return this._description }
   get pin(): boolean{ return this._pin }
   get activated(): boolean{ return this._activated }
-  get user(): string{ return this._user }
+  get user(): User{ return this._user }
   get photo(): File{ return this._photo }
   get createdAt(): Date{ return this._createdAt }
 
@@ -44,7 +52,18 @@ export class Channel{
   set description(description: string){ this._description = description }
   set pin(pin: boolean){ this._pin = pin }
   set activated(activated: boolean){ this._activated = activated }
-  set user(user: string){ this._user = user }
+
+  set user(user: User){
+    if(user){
+      if(typeof user == 'string'){
+        this._user = new User();
+        this._user.id = user;
+      }else{
+        this._user = new User().initialize(user)
+      }
+    }
+  }
+
   set photo(photo: File){ this._photo = photo }
   set createdAt(createdAt: Date){ this._createdAt = createdAt }
 

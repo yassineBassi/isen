@@ -1,0 +1,8 @@
+<ion-list class="p-0">
+  <ion-item (click)="dismiss(item.event)" *ngFor="let item of items">
+    <ion-label class="pl-2">
+      <i [class]="item.icon" class="mr-1 icon"></i>
+      {{ item.text }}
+    </ion-label>
+  </ion-item>
+</ion-list>

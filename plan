@@ -7,4 +7,6 @@ change the inifinit scroll icon to crescent
 add more option for inifinit scroll // hide pageLoading when refresh or scroll
 set more to false when refresh
 when delete post delete its comments
+nb of comments alwayse 0
 // catch me if you can
+change unfollow service function

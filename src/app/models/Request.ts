@@ -7,7 +7,7 @@ export class Request{
 
   constructor(request: Request){
     this._id = request._id;
-    this._from = new User(request.from);
+    this._from = new User().initialize(request.from);
     this._createdAt = new Date(request.createdAt).toString()
   }
 

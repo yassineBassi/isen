@@ -72,7 +72,7 @@ export class PostFormComponent implements OnInit {
         this.toastService.presentStdToastr(resp.message);
         this.postText = "";
         this.modalCtrl.dismiss({
-          post: new Post(resp.data)
+          post: new Post().initialize(resp.data)
         })
       },
       err => {

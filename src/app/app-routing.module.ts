@@ -14,7 +14,7 @@ const routes: Routes = [
     redirectTo: 'profile/null'
   },
   {
-    path: 'profile/:id',
+    path: 'profile',
     loadChildren: () => import('./pages/profile/profile.module').then( m => m.ProfilePageModule),
     canActivate: [AuthGuard]
   },

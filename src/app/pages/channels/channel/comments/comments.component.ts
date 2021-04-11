@@ -1,3 +1,4 @@
+import { User } from 'src/app/models/User';
 import { IonInfiniteScroll } from '@ionic/angular';
 import { Comment } from './../../../../models/Commentt';
 import { ToastService } from './../../../../services/toast.service';
@@ -16,6 +17,7 @@ export class CommentsComponent implements OnInit {
 
   @Output() addComment = new EventEmitter();
   @Input() post: Post;
+  @Input() user: User;
 
   anonyme = false;
 
@@ -52,8 +54,8 @@ export class CommentsComponent implements OnInit {
           event.target.complete()
           if(!resp.data.more && !refresh) event.target.disabled = true;
         }
-        resp.data.comments.forEach(pst => {
-          this.comments.push(new Comment(pst));
+        resp.data.comments.forEach(cmt => {
+          this.comments.push(new Comment().initialize(cmt));
         })
         this.pageLoading = false;
       },
@@ -68,7 +70,7 @@ export class CommentsComponent implements OnInit {
     this.channelService.storeComment(this.post.id, {text: this.commentText, anonyme: this.anonyme})
     .then(
       (resp: any) => {
-        this.comments.unshift(new Comment(resp.data))
+        this.comments.unshift(new Comment().initialize(resp.data))
         this.commentText = "";
       },
       err => {

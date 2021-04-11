@@ -9,12 +9,7 @@ const routes: Routes = [
     path: '',
     children: [
       {
-        path: '',
-        redirectTo: 'display',
-        pathMatch: 'full'
-      },
-      {
-        path: 'display',
+        path: 'display/:id',
         component: DisplayComponent
       },
       {
@@ -22,10 +17,6 @@ const routes: Routes = [
         component: FormComponent
       }
     ]
-  },
-  {
-    path: '**',
-    redirectTo: ''
   }
 ];
 

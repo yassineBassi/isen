@@ -26,6 +26,10 @@ export class ChannelService extends DataService {
     return this.sendRequest('get', '/explore', {page: page.toString(), search, city})
   }
 
+  deleteChannel(id: string){
+    return this.sendRequest('delete', '/' + id, {})
+  }
+
   store(data){
     return this.sendRequest('post', '', data, {}, 'multipart');
   }
@@ -65,4 +69,5 @@ export class ChannelService extends DataService {
   voteOnComment(id: string, vote: number){
     return this.sendRequest('post', '/post/comment/' + id + '/vote', {vote})
   }
+
 }

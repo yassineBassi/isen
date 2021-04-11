@@ -40,7 +40,7 @@ export class ProductComponent implements OnInit {
         this.nativeStorage.getItem('user')
         .then(
           user => {
-            this.user = new User(user)
+            this.user = new User().initialize(user)
             this.getProduct();
           }
         )

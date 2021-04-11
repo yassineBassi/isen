@@ -59,7 +59,7 @@ export class VideoComponent implements OnInit, AfterViewInit {
     .then(
       (resp: any) => {
         this.pageLoading = false;
-        this.user = new User(resp.data);
+        this.user = new User().initialize(resp.data);
         this.init();
       },err => {
         this.pageLoading = false;

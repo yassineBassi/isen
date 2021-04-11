@@ -42,7 +42,7 @@ export class DisplayComponent implements OnInit {
       params => {
         const id = params.get('id');
         console.log(id);
-        if(id != "null"){
+        if(id && id != "null"){
           this.getUser(id);
         }else{
           this.getAuthUser();
@@ -58,7 +58,7 @@ export class DisplayComponent implements OnInit {
     .then(
       (resp: any) => {
         this.pageLoading = false;
-        this.user = new User(resp.data);
+        this.user = new User().initialize(resp.data);
         console.log(resp);
       },
       err => {
@@ -73,7 +73,7 @@ export class DisplayComponent implements OnInit {
     this.auth.getAuthUser()
     .then(
       (resp: any) => {
-        this.user = new User(resp.data);
+        this.user = new User().initialize(resp.data);
         this.nativeStorage.setItem('user', resp.data);
         console.log(this.user);
         this.pageLoading = false;

@@ -1,10 +1,3 @@
-<!-- <app-header title="profile" [transparent]='true' [menu]="true">
-  <div id="end-buttons">
-    <ion-button routerLink="/profile/form">
-      <i class="fas fa-pen"></i>
-    </ion-button>
-  </div>
-</app-header> -->
 
 <app-loader *ngIf="pageLoading"></app-loader>
 
@@ -13,7 +6,7 @@
         <ion-buttons slot="start" class="ml-2">
             <ion-menu-button></ion-menu-button>
         </ion-buttons>
-        <ion-label class="header-text">{{ user ? (myProfile ? 'My Profile' : user.fullName) : 'Unkown' }}</ion-label>
+        <ion-label class="header-text">{{ user ? (myProfile ? 'My Profile' : user.fullName) : '' }}</ion-label>
         <ion-buttons *ngIf="user" warning slot="end">
             <ion-button shape="round" *ngIf="myProfile" routerLink="/profile/form">
                 <i class="fas fa-pen"></i>
