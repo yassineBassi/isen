@@ -1,8 +1,8 @@
 import { User } from './../../../models/User';
 import { RequestService } from './../../../services/request.service';
-import { Platform } from '@ionic/angular';
+import { Platform, IonInfiniteScroll } from '@ionic/angular';
 import { ToastService } from './../../../services/toast.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-list',
@@ -10,6 +10,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./list.component.scss'],
 })
 export class ListComponent implements OnInit {
+  @ViewChild('infinitScroll') infinitScroll: IonInfiniteScroll;
 
   pageLoading = false;
   friends: User[];
@@ -31,12 +32,19 @@ export class ListComponent implements OnInit {
     this.requestService.getFriends(this.page++)
     .then(
       (resp: any) => {
-        console.log(resp);
         if(!event || refresh) this.friends = [];
+
+        if(refresh) this.infinitScroll.disabled = false
+
+        if(event){
+          event.target.complete();
+          if(!resp.data.more && !refresh) event.target.disabled = true;
+        }
+
         resp.data.forEach(usr => {
           this.friends.push(new User().initialize(usr));
         })
-        if(event) event.target.complete();
+
         this.pageLoading = false;
       },
       err => {

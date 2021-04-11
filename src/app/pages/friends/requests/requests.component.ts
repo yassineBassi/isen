@@ -1,8 +1,8 @@
 import { ToastService } from './../../../services/toast.service';
 import { RequestService } from './../../../services/request.service';
 import { Request } from './../../../models/Request';
-import { Platform, AlertController } from '@ionic/angular';
-import { Component, OnInit } from '@angular/core';
+import { Platform, AlertController, IonInfiniteScroll } from '@ionic/angular';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-requests',
@@ -10,6 +10,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./requests.component.scss'],
 })
 export class RequestsComponent implements OnInit {
+  @ViewChild('infinitScroll') infinitScroll: IonInfiniteScroll;
 
   pageLoading = false;
   requests: Request[];
@@ -35,12 +36,17 @@ export class RequestsComponent implements OnInit {
         console.log(resp);
         if(!event || refresh) this.requests = [];
 
+        if(refresh) this.infinitScroll.disabled = false
+
+        if(event){
+          event.target.complete();
+          if(!resp.data.more && !refresh) event.target.disabled = true;
+        }
+
         resp.data.forEach(rqst => {
           this.requests.push(new Request(rqst));
         })
-        this.pageLoading = false
 
-        if(event) event.target.complete();
         this.pageLoading = false;
       },
       err => {

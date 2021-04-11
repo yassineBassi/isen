@@ -70,8 +70,6 @@ export class ChannelComponent implements OnInit {
     this.channelService.getPosts(this.channelId, this.page++)
     .then(
       (resp: any) => {
-        console.log(resp);
-
         if(!event || refresh){
           this.posts = [];
         }

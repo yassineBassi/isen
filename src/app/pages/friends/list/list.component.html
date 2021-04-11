@@ -27,7 +27,8 @@
       <span *ngIf="friend.online"><i class="fas fa-circle ml-2 online-icon"></i></span>
     </ion-item>
   </ion-list>
-  <ion-infinite-scroll threshold="100px" (ionInfinite)="getFriends($event)">
+
+  <ion-infinite-scroll #infinitScroll threshold="100px" (ionInfinite)="getFriends($event)">
     <ion-infinite-scroll-content
       loadingSpinner="crescent"
     >

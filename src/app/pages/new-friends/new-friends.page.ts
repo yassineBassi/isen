@@ -1,8 +1,8 @@
 import { User } from './../../models/User';
 import { UserService } from './../../services/user.service';
-import { Platform } from '@ionic/angular';
+import { Platform, IonInfiniteScroll } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-new-friends',
@@ -10,6 +10,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./new-friends.page.scss'],
 })
 export class NewFriendsPage implements OnInit {
+  @ViewChild('infinitScroll') infinitScroll: IonInfiniteScroll;
 
   page: number;
   pageLoading = true;
@@ -37,15 +38,18 @@ export class NewFriendsPage implements OnInit {
       (resp: any) => {
         if(!event || refresh) this.users = [];
 
+        if(refresh) this.infinitScroll.disabled = false
+
+        if(event){
+          event.target.complete();
+          if(!resp.data.more && !refresh) event.target.disabled = true;
+        }
+
         resp.data.forEach(user => {
           this.users.push(new User().initialize(user));
         })
 
-        if(event) event.target.complete();
         this.pageLoading = false;
-
-        console.log(resp);
-
       },
       err => {
         console.log('err');

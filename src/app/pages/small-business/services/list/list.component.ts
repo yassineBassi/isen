@@ -1,8 +1,9 @@
+import { IonInfiniteScroll } from '@ionic/angular';
 import { Service } from './../../../../models/Service';
 import { ActivatedRoute } from '@angular/router';
 import { ToastService } from './../../../../services/toast.service';
 import { ServiceService } from './../../../../services/service.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-list',
@@ -10,6 +11,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./list.component.scss'],
 })
 export class ListComponent implements OnInit {
+  @ViewChild('infinitScroll') infinitScroll: IonInfiniteScroll;
 
   pageLoading = false;
   services: Service[];
@@ -47,14 +49,19 @@ export class ListComponent implements OnInit {
   handleResponse(event, refresh, resp: any){
     if(!event || refresh) this.services = [];
 
-    resp.data.forEach(prd => {
-      const service = new Service(prd);
+    if(refresh) this.infinitScroll.disabled = false
+
+    if(event){
+      event.target.complete();
+      if(!resp.data.more && !refresh) event.target.disabled = true;
+    }
+
+    resp.data.forEach(srv => {
+      const service = new Service(srv);
       this.services.push(service);
     })
 
-    if(event) event.target.complete();
     this.pageLoading = false;
-    console.log(this.services);
   }
 
   handleError(err){

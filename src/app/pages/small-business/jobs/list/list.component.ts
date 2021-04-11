@@ -1,8 +1,9 @@
+import { IonInfiniteScroll } from '@ionic/angular';
 import { ToastService } from './../../../../services/toast.service';
 import { JobService } from './../../../../services/job.service';
 import { Job } from './../../../../models/Job';
 import { ActivatedRoute } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import constants from 'src/app/helpers/constants';
 
 @Component({
@@ -11,6 +12,7 @@ import constants from 'src/app/helpers/constants';
   styleUrls: ['./list.component.scss'],
 })
 export class ListComponent implements OnInit {
+  @ViewChild('infinitScroll') infinitScroll: IonInfiniteScroll;
 
   pageLoading = false;
   jobs: Job[];
@@ -49,13 +51,19 @@ export class ListComponent implements OnInit {
   handleResponse(event, refresh, resp: any){
     if(!event || refresh) this.jobs = [];
 
+    if(refresh) this.infinitScroll.disabled = false
+
+    if(event){
+      event.target.complete();
+      if(!resp.data.more && !refresh) event.target.disabled = true;
+    }
+
     resp.data.forEach(prd => {
       const job = new Job(prd);
       this.jobs.push(job);
     })
-    if(event) event.target.complete();
+
     this.pageLoading = false;
-    console.log(this.jobs);
   }
 
   handleError(err){

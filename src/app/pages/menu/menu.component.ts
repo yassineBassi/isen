@@ -15,7 +15,7 @@ export class MenuComponent implements OnInit {
   @Input() user: User;
   appPages = [
     { title: 'Upgrade', url: '/profilet', icon: 'fas fa-crown', iconColor: 'rgb(222, 150, 0)'},
-    { title: 'Profile', url: '/profile', icon: 'fas fa-user' },
+    { title: 'Profile', url: '/profile/display/null', icon: 'fas fa-user' },
     { title: 'Find New Friends', url: '/new-friends', icon: 'fas fa-search' },
     { title: 'Friends', url: '/friends', icon: 'fas fa-users' },
     { title: 'Messages', url: '/messages', icon: 'fas fa-comments' },

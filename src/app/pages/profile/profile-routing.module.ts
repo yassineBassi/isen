@@ -9,13 +9,18 @@ const routes: Routes = [
     path: '',
     children: [
       {
+        path: '',
+        redirectTo: 'display/null',
+        pathMatch: 'full'
+      },
+      {
         path: 'display/:id',
         component: DisplayComponent
       },
       {
         path: 'form',
         component: FormComponent
-      }
+      },
     ]
   }
 ];

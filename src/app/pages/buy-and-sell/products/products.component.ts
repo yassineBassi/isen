@@ -1,8 +1,9 @@
+import { IonInfiniteScroll } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import { ToastService } from './../../../services/toast.service';
 import { ProductService } from './../../../services/product.service';
 import { Product } from './../../../models/Product';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import constants from 'src/app/helpers/constants';
 
 @Component({
@@ -11,6 +12,7 @@ import constants from 'src/app/helpers/constants';
   styleUrls: ['./products.component.scss'],
 })
 export class ProductsComponent implements OnInit {
+  @ViewChild('infinitScroll') infinitScroll: IonInfiniteScroll;
 
   pageLoading = false;
   products: Product[];
@@ -54,7 +56,13 @@ export class ProductsComponent implements OnInit {
       this.products.push(product);
     })
 
-    if(event) event.target.complete();
+    if(refresh) this.infinitScroll.disabled = false
+
+    if(event){
+       event.target.complete();
+       if(!resp.data.more && !refresh) event.target.disabled = true;
+    }
+
     this.pageLoading = false;
     console.log(this.products);
   }

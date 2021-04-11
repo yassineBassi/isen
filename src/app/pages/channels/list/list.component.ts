@@ -1,9 +1,10 @@
+import { IonInfiniteScroll } from '@ionic/angular';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { ActivatedRoute } from '@angular/router';
 import { Channel } from './../../../models/Channel';
 import { ToastService } from './../../../services/toast.service';
 import { ChannelService } from './../../../services/channel.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { User } from 'src/app/models/User';
 
 @Component({
@@ -12,6 +13,7 @@ import { User } from 'src/app/models/User';
   styleUrls: ['./list.component.scss'],
 })
 export class ListComponent implements OnInit {
+  @ViewChild('infinitScroll') infinitScroll: IonInfiniteScroll;
 
   user: User;
   pageLoading = false;
@@ -58,10 +60,13 @@ export class ListComponent implements OnInit {
   handleResponse(resp, event, refresh){
     this.pageLoading = false;
     if(!event || refresh) this.channels = []
-    resp.data.forEach(channel => {
+
+    resp.data.channels.forEach(channel => {
       this.channels.push(new Channel().initialize(channel));
     })
-    console.log(resp);
+
+    if(refresh) this.infinitScroll.disabled = false
+
     if(event){
       event.target.complete();
       if(!refresh && !resp.data.more) event.target.disabled = true;
@@ -77,6 +82,7 @@ export class ListComponent implements OnInit {
   getChannels(event?, refresh?){
     this.pageLoading = true;
     if(refresh) this.page = 0;
+
     if(this.type == 'mines'){
       this.channelService.myChannels(this.page++, this.searchWord)
       .then(
@@ -84,6 +90,7 @@ export class ListComponent implements OnInit {
         err => this.handleError(err)
       );
     }
+
     if(this.type == 'followed'){
       this.channelService.followedChannels(this.page++, this.searchWord)
       .then(
@@ -91,6 +98,7 @@ export class ListComponent implements OnInit {
         err => this.handleError(err)
       );
     }
+
     if(this.type == 'explore'){
       this.channelService.exploreChannels(this.page++, this.searchWord, this.user.city)
       .then(
