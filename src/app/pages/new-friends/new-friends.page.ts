@@ -30,7 +30,7 @@ export class NewFriendsPage implements OnInit {
   }
 
   getNearUsers(event, refresh?){
-    this.pageLoading = true;
+    if(!event) this.pageLoading = true;
     if(refresh) this.page = 0
     this.userService.getNearUsers(this.page++)
     .then(

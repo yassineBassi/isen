@@ -26,7 +26,7 @@ export class ListComponent implements OnInit {
   }
 
   getFriends(event, refresh?){
-    this.pageLoading = true;
+    if(!event) this.pageLoading = true;
     if(refresh) this.page = 0;
     this.requestService.getFriends(this.page++)
     .then(

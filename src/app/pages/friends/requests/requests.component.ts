@@ -27,7 +27,7 @@ export class RequestsComponent implements OnInit {
   }
 
   getRequests(event, refresh?){
-    this.pageLoading = true;
+    if(!event) this.pageLoading = true;
     if(refresh) this.page = 0;
     this.requestService.requests(this.page++)
     .then(

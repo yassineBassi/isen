@@ -1,7 +1,3 @@
-resume text -> posts / comments
-validators -> posts / comments
-unique name of post
-change the inifinit scroll icon to crescent
 add more option for inifinit scroll // hide pageLoading when refresh or scroll
 set more to false when refresh
 when delete post delete its comments

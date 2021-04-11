@@ -23,7 +23,7 @@ export class ListComponent implements OnInit {
   }
 
   getUsersMessages(event, refresh?: boolean){
-    this.pageLoading = true
+    if(!event) this.pageLoading = true;
     if(refresh) this.page = 0;
     this.messageService.usersMessages(this.page++)
     .then(
