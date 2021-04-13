@@ -5,6 +5,7 @@ import { ToastService } from './../../../services/toast.service';
 import { UserService } from './../../../services/user.service';
 import { User } from './../../../models/User';
 import { Component, Input, OnInit } from '@angular/core';
+import { Request } from 'src/app/models/Request';
 
 @Component({
   selector: 'app-slide',
@@ -26,6 +27,7 @@ export class SlideComponent implements OnInit {
       (resp: any) => {
         console.log(resp);
         this.user.followed = resp.data;
+        this.toastService.presentStdToastr(resp.message)
       },
       err => {
         console.log(err);
@@ -34,23 +36,57 @@ export class SlideComponent implements OnInit {
     )
   }
 
-  requestFriendship(){
-    this.requestService.request(this.user.id)
+  request(){
+    if(this.user.friend) this.removeFriendShipConf();
+    else if(this.user.request == 'requesting') this.cancelRequest()
+    else if(this.user.request == 'requested') this.acceptRequest()
+    else this.requestFriendship()
+  }
+
+  handleError(err){
+    this.toastService.presentStdToastr(err)
+  }
+
+  acceptRequest(){
+    console.log('accept');
+    this.requestService.acceptRequest(this.user.requests[0].id)
     .then(
-      (resp: any) => {
-        console.log(resp);
-        this.user.request = resp.data.request;
-        this.user.friend = resp.data.friend;
-        this.toastService.presentStdToastr(resp.message);
+      resp => {
+        this.user.friend = true
       },
-      err => {
-        console.log(err);
-        this.toastService.presentStdToastr(err);
-      }
+      err => this.handleError(err)
     )
   }
 
-  async removeFriendShipConfirmation(removeFn){
+  cancelRequest(){
+    this.requestService.cancelRequest(this.user.requests[0].id)
+    .then(
+      resp => {
+        this.user.request = null;
+        this.user.requests = [];
+      },
+      err => this.handleError(err)
+    )
+  }
+
+  requestFriendship(){
+    console.log('request');
+    this.requestService.request(this.user.id)
+    .then(
+      (resp: any) => {
+        this.user.friend = false;
+        if(typeof resp.data.request == 'string')  this.user.request = resp.data.request;
+        else{
+           this.user.requests.push(new Request(resp.data.request));
+           this.user.request = 'requesting';
+        }
+        this.toastService.presentStdToastr(resp.message);
+      },
+      err => this.handleError(err)
+    )
+  }
+
+  async removeFriendShipConf(){
     const alert = await this.alertCtrl.create({
       header: 'Remove Friendship',
       message: 'do you really want to remove your friendship ?',
@@ -61,7 +97,8 @@ export class SlideComponent implements OnInit {
         },
         {
           text: 'REMOVE',
-          handler: removeFn
+          cssClass: 'text-danger',
+          handler: () => this.removeFriendship()
         }
       ]
     })
@@ -69,26 +106,21 @@ export class SlideComponent implements OnInit {
   }
 
   removeFriendship(){
-    console.log('hi there');
-
-    this.removeFriendShipConfirmation(() => {
-      this.requestService.removeFriendship(this.user.id)
-      .then(
-        (resp: any) => {
-          this.toastService.presentStdToastr(resp.message)
-          if(resp.data){
-            this.user.friend = false;
-            this.user.request = null
-          }
-        },
-        err => {
-          this.toastService.presentStdToastr(err);
+    console.log('remove');
+    this.userService.removeFriendship(this.user.id)
+    .then(
+      (resp: any) => {
+        this.toastService.presentStdToastr(resp.message)
+        if(resp.data){
+          this.user.friend = false;
+          this.user.request = null
         }
-      )
-    })
+      },
+      err => this.handleError(err)
+    )
   }
 
   showProfile(){
-    this.router.navigateByUrl('/profile/' + this.user.id)
+    this.router.navigateByUrl('/profile/display/' + this.user.id)
   }
 }

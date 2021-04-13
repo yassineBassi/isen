@@ -61,7 +61,6 @@ export class RequestsComponent implements OnInit {
     .then(
       (resp: any) => {
         this.requests.splice(this.requests.indexOf(request), 1)
-        console.log(resp);
         this.toastService.presentStdToastr(resp.message)
       },
       err => {
@@ -71,18 +70,19 @@ export class RequestsComponent implements OnInit {
     )
   }
 
-  async rejectConfirmation(request: Request){
+  async rejectRequestConf(request: Request){
     const alert = this.alertCtrl.create({
       header: 'Reject request',
       message: 'do you really want to reject this request',
       buttons: [
         {
-          text: 'Yes',
-          handler: () => this.rejectRequest(request)
+          text: 'CANCEL',
+          role: 'cancel'
         },
         {
-          text: 'No',
-          role: 'cancel'
+          text: 'REMOVE',
+          cssClass: 'text-danger',
+          handler: () => this.rejectRequest(request)
         }
       ]
     })
@@ -95,10 +95,8 @@ export class RequestsComponent implements OnInit {
       (resp: any) => {
         this.requests.splice(this.requests.indexOf(request), 1)
         this.toastService.presentStdToastr(resp.message)
-        console.log(resp);
       },
       err => {
-        console.log(err);
         this.toastService.presentStdToastr(err)
       }
     )

@@ -1,7 +1,7 @@
 <app-header
   [back]="true"
   [title]="type ? (type == 'buy' ? 'Available Product' : 'Posted products') : ''"
-  [backLink]="'/channels/buy-and-sell'"
+  [backLink]="'/buy-and-sell'"
 ></app-header>
 
 <app-loader *ngIf="pageLoading"></app-loader>
@@ -41,7 +41,7 @@
   </ion-infinite-scroll>
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed" *ngIf="type == 'sell'">
-    <ion-fab-button color="secondary" routerLink="/channels/buy-and-sell/product/form" class="mr-2">
+    <ion-fab-button color="secondary" routerLink="/buy-and-sell/product/form" class="mr-2">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>

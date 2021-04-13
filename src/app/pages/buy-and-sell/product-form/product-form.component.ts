@@ -29,6 +29,7 @@ export class ProductFormComponent implements OnInit {
   };
   validatorErrors = {};
   form: FormGroup;
+  imageLoading = false;
 
   get label(){
     return this.form.get('label')
@@ -106,9 +107,11 @@ export class ProductFormComponent implements OnInit {
   }
 
   pickImage(){
+    this.imageLoading = true;
     this.uploadFile.takePicture(this.camera.PictureSourceType.PHOTOLIBRARY)
     .then(
       (resp: any) => {
+        this.imageLoading = false;
         this.productImage = {
           url: this.webView.convertFileSrc(resp.imageData),
           file: resp.file,
@@ -116,6 +119,7 @@ export class ProductFormComponent implements OnInit {
         }
       },
       err => {
+        this.imageLoading = false;
         this.toastService.presentErrorToastr(err);
       }
     )

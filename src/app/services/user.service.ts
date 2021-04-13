@@ -34,4 +34,11 @@ export class UserService extends DataService {
     return this.sendRequest('get', '/profile/' + id, {})
   }
 
+  getFriends(page: number){
+    return this.sendRequest('get', '/friends', {page: page.toString()})
+  }
+
+  removeFriendship(id: string){
+    return this.sendRequest('post', '/friends/remove/' + id, {})
+  }
 }

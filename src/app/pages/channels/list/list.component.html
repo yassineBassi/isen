@@ -26,7 +26,7 @@
       [queryParams]="{
         id: channel.id,
         name: channel.name,
-        channelIsFollowed: channel.followed,
+        channelIsFollowed: channel.followed ? true : false,
         myChannel: type == 'mines' ? true : false
       }"
     >

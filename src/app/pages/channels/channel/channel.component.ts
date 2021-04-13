@@ -145,7 +145,7 @@ export class ChannelComponent implements OnInit {
     await popover.present();
 
     const { data } = await popover.onDidDismiss();
-    if(data.event){
+    if(data && data.event){
       if(data.event == 'follow'){
         if(this.channelIsFollowed)
           this.togglefollowConf();

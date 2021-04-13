@@ -1,6 +1,7 @@
+import { Request } from './Request';
 import { Message } from './Message';
 import { File } from './File';
-type Request = 'requesting' | 'requested';
+type RequestEnum = 'requesting' | 'requested';
 
 export class User{
 
@@ -23,7 +24,9 @@ export class User{
 
   private _followed: Boolean;
   private _friend: Boolean;
-  private _request: Request;
+  private _request: RequestEnum;
+
+  private _requests: Request[];
 
   private _online: boolean;
 
@@ -55,7 +58,16 @@ export class User{
 
     this.followed = user.followed;
     this.friend = user.friend;
-    this.request = user.request;
+
+    this.requests = user.requests;
+
+    if(this.requests && this.requests.length){
+      if(this.requests[0].from.id == this.id ){
+        this.request = 'requesting'
+      }else{
+        this.request = 'requested'
+      }
+    }else this.request = null
 
     this.online = user.online
 
@@ -98,9 +110,11 @@ export class User{
 
   get followed(): Boolean {return this._followed};
   get friend(): Boolean {return this._friend};
-  get request(): Request {return this._request};
+  get request(): RequestEnum {return this._request};
   get online(): boolean {return this._online};
   get lastMessage(): Message {return this._lastMessage};
+
+  get requests(): Request[] {return this._requests};
 
 
   set id(id: string){this._id = id}
@@ -126,9 +140,17 @@ export class User{
 
   set followed(followed: Boolean) {this._followed = followed};
   set friend(friend: Boolean) {this._friend = friend};
-  set request(request: Request) {this._request = request};
+  set request(request: RequestEnum) {this._request = request};
   set online(online: boolean) {this._online = online};
   set lastMessage(lastMessage: Message) {this._lastMessage = lastMessage};
+
+  set requests(requests: Request[]) {
+    this._requests = [];
+    if(requests && requests.length)
+      requests.map(request => {
+        this._requests.push(new Request(request));
+      })
+  };
 
   private sortInterests(){
     this._interests = this._interests.sort((int1, int2) => {

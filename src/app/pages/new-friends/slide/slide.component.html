@@ -10,11 +10,11 @@
         {{ user.fullName }}, {{ user.age }}
         <i class="fas fa-circle online-icon ml-2"></i>
       </span>
-      <span class="d-block text-left other-info ">{{ user.gender }}, City</span>
+      <span class="d-block text-left other-info ">{{ user.gender }}, {{ user.city }} -- {{ user.request }}</span>
     </div>
     <ion-row>
       <ion-col class="ion-no-padding text-center" size="3">
-        <ion-button (click)="!user.friend ? requestFriendship() : removeFriendship()" size="large" shape="round" color="light" fill="clear">
+        <ion-button (click)="request()" size="large" shape="round" color="light" fill="clear">
           <span *ngIf="user.friend"><i class="text-success fas fa-user-minus"></i></span>
           <span *ngIf="!user.friend">
             <span *ngIf="user.request == null"><i class="fas fa-user-plus"></i></span>

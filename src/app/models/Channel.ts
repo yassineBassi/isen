@@ -30,7 +30,7 @@ export class Channel{
     this.createdAt = new Date(channel.createdAt);
 
     this.followerSize = channel.followerSize;
-    this.followed = channel.followed;
+    this.followed = channel.followed as boolean;
 
     return this;
   }

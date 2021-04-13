@@ -22,6 +22,7 @@ export class ServiceFormComponent implements OnInit {
   };
   validatorErrors = {};
   form: FormGroup;
+  imageLoading = false;
 
   get title(){
     return this.form.get('title')
@@ -62,9 +63,11 @@ export class ServiceFormComponent implements OnInit {
   }
 
   pickImage(){
+    this.imageLoading = true;
     this.uploadFile.takePicture(this.camera.PictureSourceType.PHOTOLIBRARY)
     .then(
       (resp: any) => {
+        this.imageLoading = false;
         this.serviceImage = {
           url: this.webView.convertFileSrc(resp.imageData),
           file: resp.file,
@@ -72,6 +75,7 @@ export class ServiceFormComponent implements OnInit {
         }
       },
       err => {
+        this.imageLoading = false;
         this.toastService.presentErrorToastr(err);
       }
     )

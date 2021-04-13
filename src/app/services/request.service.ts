@@ -26,15 +26,11 @@ export class RequestService extends DataService {
     return this.sendRequest('post', '/accept/' + id, {})
   }
 
+  cancelRequest(id: string){
+    return this.sendRequest('post', '/cancel/' + id, {})
+  }
+
   rejectRequest(id: string){
-    return this.sendRequest('delete', '/reject/' + id, {})
-  }
-
-  getFriends(page: number){
-    return this.sendRequest('get', '/friends', {page: page.toString()})
-  }
-
-  removeFriendship(id: string){
-    return this.sendRequest('delete', '/friends/' + id, {})
+    return this.sendRequest('post', '/reject/' + id, {})
   }
 }

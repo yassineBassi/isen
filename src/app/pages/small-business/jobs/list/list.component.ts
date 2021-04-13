@@ -58,7 +58,7 @@ export class ListComponent implements OnInit {
       if(!resp.data.more && !refresh) event.target.disabled = true;
     }
 
-    resp.data.forEach(prd => {
+    resp.data.jobs.forEach(prd => {
       const job = new Job(prd);
       this.jobs.push(job);
     })

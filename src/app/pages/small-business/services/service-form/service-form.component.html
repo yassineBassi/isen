@@ -6,8 +6,18 @@
   <div (click)="pickImage()" class="w-100 image-container">
     <div *ngIf="!serviceImage.url" class="w-100 h-100 bg-light d-flex justify-content-center align-items-center">
       <span class="text-center">
-        <span class="d-block camera"><i class="fas fa-camera"></i></span>
-        <span class="d-block">Select service image</span>
+        <span *ngIf="!imageLoading" class="text-center">
+          <span class="d-block camera">
+            <i class="fas fa-camera"></i>
+          </span>
+          <span class="d-block">Select an image</span>
+        </span>
+        <span *ngIf="imageLoading" class="text-center">
+          <span class="d-block camera">
+            <i class="fas fa-spinner fa-spin"></i>
+          </span>
+          <span class="d-block">Imprting picture ...</span>
+        </span>
       </span>
     </div>
     <img *ngIf="serviceImage.url"  [src]="serviceImage.url" class="w-100" alt="">

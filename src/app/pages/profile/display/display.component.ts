@@ -24,6 +24,7 @@ export class DisplayComponent implements OnInit {
   user: User;
   domaine = constants.DOMAIN_URL;
   myProfile = false;
+  userId: string;
 
   constructor(private auth: AuthService, private camera: Camera, private nativeStorage: NativeStorage,
   private userService: UserService, private uploadFileService: UploadFileService, private toastService: ToastService,
@@ -40,10 +41,9 @@ export class DisplayComponent implements OnInit {
     this.route.paramMap
     .subscribe(
       params => {
-        const id = params.get('id');
-        console.log(id);
-        if(id && id != "null"){
-          this.getUser(id);
+        this.userId = params.get('id');
+        if(this.userId && this.userId != "null"){
+          this.getUser();
         }else{
           this.getAuthUser();
           this.myProfile = true;
@@ -52,14 +52,14 @@ export class DisplayComponent implements OnInit {
     )
   }
 
-  getUser(id: string){
+  getUser(event?){
     this.pageLoading = true;
-    this.userService.getUserProfile(id)
+    this.userService.getUserProfile(this.userId)
     .then(
       (resp: any) => {
         this.pageLoading = false;
         this.user = new User().initialize(resp.data);
-        console.log(resp);
+        if(event) event.target.complete()
       },
       err => {
         this.pageLoading = false;
@@ -139,23 +139,55 @@ export class DisplayComponent implements OnInit {
     )
   }
 
+  request(){
+    if(this.user.friend) this.removeFriendShipConf();
+    else if(this.user.request == 'requesting') this.acceptRequest()
+    else if(this.user.request == 'requested') this.cancelRequest()
+    else this.requestFriendship()
+  }
+
+  handleError(err){
+    this.toastService.presentStdToastr(err)
+  }
+
+  acceptRequest(){
+    console.log('accept');
+    this.requestService.acceptRequest(this.user.requests[0].id)
+    .then(
+      resp => {
+        this.user.friend = true
+      },
+      err => this.handleError(err)
+    )
+  }
+
+  cancelRequest(){
+    console.log('cancel');
+
+    this.requestService.cancelRequest(this.user.requests[0].id)
+    .then(
+      resp => {
+        this.user.request = null;
+        this.user.requests = [];
+      },
+      err => this.handleError(err)
+    )
+  }
+
   requestFriendship(){
     this.requestService.request(this.user.id)
     .then(
       (resp: any) => {
         console.log(resp);
-        this.user.request = resp.data.request;
-        this.user.friend = resp.data.friend;
+        this.user.request = 'requesting';
+        this.user.friend = false;
         this.toastService.presentStdToastr(resp.message);
       },
-      err => {
-        console.log(err);
-        this.toastService.presentStdToastr(err);
-      }
+      err => this.toastService.presentStdToastr(err)
     )
   }
 
-  async removeFriendShipConfirmation(removeFn){
+  async removeFriendShipConf(){
     const alert = await this.alertCtrl.create({
       header: 'Remove Friendship',
       message: 'do you really want to remove your friendship ?',
@@ -166,7 +198,8 @@ export class DisplayComponent implements OnInit {
         },
         {
           text: 'REMOVE',
-          handler: removeFn
+          cssClass: 'text-danger',
+          handler: () => this.removeFriendship()
         }
       ]
     })
@@ -174,21 +207,19 @@ export class DisplayComponent implements OnInit {
   }
 
   removeFriendship(){
-    this.removeFriendShipConfirmation(() => {
-      this.requestService.removeFriendship(this.user.id)
-      .then(
-        (resp: any) => {
-          this.toastService.presentStdToastr(resp.message)
-          if(resp.data){
-            this.user.friend = false;
-            this.user.request = null
-          }
-        },
-        err => {
-          this.toastService.presentStdToastr(err);
+    this.userService.removeFriendship(this.user.id)
+    .then(
+      (resp: any) => {
+        this.toastService.presentStdToastr(resp.message)
+        if(resp.data){
+          this.user.friend = false;
+          this.user.request = null
         }
-      )
-    })
+      },
+      err => {
+        this.toastService.presentStdToastr(err);
+      }
+    )
   }
 
 }

@@ -1,5 +1,5 @@
 .image-container{
-  height: 300px;
+  height: 250px;
   overflow: hidden;
   position: relative;
 }
@@ -12,7 +12,7 @@
   bottom: 0px;
   left: 0px;
   color: white;
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.4);
 }
 .font-icon{
   margin-right: 30px;
@@ -38,7 +38,7 @@
   color: #000;
 }
 .header{
-  --ion-background-color: rgba(0, 0, 0, 0.3)!important;
+  --ion-background-color: rgba(0, 0, 0, 0.6)!important;
   color: white;
   position: absolute;
   top: 0px;

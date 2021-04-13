@@ -1,3 +1,4 @@
+import { UserService } from './../../../services/user.service';
 import { User } from './../../../models/User';
 import { RequestService } from './../../../services/request.service';
 import { Platform, IonInfiniteScroll } from '@ionic/angular';
@@ -16,7 +17,8 @@ export class ListComponent implements OnInit {
   friends: User[];
   page: number;
 
-  constructor(private requestService: RequestService, private platform: Platform, private toastService: ToastService){ }
+  constructor(private requestService: RequestService, private platform: Platform, private toastService: ToastService,
+              private userService: UserService){ }
 
   ngOnInit() {}
 
@@ -29,7 +31,7 @@ export class ListComponent implements OnInit {
   getFriends(event, refresh?){
     if(!event) this.pageLoading = true;
     if(refresh) this.page = 0;
-    this.requestService.getFriends(this.page++)
+    this.userService.getFriends(this.page++)
     .then(
       (resp: any) => {
         if(!event || refresh) this.friends = [];
@@ -41,7 +43,7 @@ export class ListComponent implements OnInit {
           if(!resp.data.more && !refresh) event.target.disabled = true;
         }
 
-        resp.data.forEach(usr => {
+        resp.data.friends.forEach(usr => {
           this.friends.push(new User().initialize(usr));
         })
 

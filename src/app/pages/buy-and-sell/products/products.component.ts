@@ -51,7 +51,7 @@ export class ProductsComponent implements OnInit {
   handleResponse(event, refresh, resp: any){
     if(!event || refresh) this.products = [];
 
-    resp.data.forEach(prd => {
+    resp.data.products.forEach(prd => {
       const product = new Product(prd);
       this.products.push(product);
     })

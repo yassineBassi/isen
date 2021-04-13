@@ -1,6 +1,5 @@
-<app-loader *ngIf="pageLoading" ></app-loader>
 
 <ion-content>
-  <app-list *ngIf="initialSlide == null" (refresh)="getNearUsers($event, true)" (showUser)="showUser($event)" (loadMore)="getNearUsers($event)" [users]="users"></app-list>
+  <app-list *ngIf="initialSlide == null" (setUsers)="setUsers($event)" (showUser)="showUser($event)"></app-list>
   <app-slides (back)="initialSlide = null" *ngIf="initialSlide != null" [initialSlide]="initialSlide" [users]="users"></app-slides>
 </ion-content>
