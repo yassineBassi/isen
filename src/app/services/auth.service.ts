@@ -14,22 +14,40 @@ export class AuthService extends DataService {
   }
 
   verifyEmail(email: string){
-    return this.sendRequest('post', 'checkEmail', {email})
+    return this.sendRequest({
+      method: 'post',
+      url: 'checkEmail',
+      data: {email}
+    })
   }
 
   signup(data){
-    return this.sendRequest('post', 'signup', data);
+    return this.sendRequest({
+      method: 'post',
+      url: 'signup',
+      data
+    });
   }
 
   signin(data){
-    return this.sendRequest('post', 'signin', data);
+    return this.sendRequest({
+      method: 'post',
+      url: 'signin', 
+      data
+    });
   }
 
   signout(){
-    return this.sendRequest('post', 'signout', {})
+    return this.sendRequest({
+      method: 'post',
+      url: 'signout'
+    })
   }
 
   getAuthUser(){
-    return this.sendRequest('get', 'user', {})
+    return this.sendRequest({
+      method: 'get',
+      url: 'user'
+    })
   }
 }

@@ -14,10 +14,18 @@ export class MessageService extends DataService {
   }
 
   indexMessages(id: string, page: number){
-    return this.sendRequest('get', '/' + id, {page: page.toString()})
+    return this.sendRequest({
+      method: 'get',
+      url: '/' + id, 
+      data: {page: page.toString()}
+    })
   }
 
   usersMessages(page: number){
-    return this.sendRequest('get', '/users', {page: page.toString()})
+    return this.sendRequest({
+      method: 'get',
+      url: '/users', 
+      data: {page: page.toString()}
+    })
   }
 }

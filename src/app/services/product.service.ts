@@ -14,30 +14,55 @@ export class ProductService extends DataService {
   }
 
   store(data){
-    return this.sendRequest('post', '', data, {}, 'multipart');
+    return this.sendRequest({
+      method: 'post',
+      url: '',
+      data,
+      serializer: 'multipart'
+    });
   }
 
   posted(page: number, query: string){
-    return this.sendRequest('get', '/posted', {page: page.toString(), search: query});
+    return this.sendRequest({
+      method: 'get',
+      url: '/posted', 
+      data: {page: page.toString(), search: query}
+    });
   }
 
   available(page: number, query: string){
-    return this.sendRequest('get', '/available', {page: page.toString(), search: query});
+    return this.sendRequest({
+      method: 'get',
+      url: '/available', 
+      data: {page: page.toString(), search: query}
+    });
   }
 
   get(id: string){
-    return this.sendRequest('get', '/' + id, {});
+    return this.sendRequest({
+      method: 'get',
+      url: '/' + id
+    });
   }
 
   getStorePermession(){
-    return this.sendRequest('get', '/storePermession', {});
+    return this.sendRequest({
+      method: 'get',
+      url: '/storePermession'
+    });
   }
 
   remove(id: string){
-    return this.sendRequest('delete', '/' + id, {})
+    return this.sendRequest({
+      method: 'delete', 
+      url: '/' + id
+    })
   }
 
   disable(id: string){
-    return this.sendRequest('post', '/disable/' + id, {})
+    return this.sendRequest({
+      method: 'post', 
+      url: '/disable/' + id
+    })
   }
 }

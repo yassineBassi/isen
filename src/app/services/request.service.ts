@@ -14,22 +14,38 @@ export class RequestService extends DataService {
   }
 
   request(id: string){
-    return this.sendRequest('post', '/' + id, {})
+    return this.sendRequest({
+      method: 'post',
+      url: '/' + id
+    })
   }
 
   requests(page: number){
-    return this.sendRequest('get', '/', {page: page.toString()})
+    return this.sendRequest({
+      method: 'get',
+      url: '/',
+      data: {page: page.toString()
+    }})
   }
 
   acceptRequest(id: string){
-    return this.sendRequest('post', '/accept/' + id, {})
+    return this.sendRequest({
+      method: 'post',
+      url: '/accept/' + id
+    })
   }
 
   cancelRequest(id: string){
-    return this.sendRequest('post', '/cancel/' + id, {})
+    return this.sendRequest({
+      method: 'post',
+      url: '/cancel/' + id
+    })
   }
 
   rejectRequest(id: string){
-    return this.sendRequest('post', '/reject/' + id, {})
+    return this.sendRequest({
+      method: 'post',
+      url: '/reject/' + id
+    })
   }
 }

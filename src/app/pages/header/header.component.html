@@ -8,7 +8,7 @@
   >
     <ion-buttons class="ion-no-padding ion-no-margin" slot="start" *ngIf="!showSearch">
       <ion-button shape="round" (click)="goBack()" *ngIf="back">
-        <i class="fas fa-arrow-left"></i>
+        <i class="fas fa-chevron-left"></i>
       </ion-button>
       <ion-menu-button *ngIf="menu"></ion-menu-button>
     </ion-buttons>
@@ -22,7 +22,7 @@
       *ngIf="showSearch"
     ></ion-searchbar>
 
-    <ion-title *ngIf="!showSearch">
+    <ion-title class="ion-no-margin ion-no-padding" *ngIf="!showSearch">
       <span>{{ title }}</span>
     </ion-title>
     <ion-buttons slot="end">

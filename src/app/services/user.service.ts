@@ -14,30 +14,56 @@ export class UserService extends DataService {
   }
 
   update(id: string, data){
-    return this.sendRequest('put', `/${ id }`, data)
+    return this.sendRequest({
+      method: 'put',
+      url: '/' + id,
+      data
+    })
   }
 
   updateAvatar(id: string, data){
-    return this.sendRequest('put', `/avatar/${ id }`, data, {}, 'multipart')
+    return this.sendRequest({
+      method: 'put',
+      url: `/avatar/${ id }`,
+      data,
+      serializer: 'multipart'
+    })
   }
 
   getNearUsers(page: number){
-    return this.sendRequest('get', '/nearUsers', {page: page.toString()});
+    return this.sendRequest({
+      method: 'get',
+      url: '/nearUsers', 
+      data: {page: page.toString()}
+    });
   }
 
   follow(id: string){
-    return this.sendRequest('post', '/follow/' + id, {});
+    return this.sendRequest({
+      method: 'post', 
+      url: '/follow/' + id
+    });
   }
 
   getUserProfile(id: string){
-    return this.sendRequest('get', '/profile/' + id, {})
+    return this.sendRequest({
+      method: 'get',
+      url: '/profile/' + id
+    })
   }
 
   getFriends(page: number){
-    return this.sendRequest('get', '/friends', {page: page.toString()})
+    return this.sendRequest({
+      method: 'get',
+      url: '/friends',
+      data: {page: page.toString()}
+    })
   }
 
   removeFriendship(id: string){
-    return this.sendRequest('post', '/friends/remove/' + id, {})
+    return this.sendRequest({
+      method: 'post',
+      url: '/friends/remove/' + id
+    })
   }
 }

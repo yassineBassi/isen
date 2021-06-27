@@ -6,13 +6,21 @@ import constants from './../helpers/constants';
 
 type HttpMethod = 'get' | 'post' | 'put' | 'patch' | 'head' | 'delete' | 'upload' | 'download';
 type HttpSerializer = 'json' | 'urlencoded' | 'utf8' | 'multipart' | 'raw';
+type RequestOptions = {
+  method: HttpMethod,
+  url: string,
+  data?: any,
+  header?: any,
+  serializer?: HttpSerializer,
+  noApi?: boolean
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService{
 
-  url = constants.DOMAIN_URL + constants.API_V1;
+  url = "";
 
   constructor(@Inject('string') url: string, private nativeStorage: NativeStorage, protected http: HTTP,
               private router: Router) {
@@ -29,23 +37,24 @@ export class DataService{
     })
   }
 
-  sendRequest(method: HttpMethod, url: string, data, header?, serializer: HttpSerializer = 'json') {
+  sendRequest(options: RequestOptions) {
       return new Promise((resolve, reject) => {
-        console.log(this.url + url);
+        console.log(this.url + options.url);
         this.getToken()
         .then((token: string) => {
           console.log("token", token);
-          this.http.sendRequest(this.url + url, {
-            method,
-            params: method === 'get' ? data : '',
-            data: method === 'post' || method == 'put' ? data : '',
+          const url = constants.DOMAIN_URL + (options.noApi ? '' : constants.API_V1) + this.url + options.url;
+          this.http.sendRequest(url, {
+            method: options.method,
+            params: options.method === 'get' ? options.data : '',
+            data: options.method === 'post' || options.method == 'put' ? options.data : '',
             headers: {
-              ...header,
+              ...(options.header ? options.header : {}),
               // PLATFORM: this.platform.is('ios') ? 'ios' : 'android',
               // VERSION: Product.version,
               'Authorization': 'Bearer ' + token
             },
-            serializer
+            serializer: options.serializer ? options.serializer : 'json'
           }).then(
             resp => {
               console.log("resp");
