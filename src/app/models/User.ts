@@ -134,6 +134,9 @@ export class User{
   set city(city: string){this._city = city}
 
   set interests(interests: string[]){
+    console.log("--------------------");
+    console.log(interests);
+    
     this._interests = interests;
     if(this.interests) this.sortInterests();
   }

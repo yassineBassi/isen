@@ -191,7 +191,7 @@
     <div class="mt-3">
       <ion-text class="title"><i class="fas fa-heart mr-2"></i>  Intersets</ion-text>
       <ion-row *ngIf="interests.length">
-        <ion-col class="text-center ion-no-padding p-0" size="auto" *ngFor="let interest of interests; let ind=index">
+        <ion-col class="text-center ion-no-padding p-0" size="auto" *ngFor="let interest of selectedInterests; let ind=index">
           <ion-card class="text-center p-2 interest">
             <span>{{ interest }}</span>
             <span (click)="removeInterest(ind)" class="ml-2"><i class="fas fa-times"></i></span>

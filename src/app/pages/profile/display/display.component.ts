@@ -52,8 +52,17 @@ export class DisplayComponent implements OnInit {
     )
   }
 
+  refresh(event){
+    if(!this.userId){
+      this.getUser(event);
+    }else{
+      this.getAuthUser(event);
+      this.myProfile = true;
+    }
+  }
+
   getUser(event?){
-    this.pageLoading = true;
+    if(!event) this.pageLoading = true;
     this.userService.getUserProfile(this.userId)
     .then(
       (resp: any) => {
@@ -63,23 +72,26 @@ export class DisplayComponent implements OnInit {
       },
       err => {
         this.pageLoading = false;
+        if(event) event.target.complete()
         console.log(err);
       }
     )
   }
 
-  getAuthUser(){
-    this.pageLoading = true;
+  getAuthUser(event?){
+    if(!event) this.pageLoading = true;
     this.auth.getAuthUser()
     .then(
       (resp: any) => {
         this.user = new User().initialize(resp.data);
         this.nativeStorage.setItem('user', resp.data);
         console.log(this.user);
+        if(event) event.target.complete()
         this.pageLoading = false;
       },
       err => {
         this.pageLoading = false;
+        if(event) event.target.complete()
         console.log(err);
       }
     )

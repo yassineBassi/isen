@@ -131,6 +131,7 @@ export class FormComponent implements OnInit {
   public removeInterest(ind: number): void{
     this.selectedInterests.splice(ind, 1);
     this.sortInterests();
+    this.submit();
   }
 
   private sortInterests(){
@@ -142,7 +143,7 @@ export class FormComponent implements OnInit {
   submit(){
     this.pageLoading = true;
     console.log(this.getUserForm());
-    this.userService.update(this.user.id, this.getUserForm())
+    this.userService.update(this.getUserForm())
     .then(
       resp => {
         this.pageLoading = false;
@@ -185,9 +186,7 @@ export class FormComponent implements OnInit {
     if(result){
       this.selectedCountry = result;
       this.cities = this.countriesObject[this.selectedCountry];
-      this.form.patchValue({
-        city: ''
-      });
+      this.selectedCity = undefined;
     }
   }
 

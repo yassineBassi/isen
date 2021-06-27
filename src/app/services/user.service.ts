@@ -13,10 +13,10 @@ export class UserService extends DataService {
     super('user', nativeStorage, http, router)
   }
 
-  update(id: string, data){
+  update(data){
     return this.sendRequest({
       method: 'put',
-      url: '/' + id,
+      url: '',
       data
     })
   }

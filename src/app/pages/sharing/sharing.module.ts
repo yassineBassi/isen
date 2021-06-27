@@ -5,6 +5,7 @@ import { IonicModule } from '@ionic/angular';
 import { HeaderComponent } from './../header/header.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ImgLoaderComponent } from '../img-loader/img-loader.component';
 
 
 
@@ -13,6 +14,7 @@ import { CommonModule } from '@angular/common';
     HeaderComponent,
     LoaderComponent,
     ListSearchComponent,
+    ImgLoaderComponent,
     DropDownComponent
   ],
   imports: [
@@ -22,6 +24,7 @@ import { CommonModule } from '@angular/common';
   exports: [
     HeaderComponent,
     LoaderComponent,
+    ImgLoaderComponent,
     ListSearchComponent
   ]
 })

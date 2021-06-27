@@ -2,9 +2,9 @@ import { ListSearchComponent } from './../../list-search/list-search.component';
 import { AuthService } from './../../../services/auth.service';
 import { Router } from '@angular/router';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import countriesOject from './../../../helpers/countries';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
+import { NativeStorage } from '@ionic-native/native-storage/ngx';
 
 @Component({
   selector: 'app-signup',
@@ -20,10 +20,11 @@ export class SignupComponent implements OnInit {
   btnLoading = false;
   pageLoading = false;
   form: FormGroup
-  countriesList;
+  
+  countriesObject;
   countries: string[] = [];
+  cities: string[] = [];
   selectedCountry: string;
-  cities: string[];
   selectedCity: string;
 
   get firstName(){
@@ -51,12 +52,10 @@ export class SignupComponent implements OnInit {
   }
 
   constructor(private router: Router, private auth: AuthService, private formBuilder: FormBuilder,
-              private cdr: ChangeDetectorRef, private modalController: ModalController) { }
+              private cdr: ChangeDetectorRef, private modalController: ModalController, private nativeStorage: NativeStorage) { }
 
   ionViewWillEnter(){
     this.step = 0;
-    this.countriesList = countriesOject;
-    this.countries = Object.keys(this.countriesList);
   }
 
   ngOnInit() {
@@ -71,6 +70,10 @@ export class SignupComponent implements OnInit {
       firstName: ['', [Validators.required, Validators.max(50)]],
       lastName: ['', [Validators.required, Validators.max(50)]],
       birthDate: ['', [Validators.required]],
+    })
+    this.nativeStorage.getItem('countries').then(resp => {
+      this.countriesObject = JSON.parse(resp);
+      this.countries = Object.keys(this.countriesObject);
     })
   }
 
@@ -171,6 +174,6 @@ export class SignupComponent implements OnInit {
     await modal.present();
     const { data } = await modal.onDidDismiss();
     this.selectedCountry = data.data;
-    this.cities = this.countriesList[this.selectedCountry]
+    this.cities = this.countriesObject[this.selectedCountry]
   }
 }
