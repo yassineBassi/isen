@@ -2,37 +2,16 @@
 <app-loader *ngIf="pageLoading"></app-loader>
 
 <ion-content>
-
-    <!-- <ion-button
-      expand="block"
-      size="large"
-      class="mt-3"
-    >
-      <ion-icon slot="start" name="logo-facebook"></ion-icon>
-      Continue with Facebook
-    </ion-button>
-    <ion-button
-      expand="block"
-      size="large"
-      class="mt-3"
-      fill="outline"
-      color="danger"
-    >
-      <ion-icon slot="start" name="logo-google"></ion-icon>
-      Continue with Google
-    </ion-button> -->
     <form [formGroup]="form">
       <ion-list class="mx-3">
         <ion-item>
-          <ion-label position="floating">E-mail</ion-label>
-          <ion-input formControlName="email"></ion-input>
+          <ion-input formControlName="email" placeholder="E-mail"></ion-input>
         </ion-item>
         <div class="w-100 text-danger mt-1" *ngIf="validationErrors['email']">
           <span *ngFor="let error of validationErrors['email']">{{ error }}</span>
         </div>
         <ion-item>
-          <ion-label position="floating">Password</ion-label>
-          <ion-input type="password" formControlName="password"></ion-input>
+          <ion-input type="password" formControlName="password" placeholder="Password"></ion-input>
         </ion-item>
         <div class="w-100 text-danger mt-1" *ngIf="validationErrors['password']">
           <span *ngFor="let error of validationErrors['password']">{{ error }}</span>

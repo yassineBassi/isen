@@ -1,10 +1,8 @@
-import constants from 'src/app/helpers/constants';
 import { User } from './models/User';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { Platform } from '@ionic/angular';
 import { Component } from '@angular/core';
-import { io } from 'socket.io-client/';
-
+import { SocketService } from './services/socket.service';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +11,7 @@ import { io } from 'socket.io-client/';
 })
 export class AppComponent {
 
-  socket
+  socket = SocketService.socket;
   user: User;
     // private statusBar: StatusBar
     // private splashScreen: SplashScreen,
@@ -41,7 +39,6 @@ export class AppComponent {
   }
 
   connectUser(){
-    this.socket = io(constants.DOMAIN_URL)
     this.socket.emit('connectUser', this.user.id)
   }
 
@@ -55,4 +52,6 @@ export class AppComponent {
       }
     )
   }
+
+
 }

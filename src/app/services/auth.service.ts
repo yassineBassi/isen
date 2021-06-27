@@ -3,15 +3,14 @@ import { HTTP } from '@ionic-native/http/ngx';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { DataService } from './data.service';
 import { Injectable } from '@angular/core';
-import { Geolocation } from '@ionic-native/geolocation/ngx';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService extends DataService {
 
-  constructor(nativeStorage: NativeStorage, http: HTTP, geo: Geolocation, router: Router) {
-    super('auth/', nativeStorage, http, geo, router)
+  constructor(nativeStorage: NativeStorage, http: HTTP, router: Router) {
+    super('auth/', nativeStorage, http, router)
   }
 
   verifyEmail(email: string){

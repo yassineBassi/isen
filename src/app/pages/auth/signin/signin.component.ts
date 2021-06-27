@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { AuthService } from './../../../services/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
-import { io } from 'socket.io-client/';
+import { SocketService } from 'src/app/services/socket.service';
 
 @Component({
   selector: 'app-signin',
@@ -14,7 +14,7 @@ import { io } from 'socket.io-client/';
 })
 export class SigninComponent implements OnInit {
 
-  socket
+  socket = SocketService.socket;
   form: FormGroup
   pageLoading = false;
   validationErrors = {};
@@ -63,13 +63,11 @@ export class SigninComponent implements OnInit {
         this.nativeStorage.setItem('token', resp.data.token);
         this.nativeStorage.setItem('user', resp.data.user);
 
-        this.socket = io(constants.DOMAIN_URL);
         this.socket.emit('connectUser', resp.data.user.id);
 
         this.router.navigate(['/profile']);
       },
       err => {
-        console.log(err);
         this.pageLoading = false;
         if(err.errors){
           this.validationErrors = err.errors
