@@ -38,4 +38,9 @@ export class HeaderComponent implements OnInit {
     this.searchKeyUp.emit('');
   }
 
+  doSearch(event){
+    const value = event.target.value;
+    this.searchKeyUp.emit(value)
+  }
+
 }

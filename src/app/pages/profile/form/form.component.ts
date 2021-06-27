@@ -5,11 +5,8 @@ import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { AuthService } from './../../../services/auth.service';
 import { UserService } from './../../../services/user.service';
 import { User } from './../../../models/User';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import countriesObject from './../../../helpers/countries'
-import professions from './../../../helpers/professions'
-import interests from './../../../helpers/interests'
 import { ModalController } from '@ionic/angular';
 
 @Component({
@@ -19,26 +16,22 @@ import { ModalController } from '@ionic/angular';
 })
 export class FormComponent implements OnInit {
 
-  selectedProfession: string;
-  selectedInterest: string;
+  countriesObject = {};
+  countries: string[] = [];
+  cities: string[] = [];
+  interests: string[] = [];
+  professions: string[] = [];
+  educations: string[] = [];
 
-  countires: string[];
-  cities: string[];
   selectedCountry: string;
   selectedCity: string;
+  selectedProfession: string;
+  selectedInterests: string[] = [];
 
   pageLoading = false;
-  user: User
-  educationDegrees = [
-    'High school',
-    'College',
-    'Associates degree',
-    'Bachlors degree',
-    'Graduate degree',
-    'PhD'
-  ];
-  validatoErrors = {}
-  interests: string[] = [];
+  user: User;
+
+  validatoErrors = {};
   form: FormGroup;
 
   get firstName(){
@@ -59,9 +52,6 @@ export class FormComponent implements OnInit {
   get education(){
     return this.form.get('education')
   }
-  get city(){
-    return this.form.get('city')
-  }
 
   constructor(private userService: UserService, private router: Router, private auth: AuthService,
               private nativeStorage: NativeStorage, private formBuilder: FormBuilder,
@@ -70,7 +60,6 @@ export class FormComponent implements OnInit {
   ngOnInit() {
     this.getUser();
     this.intiializeForm();
-    this.countires = Object.keys(countriesObject);
   }
 
   intiializeForm(){
@@ -79,11 +68,25 @@ export class FormComponent implements OnInit {
       lastName:  ['', [Validators.required, Validators.max(50)]],
       gender:  ['', [Validators.required]],
       birthDate: ['', [Validators.required]],
-      city: ['', [Validators.required]],
       address: ['', [Validators.max(255)]],
       school:  ['', [Validators.max(50)]],
       education:  ['', [Validators.max(30)]]
     })
+    this.nativeStorage.getItem('countries').then(resp => {
+      this.countriesObject = JSON.parse(resp);
+      this.countries = Object.keys(this.countriesObject);
+    })
+    this.countries = Object.keys(this.countriesObject);
+    this.nativeStorage.getItem('educations').then(resp => {
+      this.educations = JSON.parse(resp);
+    })
+    this.nativeStorage.getItem('professions').then(resp => {
+      this.professions = JSON.parse(resp);
+    })
+    this.nativeStorage.getItem('interests').then(resp => {
+      this.interests = JSON.parse(resp);
+    })
+    
   }
 
   formPatchValues(){
@@ -92,17 +95,15 @@ export class FormComponent implements OnInit {
       lastName: this.user.lastName,
       gender: this.user.gender,
       birthDate: this.user.birthDate.toJSON().slice(0, 10),
-      city: this.user.city,
       school: this.user.school,
       profession: this.user.profession,
-      education: this.user.education
+      education: this.user.education,
     });
     this.selectedCountry = this.user.country;
-    if(this.user.country && countriesObject[this.user.country])
-      this.cities = countriesObject[this.user.country];
-    this.selectedCity = this.user.city
-
-    this.interests = this.user.interests;
+    if(this.user.country && this.countriesObject[this.user.country])
+      this.cities = this.countriesObject[this.user.country];
+    this.selectedCity = this.user.city;
+    this.selectedInterests = this.user.interests;
   }
 
   getUserForm(){
@@ -111,30 +112,29 @@ export class FormComponent implements OnInit {
       lastName: this.lastName.value,
       gender: this.gender.value,
       birthDate: this.birthDate.value,
-      city: this.city.value,
+      city: this.selectedCity,
       country: this.selectedCountry,
       school: this.school.value,
       profession: this.selectedProfession,
       education: this.education.value,
-      interests: this.interests
+      interests: this.selectedInterests
     }
   }
 
-  addInterest(){
-    if(!this.interests.includes(this.selectedInterest)){
-      console.log('hi wtf');
-      this.interests.push(this.selectedInterest);
-      if(this.interests) this.sortInterests();
+  addInterest(interest: string){
+    if(!this.selectedInterests.includes(interest)){
+      this.selectedInterests.push(interest);
+      if(this.selectedInterests) this.sortInterests();
     }
   }
 
   public removeInterest(ind: number): void{
-    this.interests.splice(ind, 1);
+    this.selectedInterests.splice(ind, 1);
     this.sortInterests();
   }
 
   private sortInterests(){
-    this.interests = this.interests.sort((int1, int2) => {
+    this.selectedInterests = this.selectedInterests.sort((int1, int2) => {
       return int1.length - int2.length;
     })
   }
@@ -181,50 +181,51 @@ export class FormComponent implements OnInit {
   }
 
   async presentCountriesModal(){
-    const modal = await this.modalController.create({
-      componentProps: {
-        data: this.countires,
-        title: 'Countries'
-      },
-      component: ListSearchComponent
-    });
-    await modal.present();
-    const { data } = await modal.onDidDismiss();
-    this.selectedCountry = data.data;
-    this.cities = countriesObject[this.selectedCountry];
-    this.form.patchValue({
-      city: ''
-    });
-    this.submit();
+    const result = await this.presentSearchListModal(this.countries, 'Countries');
+    if(result){
+      this.selectedCountry = result;
+      this.cities = this.countriesObject[this.selectedCountry];
+      this.form.patchValue({
+        city: ''
+      });
+    }
+  }
+
+  async presentCitiesModal(){
+    const result = await this.presentSearchListModal(this.cities, 'Cities');
+    if(result){
+      this.selectedCity = result;
+      this.submit();
+    }
   }
 
   async presentProfessionsModal(){
-    const modal = await this.modalController.create({
-      componentProps: {
-        data: professions,
-        title: 'Professions'
-      },
-      component: ListSearchComponent
-    });
-    await modal.present();
-    const { data } = await modal.onDidDismiss();
-    this.selectedProfession = data.data;
-    this.submit();
+    const result = await this.presentSearchListModal(this.professions, 'Professions');
+    if(result){
+      this.selectedProfession = result;
+      this.submit();
+    }
   }
 
   async presentInterestsModal(){
+    const result = await this.presentSearchListModal(this.interests, 'Interests');
+    if(result){
+      this.addInterest(result);
+      this.submit();
+    }
+  }
+
+  async presentSearchListModal(list: any, title: string){
     const modal = await this.modalController.create({
       componentProps: {
-        data: interests,
-        title: 'Interests'
+        data: list,
+        title
       },
       component: ListSearchComponent
     });
     await modal.present();
     const { data } = await modal.onDidDismiss();
-    this.selectedInterest = data.data;
-    this.addInterest();
-    this.submit();
-  }
+    return data.data;
+  } 
 
 }

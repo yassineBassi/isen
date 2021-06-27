@@ -39,10 +39,8 @@ export class DataService{
 
   sendRequest(options: RequestOptions) {
       return new Promise((resolve, reject) => {
-        console.log(this.url + options.url);
         this.getToken()
         .then((token: string) => {
-          console.log("token", token);
           const url = constants.DOMAIN_URL + (options.noApi ? '' : constants.API_V1) + this.url + options.url;
           this.http.sendRequest(url, {
             method: options.method,
@@ -57,15 +55,10 @@ export class DataService{
             serializer: options.serializer ? options.serializer : 'json'
           }).then(
             resp => {
-              console.log("resp");
-              console.log(resp);
               resp = JSON.parse(resp.data);
-              console.log(resp);
               resolve(resp);
             },
             err => {
-              console.log("err");
-              console.log(err);
               if(err.status == 400){
                 reject(JSON.parse(err.error));
               }else if(err.status == 401){

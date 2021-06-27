@@ -13,18 +13,22 @@
       <ion-menu-button *ngIf="menu"></ion-menu-button>
     </ion-buttons>
 
-    <ion-searchbar
-      showCancelButton="always"
-      (ionCancel)="cancelSearch()"
-      (ionInput)="searchKeyUp.emit($event.target.value)"
-      [animated]="true"
-      color="secondary"
-      *ngIf="showSearch"
-    ></ion-searchbar>
+    <ion-item>
+      <ion-searchbar
+        showCancelButton="alwayse"
+        (ionCancel)="cancelSearch()"
+        (ionInput)="doSearch($event)"
+        [animated]="true"
+        color="secondary"
+        cancelButtonIcon="arrow-back"
+        *ngIf="showSearch"
+      ></ion-searchbar>
+      
+      <ion-title class="ion-no-margin ion-no-padding" *ngIf="!showSearch">
+        <span>{{ title }}</span>
+      </ion-title>
+    </ion-item>
 
-    <ion-title class="ion-no-margin ion-no-padding" *ngIf="!showSearch">
-      <span>{{ title }}</span>
-    </ion-title>
     <ion-buttons slot="end">
       <ng-content select="#end-buttons"></ng-content>
       <ion-button shape="round" *ngIf="search && !showSearch" (click)="showSearch = true">

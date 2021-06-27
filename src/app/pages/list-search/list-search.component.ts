@@ -24,10 +24,7 @@ export class ListSearchComponent implements OnInit {
       }
   }
 
-  search(event){
-    const val: string = event.target.value;
-    console.log(val);
-
+  search(val: string){
     this.filtredData = this.data.filter(d => d.toUpperCase().startsWith(val.toUpperCase(), 0));
     console.log(this.filtredData);
   }

@@ -1,20 +1,13 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-buttons class="ion-no-padding ion-no-margin" slot="start">
-      <ion-button shape="round" (click)="dismiss()">
-        <i class="fas fa-arrow-left"></i>
-      </ion-button>
-    </ion-buttons>
-
-    <ion-title>
-      <span>{{ title }}</span>
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
-
+<app-header
+  [title]="title"
+  [back]="true"
+  [modal]="true"
+  [search]="true"
+  (searchKeyUp)="search($event)"
+>
+</app-header>
 
 <ion-content>
-  <ion-searchbar (ionInput)="search($event)"></ion-searchbar>
   <ion-list>
     <ion-item (click)="selectData(d)" [button]="true" *ngFor="let d of filtredData">
       <ion-label class="ml-3">
