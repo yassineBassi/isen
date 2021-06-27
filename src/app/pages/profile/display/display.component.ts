@@ -109,12 +109,11 @@ export class DisplayComponent implements OnInit {
     this.uploadFileService.takePicture(sourceType)
     .then(
       (res: any) => {
-        console.log(res);
         this.updateAvatar(res.file, res.name)
       },
       err => {
         console.log(err);
-        this.toastService.presentErrorToastr(err);
+        this.toastService.presentStdToastr(err);
       }
     )
   }
@@ -125,6 +124,8 @@ export class DisplayComponent implements OnInit {
     this.userService.updateAvatar(this.user.id, form)
     .then(
       (resp: any) => {
+        console.log("//////////////////////////");
+        console.log(resp.data);
         this.user.avatar = resp.data.avatar;
         this.nativeStorage.setItem('user', resp.data);
         this.toastService.presentStdToastr('your avatar has been updated successfully');

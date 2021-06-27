@@ -24,7 +24,7 @@ export class UserService extends DataService {
   updateAvatar(id: string, data){
     return this.sendRequest({
       method: 'put',
-      url: `/avatar/${ id }`,
+      url: '/avatar',
       data,
       serializer: 'multipart'
     })

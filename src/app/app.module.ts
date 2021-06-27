@@ -5,12 +5,14 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
-import { IonicModule, IonicRouteStrategy, Platform } from '@ionic/angular';
+import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { Toast } from '@ionic-native/toast/ngx';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
+import { SharingModule } from './pages/sharing/sharing.module';
+import { OpenNativeSettings } from '@ionic-native/open-native-settings/ngx';
 
 @NgModule({
   declarations: [
@@ -20,17 +22,17 @@ import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
   entryComponents: [],
   imports: [
     BrowserModule,
-    IonicModule.forRoot({
-      animated: true
-    }),
+    IonicModule.forRoot(),
     AppRoutingModule,
+    SharingModule
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     NativeStorage,
     HTTP,
     Toast,
-    AndroidPermissions
+    AndroidPermissions,
+    OpenNativeSettings
   ],
   bootstrap: [AppComponent]
 })

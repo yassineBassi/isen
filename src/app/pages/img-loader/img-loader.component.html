@@ -1,12 +1,29 @@
-<img
-  [src]="placeholderSrc"
-  width="100%"
-  height="100%"
-  *ngIf="!hidePlaceholder"
->
-<img
-  [src]="src"
-  width="100%"
-  [class.d-none]="!hidePlaceholder"
-  (load)="hidePlaceholder = true"
->
+<section *ngIf="!avatar">
+  <img
+    [src]="placeholderSrc"
+    width="100%"
+    height="100%"
+    *ngIf="!hidePlaceholder"
+  >
+  <img
+    [src]="src"
+    width="100%"
+    [class.d-none]="!hidePlaceholder"
+    (load)="hidePlaceholder = true"
+  >
+</section>
+
+<ion-avatar *ngIf="avatar">
+  <img
+    [src]="placeholderSrc"
+    width="100%"
+    height="100%"
+    *ngIf="!hidePlaceholder"
+  >
+  <img
+    [src]="src"
+    width="100%"
+    [class.d-none]="!hidePlaceholder"
+    (load)="hidePlaceholder = true"
+  >
+</ion-avatar>

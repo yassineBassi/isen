@@ -7,8 +7,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ImgLoaderComponent } from '../img-loader/img-loader.component';
 
-
-
 @NgModule({
   declarations: [
     HeaderComponent,
@@ -26,6 +24,6 @@ import { ImgLoaderComponent } from '../img-loader/img-loader.component';
     LoaderComponent,
     ImgLoaderComponent,
     ListSearchComponent
-  ]
+  ],
 })
 export class SharingModule { }

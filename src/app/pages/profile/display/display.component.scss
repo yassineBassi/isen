@@ -1,5 +1,5 @@
 .image-container{
-  max-height: 450px;
+  max-height: 350px;
   overflow: hidden;
   position: relative;
 }
@@ -19,21 +19,6 @@
   margin-left: 4px;
   font-size: 19px;
 }
-// .icon-circle{
-//   width: 100%;
-//   position: relative;
-//   border-radius: 50%;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   font-size: 25px;
-// }
-
-// .icon-circle:before{
-//   content: "";
-//   display: block;
-//   padding-top: 100%;  /*What you want the height to be in relation to the width*/
-// }
 .interest{
   color: #000;
 }

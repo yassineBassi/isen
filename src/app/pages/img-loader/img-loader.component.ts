@@ -9,6 +9,7 @@ import constants from 'src/app/helpers/constants';
 export class ImgLoaderComponent implements OnInit {
 
   @Input() src: string;
+  @Input() avatar = false;
 
   hidePlaceholder = false;
   placeholderSrc = "../../../assets/" + constants.imagePlaceholder;

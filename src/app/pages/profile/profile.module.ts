@@ -24,7 +24,7 @@ import { ProfilePage } from './profile.page';
     ReactiveFormsModule,
     IonicModule,
     SharingModule,
-    ProfilePageRoutingModule,
+    ProfilePageRoutingModule
   ],
   declarations: [
     ProfilePage,
@@ -38,7 +38,7 @@ import { ProfilePage } from './profile.page';
     UploadFileService,
     FilePath,
     File,
-    FormBuilder,
+    FormBuilder
   ]
 })
 export class ProfilePageModule {}

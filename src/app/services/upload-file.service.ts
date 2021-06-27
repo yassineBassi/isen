@@ -1,58 +1,124 @@
-import { Camera } from '@ionic-native/camera/ngx';
+import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { Injectable } from '@angular/core';
 import { FilePath } from '@ionic-native/file-path/ngx';
 import { File, FileEntry, IFile } from '@ionic-native/file/ngx'
-import { Platform } from '@ionic/angular';
+import { AlertController, Platform } from '@ionic/angular';
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
+import { OpenNativeSettings } from '@ionic-native/open-native-settings/ngx';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UploadFileService {
 
-  constructor(private file: File, private filePath: FilePath, private platform: Platform,
-              private camera: Camera) { }
+  options: CameraOptions = {
+    quality: 100,
+    targetWidth: 900,
+    targetHeight: 600,
+    encodingType: this.camera.EncodingType.JPEG,
+    mediaType: this.camera.MediaType.PICTURE,
+    saveToPhotoAlbum: false,
+  };
+
+  constructor(private file: File, private filePath: FilePath, private platform: Platform, private openNativeSettings: OpenNativeSettings,
+              private camera: Camera, private alertCtrl: AlertController, private androidPermission: AndroidPermissions) { }
+
+  getPermission(sourceType){
+    const permission = sourceType == this.camera.PictureSourceType.CAMERA ? this.androidPermission.PERMISSION.CAMERA : this.androidPermission.PERMISSION.READ_EXTERNAL_STORAGE
+    return new Promise((resolve, reject) => {
+      this.androidPermission.checkPermission(permission)
+      .then(
+        result => {
+          if(result.hasPermission){
+            resolve(null)
+          }else{
+            this.requestPermission(permission)
+            .then(resp => {
+              if(resp) resolve(true);
+              else reject();
+            }, () => reject())
+          }
+        },
+        () => {
+          this.requestPermission(permission)
+          .then(resp => {
+            if(resp) resolve(true);
+            else reject();
+          }, () => reject())
+        }
+      )
+    })
+  }
+
+  requestPermission(permission: string){
+    return this.androidPermission.requestPermission(permission)
+    .then(
+      resp => {
+        if(resp.hasPermission) return true;
+        else{
+          this.showPermissionAlert();
+          return false;
+        };
+      },
+      () => {
+        this.showPermissionAlert();
+        return false;
+      }
+    )
+  }
+
+  async showPermissionAlert(){
+    const alert = await this.alertCtrl.create({
+      header: 'Permission',
+      message: 'Geloo doesn\'t have the permission to perfome this action, please give us the permsiion from the application settings',
+      buttons: [
+        {
+          text: 'CANCEL',
+          role: 'cancel'
+        },
+        {
+          text: 'Settings',
+          handler: () => {
+            this.openNativeSettings.open('application_details')
+          }
+        }
+      ]
+    })
+
+    await alert.present();
+  }
 
   takePicture(sourceType){
-    const DestinationType = this.platform.is('ios') ? this.camera.DestinationType.NATIVE_URI
-      : (this.platform.is('android') ? this.camera.DestinationType.FILE_URI : this.camera.DestinationType.DATA_URL);
-
-    const options = {
-      quality: 100,
-      targetWidth: 900,
-      targetHeight: 600,
-      destinationType: DestinationType,
-      encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE,
-      saveToPhotoAlbum: false,
-      allowEdit: true,
-      sourceType: sourceType
-    };
+    
+    this.options.sourceType = sourceType;
+    this.options.destinationType = this.platform.is('ios') ? this.camera.DestinationType.NATIVE_URI : (this.platform.is('android') ? this.camera.DestinationType.FILE_URI : this.camera.DestinationType.DATA_URL);
 
     return new Promise((resolve, reject) => {
-      console.log("hi there new");
-      this.camera.getPicture(options)
-      .then((imageData) => {
-        console.log("then");
-
-        if (this.platform.is('android') && sourceType === this.camera.PictureSourceType.PHOTOLIBRARY) {
-          this.filePath.resolveNativePath(imageData)
-            .then(filePath => {
-              resolve(this.readImgSrc(filePath));
-            },err => {
-              reject(err);
-            });
-        } else {
-          resolve(this.readImgSrc(imageData));
+      this.getPermission(sourceType)
+      .then(
+        () => {
+          this.camera.getPicture(this.options)
+          .then((imageData) => {            
+            if (this.platform.is('android') && sourceType === this.camera.PictureSourceType.PHOTOLIBRARY) {
+              this.filePath.resolveNativePath(imageData)
+                .then(filePath => {
+                  resolve(this.readImgSrc(filePath));
+                },err => {
+                  reject(err);
+                });
+            } else {
+              resolve(this.readImgSrc(imageData));
+            }
+          },
+          err => {
+            reject(err);
+          });
         }
-      },
-      err => {
-        reject(err);
-      });
+      )
     });
   }
 
   readImgSrc(imageData) {
-    console.log("readImgSrc");
     return new Promise((resolve, reject) => {
         this.file.resolveLocalFilesystemUrl(imageData)
         .then((fileEntry) => {
@@ -66,8 +132,8 @@ export class UploadFileService {
         });
     });
   }
+  
   generateBlobImg(file: IFile,imageData) {
-    console.log("generateBlobImg");
     return new Promise((resolve, reject) => {
         const fileName = file.name.substring(0, file.name.lastIndexOf('.') + 1) + 'jpg';
         const fileReader = new FileReader();
@@ -82,4 +148,5 @@ export class UploadFileService {
         };
     });
   }
+  
 }
