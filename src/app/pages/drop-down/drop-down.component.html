@@ -1,6 +1,6 @@
 <ion-list class="p-0">
-  <ion-item (click)="dismiss(item.event)" *ngFor="let item of items">
-    <ion-label class="pl-2">
+  <ion-item class="pr-5" (click)="dismiss(item.event)" [button]="true" *ngFor="let item of items">
+    <ion-label class="pl-2 my-0">
       <i [class]="item.icon" class="mr-1 icon"></i>
       {{ item.text }}
     </ion-label>

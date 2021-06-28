@@ -24,7 +24,7 @@
         <i  class="fas fa-star"></i>
       </span>
     </ion-button>
-    <ion-button *ngIf="!myProfile" shape="round">
+    <ion-button (click)="presentPopover($event)" *ngIf="!myProfile" shape="round">
       <i class="fas fa-ellipsis-v"></i>
     </ion-button>
   </div>

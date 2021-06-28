@@ -1,7 +1,7 @@
 import { RequestService } from './../../../services/request.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastService } from './../../../services/toast.service';
-import { ToastController, AlertController } from '@ionic/angular';
+import { ToastController, AlertController, PopoverController } from '@ionic/angular';
 import { UploadFileService } from './../../../services/upload-file.service';
 import { AuthService } from './../../../services/auth.service';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
@@ -11,6 +11,8 @@ import { User } from './../../../models/User';
 import { Component, OnInit } from '@angular/core';
 import constants from 'src/app/helpers/constants';
 import { FullScreenImage } from '@ionic-native/full-screen-image/ngx';
+import { Request } from 'src/app/models/Request';
+import { DropDownComponent } from '../../drop-down/drop-down.component';
 
 @Component({
   selector: 'app-display',
@@ -26,9 +28,9 @@ export class DisplayComponent implements OnInit {
   myProfile = false;
   userId: string;
 
-  constructor(private auth: AuthService, private camera: Camera, private nativeStorage: NativeStorage,
+  constructor(private auth: AuthService, private camera: Camera, private nativeStorage: NativeStorage,private popoverController: PopoverController,
   private userService: UserService, private uploadFileService: UploadFileService, private toastService: ToastService,
-  private route: ActivatedRoute, private requestService: RequestService, private alertCtrl: AlertController) { }
+  private route: ActivatedRoute, private requestService: RequestService, private alertCtrl: AlertController, private router: Router) { }
 
   ngOnInit() {
   }
@@ -53,7 +55,7 @@ export class DisplayComponent implements OnInit {
   }
 
   refresh(event){
-    if(!this.userId){
+    if(this.userId && this.userId != "null"){
       this.getUser(event);
     }else{
       this.getAuthUser(event);
@@ -121,8 +123,6 @@ export class DisplayComponent implements OnInit {
     this.userService.updateAvatar(this.user.id, form)
     .then(
       (resp: any) => {
-        console.log("//////////////////////////");
-        console.log(resp.data);
         this.user.avatar = resp.data.avatar;
         this.nativeStorage.setItem('user', resp.data);
         this.toastService.presentStdToastr('your avatar has been updated successfully');
@@ -161,7 +161,6 @@ export class DisplayComponent implements OnInit {
   }
 
   acceptRequest(){
-    console.log('accept');
     this.requestService.acceptRequest(this.user.requests[0].id)
     .then(
       resp => {
@@ -172,8 +171,6 @@ export class DisplayComponent implements OnInit {
   }
 
   cancelRequest(){
-    console.log('cancel');
-
     this.requestService.cancelRequest(this.user.requests[0].id)
     .then(
       resp => {
@@ -188,9 +185,9 @@ export class DisplayComponent implements OnInit {
     this.requestService.request(this.user.id)
     .then(
       (resp: any) => {
-        console.log(resp);
-        this.user.request = 'requesting';
+        this.user.request = 'requested';
         this.user.friend = false;
+        this.user.requests.push(new Request(resp.data.request))
         this.toastService.presentStdToastr(resp.message);
       },
       err => this.toastService.presentStdToastr(err)
@@ -230,6 +227,111 @@ export class DisplayComponent implements OnInit {
         this.toastService.presentStdToastr(err);
       }
     )
+  }
+
+  async presentPopover(ev: any) {
+    const popoverItems = [
+      {
+        text: 'Block',
+        icon: 'fas fa-minus-circle',
+        event: 'block'
+      },
+      {
+        text: 'Report',
+        icon: 'fas fa-exclamation-triangle',
+        event: 'report'
+      }
+    ]
+    const popover = await this.popoverController.create({
+      component: DropDownComponent,
+      event: ev,
+      cssClass: 'dropdown-popover',
+      showBackdrop: false,
+      componentProps: {
+        items: popoverItems
+      }
+    });
+    await popover.present();
+
+    const { data } = await popover.onDidDismiss();
+    console.log(data);
+    
+    if(data && data.event){
+      if(data.event == 'block'){
+        this.blockUserConf();
+      }
+      else if(data.event == 'report'){
+        this.reportUser();
+      }
+    }
+  }
+
+  async blockUserConf(){
+    const alert = await this.alertCtrl.create({
+      header: 'Block User',
+      message: 'do you really want to block this user ?',
+      buttons: [
+        {
+          text: 'CANCEL',
+          role: 'cancel'
+        },
+        {
+          text: 'BLOCK',
+          cssClass: 'text-danger',
+          handler: () => this.blockUser()
+        }
+      ]
+    })
+    await alert.present()
+  }
+
+  blockUser(){
+    this.userService.block(this.userId)
+    .then(
+      (resp: any) => {
+        this.toastService.presentStdToastr(resp.message)
+        this.router.navigateByUrl('/profile/display/null')
+      },
+      err => {
+        this.toastService.presentStdToastr(err)
+      }
+    )
+  }
+
+  async reportUser(){
+    const alert = await this.alertCtrl.create({
+      header: 'Report ' + this.user.fullName,
+      inputs: [
+        {
+          type: 'text',
+          name: 'message',
+          placeholder: 'Message'
+        }
+      ],
+      buttons: [
+        {
+          text: 'CANCEL',
+          role: 'cancel'
+        },
+        {
+          text: 'SEND',
+          cssClass: 'text-danger',
+          handler: (val) => {
+            const message = val.message
+            this.userService.report(this.userId, message)
+            .then(
+              (resp: any) => {
+                this.toastService.presentStdToastr(resp.message)
+              },
+              err => {
+                this.toastService.presentStdToastr(err)
+              }
+            )
+          }
+        }
+      ]
+    })
+    await alert.present();
   }
 
 }

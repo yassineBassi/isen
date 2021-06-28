@@ -66,4 +66,19 @@ export class UserService extends DataService {
       url: '/friends/remove/' + id
     })
   }
+
+  block(id: string){
+    return this.sendRequest({
+      method: 'post',
+      url: '/' + id + '/block'
+    })
+  }
+
+  report(id: string, message: string){
+    return this.sendRequest({
+      method: 'post',
+      url: '/' + id + '/report',
+      data: {message}
+    })
+  }
 }
