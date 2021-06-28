@@ -59,10 +59,19 @@ export class ProductService extends DataService {
     })
   }
 
-  disable(id: string){
+  sold(id: string){
     return this.sendRequest({
       method: 'post', 
-      url: '/disable/' + id
+      url: '/sold/' + id
     })
   }
+  
+  report(id: string, message: string){
+    return this.sendRequest({
+      method: 'post',
+      url: '/' + id + '/report',
+      data: {message}
+    })
+  }
+
 }

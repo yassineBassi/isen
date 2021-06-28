@@ -2,12 +2,13 @@
   [back]="true"
   [title]="type ? (type == 'buy' ? 'Available Product' : 'Posted products') : ''"
   [backLink]="'/buy-and-sell'"
+  [search]="true"
+  (searchKeyUp)="search($event)"
 ></app-header>
 
 <app-loader *ngIf="pageLoading"></app-loader>
 
 <ion-content>
-  <ion-searchbar [(ngModel)]="searchQuery" (ionChange)="search()"></ion-searchbar>
 
   <ion-refresher slot="fixed" pullFactor="0.5" pullMin="100" pullMax="200"  (ionRefresh)="getProducts($event, true)">
     <ion-refresher-content></ion-refresher-content>
@@ -18,7 +19,7 @@
   </ion-card>
 
   <ion-list *ngIf="products">
-    <ion-item *ngFor="let product of products" [routerLink]="['/channels/buy-and-sell/product/' + product.id]">
+    <ion-item *ngFor="let product of products" [routerLink]="['/buy-and-sell/product/' + product.id]">
       <ion-thumbnail class="ml-2">
         <ion-img [src]="product.photo.path"></ion-img>
       </ion-thumbnail>
@@ -27,8 +28,8 @@
         <small>{{ product.createdAt | extractDate }}</small>
       </ion-label>
       <span class="mr-2 text-right">
-        <span class="d-block">{{ product.price }}</span>
-        <small class="d-block">{{ product.createdAt | extractTime }}</small>
+        <span class="d-block">{{ product.price }} {{ product.currency }}</span>
+        <small class="d-block">{{ product.country }}, {{ product.city }}</small>
       </span>
     </ion-item>
   </ion-list>

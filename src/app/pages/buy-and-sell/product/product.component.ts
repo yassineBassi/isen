@@ -6,7 +6,8 @@ import { ProductService } from './../../../services/product.service';
 import { Product } from './../../../models/Product';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { AlertController } from '@ionic/angular';
+import { AlertController, PopoverController } from '@ionic/angular';
+import { DropDownComponent } from '../../drop-down/drop-down.component';
 
 @Component({
   selector: 'app-product',
@@ -22,7 +23,7 @@ export class ProductComponent implements OnInit {
   page: number = 1;
   user: User;
 
-  constructor(private productService: ProductService, private route: ActivatedRoute,
+  constructor(private productService: ProductService, private route: ActivatedRoute, private popoverController: PopoverController,
               private toastService: ToastService, private alertCtrl: AlertController, private router: Router,
               private nativeStorage: NativeStorage) { }
 
@@ -48,8 +49,8 @@ export class ProductComponent implements OnInit {
     )
   }
 
-  getProduct(){
-    this.pageLoading = true;
+  getProduct(event?){
+    if(!event) this.pageLoading = true;
     this.productService.get(this.productId)
     .then(
       (resp: any) => {
@@ -57,10 +58,12 @@ export class ProductComponent implements OnInit {
         this.product = new Product(resp.data);
         this.page++;
         console.log(this.product);
+        if(event) event.target.complete();
       },
       err => {
         this.pageLoading = false;
         console.log(err);
+        if(event) event.target.complete();
         this.toastService.presentErrorToastr(err)
       }
     )
@@ -105,21 +108,80 @@ export class ProductComponent implements OnInit {
 
   markAsSold(){
     this.pageLoading = true;
-    this.productService.disable(this.product.id)
+    this.productService.sold(this.product.id)
     .then(
       (resp: any) => {
         this.toastService.presentStdToastr(resp.message)
-        this.product.enabled = false;
-        console.log(resp);
+        this.product.sold = true;
         this.pageLoading = false;
-
       },
       err => {
         this.toastService.presentStdToastr(err)
-        console.log(err);
         this.pageLoading = false;
-
       }
     )
   }
+
+  async presentPopover(ev: any) {
+    const popoverItems = [
+      {
+        text: 'Report',
+        icon: 'fas fa-exclamation-triangle',
+        event: 'report'
+      }
+    ]
+    const popover = await this.popoverController.create({
+      component: DropDownComponent,
+      event: ev,
+      cssClass: 'dropdown-popover',
+      showBackdrop: false,
+      componentProps: {
+        items: popoverItems
+      }
+    });
+    await popover.present();
+
+    const { data } = await popover.onDidDismiss();
+    if(data && data.event){
+      if(data.event == 'report') this.reportPorduct();
+    }
+  }
+
+  
+  async reportPorduct(){
+    const alert = await this.alertCtrl.create({
+      header: 'Report ' + this.product.label,
+      inputs: [
+        {
+          type: 'text',
+          name: 'message',
+          placeholder: 'Message'
+        }
+      ],
+      buttons: [
+        {
+          text: 'CANCEL',
+          role: 'cancel'
+        },
+        {
+          text: 'SEND',
+          cssClass: 'text-danger',
+          handler: (val) => {
+            const message = val.message
+            this.productService.report(this.product.id, message)
+            .then(
+              (resp: any) => {
+                this.toastService.presentStdToastr(resp.message)
+              },
+              err => {
+                this.toastService.presentStdToastr(err)
+              }
+            )
+          }
+        }
+      ]
+    })
+    await alert.present();
+  }
+
 }

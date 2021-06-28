@@ -43,7 +43,8 @@ export class ProductsComponent implements OnInit {
     )
   }
 
-  search(){
+  search(val: string){
+    this.searchQuery = val;
     this.page = 0;
     this.getProducts(null);
   }

@@ -6,6 +6,9 @@ import { Camera } from '@ionic-native/camera/ngx';
 import { Component, OnInit } from '@angular/core';
 import { WebView } from '@ionic-native/ionic-webview/ngx';
 import { Router } from '@angular/router';
+import { NativeStorage } from '@ionic-native/native-storage/ngx';
+import { ListSearchComponent } from '../../list-search/list-search.component';
+import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-product-form',
@@ -31,6 +34,9 @@ export class ProductFormComponent implements OnInit {
   form: FormGroup;
   imageLoading = false;
 
+  currencies = [];
+  selectedCurrency;
+
   get label(){
     return this.form.get('label')
   }
@@ -45,7 +51,7 @@ export class ProductFormComponent implements OnInit {
 
   constructor(private camera: Camera, private formBuilder: FormBuilder, private uploadFile: UploadFileService,
               private toastService: ToastService, private webView: WebView, private productService: ProductService,
-              private router: Router) { }
+              private router: Router, private nativeStorage: NativeStorage, private modalController: ModalController) { }
 
   ngOnInit(){
     this.initializeForm();
@@ -104,6 +110,9 @@ export class ProductFormComponent implements OnInit {
       description: ['', [Validators.required, Validators.maxLength(255)]],
       price: ['', [Validators.required, Validators.maxLength(12)]]
     });
+    this.nativeStorage.getItem('currencies').then(resp => {
+      this.currencies = Object.keys(JSON.parse(resp))
+    })
   }
 
   pickImage(){
@@ -120,7 +129,7 @@ export class ProductFormComponent implements OnInit {
       },
       err => {
         this.imageLoading = false;
-        this.toastService.presentErrorToastr(err);
+        this.toastService.presentStdToastr(err);
       }
     )
   }
@@ -129,6 +138,7 @@ export class ProductFormComponent implements OnInit {
     const form: FormData = new FormData();
     form.append('label', this.label.value);
     form.append('price', this.price.value);
+    form.append('currency', this.selectedCurrency);
     form.append('description', this.description.value);
     form.append('photo', this.productImage.file, this.productImage.name);
     return form;
@@ -181,4 +191,22 @@ export class ProductFormComponent implements OnInit {
       }
     )
   }
+
+  async presentCurrenciesModal(){
+    const result = await this.presentSearchListModal(this.currencies, 'Currencies');
+    if(result) this.selectedCurrency = result;
+  }
+
+  async presentSearchListModal(list: any, title: string){
+    const modal = await this.modalController.create({
+      componentProps: {
+        data: list,
+        title
+      },
+      component: ListSearchComponent
+    });
+    await modal.present();
+    const { data } = await modal.onDidDismiss();
+    return data.data;
+  } 
 }
