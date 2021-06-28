@@ -30,7 +30,7 @@ export class User{
 
   private _online: boolean;
 
-  private _lastMessage: Message;
+  private _messages: Message[];
 
   constructor(){
   }
@@ -71,7 +71,12 @@ export class User{
 
     this.online = user.online
 
-    if(user.lastMessage) this.lastMessage = new Message().initialize(user.lastMessage);
+    if(user.messages){
+      this.messages = [];
+      user.messages.forEach(msg => {
+        this.messages.push(new Message().initialize(msg))
+      })
+    }
 
     return this;
   }
@@ -112,7 +117,7 @@ export class User{
   get friend(): Boolean {return this._friend};
   get request(): RequestEnum {return this._request};
   get online(): boolean {return this._online};
-  get lastMessage(): Message {return this._lastMessage};
+  get messages(): Message[] {return this._messages};
 
   get requests(): Request[] {return this._requests};
 
@@ -134,9 +139,6 @@ export class User{
   set city(city: string){this._city = city}
 
   set interests(interests: string[]){
-    console.log("--------------------");
-    console.log(interests);
-    
     this._interests = interests;
     if(this.interests) this.sortInterests();
   }
@@ -145,7 +147,7 @@ export class User{
   set friend(friend: Boolean) {this._friend = friend};
   set request(request: RequestEnum) {this._request = request};
   set online(online: boolean) {this._online = online};
-  set lastMessage(lastMessage: Message) {this._lastMessage = lastMessage};
+  set messages(messages: Message[]) {this._messages = messages};
 
   set requests(requests: Request[]) {
     this._requests = [];

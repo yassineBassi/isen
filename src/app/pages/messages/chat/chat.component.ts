@@ -11,8 +11,7 @@ import { Message } from './../../../models/Message';
 import { Camera } from '@ionic-native/camera/ngx';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { IonContent, IonInfiniteScroll, Platform } from '@ionic/angular';
-import { io } from 'socket.io-client/';
-import constants from 'src/app/helpers/constants';
+import { SocketService } from 'src/app/services/socket.service';
 
 @Component({
   selector: 'app-chat',
@@ -36,7 +35,7 @@ export class ChatComponent implements OnInit {
   @ViewChild('infScroll') private infScroll: IonInfiniteScroll;
 
   messages: Message[];
-  socket;
+  socket = SocketService.socket;
   user: User;
   authUser: User;
   pageLoading = false;
@@ -71,8 +70,6 @@ export class ChatComponent implements OnInit {
 
 
   initializeSocket(){
-    this.socket = io(constants.DOMAIN_URL)
-    this.socket.emit('connectUser', this.authUser.id)
     this.initSocketListeners();
   }
 
@@ -152,7 +149,7 @@ export class ChatComponent implements OnInit {
 
 
   initSocketListeners(){
-    this.socket.on('addMessage', (message) => {
+    this.socket.on('new-message', (message) => {
       if(this.user && message.from == this.user.id){
         this.messages.push(new Message().initialize(message));
         setTimeout(() => {
@@ -161,7 +158,7 @@ export class ChatComponent implements OnInit {
       }
     })
 
-    this.socket.on('messageSent', (message, ind) => {
+    this.socket.on('message-sent', (message, ind) => {
       if(this.sentMessages[ind]){
         this.sentMessages[ind].id = message._id
         this.sentMessages[ind].state = 'sent';
@@ -171,7 +168,7 @@ export class ChatComponent implements OnInit {
       this.sentMessages[ind] = undefined
     })
 
-    this.socket.on('sendError', (ind) => {
+    this.socket.on('message-not-sent', (ind) => {
       if(this.sentMessages[ind]){
         this.sentMessages[ind].state = 'failed';
         if(this.resend.includes(ind)) this.resend.splice(this.resend.indexOf(ind), 1)
@@ -185,7 +182,7 @@ export class ChatComponent implements OnInit {
   }
 
   sendMessage(message, ind){
-    this.socket.emit('addMessage', {
+    this.socket.emit('send-message', {
       text: message.text,
       from: message.from,
       to: message.to,
@@ -224,7 +221,7 @@ export class ChatComponent implements OnInit {
   }
 
   pickImage(){
-    this.uploadFileService.takePicture(this.camera.PictureSourceType.PHOTOLIBRARY)
+    this.uploadFileService.takePicture(this.camera.PictureSourceType.CAMERA)
     .then(
       (resp: any) => {
         this.image = this.webView.convertFileSrc(resp.imageData);

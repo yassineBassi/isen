@@ -6,7 +6,7 @@ import { io } from 'socket.io-client/';
   providedIn: 'root'
 })
 export class SocketService {
-  static socket = io(constants.API_V1)
+  static socket = io(constants.DOMAIN_URL)
 
   constructor() {
   }

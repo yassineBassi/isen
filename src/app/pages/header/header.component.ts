@@ -18,6 +18,8 @@ export class HeaderComponent implements OnInit {
   @Input() modal = false;
   @Input() backgroundColor: string;
   @Input() textColor: string;
+  @Input() avatar = false;
+  @Input() avatarSrc: string;
 
   @Output() searchKeyUp = new EventEmitter();
 

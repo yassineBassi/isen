@@ -37,9 +37,11 @@ export class ListComponent implements OnInit {
           if(!resp.data.more && !refresh) event.target.disabled = true;
         }
 
-        resp.data.forEach(usr => {
+        resp.data.users.forEach(usr => {
           this.users.push(new User().initialize(usr));
         })
+        console.log(this.users);
+        
       },
       err => {
         this.pageLoading = false

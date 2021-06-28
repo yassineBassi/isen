@@ -19,10 +19,10 @@
         <img [src]="friend.avatar.path" alt="">
       </ion-avatar>
       <ion-label class="ml-2">
-        <span>
+        <span class="d-block">
           <span class="user-name">{{ friend.fullName }}, {{ friend.age }}</span>
         </span>
-        <span>{{ friend.city }}</span>
+        <small class="d-block">{{ friend.city }}</small>
       </ion-label>
       <span *ngIf="friend.online"><i class="fas fa-circle ml-2 online-icon"></i></span>
     </ion-item>

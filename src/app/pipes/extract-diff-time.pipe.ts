@@ -27,7 +27,7 @@ export class ExtractDiffTimePipe implements PipeTransform {
       }
       return Math.floor(mins) + " min"
     }
-    return Math.floor(secs) + ' sec'
+    return Math.floor(secs) <= 0 ? 'now' : (Math.floor(secs)  + ' sec')
   }
 
 }

@@ -24,7 +24,11 @@
         *ngIf="showSearch"
       ></ion-searchbar>
       
-      <ion-title class="ion-no-margin ion-no-padding" *ngIf="!showSearch">
+      <ion-avatar *ngIf="avatar">
+        <img [src]="avatarSrc" alt="">
+      </ion-avatar>
+
+      <ion-title class="ion-no-margin ion-no-padding pl-2" *ngIf="!showSearch">
         <span>{{ title }}</span>
       </ion-title>
     </ion-item>

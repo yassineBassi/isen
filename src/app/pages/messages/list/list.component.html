@@ -18,11 +18,16 @@
       </ion-avatar>
       <ion-label class="ml-2">
         <span class="mb-0 title font-weight-bold d-block">{{ user.fullName }}</span>
-        <span><span *ngIf="user.lastMessage.image" class="text-secondary"><i class="fas fa-image mr-1"></i> Photo</span>{{ user.lastMessage.text }}</span>
+        <span *ngIf="user.messages && user.messages.length">
+          <span *ngIf="user.messages[0].image" class="text-secondary">
+            <i class="fas fa-image mr-1"></i> Photo
+          </span>
+          {{ user.messages[0].text }}
+        </span>
       </ion-label>
-      <span class="text-center">
+      <span class="text-center" *ngIf="user.messages && user.messages.length">
         <span *ngIf="user.online" class="d-block"><i class="fas fa-circle online-icon"></i></span>
-        <small class="mr-2">{{ user.lastMessage.createdAt | extractTime }}</small>
+        <small class="mr-2">{{ user.messages[0].createdAt | extractDiffTime }}</small>
       </span>
     </ion-item>
   </ion-list>

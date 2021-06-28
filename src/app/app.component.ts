@@ -4,6 +4,7 @@ import { Platform } from '@ionic/angular';
 import { Component } from '@angular/core';
 import { SocketService } from './services/socket.service';
 import { JsonService } from './services/json.service';
+import constants from './helpers/constants';
 
 @Component({
   selector: 'app-root',
@@ -42,11 +43,12 @@ export class AppComponent {
   }
 
   connectUser(){
-    this.socket.emit('connectUser', this.user.id)
+    console.log('connecting user', this.user.id);
+    
+    this.socket.emit('connect-user', this.user.id)
   }
 
   getUserData(){
-    console.log('hi');
     this.nativeStorage.getItem('user')
     .then(
       user => {
