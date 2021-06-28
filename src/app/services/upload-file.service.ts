@@ -11,15 +11,6 @@ import { OpenNativeSettings } from '@ionic-native/open-native-settings/ngx';
 })
 export class UploadFileService {
 
-  options: CameraOptions = {
-    quality: 100,
-    targetWidth: 900,
-    targetHeight: 600,
-    encodingType: this.camera.EncodingType.JPEG,
-    mediaType: this.camera.MediaType.PICTURE,
-    saveToPhotoAlbum: false,
-  };
-
   constructor(private file: File, private filePath: FilePath, private platform: Platform, private openNativeSettings: OpenNativeSettings,
               private camera: Camera, private alertCtrl: AlertController, private androidPermission: AndroidPermissions) { }
 
@@ -90,14 +81,26 @@ export class UploadFileService {
 
   takePicture(sourceType){
     
-    this.options.sourceType = sourceType;
-    this.options.destinationType = this.platform.is('ios') ? this.camera.DestinationType.NATIVE_URI : (this.platform.is('android') ? this.camera.DestinationType.FILE_URI : this.camera.DestinationType.DATA_URL);
+    const options: CameraOptions = {
+      quality: 100,
+      targetWidth: 900,
+      targetHeight: 600,
+      mediaType: this.camera.MediaType.PICTURE,
+      encodingType: this.camera.EncodingType.PNG,
+      saveToPhotoAlbum: false,
+    };
+
+    options.sourceType = sourceType;
+    if(sourceType == this.camera.PictureSourceType.PHOTOLIBRARY) options.allowEdit = true;
+    options.destinationType = this.platform.is('ios') ? this.camera.DestinationType.NATIVE_URI : (this.platform.is('android') ? this.camera.DestinationType.FILE_URI : this.camera.DestinationType.DATA_URL);
+
+    console.log(options);
 
     return new Promise((resolve, reject) => {
       this.getPermission(sourceType)
       .then(
         () => {
-          this.camera.getPicture(this.options)
+          this.camera.getPicture(options)
           .then((imageData) => {            
             if (this.platform.is('android') && sourceType === this.camera.PictureSourceType.PHOTOLIBRARY) {
               this.filePath.resolveNativePath(imageData)

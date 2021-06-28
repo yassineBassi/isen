@@ -1,6 +1,6 @@
 import { IonInfiniteScroll } from '@ionic/angular';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Channel } from './../../../models/Channel';
 import { ToastService } from './../../../services/toast.service';
 import { ChannelService } from './../../../services/channel.service';
@@ -24,7 +24,7 @@ export class ListComponent implements OnInit {
 
   followLoading = [];
 
-  constructor(private channelService: ChannelService, private toastService: ToastService,
+  constructor(private channelService: ChannelService, private toastService: ToastService, private router: Router,
               private route: ActivatedRoute, private nativeStorage: NativeStorage) { }
 
   ngOnInit() {
@@ -115,12 +115,23 @@ export class ListComponent implements OnInit {
       (resp: any) => {
         this.followLoading.splice(this.followLoading.indexOf(channel.id), 1);
         this.toastService.presentStdToastr(resp.message);
-        channel.followed = resp.data;
+        if(resp.data)
+          channel.followers.push(this.user.id);
+        else
+          channel.followers.splice(channel.followers.indexOf(this.user.id), 1)
       },
       err => {
         this.followLoading.splice(this.followLoading.indexOf(channel.id), 1);
         this.toastService.presentStdToastr(err);
       }
     )
+  }
+
+  showChannel(channel: Channel){
+    this.router.navigate(['/channels/channel'], {
+      queryParams: {
+        channel: JSON.stringify(channel.toObject())
+      }
+    })
   }
 }

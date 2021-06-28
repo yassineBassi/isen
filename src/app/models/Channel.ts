@@ -5,14 +5,12 @@ export class Channel{
   private _id: string;
   private _name: string;
   private _description: string;
-  private _pin: boolean;
-  private _activated: boolean;
+  private _approved: boolean;
   private _photo: File;
   private _createdAt: Date;
   private _user: User;
 
-  private _followed: boolean;
-  private _followerSize: number;
+  private _followers: string[];
 
   constructor(){
   }
@@ -21,16 +19,14 @@ export class Channel{
     this.id = channel._id;
     this.name = channel.name;
     this.description = channel.description;
-    this.activated = channel.activated;
+    this.approved = channel.approved;
     this.photo = channel.photo;
-    this.pin = channel.pin;
 
     this.user = channel.user;
 
     this.createdAt = new Date(channel.createdAt);
 
-    this.followerSize = channel.followerSize;
-    this.followed = channel.followed as boolean;
+    this.followers = channel.followers;
 
     return this;
   }
@@ -38,20 +34,17 @@ export class Channel{
   get id(): string{ return this._id }
   get name(): string{ return this._name }
   get description(): string{ return this._description }
-  get pin(): boolean{ return this._pin }
-  get activated(): boolean{ return this._activated }
+  get approved(): boolean{ return this._approved }
   get user(): User{ return this._user }
   get photo(): File{ return this._photo }
   get createdAt(): Date{ return this._createdAt }
 
-  get followed(): boolean{ return this._followed }
-  get followerSize(): number{ return this._followerSize }
+  get followers(): string[]{ return this._followers }
 
   set id(id: string){ this._id = id }
   set name(name: string){ this._name = name }
   set description(description: string){ this._description = description }
-  set pin(pin: boolean){ this._pin = pin }
-  set activated(activated: boolean){ this._activated = activated }
+  set approved(approved: boolean){ this._approved = approved }
 
   set user(user: User){
     if(user){
@@ -67,6 +60,22 @@ export class Channel{
   set photo(photo: File){ this._photo = photo }
   set createdAt(createdAt: Date){ this._createdAt = createdAt }
 
-  set followerSize(followerSize: number){ this._followerSize = followerSize }
-  set followed(followed: boolean){ this._followed = followed }
+  set followers(followers: string[]){ this._followers = followers }
+
+  followedBy(id: string): boolean{
+    return this.followers.includes(id);
+  }
+
+  toObject(){
+    return {
+      _id: this.id,
+      name: this.name,
+      description: this.description,
+      approved: this.approved,
+      photo: this.photo,
+      createdAt: this.createdAt,
+      user: this.user.toObjeect(),
+      followers: this.followers
+    }
+  }
 }

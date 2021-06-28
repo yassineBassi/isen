@@ -23,10 +23,7 @@
     <form [formGroup]="form">
       <ion-list class="mx-3">
         <ion-item>
-          <ion-label position="floating" class="ml-2">
-            Channel name:
-          </ion-label>
-          <ion-input formControlName="name" class="ml-2"></ion-input>
+          <ion-input formControlName="name" class="ml-2" placeholder="Channel name"></ion-input>
         </ion-item>
         <span *ngIf="validatorErrors['name'] || (name.dirty && name.errors)">
           <span class="text-danger" *ngIf="validatorErrors['name']">{{ validatorErrors['name'][0] }}</span>
@@ -37,10 +34,7 @@
         </span>
 
         <ion-item>
-          <ion-label position="floating" class="ml-2">
-            Description:
-          </ion-label>
-          <ion-textarea maxlength="255" formControlName="description" class="ml-2" rows="5"></ion-textarea>
+          <ion-textarea maxlength="255" formControlName="description" class="ml-2" rows="5"  placeholder="Description"></ion-textarea>
         </ion-item>
         <span *ngIf="validatorErrors['description'] || (description.dirty && description.errors)" class="mt-1">
           <span class="text-danger" *ngIf="validatorErrors['description']">{{ validatorErrors['description'][0] }}</span>

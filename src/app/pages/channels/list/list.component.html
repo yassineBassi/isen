@@ -1,5 +1,5 @@
 <app-channels-header *ngIf="type && type != 'explore'"></app-channels-header>
-<app-header *ngIf="type && type == 'explore'" [back]="true" [title]="'explore channels (' + (user ? (user.city ? user.city : 'Global') : '') + ')'"></app-header>
+<app-header *ngIf="type && type == 'explore'" [back]="true" [title]="'Explore channels (' + (user ? user.city : '') + ')'"></app-header>
 
 <app-loader *ngIf="pageLoading"></app-loader>
 
@@ -22,36 +22,34 @@
   <ion-list *ngIf="channels && channels.length">
     <ion-item
       *ngFor="let channel of channels"
-      [routerLink]="['/channels/channel']"
-      [queryParams]="{
-        id: channel.id,
-        name: channel.name,
-        channelIsFollowed: channel.followed ? true : false,
-        myChannel: type == 'mines' ? true : false
-      }"
+      (click)="showChannel(channel)"
     >
       <ion-avatar class="avatar ml-2">
         <img [src]="channel.photo.path" alt="">
       </ion-avatar>
       <ion-label class="ml-2">
         <span class="channel-name d-block">{{ channel.name }}</span>
-        <small class=" d-block">{{ channel.followerSize }} Follower</small>
+        <small class=" d-block">{{ channel.followers.length }} Follower</small>
       </ion-label>
+      <small *ngIf="user && channel.user.id == user.id">
+        <span *ngIf="channel.approved" class="text-success">Approved</span>
+        <span *ngIf="!channel.approved" class="text-danger">Not Approved</span>
+      </small>
       <ion-button
-        [color]="!channel.followed ? 'secondary' : 'danger'"
+        [color]="!channel.followedBy(user.id) ? 'secondary' : 'danger'"
         [disabled]="followLoading.includes(channel.id)"
         fill="outline"
-        (click)="follow(channel)"
+        (click)="follow(channel);$event.stopPropagation();"
         *ngIf="user && channel.user.id != user.id"
       >
-          <span *ngIf="!channel.followed">
+          <span *ngIf="!channel.followedBy(user.id)">
             <span *ngIf="!followLoading.includes(channel.id)"><i class="fas fa-plus mr-1"></i></span>
             <span *ngIf="followLoading.includes(channel.id)">
               <i class="fas fa-circle-notch fa-spin mr-1"></i>
             </span>
              Follow
           </span>
-          <span *ngIf="channel.followed"><i class="fas fa-minus"></i> Unfollow</span>
+          <span *ngIf="channel.followedBy(user.id)"><i class="fas fa-minus"></i> Unfollow</span>
       </ion-button>
     </ion-item>
   </ion-list>

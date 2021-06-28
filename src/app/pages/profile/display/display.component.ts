@@ -244,7 +244,6 @@ export class DisplayComponent implements OnInit {
       component: DropDownComponent,
       event: ev,
       cssClass: 'dropdown-popover',
-      showBackdrop: false,
       componentProps: {
         items: popoverItems
       }

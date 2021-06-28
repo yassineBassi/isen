@@ -11,9 +11,8 @@ import { Component, OnInit, ViewChild, ElementRef, Input, Output, EventEmitter }
 })
 export class PostFormComponent implements OnInit {
   @Input() channelId;
-
+  
   anonyme = false;
-
   colors = [
     {
       background: '#ff9908',
@@ -54,6 +53,7 @@ export class PostFormComponent implements OnInit {
   ngOnInit() {}
 
   ionViewWillEnter(){
+    this.postText = "Hello World!";
     const randomInd = Math.round(Math.random() * (this.colors.length - 1))
     this.selectColor(this.colors[randomInd]);
   }

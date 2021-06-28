@@ -8,6 +8,7 @@ import { Post } from './../../../models/Post';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ChannelService } from './../../../services/channel.service';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Channel } from 'src/app/models/Channel';
 
 @Component({
   selector: 'app-channel',
@@ -19,12 +20,7 @@ export class ChannelComponent implements OnInit {
   @ViewChild('content') content: IonContent;
 
   anonyme = false;
-
-  channelId: string;
-  channelIsFollowed: boolean;
-  myChannel: boolean
-  channelName: string;
-
+  channel: Channel;
   user: User;
 
   pageLoading = false;
@@ -49,10 +45,7 @@ export class ChannelComponent implements OnInit {
     .subscribe(
       params => {
         this.pageLoading = false;
-        this.channelId = params.get('id');
-        this.channelName= params.get('name');
-        this.channelIsFollowed = params.get('channelIsFollowed') == 'true' ? true : false;
-        this.myChannel = params.get('myChannel') == 'true' ? true : false;
+        this.channel = new Channel().initialize(JSON.parse(params.get('channel')));
         this.nativeStorage.getItem('user')
         .then(
           user => {
@@ -67,7 +60,7 @@ export class ChannelComponent implements OnInit {
   getChannelPosts(event?, refresh?){
     if(!event) this.pageLoading = true;
     if(refresh) this.page = 0;
-    this.channelService.getPosts(this.channelId, this.page++)
+    this.channelService.getPosts(this.channel.id, this.page++)
     .then(
       (resp: any) => {
         if(!event || refresh){
@@ -104,7 +97,7 @@ export class ChannelComponent implements OnInit {
     const modal = await this.modalCtrl.create({
       component: PostFormComponent,
       componentProps: {
-        channelId: this.channelId
+        channelId: this.channel.id
       }
     });
     await modal.present()
@@ -115,9 +108,7 @@ export class ChannelComponent implements OnInit {
 
   async presentPopover(ev: any) {
     const popoverItems = [];
-    console.log(this.myChannel);
-
-    if(this.myChannel){
+    if(this.channel.user.id == this.user.id){
       popoverItems.push(
         {
           text: 'Delete',
@@ -128,16 +119,21 @@ export class ChannelComponent implements OnInit {
     }else {
       popoverItems.push(
         {
-          text: this.channelIsFollowed ? 'Unfollow' : 'Follow',
-          icon: this.channelIsFollowed ? 'fas fa-minus-circle' :  'fas fa-plus',
+          text: this.channel.followedBy(this.user.id) ? 'Unfollow' : 'Follow',
+          icon: this.channel.followedBy(this.user.id) ? 'fas fa-minus-circle' :  'fas fa-plus',
           event: 'follow'
+        },
+        {
+          text: 'Report',
+          icon: 'fas fa-exclamation-triangle',
+          event: 'report'
         }
       )
     }
     const popover = await this.popoverController.create({
       component: DropDownComponent,
       event: ev,
-      showBackdrop: false,
+      cssClass: 'dropdown-popover',
       componentProps: {
         items: popoverItems
       }
@@ -147,18 +143,19 @@ export class ChannelComponent implements OnInit {
     const { data } = await popover.onDidDismiss();
     if(data && data.event){
       if(data.event == 'follow'){
-        if(this.channelIsFollowed)
+        if(this.channel.followedBy(this.user.id))
           this.togglefollowConf();
         else
           this.togglefollow();
       }
       else if(data.event == 'delete') this.deleteConf();
+      else if(data.event == 'report') this.reportChannel();
     }
   }
 
   async togglefollowConf(){
     const alert = await this.alertCtrl.create({
-      header: 'Unfollow Channel',
+      header: 'Unfollow ' + this.channel.name,
       message: 'do you really want to unfollow this channel ?',
       buttons: [
         {
@@ -178,11 +175,14 @@ export class ChannelComponent implements OnInit {
   }
 
   togglefollow(){
-    this.channelService.follow(this.channelId)
+    this.channelService.follow(this.channel.id)
     .then(
       (resp: any) => {
         this.toastService.presentStdToastr(resp.message);
-        this.channelIsFollowed = resp.data;
+        if(resp.data)
+          this.channel.followers.push(this.user.id);
+        else 
+          this.channel.followers.splice(this.channel.followers.indexOf(this.user.id), 1)
       },
       err => {
         this.toastService.presentStdToastr(err)
@@ -212,7 +212,7 @@ export class ChannelComponent implements OnInit {
   }
 
   deleteChannel(){
-    this.channelService.deleteChannel(this.channelId)
+    this.channelService.deleteChannel(this.channel.id)
     .then(
       (resp: any) => {
         this.toastService.presentStdToastr(resp.message)
@@ -224,4 +224,39 @@ export class ChannelComponent implements OnInit {
     )
   }
 
+  async reportChannel(){
+    const alert = await this.alertCtrl.create({
+      header: 'Report ' + this.channel.name,
+      inputs: [
+        {
+          type: 'text',
+          name: 'message',
+          placeholder: 'Message'
+        }
+      ],
+      buttons: [
+        {
+          text: 'CANCEL',
+          role: 'cancel'
+        },
+        {
+          text: 'SEND',
+          cssClass: 'text-danger',
+          handler: (val) => {
+            const message = val.message
+            this.channelService.report(this.channel.id, message)
+            .then(
+              (resp: any) => {
+                this.toastService.presentStdToastr(resp.message)
+              },
+              err => {
+                this.toastService.presentStdToastr(err)
+              }
+            )
+          }
+        }
+      ]
+    })
+    await alert.present();
+  }
 }

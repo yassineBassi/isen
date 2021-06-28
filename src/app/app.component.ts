@@ -29,8 +29,6 @@ export class AppComponent {
     this.platform.ready().then(() => {
       this.getUserData();
       this.getJsonData();
-      // this.socket.connect()
-      // this.socket.connect()
       // this.statusBar.styleLightContent();
       // setTimeout(() => {
       //   this.splashScreen.hide();
@@ -52,6 +50,9 @@ export class AppComponent {
     this.nativeStorage.getItem('user')
     .then(
       user => {
+        console.log('/////////////////');
+        console.log(user);
+        
         this.user = new User().initialize(user);
         this.connectUser();
       }

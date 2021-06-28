@@ -162,4 +162,25 @@ export class User{
       return int1.length - int2.length;
     })
   }
+
+  toObjeect(){
+    return {
+      _id: this.id,
+      firstName: this.firstName,
+      lastName: this.lastName,
+      email: this.email,
+      birthDate: this.birthDate,
+      gender: this.gender,
+      address: this.address,
+      avatar: this.avatar,
+      status: this.status,
+      education: this.education,
+      profession: this.profession,
+      school: this.school,
+      interests: this.interests,
+      country: this.country,
+      city: this.city,
+      online: this.online,
+    }
+  }
 }

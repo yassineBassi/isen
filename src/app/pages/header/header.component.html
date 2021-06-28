@@ -13,7 +13,7 @@
       <ion-menu-button *ngIf="menu"></ion-menu-button>
     </ion-buttons>
 
-    <ion-item [style]="{'--background': 'transparent'}">
+    <ion-item [style]="{'--background': 'transparent', '--color': textColor ? (textColor + '!important') : ''}">
       <ion-searchbar
         showCancelButton="alwayse"
         (ionCancel)="cancelSearch()"

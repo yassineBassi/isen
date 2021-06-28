@@ -54,7 +54,7 @@ export class DataService{
             },
             serializer: requestOptions.serializer ? requestOptions.serializer : 'json'
           }
-          console.log(url);
+          // console.log(url);
           
           this.http.sendRequest(url, options).then(
             resp => {

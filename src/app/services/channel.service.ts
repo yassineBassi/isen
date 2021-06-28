@@ -120,5 +120,12 @@ export class ChannelService extends DataService {
       data: {vote}
     })
   }
-
+  
+  report(id: string, message: string){
+    return this.sendRequest({
+      method: 'post',
+      url: '/' + id + '/report',
+      data: {message}
+    })
+  }
 }
