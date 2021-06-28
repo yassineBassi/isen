@@ -3,12 +3,14 @@ import { ExtractDatePipe } from './../extract-date.pipe';
 import { ExtractTimePipe } from '../extract-time.pipe';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ResumeTextPipe } from '../resume-text.pipe';
 
 @NgModule({
   declarations: [
     ExtractTimePipe,
     ExtractDatePipe,
-    ExtractDiffTimePipe
+    ExtractDiffTimePipe,
+    ResumeTextPipe
   ],
   imports: [
     CommonModule
@@ -16,7 +18,8 @@ import { CommonModule } from '@angular/common';
   exports: [
     ExtractTimePipe,
     ExtractDatePipe,
-    ExtractDiffTimePipe
+    ExtractDiffTimePipe,
+    ResumeTextPipe
   ]
 })
 export class SharingPipeModule { }

@@ -1,4 +1,11 @@
-<app-header title="Jobs" [back]="true" [backLink]="'/small-business'"></app-header>
+<app-header 
+  title="Jobs" 
+  [back]="true" 
+  [backLink]="'/small-business'" 
+  [search]="true"
+  (searchKeyUp)="search($event)"  
+>
+</app-header>
 
 <ion-row>
   <ion-col size="6" class="ion-no-padding">
@@ -27,10 +34,9 @@
   </ion-col>
 </ion-row>
 
-<app-loader *ngIf="pageLoading"></app-loader>
+<app-loader *ngIf="pageLoading" ></app-loader>
 
 <ion-content>
-  <ion-searchbar [(ngModel)]="searchQuery" (ionChange)="search()"></ion-searchbar>
 
   <ion-refresher slot="fixed" pullFactor="0.5" pullMin="100" pullMax="200"  (ionRefresh)="getJobs($event, true)">
     <ion-refresher-content></ion-refresher-content>
@@ -47,12 +53,12 @@
       </ion-thumbnail>
       <ion-label class="ml-2">
         <span class="d-block">{{ job.title }}</span>
-        <small>{{ job.createdAt | extractDate }}</small>
+        <small>{{ job.company }}</small>
       </ion-label>
-      <span class="mr-2 text-right">
-        <span class="d-block">{{ job.company }}</span>
-        <small class="d-block">{{ job.location }}</small>
-      </span>
+      <small class="mr-2 text-right">
+        <span class="d-block">{{ job.createdAt | extractDiffTime }} ago</span>
+        <span class="d-block">{{ job.country }}, {{ job.city }}</span>
+      </small>
     </ion-item>
   </ion-list>
 

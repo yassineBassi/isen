@@ -6,6 +6,9 @@ import { UploadFileService } from './../../../../services/upload-file.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Camera } from '@ionic-native/camera/ngx';
 import { Component, OnInit } from '@angular/core';
+import { NativeStorage } from '@ionic-native/native-storage/ngx';
+import { ModalController } from '@ionic/angular';
+import { ListSearchComponent } from 'src/app/pages/list-search/list-search.component';
 
 @Component({
   selector: 'app-job-form',
@@ -14,13 +17,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class JobFormComponent implements OnInit {
 
-  storePermission = true;
-  lastDate: Date;
-  restTime = {
-    hours: '00',
-    minutes: '00',
-    seconds: '00'
-  }
+  countriesObject = {};
+  countries: string[] = [];
+  cities: string[] = [];
+  selectedCountry: string;
+  selectedCity: string;
+
   pageLoading = false;
   jobImage = {
     url: "",
@@ -39,10 +41,6 @@ export class JobFormComponent implements OnInit {
     return this.form.get('company')
   }
 
-  get location(){
-    return this.form.get('location')
-  }
-
   get email(){
     return this.form.get('email')
   }
@@ -51,59 +49,15 @@ export class JobFormComponent implements OnInit {
     return this.form.get('description')
   }
 
-  constructor(private camera: Camera, private formBuilder: FormBuilder, private uploadFile: UploadFileService,
+  constructor(private camera: Camera, private formBuilder: FormBuilder, private uploadFile: UploadFileService, private nativeStorage: NativeStorage,
               private toastService: ToastService, private webView: WebView, private jobService: JobService,
-              private router: Router) { }
+              private router: Router, private modalController: ModalController) { }
 
   ngOnInit() {
     this.initializeForm();
   }
 
   ionViewWillEnter(){
-    this.getStorePermission();
-  }
-
-  getStorePermission(){
-    this.pageLoading = true;
-    this.jobService.getStorePermession()
-    .then(
-      (resp: any) => {
-        if(resp.data.date){
-          this.lastDate = new Date(resp.data.date);
-          this.storePermission = false;
-          this.startTimer();
-        }
-        console.log(resp);
-        this.pageLoading = false;
-      },
-      err => {
-        console.log(err);
-        this.pageLoading = false;
-      }
-    )
-  }
-
-  startTimer(){
-    setInterval(() => {
-      const currDate = new Date();
-
-      // calcul the difference between the current time and the time when the last product was posted
-      let diff = (currDate.getTime() - this.lastDate.getTime());
-
-      // calcul the rest to complete 24h (1 day) // ms to hour
-      let rest = ((24 * 60 * 60 * 1000) - diff) / 1000 / 60 / 60;
-
-      // set the number of hours rest
-      this.restTime.hours = (Math.floor(rest) < 10 ? '0' : '') + Math.floor(rest);
-
-      // calcul and set the the number of minutes
-      rest = (rest - Math.floor(rest)) * 60;
-      this.restTime.minutes = (Math.floor(rest) < 10 ? '0' : '') + Math.floor(rest);
-
-      // calcul and set the the number of seconds
-      rest = (rest - Math.floor(rest)) * 60;
-      this.restTime.seconds = (Math.floor(rest) < 10 ? '0' : '') + Math.floor(rest);
-    }, 1000);
   }
 
   initializeForm(){
@@ -111,12 +65,13 @@ export class JobFormComponent implements OnInit {
       title: ['', [Validators.required, Validators.maxLength(50)]],
       description: ['', [Validators.required, Validators.maxLength(255)]],
       company: ['', [Validators.required, Validators.maxLength(50)]],
-      location: ['', [Validators.required, Validators.maxLength(50)]],
       email: ['', [Validators.required, Validators.email, Validators.maxLength(50)]]
     });
 
-    console.log(this.form);
-    console.log(this.description);
+    this.nativeStorage.getItem('countries').then(resp => {
+      this.countriesObject = JSON.parse(resp);
+      this.countries = Object.keys(this.countriesObject);
+    })
 
   }
 
@@ -134,7 +89,7 @@ export class JobFormComponent implements OnInit {
       },
       err => {
         this.imageLoading = false;
-        this.toastService.presentErrorToastr(err);
+        this.toastService.presentStdToastr(err);
       }
     )
   }
@@ -143,8 +98,9 @@ export class JobFormComponent implements OnInit {
     const form: FormData = new FormData();
     form.append('title', this.title.value);
     form.append('company', this.company.value);
-    form.append('location', this.location.value);
     form.append('email', this.email.value);
+    form.append('country', this.selectedCountry);
+    form.append('city', this.selectedCity);
     form.append('description', this.description.value);
     form.append('photo', this.jobImage.file, this.jobImage.name);
     return form;
@@ -155,7 +111,6 @@ export class JobFormComponent implements OnInit {
       title: '',
       description: '',
       company: '',
-      location: '',
       email: ''
     })
     this.jobImage = {
@@ -167,7 +122,7 @@ export class JobFormComponent implements OnInit {
 
   submit(){
     if(!this.jobImage.file){
-      this.toastService.presentErrorToastr('Please select an image for the job')
+      this.toastService.presentStdToastr('Please select an image for the job')
       return
     }
     this.validatorErrors = {}
@@ -192,5 +147,37 @@ export class JobFormComponent implements OnInit {
         console.log(err);
       }
     )
+  }
+
+  async presentCountriesModal(){
+    const result = await this.presentSearchListModal(this.countries, 'Countries');
+    if(result){
+      this.selectedCountry = result;
+      this.cities = this.countriesObject[this.selectedCountry];
+    }
+  }
+
+  async presentCitiesModal(){
+    const result = await this.presentSearchListModal(this.cities, 'Cities');
+    if(result){
+      this.selectedCity = result;
+    }
+  }
+
+  async presentSearchListModal(list: any, title: string){
+    const modal = await this.modalController.create({
+      componentProps: {
+        data: list,
+        title
+      },
+      component: ListSearchComponent
+    });
+    await modal.present();
+    const { data } = await modal.onDidDismiss();
+    return data.data;
+  } 
+
+  isFormValid(form){
+    return !form.valid || !this.selectedCountry || !this.selectedCountry
   }
 }

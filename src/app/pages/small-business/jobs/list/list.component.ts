@@ -4,7 +4,7 @@ import { JobService } from './../../../../services/job.service';
 import { Job } from './../../../../models/Job';
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import constants from 'src/app/helpers/constants';
+import { NativeStorage } from '@ionic-native/native-storage/ngx';
 
 @Component({
   selector: 'app-list',
@@ -16,15 +16,15 @@ export class ListComponent implements OnInit {
 
   pageLoading = false;
   jobs: Job[];
-  domain = constants.DOMAIN_URL;
   page: number;
   searchQuery: string;
   type: string;
 
-  constructor(private jobService: JobService, private toastService: ToastService,
+  constructor(private jobService: JobService, private toastService: ToastService, private nativeStorage: NativeStorage,
               private route: ActivatedRoute) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 
   ionViewWillEnter(){
     this.pageLoading = true;
@@ -43,8 +43,9 @@ export class ListComponent implements OnInit {
     )
   }
 
-  search(){
+  search(val: string){
     this.page = 0;
+    this.searchQuery = val;
     this.getJobs(null);
   }
 

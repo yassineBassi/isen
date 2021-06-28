@@ -13,6 +13,7 @@ import { Toast } from '@ionic-native/toast/ngx';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { SharingModule } from './pages/sharing/sharing.module';
 import { OpenNativeSettings } from '@ionic-native/open-native-settings/ngx';
+import { ResumeTextPipe } from './pipes/resume-text.pipe';
 
 @NgModule({
   declarations: [

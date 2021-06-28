@@ -71,7 +71,7 @@ export class ProductsComponent implements OnInit {
   handleError(err){
     console.log(err);
     this.pageLoading = false;
-    this.toastService.presentErrorToastr(err);
+    this.toastService.presentStdToastr(err);
   }
 
   getProducts(event, refresh?){

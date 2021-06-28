@@ -64,7 +64,7 @@ export class ProductComponent implements OnInit {
         this.pageLoading = false;
         console.log(err);
         if(event) event.target.complete();
-        this.toastService.presentErrorToastr(err)
+        this.toastService.presentStdToastr(err)
       }
     )
   }
@@ -79,7 +79,7 @@ export class ProductComponent implements OnInit {
       },
       err => {
         console.log(err);
-        this.toastService.presentErrorToastr(err);
+        this.toastService.presentStdToastr(err);
       }
     )
   }
