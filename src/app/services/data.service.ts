@@ -37,28 +37,37 @@ export class DataService{
     })
   }
 
-  sendRequest(options: RequestOptions) {
+  sendRequest(requestOptions: RequestOptions) {
       return new Promise((resolve, reject) => {
         this.getToken()
         .then((token: string) => {
-          const url = constants.DOMAIN_URL + (options.noApi ? '' : constants.API_V1) + this.url + options.url;
-          this.http.sendRequest(url, {
-            method: options.method,
-            params: options.method === 'get' ? options.data : '',
-            data: options.method === 'post' || options.method == 'put' ? options.data : '',
+          const url = constants.DOMAIN_URL + (requestOptions.noApi ? '' : constants.API_V1) + this.url + requestOptions.url;
+          const options = {
+            method: requestOptions.method,
+            params: requestOptions.method === 'get' && requestOptions.data ? requestOptions.data : {},
+            data: (requestOptions.method === 'post' || requestOptions.method == 'put' ) && requestOptions.data ? requestOptions.data : {},
             headers: {
-              ...(options.header ? options.header : {}),
+              ...(requestOptions.header ? requestOptions.header : {}),
               // PLATFORM: this.platform.is('ios') ? 'ios' : 'android',
               // VERSION: Product.version,
               'Authorization': 'Bearer ' + token
             },
-            serializer: options.serializer ? options.serializer : 'json'
-          }).then(
+            serializer: requestOptions.serializer ? requestOptions.serializer : 'json'
+          }
+          console.log(url);
+          console.log(options);
+          
+          this.http.sendRequest(url, options).then(
             resp => {
+              console.log('resp');
+              console.log(resp);
               resp = JSON.parse(resp.data);
+
               resolve(resp);
             },
             err => {
+              console.log('err');
+              console.log(err);
               if(err.status == 400){
                 reject(JSON.parse(err.error));
               }else if(err.status == 401){

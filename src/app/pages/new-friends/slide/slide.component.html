@@ -6,11 +6,11 @@
   </ion-row>
   <div class="user-info w-100 text-left">
     <div class="p-2 pb-5 pl-3">
-      <span class="user-name d-flex align-items-center">
+      <span (click)="showProfile()" class="user-name d-flex align-items-center">
         {{ user.fullName }}, {{ user.age }}
-        <i class="fas fa-circle online-icon ml-2"></i>
+        <span *ngIf="user.online"><i class="fas fa-circle online-icon ml-2"></i></span>
       </span>
-      <span class="d-block text-left other-info ">{{ user.gender }}, {{ user.city }} -- {{ user.request }}</span>
+      <span class="d-block text-left other-info ">{{ user.gender }}, {{ user.city }}</span>
     </div>
     <ion-row>
       <ion-col class="ion-no-padding text-center" size="3">

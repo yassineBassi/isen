@@ -31,7 +31,7 @@ export class SlideComponent implements OnInit {
       },
       err => {
         console.log(err);
-        this.toastService.presentErrorToastr(err);
+        this.toastService.presentStdToastr(err);
       }
     )
   }

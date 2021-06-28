@@ -73,7 +73,6 @@ export class DisplayComponent implements OnInit {
       err => {
         this.pageLoading = false;
         if(event) event.target.complete()
-        console.log(err);
       }
     )
   }
@@ -85,14 +84,12 @@ export class DisplayComponent implements OnInit {
       (resp: any) => {
         this.user = new User().initialize(resp.data);
         this.nativeStorage.setItem('user', resp.data);
-        console.log(this.user);
         if(event) event.target.complete()
         this.pageLoading = false;
       },
       err => {
         this.pageLoading = false;
         if(event) event.target.complete()
-        console.log(err);
       }
     )
   }
