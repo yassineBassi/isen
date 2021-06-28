@@ -109,22 +109,38 @@ export class ChannelService extends DataService {
   deleteComment(id: string){
     return this.sendRequest({
       method: 'delete', 
-      url: '/post/comment/' + id
+      url: '/comment/' + id
     })
   }
 
   voteOnComment(id: string, vote: number){
     return this.sendRequest({
       method: 'post',
-      url: '/post/comment/' + id + '/vote', 
+      url: '/comment/' + id + '/vote', 
       data: {vote}
     })
   }
   
-  report(id: string, message: string){
+  reportChannel(id: string, message: string){
     return this.sendRequest({
       method: 'post',
       url: '/' + id + '/report',
+      data: {message}
+    })
+  }
+  
+  reportPost(id: string, message: string){
+    return this.sendRequest({
+      method: 'post',
+      url: '/post/' + id + '/report',
+      data: {message}
+    })
+  }
+  
+  reportComment(id: string, message: string){
+    return this.sendRequest({
+      method: 'post',
+      url: '/comment/' + id + '/report',
       data: {message}
     })
   }

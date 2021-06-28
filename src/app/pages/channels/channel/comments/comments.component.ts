@@ -82,5 +82,4 @@ export class CommentsComponent implements OnInit {
   removeComment(commentInd: number){
     this.comments.splice(commentInd, 1);
   }
-
 }

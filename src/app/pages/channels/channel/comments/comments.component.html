@@ -11,19 +11,17 @@
 <ion-content
   [style]="{'--background': post.backgroundColor}"
 >
-  <ion-item
-    [style]="{'--background': 'transparent', '--color': post.color}"
-  >
-    <span class="ml-3"><i class="fas fa-user-secret"></i></span>
-    <ion-label class="ml-2">
-      Anonyme
-    </ion-label>
-    <ion-toggle [(ngModel)]="anonyme"></ion-toggle>
-  </ion-item>
+  
 
   <ion-refresher slot="fixed" pullFactor="0.5" pullMin="100" pullMax="200"  (ionRefresh)="getComments($event, true)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
+
+  <ion-card class="p-2 text-center" [style]="{'--background': post.backgroundColor}" *ngIf="comments && !comments.length && !pageLoading">
+    <ion-card-subtitle [style]="{'color': post.color}">
+      <span>There is no comment in this post yet!</span>
+    </ion-card-subtitle>
+  </ion-card>
 
   <app-comment
     (removeComment)="removeComment(ind)"
@@ -31,6 +29,7 @@
     [color]="post.color"
     [comment]="comment"
     [user]="user"
+    class="my-2"
     *ngFor="let comment of comments; let ind = index"
   ></app-comment>
 
@@ -44,6 +43,14 @@
 </ion-content>
 
 <ion-footer>
+  <ion-item
+  >
+    <span class="ml-3"><i class="fas fa-user-secret"></i></span>
+    <ion-label class="ml-2">
+      Anonyme
+    </ion-label>
+    <ion-toggle color="secondary" [(ngModel)]="anonyme"></ion-toggle>
+  </ion-item>
   <ion-item>
     <ion-input
       [(ngModel)]="commentText"

@@ -2,10 +2,11 @@ import { Router } from '@angular/router';
 import { CommentsComponent } from './../comments/comments.component';
 import { ToastService } from './../../../../services/toast.service';
 import { ChannelService } from './../../../../services/channel.service';
-import { AlertController, ModalController } from '@ionic/angular';
+import { AlertController, ModalController, PopoverController } from '@ionic/angular';
 import { Post } from './../../../../models/Post';
 import { User } from './../../../../models/User';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { DropDownComponent } from 'src/app/pages/drop-down/drop-down.component';
 
 @Component({
   selector: 'app-post',
@@ -20,51 +21,14 @@ export class PostComponent implements OnInit {
 
   deleteLoading = false;
 
-  constructor(private alertCtrl: AlertController, private channelService: ChannelService, private toastService:
-              ToastService, private modalCtrl: ModalController, private router: Router) { }
+  constructor(private alertCtrl: AlertController, private channelService: ChannelService, private toastService:ToastService, 
+              private modalCtrl: ModalController, private router: Router, private popoverController: PopoverController) { }
 
   ngOnInit() {}
 
   postUserName(post: Post){
     const user = post.user
     return post.anonyme ? 'Anonyme' : (user.firstName + ' ' + user.lastName);
-  }
-
-  deletePost(){
-    this.deleteLoading = true;
-    this.channelService.deletePost(this.post.id)
-    .then(
-      (resp: any) => {
-        this.deleteLoading = false;
-        this.removePost.emit();
-        this.toastService.presentStdToastr(resp.message);
-      },
-      err => {
-        this.deleteLoading = false;
-        this.toastService.presentStdToastr(err);
-      }
-    )
-  }
-
-  async deletePostConf(){
-    const alert = await this.alertCtrl.create({
-      header: 'Delete Post',
-      message: 'do you really want to delete this post ?',
-      buttons: [
-        {
-          text: 'No',
-          role: 'cancel'
-        },
-        {
-          text: 'Yes',
-          handler: () => {
-            this.deletePost();
-          },
-          cssClass: "text-danger"
-        }
-      ]
-    });
-    await alert.present()
   }
 
   voteOnPost(vote: number){
@@ -93,7 +57,115 @@ export class PostComponent implements OnInit {
   }
 
   showUserProfile(id: string){
-    if(!this.post.anonyme)
+    if(!this.post.anonyme && this.user.id != id)
       this.router.navigate(['/profile/display/' + id])
   }
+
+  async presentPopover(ev: any) {
+    const popoverItems = [];
+    if(this.post.user.id == this.user.id){
+      popoverItems.push(
+        {
+          text: 'Delete',
+          icon: 'fas fa-trash-alt',
+          event: 'delete'
+        }
+      )
+    }else {
+      popoverItems.push(
+        {
+          text: 'Report',
+          icon: 'fas fa-exclamation-triangle',
+          event: 'report'
+        }
+      )
+    }
+    const popover = await this.popoverController.create({
+      component: DropDownComponent,
+      event: ev,
+      cssClass: 'dropdown-popover',
+      showBackdrop: false,
+      componentProps: {
+        items: popoverItems
+      }
+    });
+    await popover.present();
+
+    const { data } = await popover.onDidDismiss();
+    if(data && data.event){
+      if(data.event == 'delete') this.deletePostConf();
+      else if(data.event == 'report') this.reportPost();
+    }
+  }
+
+  async deletePostConf(){
+    const alert = await this.alertCtrl.create({
+      header: 'Delete Post',
+      message: 'do you really want to delete this post ?',
+      buttons: [
+        {
+          text: 'No',
+          role: 'cancel'
+        },
+        {
+          text: 'Yes',
+          handler: () => {
+            this.deletePost();
+          },
+          cssClass: "text-danger"
+        }
+      ]
+    });
+    await alert.present()
+  }
+
+  deletePost(){
+    this.channelService.deletePost(this.post.id)
+    .then(
+      (resp: any) => {
+        this.removePost.emit();
+        this.toastService.presentStdToastr(resp.message)
+      },
+      err => {
+        this.toastService.presentStdToastr(err)
+      }
+    )
+  }
+
+  async reportPost(){
+    const alert = await this.alertCtrl.create({
+      header: 'Report Post',
+      inputs: [
+        {
+          type: 'text',
+          name: 'message',
+          placeholder: 'Message'
+        }
+      ],
+      buttons: [
+        {
+          text: 'CANCEL',
+          role: 'cancel'
+        },
+        {
+          text: 'SEND',
+          cssClass: 'text-danger',
+          handler: (val) => {
+            const message = val.message
+            this.channelService.reportPost(this.post.id, message)
+            .then(
+              (resp: any) => {
+                this.toastService.presentStdToastr(resp.message)
+              },
+              err => {
+                this.toastService.presentStdToastr(err)
+              }
+            )
+          }
+        }
+      ]
+    })
+    await alert.present();
+  }
+
 }

@@ -71,7 +71,6 @@ export class ChannelComponent implements OnInit {
 
         if(event){
           event.target.complete()
-          if(!resp.data.more && !refresh) event.target.disabled = true;
         }
         resp.data.posts.forEach(pst => {
           this.posts.push(new Post().initialize(pst));
@@ -244,7 +243,7 @@ export class ChannelComponent implements OnInit {
           cssClass: 'text-danger',
           handler: (val) => {
             const message = val.message
-            this.channelService.report(this.channel.id, message)
+            this.channelService.reportChannel(this.channel.id, message)
             .then(
               (resp: any) => {
                 this.toastService.presentStdToastr(resp.message)
