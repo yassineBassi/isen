@@ -1,5 +1,5 @@
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
-import { AlertController } from '@ionic/angular';
+import { AlertController, PopoverController } from '@ionic/angular';
 import { ToastService } from './../../../../services/toast.service';
 import { ServiceService } from './../../../../services/service.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -8,6 +8,7 @@ import constants from 'src/app/helpers/constants';
 import { Service } from './../../../../models/Service';
 import { Component, OnInit } from '@angular/core';
 import { CallNumber } from '@ionic-native/call-number/ngx';
+import { DropDownComponent } from 'src/app/pages/drop-down/drop-down.component';
 
 @Component({
   selector: 'app-service',
@@ -23,7 +24,7 @@ export class ServiceComponent implements OnInit {
   page: number = 1;
   user: User;
 
-  constructor(private serviceService: ServiceService, private route: ActivatedRoute,
+  constructor(private serviceService: ServiceService, private route: ActivatedRoute, private popoverController: PopoverController,
               private toastService: ToastService, private alertCtrl: AlertController,
               private router: Router, private nativeStorage: NativeStorage, private callNumber: CallNumber) { }
 
@@ -62,7 +63,7 @@ export class ServiceComponent implements OnInit {
       err => {
         this.pageLoading = false;
         console.log(err);
-        this.toastService.presentErrorToastr(err)
+        this.toastService.presentStdToastr(err)
       }
     )
   }
@@ -72,12 +73,12 @@ export class ServiceComponent implements OnInit {
     .then(
       (resp: any) => {
         console.log(resp);
-        this.toastService.presentSuccessToastr(resp.message);
+        this.toastService.presentStdToastr(resp.message);
         this.router.navigateByUrl('/small-business/services/list/posted')
       },
       err => {
         console.log(err);
-        this.toastService.presentErrorToastr(err);
+        this.toastService.presentStdToastr(err);
       }
     )
   }
@@ -108,6 +109,68 @@ export class ServiceComponent implements OnInit {
     this.callNumber.callNumber(this.service.phone, true)
       .then(res => console.log('Launched dialer!', res))
       .catch(err => this.toastService.presentStdToastr('Cannot make this call'));
+  }
+
+  async presentPopover(ev: any) {
+    const popoverItems = [
+      {
+        text: 'Report',
+        icon: 'fas fa-exclamation-triangle',
+        event: 'report'
+      }
+    ]
+    const popover = await this.popoverController.create({
+      component: DropDownComponent,
+      event: ev,
+      cssClass: 'dropdown-popover',
+      showBackdrop: false,
+      componentProps: {
+        items: popoverItems
+      }
+    });
+    await popover.present();
+
+    const { data } = await popover.onDidDismiss();
+    if(data && data.event){
+      if(data.event == 'report') this.reportService();
+    }
+  }
+
+  
+  async reportService(){
+    const alert = await this.alertCtrl.create({
+      header: 'Report Job',
+      inputs: [
+        {
+          type: 'text',
+          name: 'message',
+          placeholder: 'Message'
+        }
+      ],
+      buttons: [
+        {
+          text: 'CANCEL',
+          role: 'cancel'
+        },
+        {
+          text: 'SEND',
+          cssClass: 'text-danger',
+          handler: (val) => {
+            const message = val.message
+            this.serviceService.report(this.service.id, message)
+            .then(
+              (resp: any) => {
+                this.toastService.presentStdToastr(resp.message)
+              },
+              err => {
+                this.toastService.presentStdToastr(err)
+              }
+            )
+          }
+        }
+      ]
+    })
+    await alert.present();
   }
 
 }

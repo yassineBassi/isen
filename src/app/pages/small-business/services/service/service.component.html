@@ -1,4 +1,16 @@
-<app-header [title]="service ? service.title : ''" [back]="true"></app-header>
+<app-header 
+  [title]="service ? service.title : ''" 
+  [back]="true"
+>
+  <div id="end-buttons">
+    <ion-button
+      shape="round"
+      *ngIf="service && user && service.user.id != user.id"
+      (click)="presentPopover($event)"
+    >
+      <i class="fas fa-ellipsis-v"></i>
+    </ion-button>
+  </div></app-header>
 
 <app-loader *ngIf="pageLoading"></app-loader>
 
@@ -6,9 +18,9 @@
     <div *ngIf="service">
       <div class="position-relative">
         <div class="w-100 image-container">
-          <img [src]="domain + service.photo.path" class="w-100 service-image" alt="">
+          <img [src]="service.photo.path" class="w-100 service-image" alt="">
         </div>
-        <ion-fab horizontal="end" vertical="bottom" class="mt-5" *ngIf="service.user == user.id">
+        <ion-fab horizontal="end" vertical="bottom" class="mt-5" *ngIf="service.user.id == user.id">
           <ion-fab-button (click)="removeConfirmation()" color="danger">
               <ion-icon name="trash"></ion-icon>
           </ion-fab-button>
@@ -19,12 +31,12 @@
           <span class="service-title font-weight-bold d-block">{{ service.title }} </span>
           <span class="">{{ service.company }}</span>
         </ion-label>
-        <span>{{ service.createdAt | extractDate }}</span>
+        <span>{{ service.createdAt | extractDiffTime }}</span>
       </ion-item>
       <ion-item>
         <ion-label class="ml-2">
           <span class="font-weight-bold d-block">Location</span>
-          <span class="d-block">{{ service.location }}</span>
+          <span class="d-block">{{ service.country }}, {{ service.city }}</span>
         </ion-label>
       </ion-item>
       <ion-item>
@@ -50,7 +62,7 @@
         size="default"
         color="secondary"
         (click)="call()"
-        *ngIf="service && user && service.user != user.id"
+        *ngIf="service && user && service.user.id != user.id"
       >
         Call
       </ion-button>

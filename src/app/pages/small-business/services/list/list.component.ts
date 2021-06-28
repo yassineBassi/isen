@@ -41,8 +41,9 @@ export class ListComponent implements OnInit {
     )
   }
 
-  search(){
+  search(val: string){
     this.page = 0;
+    this.searchQuery = val;
     this.getServices(null);
   }
 

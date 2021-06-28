@@ -62,7 +62,7 @@ export class JobComponent implements OnInit {
       err => {
         this.pageLoading = false;
         console.log(err);
-        this.toastService.presentErrorToastr(err)
+        this.toastService.presentStdToastr(err)
       }
     )
   }
@@ -72,12 +72,12 @@ export class JobComponent implements OnInit {
     .then(
       (resp: any) => {
         console.log(resp);
-        this.toastService.presentSuccessToastr(resp.message);
+        this.toastService.presentStdToastr(resp.message);
         this.router.navigateByUrl('/small-business/jobs/list/posted')
       },
       err => {
         console.log(err);
-        this.toastService.presentErrorToastr(err);
+        this.toastService.presentStdToastr(err);
       }
     )
   }

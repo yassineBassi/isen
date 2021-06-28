@@ -1,4 +1,5 @@
 import { File } from './File';
+import { User } from './User';
 export class Service{
 
   private _id: string;
@@ -6,11 +7,12 @@ export class Service{
   private _description: string;
   private _company: string;
   private _phone: string;
-  private _location: string;
+  private _country: string;
+  private _city: string;
   private _state: string;
   private _photo: File;
   private _createdAt: Date;
-  private _user: string
+  private _user: User
 
   constructor(product: Service){
     this.id = product._id;
@@ -18,7 +20,8 @@ export class Service{
     this.description = product.description;
     this.company = product.company;
     this.phone = product.phone;
-    this.location = product.location;
+    this.country = product.country;
+    this.city = product.city;
     this.state = product.state;
     this.photo = product.photo;
     this.user = product.user;
@@ -30,9 +33,10 @@ export class Service{
   get description(): string{ return this._description }
   get company(): string{ return this._company }
   get phone(): string{ return this._phone }
-  get location(): string{ return this._location }
+  get country(): string{ return this._country }
+  get city(): string{ return this._city }
   get state(): string{ return this._state }
-  get user(): string{ return this._user }
+  get user(): User{ return this._user }
   get photo(): File{ return this._photo }
   get createdAt(): Date{ return this._createdAt }
 
@@ -41,9 +45,19 @@ export class Service{
   set description(description: string){ this._description = description }
   set company(company: string){ this._company = company }
   set phone(phone: string){ this._phone = phone }
-  set location(location: string){ this._location = location }
+  set country(country: string){ this._country = country }
+  set city(city: string){ this._city = city }
   set state(state: string){ this._state = state }
-  set user(user: string){ this._user = user }
+  set user(user: User){
+    if(user){
+      if(typeof user == 'string'){
+        this._user = new User();
+        this._user.id = user;
+      }else{
+        this._user = new User().initialize(user)
+      }
+    }
+  }
   set photo(photo: File){ this._photo = photo }
   set createdAt(createdAt: Date){ this._createdAt = createdAt }
 }

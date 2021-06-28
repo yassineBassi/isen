@@ -43,7 +43,7 @@ export class MenuComponent implements OnInit {
         this.router.navigate(['/auth/home']);
       },
       err => {
-        this.toastrService.presentErrorToastr('sorry an error has occured, please try again later')
+        this.toastrService.presentStdToastr('sorry an error has occured, please try again later')
       }
     )
   }

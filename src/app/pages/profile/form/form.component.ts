@@ -175,7 +175,7 @@ export class FormComponent implements OnInit {
       err => {
         this.pageLoading = false;
         console.log(err);
-        this.toastService.presentErrorToastr('enexpected error occured, please try again later')
+        this.toastService.presentStdToastr('enexpected error occured, please try again later')
       }
     )
   }

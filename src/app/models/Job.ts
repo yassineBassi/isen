@@ -48,14 +48,16 @@ export class Job{
   set country(country: string){ this._country = country }
   set city(city: string){ this._city = city }
   set enabled(enabled: boolean){ this._enabled = enabled }
-  set user(user: User){if(user){
-    if(typeof user == 'string'){
-      this._user = new User();
-      this._user.id = user;
-    }else{
-      this._user = new User().initialize(user)
+  set user(user: User){
+    if(user){
+      if(typeof user == 'string'){
+        this._user = new User();
+        this._user.id = user;
+      }else{
+        this._user = new User().initialize(user)
+      }
     }
-  } }
+  }
   set photo(photo: File){ this._photo = photo }
   set createdAt(createdAt: Date){ this._createdAt = createdAt }
 }

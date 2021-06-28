@@ -74,7 +74,7 @@ export class ProductComponent implements OnInit {
     .then(
       (resp: any) => {
         console.log(resp);
-        this.toastService.presentSuccessToastr(resp.message);
+        this.toastService.presentStdToastr(resp.message);
         this.router.navigateByUrl('/buy-and-sell/products/sell')
       },
       err => {

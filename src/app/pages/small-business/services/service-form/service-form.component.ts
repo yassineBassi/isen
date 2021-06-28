@@ -6,6 +6,9 @@ import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { ToastService } from './../../../../services/toast.service';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { Component, OnInit } from '@angular/core';
+import { ListSearchComponent } from 'src/app/pages/list-search/list-search.component';
+import { ModalController } from '@ionic/angular';
+import { NativeStorage } from '@ionic-native/native-storage/ngx';
 
 @Component({
   selector: 'app-service-form',
@@ -13,6 +16,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./service-form.component.scss'],
 })
 export class ServiceFormComponent implements OnInit {
+
+  
+  countriesObject = {};
+  countries: string[] = [];
+  cities: string[] = [];
+  selectedCountry: string;
+  selectedCity: string;
 
   pageLoading = false;
   serviceImage = {
@@ -32,10 +42,6 @@ export class ServiceFormComponent implements OnInit {
     return this.form.get('company')
   }
 
-  get location(){
-    return this.form.get('location')
-  }
-
   get phone(){
     return this.form.get('phone')
   }
@@ -44,8 +50,8 @@ export class ServiceFormComponent implements OnInit {
     return this.form.get('description')
   }
 
-  constructor(private camera: Camera, private formBuilder: FormBuilder, private uploadFile: UploadFileService,
-              private toastService: ToastService, private webView: WebView, private serviceService: ServiceService,
+  constructor(private camera: Camera, private formBuilder: FormBuilder, private uploadFile: UploadFileService, private modalController: ModalController,
+              private toastService: ToastService, private webView: WebView, private serviceService: ServiceService, private nativeStorage: NativeStorage,
               private router: Router) { }
 
   ngOnInit() {
@@ -57,9 +63,13 @@ export class ServiceFormComponent implements OnInit {
       title: ['', [Validators.required, Validators.maxLength(50)]],
       description: ['', [Validators.required, Validators.maxLength(255)]],
       company: ['', [Validators.required, Validators.maxLength(50)]],
-      location: ['', [Validators.required, Validators.maxLength(50)]],
       phone: ['', [Validators.required, Validators.pattern("^[+]?[(]?[0-9]{3}[)]?[- \.]?[0-9]{3}[- \.]?[0-9]{4,6}$"), Validators.maxLength(20)]]
     });
+
+    this.nativeStorage.getItem('countries').then(resp => {
+      this.countriesObject = JSON.parse(resp);
+      this.countries = Object.keys(this.countriesObject);
+    })
   }
 
   pickImage(){
@@ -85,8 +95,9 @@ export class ServiceFormComponent implements OnInit {
     const form: FormData = new FormData();
     form.append('title', this.title.value);
     form.append('company', this.company.value);
-    form.append('location', this.location.value);
     form.append('phone', this.phone.value);
+    form.append('country', this.selectedCountry);
+    form.append('city', this.selectedCountry);
     form.append('description', this.description.value);
     form.append('photo', this.serviceImage.file, this.serviceImage.name);
     return form;
@@ -97,7 +108,6 @@ export class ServiceFormComponent implements OnInit {
       title: '',
       description: '',
       company: '',
-      location: '',
       phone: ''
     })
     this.serviceImage = {
@@ -109,7 +119,7 @@ export class ServiceFormComponent implements OnInit {
 
   submit(){
     if(!this.serviceImage.file){
-      this.toastService.presentErrorToastr('Please select an image for the service')
+      this.toastService.presentStdToastr('Please select an image for the service')
       return
     }
     this.validatorErrors = {}
@@ -135,4 +145,38 @@ export class ServiceFormComponent implements OnInit {
       }
     )
   }
+
+  
+  async presentCountriesModal(){
+    const result = await this.presentSearchListModal(this.countries, 'Countries');
+    if(result){
+      this.selectedCountry = result;
+      this.cities = this.countriesObject[this.selectedCountry];
+    }
+  }
+
+  async presentCitiesModal(){
+    const result = await this.presentSearchListModal(this.cities, 'Cities');
+    if(result){
+      this.selectedCity = result;
+    }
+  }
+
+  async presentSearchListModal(list: any, title: string){
+    const modal = await this.modalController.create({
+      componentProps: {
+        data: list,
+        title
+      },
+      component: ListSearchComponent
+    });
+    await modal.present();
+    const { data } = await modal.onDidDismiss();
+    return data.data;
+  } 
+
+  isFormValid(form){
+    return !form.valid || !this.selectedCountry || !this.selectedCountry
+  }
+
 }

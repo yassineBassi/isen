@@ -51,4 +51,14 @@ export class ServiceService extends DataService {
       url: '/' + id
     })
   }
+
+  
+  report(id: string, message: string){
+    return this.sendRequest({
+      method: 'post',
+      url: '/' + id + '/report',
+      data: {message}
+    })
+  }
+
 }
