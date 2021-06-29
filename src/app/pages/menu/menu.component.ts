@@ -35,19 +35,6 @@ export class MenuComponent implements OnInit {
     this.updateUserData();
   }
 
-  signout(){
-    this.auth.signout()
-    .then(
-      () => {
-        this.nativeStorage.remove('token');
-        this.router.navigate(['/auth/home']);
-      },
-      err => {
-        this.toastrService.presentStdToastr('sorry an error has occured, please try again later')
-      }
-    )
-  }
-
   updateUserData(){
     console.log('hi');
     this.nativeStorage.getItem('user')

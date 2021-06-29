@@ -1,0 +1,43 @@
+<app-header
+  title="Settings"
+  [menu]="true"
+>
+</app-header>
+
+<ion-content>
+  <div class="pt-2">
+    <ion-text class="ml-2 font-weight-bold text-secondary">Account Settings</ion-text>
+  </div>
+  <ion-list class="ion-no-margin ion-no-padding">
+    <ion-item button="true" (click)="changeEmail()">
+      <ion-label class="ml-2">Change Email</ion-label>
+    </ion-item>
+    <ion-item button="true" (click)="changePassword()">
+      <ion-label class="ml-2">Change Password</ion-label>
+    </ion-item>
+  </ion-list>
+  <div class="pt-2">
+    <ion-text class="ml-2 font-weight-bold text-secondary">Other</ion-text>
+  </div>
+  <ion-list class="ion-no-margin ion-no-padding">
+    <ion-item>
+      <ion-label class="ml-2">Privacy Policy</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label class="ml-2">Terms of Service</ion-label>
+    </ion-item>
+    <ion-item disabled>
+      <ion-label class="ml-2">
+        <span class="d-block">About Geloo</span>
+        <span class="d-block">{{ appVersion }}</span>
+      </ion-label>
+    </ion-item>
+    <ion-item button="true" (click)="signout()">
+      <ion-label class="ml-2">Log out</ion-label>
+    </ion-item>
+  </ion-list>
+  <div class="w-100 text-center mt-3">
+    <img class="logo" src="./../../../assets/logo.png" alt="">
+    <span class="app-name">Geloo</span>
+  </div>
+</ion-content>

@@ -50,9 +50,6 @@ export class AppComponent {
     this.nativeStorage.getItem('user')
     .then(
       user => {
-        console.log('/////////////////');
-        console.log(user);
-        
         this.user = new User().initialize(user);
         this.connectUser();
       }

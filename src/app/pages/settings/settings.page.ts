@@ -1,0 +1,153 @@
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { NativeStorage } from '@ionic-native/native-storage/ngx';
+import { AlertController } from '@ionic/angular';
+import constants from 'src/app/helpers/constants';
+import { User } from 'src/app/models/User';
+import { AuthService } from 'src/app/services/auth.service';
+import { SocketService } from 'src/app/services/socket.service';
+import { ToastService } from 'src/app/services/toast.service';
+import { UserService } from 'src/app/services/user.service';
+
+@Component({
+  selector: 'app-settings',
+  templateUrl: './settings.page.html',
+  styleUrls: ['./settings.page.scss'],
+})
+export class SettingsPage implements OnInit {
+
+  appVersion = constants.VERSION
+  user: User;
+  socket = SocketService.socket;
+
+  constructor(private alertController: AlertController, private nativeStorage: NativeStorage, private userService: UserService,
+              private toastService: ToastService, private router: Router, private auth: AuthService) { }
+
+  ngOnInit() {
+    this.getUser();
+  }
+
+  getUser(){
+    this.nativeStorage.getItem('user').then(user => {
+      this.user = new User().initialize(user)
+    })
+  }
+
+  async changeEmail(){
+    const alert = await this.alertController.create({
+      header: 'Chane Email',
+      message: "your current email is : " + this.user.email,
+      inputs: [
+        {
+          name: 'email',
+          placeholder: 'Your new Email here',
+        }
+      ],
+      buttons: [
+        {
+          text: 'CANCEL',
+          cssClass: 'text-dark',
+          role: 'cancel'
+        },
+        {
+          text: 'CHANGE',
+          handler: (res) => {
+            return this.userService.updateEmail(res.email).then(
+              (resp: any) => {
+                this.toastService.presentStdToastr(resp.message);
+                this.user = new User().initialize(resp.data);
+                console.log(this.user);
+                this.nativeStorage.setItem('user', this.user);
+                return true;
+              },
+              err => {
+                if(typeof err == 'string'){
+                  this.toastService.presentStdToastr(err);
+                  return false;
+                }
+                else{
+                  console.log(err);
+                  this.toastService.presentStdToastr(err.errors['email'][0]);
+                  return false;
+                }
+              }
+            )
+          }
+        }
+      ]
+    })
+    await alert.present()
+  }
+
+  async changePassword(){
+    const alert = await this.alertController.create({
+      header: 'Chane Password',
+      message: 'Change your password regularly for safety',
+      inputs: [
+        {
+          name: 'current_password',
+          type: 'password',
+          placeholder: 'Old Password',
+        },
+        {
+          name: 'password',
+          type: 'password',
+          placeholder: 'New Passwoed',
+        },
+        {
+          name: 'password_confirmation',
+          type: 'password',
+          placeholder: 'New Password Again',
+        }
+      ],
+      buttons: [
+        {
+          text: 'CANCEL',
+          cssClass: 'text-dark',
+          role: 'cancel'
+        },
+        {
+          text: 'CHANGE',
+          handler: (res) => {
+            this.userService.updatePassword({...res}).then(
+              (resp: any) => {
+                this.toastService.presentStdToastr(resp.message)
+              },
+              err => {
+                if(typeof err == 'string'){
+                  this.toastService.presentStdToastr(err);
+                  return false;
+                }
+                else{
+                  let error = "";
+                  if(err.errors['current_password']) error = err.errors['current_password'][0]
+                  if(err.errors['password']) error = err.errors['password'][0]
+                  if(err.errors['password_confirmation']) error = err.errors['password_confirmation'][0]
+                  this.toastService.presentStdToastr(error);
+                  return false;
+                }
+              }
+            )
+          }
+        }
+      ]
+    })
+    await alert.present()
+  }
+
+  
+  signout(){
+    this.auth.signout()
+    .then(
+      () => {
+        this.socket.emit('disconnect-user')
+        this.nativeStorage.remove('token');
+        this.router.navigate(['/auth/home']);
+      },
+      err => {
+        this.toastService.presentStdToastr('sorry an error has occured, please try again later')
+      }
+    )
+  }
+
+}

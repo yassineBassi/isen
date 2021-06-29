@@ -93,7 +93,7 @@ export class JobComponent implements OnInit {
         },
         {
           text: 'Yes',
-          cssClass: 'yes-btn',
+          cssClass: 'text-danger',
           handler: () => {
             this.removeJob();
           }

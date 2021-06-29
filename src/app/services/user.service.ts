@@ -81,4 +81,24 @@ export class UserService extends DataService {
       data: {message}
     })
   }
+
+  updateEmail(email: string){
+    console.log(email);
+    
+    return this.sendRequest({
+      method: 'put',
+      url: '/email',
+      data: {email}
+    })
+  }
+
+  updatePassword(data: any){
+    console.log(data);
+    
+    return this.sendRequest({
+      method: 'put',
+      url: '/password',
+      data: data
+    })
+  }
 }

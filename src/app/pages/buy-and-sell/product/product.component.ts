@@ -95,7 +95,7 @@ export class ProductComponent implements OnInit {
         },
         {
           text: 'Yes',
-          cssClass: 'yes-btn',
+          cssClass: 'text-danger',
           handler: () => {
             this.removeProduct();
           }

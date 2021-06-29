@@ -49,7 +49,7 @@ export class DataService{
             headers: {
               ...(requestOptions.header ? requestOptions.header : {}),
               // PLATFORM: this.platform.is('ios') ? 'ios' : 'android',
-              // VERSION: Product.version,
+              VERSION: constants.VERSION,
               'Authorization': 'Bearer ' + token
             },
             serializer: requestOptions.serializer ? requestOptions.serializer : 'json'
@@ -60,13 +60,12 @@ export class DataService{
             resp => {
               // console.log('resp');
               // console.log(resp);
-              resp = JSON.parse(resp.data);
-
+              resp = JSON.parse(resp.data);              
               resolve(resp);
             },
             err => {
-              // console.log('err');
-              // console.log(err);
+              console.log('err');
+              console.log(err);
               if(err.status == 400){
                 reject(JSON.parse(err.error));
               }else if(err.status == 401){
