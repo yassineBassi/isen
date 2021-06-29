@@ -14,6 +14,7 @@ import { IonicModule } from '@ionic/angular';
 import { NewFriendsPageRoutingModule } from './new-friends-routing.module';
 
 import { NewFriendsPage } from './new-friends.page';
+import { SearchOptionsComponent } from './search-options/search-options.component';
 
 @NgModule({
   imports: [
@@ -27,7 +28,8 @@ import { NewFriendsPage } from './new-friends.page';
     NewFriendsPage,
     ListComponent,
     SlidesComponent,
-    SlideComponent
+    SlideComponent,
+    SearchOptionsComponent
   ],
   providers: [
     UserService,

@@ -32,8 +32,7 @@
         <div class="form-group" *ngIf="steps[step] == 'email'">
           <h2>What's your email ?</h2>
           <ion-item class="w-100">
-            <ion-label position="floating">Email</ion-label>
-            <ion-input formControlName="email" type="text"></ion-input>
+            <ion-input formControlName="email" type="text" placeholder="E-mail"></ion-input>
           </ion-item>
           <div class="w-100 text-center mt-4" *ngIf="validationErrors['email']">
             <span class="d-block text-danger" *ngFor="let error of validationErrors['email']">{{ error }}</span>
@@ -44,12 +43,10 @@
         <div class="form-group" *ngIf="steps[step] == 'name'">
           <h2>What's your Name</h2>
           <ion-item class="w-100">
-            <ion-label position="floating">First Name</ion-label>
-            <ion-input formControlName="firstName" type="text"></ion-input>
+            <ion-input formControlName="firstName" type="text" placeholder="First Name"></ion-input>
           </ion-item>
           <ion-item class="w-100">
-            <ion-label position="floating">Last Name</ion-label>
-            <ion-input formControlName="lastName" type="text"></ion-input>
+            <ion-input formControlName="lastName" type="text" placeholder="Last Name"></ion-input>
           </ion-item>
           <div class="mt-4">
             <div class="w-100 text-center" *ngIf="validationErrors['firstName']">
@@ -66,12 +63,10 @@
         <div class="form-group" *ngIf="steps[step] == 'password'">
           <h2>Set Password</h2>
           <ion-item class="w-100">
-            <ion-label position="floating">Password</ion-label>
-            <ion-input ngModel formControlName="password" type="password"></ion-input>
+            <ion-input ngModel formControlName="password" type="password" placeholder="Password"></ion-input>
           </ion-item>
           <ion-item class="w-100">
-            <ion-label position="floating">Password Confirmation</ion-label>
-            <ion-input ngModel formControlName="password_confirmation" type="password"></ion-input>
+            <ion-input ngModel formControlName="password_confirmation" type="password" placeholder="Password Confirmation"></ion-input>
           </ion-item>
 
           <div class="w-100 text-center mt-4">
@@ -91,8 +86,7 @@
         <div class="form-group" *ngIf="steps[step] == 'birthDate'">
           <h2>When's your Birthday ?</h2>
           <ion-item class="w-100">
-            <ion-label position="floating">Birthday</ion-label>
-            <ion-input ngModel formControlName="birthDate" type="date"></ion-input>
+            <ion-input ngModel formControlName="birthDate" type="date" palceholder="Birthday"></ion-input>
           </ion-item>
           <div class="w-100 text-center mt-4" *ngIf="validationErrors['birthDate']">
             <span class="d-block text-danger" *ngFor="let error of validationErrors['birthDate']">{{ error }}</span>
@@ -146,19 +140,17 @@
 
       <!-- success  -->
       <div class="w-100 text-center" *ngIf="steps[step] == 'success'">
-        <span class="d-block"><i class="far fa-check-circle text-success check-icon"></i></span>
+        <div class="d-flex justify-content-center">
+          <div class="check-container">
+            <ion-fab-button
+              class="check-button"
+            >
+              <i class="fas fa-check text-white"></i>
+            </ion-fab-button>
+          </div>
+        </div>
         <span class="text-success d-block congrats-text mt-2">Congratulation !! </span>
         <span class="success-icon d-block desc-text mt-1">Your <b>GELOO</b> Account has been created successfully !!</span>
-        <ion-button
-          routerLink="/auth/signin"
-          color="secondary"
-          shape="round"
-          size="default"
-          class="my-2 mx-2"
-          *ngIf="steps[step] == 'success'"
-        >
-          Login now !
-        </ion-button>
       </div>
     </ion-col>
   </ion-row>
@@ -175,5 +167,15 @@
   >
     <span *ngIf="btnLoading"><i class="fas fa-circle-notch fa-spin"></i></span>
     <span *ngIf="!btnLoading">{{ step == steps.length - 2 ? 'Done' : 'Continue' }}</span>
+  </ion-button>
+  <ion-button
+    routerLink="/auth/signin"
+    color="success"
+    size="default"
+    expand="block"
+    class="my-2 mx-2"
+    *ngIf="steps[step] == 'success'"
+  >
+    Login now !
   </ion-button>
 </ion-footer>

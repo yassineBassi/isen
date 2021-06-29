@@ -142,12 +142,12 @@ export class FormComponent implements OnInit {
 
   submit(){
     this.pageLoading = true;
+    console.log("-----------------------------");
     console.log(this.getUserForm());
     this.userService.update(this.getUserForm())
     .then(
       resp => {
         this.pageLoading = false;
-        console.log(resp);
         this.toastService.presentStdToastr('your info has been updated successfully')
       }, err => {
         this.pageLoading = false;

@@ -1,7 +1,8 @@
-import { IonInfiniteScroll } from '@ionic/angular';
+import { IonInfiniteScroll, ModalController } from '@ionic/angular';
 import { UserService } from './../../../services/user.service';
 import { User } from './../../../models/User';
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { SearchOptionsComponent } from '../search-options/search-options.component';
 
 @Component({
   selector: 'app-list',
@@ -16,10 +17,16 @@ export class ListComponent implements OnInit {
   @Output() showUser = new EventEmitter();
   @Output() setUsers = new EventEmitter();
 
+  options = {
+    gender: 'both',
+    profession: '0',
+    interests: '0',
+    education: '0'
+  }
   page = 0;
   pageLoading = false;
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService, private modalController: ModalController) { }
 
   ngOnInit() {
     this.page = 0;
@@ -32,7 +39,7 @@ export class ListComponent implements OnInit {
   getNearUsers(event?, refresh?){
     if(!event) this.pageLoading = true;
     if(refresh) this.page = 0
-    this.userService.getNearUsers(this.page++)
+    this.userService.getNearUsers(this.page++, this.options)
     .then(
       (resp: any) => {
         if(!event || refresh) this.users = [];
@@ -56,5 +63,25 @@ export class ListComponent implements OnInit {
         console.log(err);
       }
     )
+  }
+
+  async presentSearchByModal(){
+    const modal = await this.modalController.create({
+      componentProps: {
+        checkItems: {
+          profession: this.options.profession,
+          education: this.options.education,
+          interests: this.options.interests,
+        },
+        gender: this.options.gender
+      },
+      component: SearchOptionsComponent
+    });
+    await modal.present();
+    const { data } = await modal.onDidDismiss();
+    if(data){
+      this.options = data
+      this.getNearUsers(null, true)
+    }
   }
 }
