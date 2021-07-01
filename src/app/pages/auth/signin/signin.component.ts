@@ -62,9 +62,7 @@ export class SigninComponent implements OnInit {
         this.pageLoading = false;
         this.nativeStorage.setItem('token', resp.data.token);
         this.nativeStorage.setItem('user', resp.data.user);
-
         this.socket.emit('connectUser', resp.data.user.id);
-
         this.router.navigate(['/profile']);
       },
       err => {

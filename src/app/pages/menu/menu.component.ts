@@ -40,7 +40,9 @@ export class MenuComponent implements OnInit {
     this.nativeStorage.getItem('user')
     .then(
       user => {
+        console.log(this.user);
         this.user = new User().initialize(user);
+        console.log(this.user);
       }
     )
   }
