@@ -48,6 +48,7 @@ export class WebrtcService {
   }
 
   async init(userId: string, myEl: HTMLMediaElement, partnerEl: HTMLMediaElement) {
+    console.log('webrtc init');
     this.myEl = myEl;
     this.partnerEl = partnerEl;
     try {

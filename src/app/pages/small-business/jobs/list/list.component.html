@@ -70,7 +70,7 @@
   </ion-infinite-scroll>
 
   <ion-fab horizontal="end" vertical="bottom" slot="fixed" *ngIf="type == 'posted'">
-    <ion-fab-button routerLink="/small-business/jobs/form" class="mr-2" color="secondary">
+    <ion-fab-button (click)="showJobForm()" class="mr-2" color="secondary">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>

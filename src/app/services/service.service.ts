@@ -30,6 +30,14 @@ export class ServiceService extends DataService {
     });
   }
 
+  
+  getStorePermession(){
+    return this.sendRequest({
+      method: 'get',
+      url: '/storePermession'
+    });
+  }
+
   posted(page: number, query: string){
     return this.sendRequest({
       method: 'get',

@@ -2,9 +2,8 @@ import { IonInfiniteScroll } from '@ionic/angular';
 import { ToastService } from './../../../../services/toast.service';
 import { JobService } from './../../../../services/job.service';
 import { Job } from './../../../../models/Job';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { NativeStorage } from '@ionic-native/native-storage/ngx';
 
 @Component({
   selector: 'app-list',
@@ -20,17 +19,43 @@ export class ListComponent implements OnInit {
   searchQuery: string;
   type: string;
 
-  constructor(private jobService: JobService, private toastService: ToastService, private nativeStorage: NativeStorage,
-              private route: ActivatedRoute) { }
+  constructor(private jobService: JobService, private toastService: ToastService,private route: ActivatedRoute, 
+              private router: Router) { }
 
   ngOnInit() {
+    console.log('init');
+    
   }
 
   ionViewWillEnter(){
+    console.log('return');
+    
     this.pageLoading = true;
     this.searchQuery = "";
     this.page = 0;
     this.getPageType();
+  }
+
+  
+  showJobForm(){
+    this.pageLoading = true;
+    this.jobService.getStorePermession()
+    .then(
+      (resp: any) => {
+        if(resp.data.date){
+          this.router.navigate(['/subscription'], {
+            queryParams: {
+              lastDate: resp.data.date
+            }
+          });
+        }else this.router.navigateByUrl('/small-business/jobs/form')
+        this.pageLoading = false;
+      },
+      err => {
+        console.log(err);
+        this.pageLoading = false;
+      }
+    )
   }
 
   getPageType(){
@@ -38,6 +63,7 @@ export class ListComponent implements OnInit {
     .subscribe(
       param => {
         this.type = param.get('type');
+        this.page = 0;
         this.getJobs(null);
       }
     )
@@ -46,10 +72,13 @@ export class ListComponent implements OnInit {
   search(val: string){
     this.page = 0;
     this.searchQuery = val;
+    console.log('search');
+    
     this.getJobs(null);
   }
 
   handleResponse(event, refresh, resp: any){
+    
     if(!event || refresh) this.jobs = [];
 
     if(refresh) this.infinitScroll.disabled = false
@@ -58,6 +87,7 @@ export class ListComponent implements OnInit {
       event.target.complete();
       if(!resp.data.more && !refresh) event.target.disabled = true;
     }
+
 
     resp.data.jobs.forEach(prd => {
       const job = new Job(prd);

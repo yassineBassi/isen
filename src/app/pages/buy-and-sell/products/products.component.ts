@@ -1,5 +1,5 @@
 import { IonInfiniteScroll } from '@ionic/angular';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastService } from './../../../services/toast.service';
 import { ProductService } from './../../../services/product.service';
 import { Product } from './../../../models/Product';
@@ -21,7 +21,7 @@ export class ProductsComponent implements OnInit {
   searchQuery: string;
   type: string;
 
-  constructor(private productService: ProductService, private toastService: ToastService,
+  constructor(private productService: ProductService, private toastService: ToastService, private router: Router,
               private route: ActivatedRoute) { }
 
   ngOnInit() {}
@@ -33,11 +33,34 @@ export class ProductsComponent implements OnInit {
     this.getPageType();
   }
 
+  
+  showProductForm(){
+    this.pageLoading = true;
+    this.productService.getStorePermession()
+    .then(
+      (resp: any) => {
+        if(resp.data.date){
+          this.router.navigate(['/subscription'], {
+            queryParams: {
+              lastDate: resp.data.date
+            }
+          });
+        }else this.router.navigateByUrl('/buy-and-sell/product/form')
+        this.pageLoading = false;
+      },
+      err => {
+        console.log(err);
+        this.pageLoading = false;
+      }
+    )
+  }
+
   getPageType(){
     this.route.paramMap
     .subscribe(
       param => {
         this.type = param.get('type');
+        this.page = 0;
         this.getProducts(null);
       }
     )

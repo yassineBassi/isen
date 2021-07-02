@@ -42,7 +42,7 @@
   </ion-infinite-scroll>
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed" *ngIf="type == 'sell'">
-    <ion-fab-button color="secondary" routerLink="/buy-and-sell/product/form" class="mr-2">
+    <ion-fab-button color="secondary" (click)="showProductForm()" class="mr-2">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>

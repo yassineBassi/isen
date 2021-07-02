@@ -1,6 +1,6 @@
 import { IonInfiniteScroll } from '@ionic/angular';
 import { Service } from './../../../../models/Service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastService } from './../../../../services/toast.service';
 import { ServiceService } from './../../../../services/service.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
@@ -19,7 +19,7 @@ export class ListComponent implements OnInit {
   searchQuery: string;
   type: string;
 
-  constructor(private serviceService: ServiceService, private toastService: ToastService,
+  constructor(private serviceService: ServiceService, private toastService: ToastService,private router: Router,
               private route: ActivatedRoute) { }
 
   ngOnInit() {}
@@ -31,11 +31,34 @@ export class ListComponent implements OnInit {
     this.getPageType();
   }
 
+  
+  showServiceForm(){
+    this.pageLoading = true;
+    this.serviceService.getStorePermession()
+    .then(
+      (resp: any) => {
+        if(resp.data.date){
+          this.router.navigate(['/subscription'], {
+            queryParams: {
+              lastDate: resp.data.date
+            }
+          });
+        }else this.router.navigateByUrl('/small-business/services/form')
+        this.pageLoading = false;
+      },
+      err => {
+        console.log(err);
+        this.pageLoading = false;
+      }
+    )
+  }
+
   getPageType(){
     this.route.paramMap
     .subscribe(
       param => {
         this.type = param.get('type');
+        this.page = 0;
         this.getServices(null);
       }
     )

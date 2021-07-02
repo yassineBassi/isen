@@ -2,26 +2,8 @@
 <app-loader *ngIf="pageLoading"></app-loader>
 
 <ion-content>
-  <ion-row class="h-100" *ngIf="!storePermission">
-    <ion-col class="text-center text-container pb-3 px-3" size="12">
-      <span class="title1 mt-4 d-block">SORRY<br>You can't post another product today</span>
-      <span class="d-block">As a standard account you can only post one product per day.</span>
-      <span class="d-block">Your next post will be after: </span>
-      <span class="timer d-block">{{ restTime.hours }} : {{ restTime.minutes }} : {{ restTime.seconds }}</span>
-    </ion-col>
-    <ion-col class="text-center mt-4 px-3" size="12">
-      <span class=" d-block">What are you waiting for ? upgrade now and post infinite number of products !</span>
-      <ion-button
-        color="warning"
-        class="mt-3"
-        size="large"
-      >
-          <i class="fas fa-crown text-white mr-2"></i> Upgrade
-      </ion-button>
-    </ion-col>
-  </ion-row>
 
-  <div *ngIf="storePermission && !pageLoading">
+  <div *ngIf="!pageLoading">
     <div (click)="pickImage()" class="w-100 image-container">
       <div *ngIf="!productImage.url" class="w-100 h-100 bg-light d-flex justify-content-center align-items-center">
         <span *ngIf="!imageLoading" class="text-center">
@@ -105,7 +87,7 @@
         color="secondary"
         (click)="submit()"
         [disabled]="!form.valid"
-        *ngIf="storePermission && !pageLoading"
+        *ngIf="!pageLoading"
       >
        Post
       </ion-button>
