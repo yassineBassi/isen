@@ -5,22 +5,37 @@
 </app-header>
 
 <ion-content>
-  <ion-row class="h-100">
-    <ion-col class="text-center text-container pb-3 px-3" size="12">
-      <span class="title1 mt-4 d-block">Upgarde<br> Be Premium Now!!</span>
+  <app-loader *ngIf="loading"></app-loader>
+  <ion-row class="h-100" *ngIf="!loading && subscription">
+    <ion-col class="text-center text-container px-3" size="12">
+      <span class="title1 mt-4 d-block">Upgarde<br> Have a premium account Now!!</span>
       <span class="d-block">Upgrade your account to have unlimited access to the application</span>
-      <span class="d-block mt-4">
-        <span class="timer d-inline">9.5 USD / mo</span>
-      </span>
-    </ion-col>
-    <ion-col class="text-center mt-4 px-3" size="12">
-      <span class=" d-block">What are you waiting for ? upgrade now!</span>
+      <div class="text-left d-inline-block border border-light p-3 mt-3">
+        <ul class="list-group">
+          <li class="list-item py-1" *ngFor="let offer of subscription.offers">
+            <i class="fas fa-check mr-2"></i> {{ offer }}
+          </li>
+        </ul>
+      </div>
+      <ion-row class="mt-2 ion-justify-content-center">
+        <ion-col
+          size="4"
+          class="border border-light p-2 my-2 mx-2"
+          [class.selectedPrice]="ind == selectedPrice" 
+          (click)='selectedPrice = ind'
+          *ngFor="let price of prices; let ind = index"
+        >
+          <span class="price d-inline d-block">{{ price.price }}</span>
+          <small>per {{ price.duration }}</small>
+        </ion-col>
+      </ion-row>
+      <span class="mt-4 d-block">What are you waiting for ? upgrade now!</span>
       <ion-button
         color="warning"
         class="mt-4"
         size="large"
       >
-          <i class="fas fa-crown text-white mr-2"></i> Upgrade
+          <i class="fas fa-crown text-white mr-2"></i> Subscribe
       </ion-button>
     </ion-col>
   </ion-row>

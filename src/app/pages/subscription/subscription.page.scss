@@ -1,21 +1,16 @@
-.image-container{
-    height: 250px;
-    overflow: hidden;
-  }
+
   .title1{
     font-size: 22px;
     font-weight: bold;
     color: white;
   }
-  .timer{
-    font-size: 48px;
+  .price{
+    font-size: 18px;
     font-weight: bold;
   }
   .text-container{
     background-color: var(--ion-color-secondary);
     color: white;
-    border-bottom-left-radius: 1000px;
-    border-bottom-right-radius: 1000px;
   }
   .camera{
     font-size: 25px;
@@ -26,3 +21,11 @@
     font-size: 15px;
   }
   
+  .list-group{
+    list-style: none;
+  }
+
+  .selectedPrice{
+    background-color: white!important;
+    color: black!important;
+  }
