@@ -9,7 +9,7 @@ import { ActivatedRoute } from '@angular/router';
 import { UserService } from './../../../services/user.service';
 import { Message } from './../../../models/Message';
 import { Camera } from '@ionic-native/camera/ngx';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { IonContent, IonInfiniteScroll, Platform } from '@ionic/angular';
 import { SocketService } from 'src/app/services/socket.service';
 
@@ -41,7 +41,7 @@ export class ChatComponent implements OnInit {
   pageLoading = false;
 
   constructor(private camera: Camera, private userService: UserService, private route: ActivatedRoute,
-              private nativeStorage: NativeStorage, private messageService: MessageService,
+              private nativeStorage: NativeStorage, private messageService: MessageService, private changeDetection: ChangeDetectorRef,
               private platfrom: Platform, private uploadFileService: UploadFileService, private webView: WebView,
               private toastService: ToastService, private location: Location) { }
 
@@ -52,11 +52,15 @@ export class ChatComponent implements OnInit {
     const timer = setInterval(() => {
        if(this.messages && this.messages.length){
         setTimeout(() => {
-          this.content.scrollToPoint(0, 1000 * 1000)
-        }, 1000);
+          this.scrollToBottom();
+        }, 200);
         clearInterval(timer)
       }
     }, 10)
+  }
+
+  scrollToBottom(){
+    this.content.scrollToPoint(0, 1000 * 1000)
   }
 
   ionViewWillEnter(){
@@ -147,14 +151,19 @@ export class ChatComponent implements OnInit {
     )
   }
 
+  checkMessageExisting(message){
+    return this.messages.find(msg => msg.id == message._id) ? true : false;
+  }
 
   initSocketListeners(){
-    this.socket.on('new-message', (message) => {
-      if(this.user && message.from == this.user.id){
+
+    this.socket.on('new-message', (message) => {      
+      if(this.user && message.from == this.user.id && !this.checkMessageExisting(message)){        
         this.messages.push(new Message().initialize(message));
+        this.changeDetection.detectChanges();
         setTimeout(() => {
-          this.content.scrollToBottom(200)
-        }, 100);
+          this.scrollToBottom();
+        }, 200);
       }
     })
 
@@ -210,8 +219,8 @@ export class ChatComponent implements OnInit {
     this.sentMessages[this.index] = message
 
     setTimeout(() => {
-      this.content.scrollToBottom(200)
-    }, 100);
+      this.scrollToBottom()
+    }, 200);
 
     this.sendMessage(message, this.index++);
 

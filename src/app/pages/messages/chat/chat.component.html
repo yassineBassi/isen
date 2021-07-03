@@ -83,7 +83,13 @@
       </ion-button>
     </ion-buttons>
 
-    <ion-input (keydown.enter)="addMessage()" [(ngModel)]="messageText" class="mx-2 chat-input" placeholder="tape your message here"></ion-input>
+    <ion-input 
+      (keydown.enter)="addMessage()" 
+      (ionFocus)="scrollToBottom()"
+      [(ngModel)]="messageText" 
+      class="mx-2 chat-input" 
+      placeholder="tape your message here"
+    ></ion-input>
 
     <ion-buttons class="ion-no-margin py-2" slot="end">
       <ion-button (click)="addMessage()" shape="round" fill="clear" color="secondary">
