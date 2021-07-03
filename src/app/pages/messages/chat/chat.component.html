@@ -12,28 +12,6 @@
     </ion-buttons>
   </div>
 </app-header>
-<!-- <ion-header no-border>
-  <ion-toolbar>
-     <ion-buttons slot="start">
-       <ion-button shape="round" [routerLink]="['/messages']">
-          <i class="fas fa-arrow-left"></i>
-        </ion-button>
-     </ion-buttons>
-     <ion-title *ngIf="user" class="d-flex">
-       <div class="d-flex align-items-center">
-          <ion-avatar class="avatar">
-            <img [src]="user.avatar.path" alt="">
-          </ion-avatar>
-          <span class="ml-3">{{ user.fullName }}</span>
-        </div>
-      </ion-title>
-      <ion-buttons slot="end">
-        <ion-button shape="round" [routerLink]="['/messages/video/' + (user ? user.id : '')]">
-           <i class="fas fa-video"></i>
-         </ion-button>
-      </ion-buttons>
-   </ion-toolbar>
- </ion-header> -->
 
 <app-loader *ngIf="pageLoading" ></app-loader>
 

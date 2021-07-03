@@ -13,7 +13,7 @@ import { AfterViewInit, Component, ElementRef, OnInit } from '@angular/core';
   templateUrl: './video.component.html',
   styleUrls: ['./video.component.scss'],
 })
-export class VideoComponent implements OnInit, AfterViewInit {
+export class VideoComponent implements OnInit {
 
   calling = false;
   pageLoading = false;
@@ -31,12 +31,16 @@ export class VideoComponent implements OnInit, AfterViewInit {
     private userService: UserService,
     private toastService: ToastService,
     private location: Location
-  ) { }
+  ) {}
 
   ngOnInit() {}
 
-  ngAfterViewInit(){
-
+  ionViewDidEnter(){
+    const timer = setInterval(() => {
+      if(this.init()){
+        clearInterval(timer);
+      }
+    }, 200);
   }
 
   ionViewWillEnter(){
@@ -60,7 +64,6 @@ export class VideoComponent implements OnInit, AfterViewInit {
       (resp: any) => {
         this.pageLoading = false;
         this.user = new User().initialize(resp.data);
-        this.init();
       },err => {
         this.pageLoading = false;
         this.location.back()
@@ -71,11 +74,13 @@ export class VideoComponent implements OnInit, AfterViewInit {
 
   init() {
     this.myEl = this.elRef.nativeElement.querySelector('#my-video');
-    console.log(this.myEl);
-
     this.partnerEl = this.elRef.nativeElement.querySelector('#partner-video');
-    console.log(this.partnerEl);
-    this.webRTC.init(this.userId, this.myEl, this.partnerEl);
+
+    if(this.myEl && this.partnerEl){
+      this.webRTC.init(this.userId, this.myEl, this.partnerEl);
+      return true
+    }
+    return false;
   }
 
   call() {
@@ -85,6 +90,10 @@ export class VideoComponent implements OnInit, AfterViewInit {
 
   swapVideo(topVideo: string) {
     this.topVideoFrame = topVideo;
+  }
+
+  cancel(){
+    this.location.back();
   }
 
 }
