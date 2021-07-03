@@ -22,7 +22,13 @@
       <ion-content>
         <ion-list>
           <ion-menu-toggle auto-hide="false" *ngFor="let page of appPages">
-            <ion-item routerDirection="root" [routerLink]="[page.url]" lines="none" detail="false" routerLinkActive="selected">
+            <ion-item 
+              [routerLinkActiveOptions]="{exact: page.exact ? true : false}" 
+              routerDirection="root" 
+              [routerLink]="[page.url]" 
+              lines="none" detail="false" 
+              routerLinkActive="selected"
+            >
               <span class="mr-3" [style]="{color: page.iconColor ? page.iconColor : 'black'}"><i [class]="page.icon"></i></span>
               <ion-label>{{ page.title }}</ion-label>
             </ion-item>

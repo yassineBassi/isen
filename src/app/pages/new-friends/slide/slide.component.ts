@@ -15,6 +15,7 @@ import { Request } from 'src/app/models/Request';
 export class SlideComponent implements OnInit {
 
   @Input() user: User;
+  @Input() random: boolean;
 
   constructor(private userService: UserService, private requestService: RequestService, private toastService: ToastService,
               private alertCtrl: AlertController, private router: Router) { }

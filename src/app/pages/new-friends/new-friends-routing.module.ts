@@ -9,6 +9,10 @@ const routes: Routes = [
   {
     path: '',
     component: NewFriendsPage
+  },
+  {
+    path: ':type',
+    component: NewFriendsPage
   }
 ];
 
