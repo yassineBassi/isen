@@ -13,6 +13,7 @@ import { Toast } from '@ionic-native/toast/ngx';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { SharingModule } from './pages/sharing/sharing.module';
 import { OpenNativeSettings } from '@ionic-native/open-native-settings/ngx';
+import { OneSignal } from '@ionic-native/onesignal/ngx'
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { OpenNativeSettings } from '@ionic-native/open-native-settings/ngx';
     HTTP,
     Toast,
     AndroidPermissions,
-    OpenNativeSettings
+    OpenNativeSettings,
+    OneSignal
   ],
   bootstrap: [AppComponent]
 })

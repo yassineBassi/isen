@@ -6,6 +6,7 @@ import { AuthService } from './../../../services/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { SocketService } from 'src/app/services/socket.service';
+import { OneSignal } from '@ionic-native/onesignal/ngx';
 
 @Component({
   selector: 'app-signin',
@@ -28,7 +29,7 @@ export class SigninComponent implements OnInit {
   }
 
   constructor(private formBuilder: FormBuilder, private auth: AuthService, private toastService: ToastService,
-              private router: Router, private nativeStorage: NativeStorage) {
+              private router: Router, private nativeStorage: NativeStorage, private oneSignal: OneSignal) {
 
   }
 
@@ -60,9 +61,14 @@ export class SigninComponent implements OnInit {
     .then(
       (resp: any) => {
         this.pageLoading = false;
+        console.log('--------', resp.data.user.id);
+        console.log('--------', resp.data.user._id);
+        
         this.nativeStorage.setItem('token', resp.data.token);
         this.nativeStorage.setItem('user', resp.data.user);
-        this.socket.emit('connectUser', resp.data.user.id);
+        this.socket.emit('connectUser', resp.data.user._id);
+        this.oneSignal.setSubscription(true);
+        this.oneSignal.sendTags({user_id: resp.data.user._id})
         this.router.navigate(['/profile']);
       },
       err => {

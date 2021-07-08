@@ -4,7 +4,8 @@ import { Platform } from '@ionic/angular';
 import { Component } from '@angular/core';
 import { SocketService } from './services/socket.service';
 import { JsonService } from './services/json.service';
-import constants from './helpers/constants';
+import { OneSignal } from '@ionic-native/onesignal/ngx';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -20,7 +21,9 @@ export class AppComponent {
   constructor(
     private platform: Platform,
     private nativeStorage: NativeStorage,
-    private jsonService: JsonService
+    private jsonService: JsonService,
+    private oneSignel: OneSignal,
+    private router: Router
   ) {
     this.initializeApp();
   }
@@ -40,6 +43,24 @@ export class AppComponent {
     });
   }
 
+  setupPush(){
+    this.oneSignel.startInit("3b993591-823b-4f45-94b0-c2d0f7d0f6d8", "138360337223");    
+    this.oneSignel.inFocusDisplaying(this.oneSignel.OSInFocusDisplayOption.Notification)
+    this.oneSignel.setExternalUserId(this.user.id);
+    this.oneSignel.setSubscription(true);
+    this.oneSignel.handleNotificationOpened().subscribe(resp => {
+      const data = resp.notification.payload.additionalData;
+      console.log(data.link);
+      
+      if(data.link) this.router.navigateByUrl(data.link);
+      
+    });
+    this.oneSignel.handleNotificationReceived().subscribe(data => {
+
+    });
+    this.oneSignel.endInit();
+  }
+
   connectUser(){
     console.log('connecting user', this.user.id);
     
@@ -52,6 +73,8 @@ export class AppComponent {
       user => {
         this.user = new User().initialize(user);
         this.connectUser();
+        if(this.platform.is('cordova'))
+          this.setupPush();
       }
     )
   }
