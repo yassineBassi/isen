@@ -6,6 +6,7 @@ import { SocketService } from './services/socket.service';
 import { JsonService } from './services/json.service';
 import { OneSignal } from '@ionic-native/onesignal/ngx';
 import { Router } from '@angular/router';
+import { WebrtcService } from './services/webrtc.service';
 
 @Component({
   selector: 'app-root',
@@ -23,7 +24,8 @@ export class AppComponent {
     private nativeStorage: NativeStorage,
     private jsonService: JsonService,
     private oneSignel: OneSignal,
-    private router: Router
+    private router: Router,
+    private webrtcService: WebrtcService
   ) {
     this.initializeApp();
   }
@@ -75,8 +77,13 @@ export class AppComponent {
         this.connectUser();
         if(this.platform.is('cordova'))
           this.setupPush();
+        this.initWebrtc();
       }
     )
+  }
+
+  async initWebrtc(){
+    await this.webrtcService.createPeer(this.user.id);
   }
 
   getJsonData(){

@@ -8,10 +8,13 @@ import Peer from 'peerjs';
 })
 
 export class WebrtcService {
-  peer: Peer;
+  static peer: Peer;
   myStream: MediaStream;
   myEl: HTMLMediaElement;
   partnerEl: HTMLMediaElement;
+
+  userId: string;
+  partnerId: String;
 
   stun = 'stun.l.google.com:19302';
   mediaConnection: Peer.MediaConnection;
@@ -21,66 +24,74 @@ export class WebrtcService {
   };
 
   constructor(private platform: Platform, private androidPermissions: AndroidPermissions) {
-    this.platform.ready().then(() => {
-      this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.CAMERA).then(
-        result => console.log('Has permission?', result.hasPermission),
-        err => this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.CAMERA)
-      );
+    this.options = {
+      key: 'cd1ft79ro8g833di',
+      debug: 3
+    };
+  }
 
-      this.androidPermissions.requestPermissions([this.androidPermissions.PERMISSION.CAMERA]);
+  getPermission(){
+    return this.platform.ready().then(() => {
+      this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.CAMERA).then(
+        result => true,
+        err => {
+          this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.CAMERA);
+          return false;
+        }
+      );
     });
   }
 
   getMedia() {
-    console.log("get media");
-    console.log(navigator);
     navigator.mediaDevices.getUserMedia({
         video: true
     })
     .then((stream) => {
-      console.log("success");
       this.handleSuccess(stream);
     }, err => {
-      console.log('err');
-      console.log(err);
       this.handleError(err);
     })
   }
 
-  async init(userId: string, myEl: HTMLMediaElement, partnerEl: HTMLMediaElement) {
-    console.log('webrtc init');
-    console.log(myEl);
-    console.log(partnerEl);
-    this.myEl = myEl;
-    this.partnerEl = partnerEl;
-    try {
-      this.getMedia();
-    } catch (e) {
-      this.handleError(e);
+  async init(myEl: HTMLMediaElement, partnerEl: HTMLMediaElement) {
+    if(this.getPermission()){
+      this.myEl = myEl;
+      this.partnerEl = partnerEl;
+      try {
+        this.getMedia();
+      } catch (e) {
+        this.handleError(e);
+      }
+      return true;
+    }else{
+      return false;
     }
-    await this.createPeer(userId);
   }
 
   async createPeer(userId: string) {
-    this.peer = new Peer(userId);
-    this.peer.on('open', () => {
+    console.log('creating peer for me : ' + userId);
+    WebrtcService.peer = new Peer(userId);
+    WebrtcService.peer.on('open', () => {
       this.wait();
     });
   }
 
   call(partnerId: string) {
-    const call = this.peer.call(partnerId, this.myStream);
+    const call = WebrtcService.peer.call(partnerId, this.myStream);
     call.on('stream', (stream) => {
       this.partnerEl.srcObject = stream;
     });
   }
 
   wait() {
-    this.peer.on('call', (call) => {
-      call.answer(this.myStream);
-      call.on('stream', (stream) => {
-        this.partnerEl.srcObject = stream;
-      });
+    console.log('waiting for a call');
+    WebrtcService.peer.on('call', (call) => {
+      console.log('there is a call');
+      
+      // call.answer(this.myStream);
+      // call.on('stream', (stream) => {
+      //   this.partnerEl.srcObject = stream;0
+      // });
     });
   }
 

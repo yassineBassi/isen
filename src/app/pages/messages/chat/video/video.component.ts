@@ -77,15 +77,16 @@ export class VideoComponent implements OnInit {
     this.partnerEl = this.elRef.nativeElement.querySelector('#partner-video');
 
     if(this.myEl && this.partnerEl){
-      this.webRTC.init(this.userId, this.myEl, this.partnerEl);
-      return true
+      this.webRTC.init(this.myEl, this.partnerEl);
+      this.call();
+      return true;
     }
     return false;
   }
 
   call() {
     this.webRTC.call(this.partnerId);
-    this.swapVideo('my-video');
+    // this.swapVideo('my-video');
   }
 
   swapVideo(topVideo: string) {
