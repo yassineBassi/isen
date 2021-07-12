@@ -28,6 +28,7 @@ export class VideoComponent implements OnInit {
   answer = false;
   answered = false;
   socket = SocketService.socket;
+  audio: HTMLAudioElement;
 
   constructor(
     public webRTC: WebrtcService,
@@ -48,8 +49,11 @@ export class VideoComponent implements OnInit {
 
   cancelListener(){
     this.socket.on('video-canceled', () => {
-      console.log('video canceled');
-      this.cancel();
+      if(this.audio) this.audio.pause();
+      this.playAudio("./../../../../../assets/audio/call-cenceled.mp3")
+      setTimeout(() => {
+        this.cancel();
+      }, 2000);
     })
   }
 
@@ -88,13 +92,20 @@ export class VideoComponent implements OnInit {
       this.user = new User().initialize(resp);
       const timer = setInterval(() => {
         if(this.init()){
-          console.log('cancel listenter');
-          
+          if(this.answer) this.playAudio("./../../../../../assets/audio/phone-ringing.mp3");
           this.cancelListener();
           clearInterval(timer);
         }
       }, 200);
     })
+  }
+
+  playAudio(src){
+    this.audio = new Audio();
+    this.audio.src = src
+    this.audio.load();
+    this.audio.loop = true;
+    this.audio.play();
   }
 
   init() {
@@ -111,6 +122,7 @@ export class VideoComponent implements OnInit {
   }
 
   call() {
+    this.playAudio("./../../../../../assets/audio/ringing.mp3");
     this.webRTC.callPartner(this.partner.id);
     this.waitForAnswer();
   }
@@ -118,6 +130,7 @@ export class VideoComponent implements OnInit {
   waitForAnswer(){
     const timer = setInterval(() => {
       if(this.partnerEl && this.partnerEl.srcObject){
+        if(this.audio) this.audio.pause();
          this.answered = true;
          this.swapVideo('my-video');
          clearInterval(timer);
@@ -135,6 +148,7 @@ export class VideoComponent implements OnInit {
   }
 
   cancel(){
+    if(this.audio) this.audio.pause();
     try {
       WebrtcService.call.close();
     } catch (error) {
@@ -144,6 +158,7 @@ export class VideoComponent implements OnInit {
   }
 
   answerCall(){
+    if(this.audio) this.audio.pause();
     this.webRTC.answer();
     this.waitForAnswer();
   }
