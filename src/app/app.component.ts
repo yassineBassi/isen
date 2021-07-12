@@ -52,13 +52,9 @@ export class AppComponent {
     this.oneSignel.setSubscription(true);
     this.oneSignel.handleNotificationOpened().subscribe(resp => {
       const data = resp.notification.payload.additionalData;
-      console.log(data.link);
-      
       if(data.link) this.router.navigateByUrl(data.link);
-      
     });
     this.oneSignel.handleNotificationReceived().subscribe(data => {
-
     });
     this.oneSignel.endInit();
   }

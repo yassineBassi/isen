@@ -72,8 +72,8 @@ export class ChatComponent implements OnInit {
     )
   }
 
-
   initializeSocket(){
+    this.page = 0;
     this.initSocketListeners();
   }
 
@@ -139,9 +139,11 @@ export class ChatComponent implements OnInit {
           resp.data.messages.reverse().forEach(message => {
             this.messages.unshift(new Message().initialize(message));
           });
-          console.log(resp.data.more);
           if(!resp.data.more) event.target.disabled = true;
         }
+
+        console.log(this.messages);
+        
       },
       err => {
         console.log(err);

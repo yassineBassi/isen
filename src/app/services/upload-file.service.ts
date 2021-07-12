@@ -5,79 +5,16 @@ import { File, FileEntry, IFile } from '@ionic-native/file/ngx'
 import { AlertController, Platform } from '@ionic/angular';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { OpenNativeSettings } from '@ionic-native/open-native-settings/ngx';
+import { PermissionService } from './permission.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UploadFileService {
 
-  constructor(private file: File, private filePath: FilePath, private platform: Platform, private openNativeSettings: OpenNativeSettings,
-              private camera: Camera, private alertCtrl: AlertController, private androidPermission: AndroidPermissions) { }
+  constructor(private file: File, private filePath: FilePath, private platform: Platform, private camera: Camera, private permissionService:
+              PermissionService, private androidPermission: AndroidPermissions) { }
 
-  getPermission(sourceType){
-    const permission = sourceType == this.camera.PictureSourceType.CAMERA ? this.androidPermission.PERMISSION.CAMERA : this.androidPermission.PERMISSION.READ_EXTERNAL_STORAGE
-    return new Promise((resolve, reject) => {
-      this.androidPermission.checkPermission(permission)
-      .then(
-        result => {
-          if(result.hasPermission){
-            resolve(null)
-          }else{
-            this.requestPermission(permission)
-            .then(resp => {
-              if(resp) resolve(true);
-              else reject();
-            }, () => reject())
-          }
-        },
-        () => {
-          this.requestPermission(permission)
-          .then(resp => {
-            if(resp) resolve(true);
-            else reject();
-          }, () => reject())
-        }
-      )
-    })
-  }
-
-  requestPermission(permission: string){
-    return this.androidPermission.requestPermission(permission)
-    .then(
-      resp => {
-        if(resp.hasPermission) return true;
-        else{
-          this.showPermissionAlert();
-          return false;
-        };
-      },
-      () => {
-        this.showPermissionAlert();
-        return false;
-      }
-    )
-  }
-
-  async showPermissionAlert(){
-    const alert = await this.alertCtrl.create({
-      header: 'Permission',
-      message: 'Geloo doesn\'t have the permission to perfome this action, please give us the permsiion from the application settings',
-      buttons: [
-        {
-          text: 'CANCEL',
-          role: 'cancel'
-        },
-        {
-          text: 'Settings',
-          handler: () => {
-            this.openNativeSettings.open('application_details')
-          }
-        }
-      ]
-    })
-
-    await alert.present();
-  }
 
   takePicture(sourceType){
     
@@ -93,11 +30,9 @@ export class UploadFileService {
     options.sourceType = sourceType;
     if(sourceType == this.camera.PictureSourceType.PHOTOLIBRARY) options.allowEdit = true;
     options.destinationType = this.platform.is('ios') ? this.camera.DestinationType.NATIVE_URI : (this.platform.is('android') ? this.camera.DestinationType.FILE_URI : this.camera.DestinationType.DATA_URL);
-
-    console.log(options);
-
+    
     return new Promise((resolve, reject) => {
-      this.getPermission(sourceType)
+      this.permissionService.getPermission(sourceType == this.camera.PictureSourceType.CAMERA ? this.androidPermission.PERMISSION.CAMERA : this.androidPermission.PERMISSION.READ_EXTERNAL_STORAGE)
       .then(
         () => {
           this.camera.getPicture(options)

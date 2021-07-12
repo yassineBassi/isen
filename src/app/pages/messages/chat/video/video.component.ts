@@ -7,6 +7,8 @@ import { User } from './../../../../models/User';
 import { WebrtcService } from './../../../../services/webrtc.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AfterViewInit, Component, ElementRef, OnInit } from '@angular/core';
+import { NativeStorage } from '@ionic-native/native-storage/ngx';
+import { SocketService } from 'src/app/services/socket.service';
 
 @Component({
   selector: 'app-video',
@@ -19,10 +21,13 @@ export class VideoComponent implements OnInit {
   pageLoading = false;
   topVideoFrame = 'partner-video';
   userId: string;
-  partnerId: string;
   myEl: HTMLMediaElement;
   partnerEl: HTMLMediaElement;
+  partner: User;
   user: User;
+  answer = false;
+  answered = false;
+  socket = SocketService.socket;
 
   constructor(
     public webRTC: WebrtcService,
@@ -30,22 +35,22 @@ export class VideoComponent implements OnInit {
     private route: ActivatedRoute,
     private userService: UserService,
     private toastService: ToastService,
-    private location: Location
+    private location: Location,
+    private nativeStorage: NativeStorage
   ) {}
 
   ngOnInit() {}
 
-  ionViewDidEnter(){
-    const timer = setInterval(() => {
-      if(this.init()){
-        clearInterval(timer);
-      }
-    }, 200);
-  }
-
   ionViewWillEnter(){
     this.pageLoading = true;
     this.getUserId();
+  }
+
+  cancelListener(){
+    this.socket.on('video-canceled', () => {
+      console.log('video canceled');
+      this.cancel();
+    })
   }
 
   getUserId(){
@@ -53,7 +58,12 @@ export class VideoComponent implements OnInit {
     .subscribe(
       params => {
         this.userId = params.get('id');
-        this.getUser();
+        this.route.queryParamMap.subscribe(
+          query => {
+            this.answer = query.get('answer') ? true : false;
+            this.getUser();
+          }
+        )
       }
     )
   }
@@ -63,7 +73,8 @@ export class VideoComponent implements OnInit {
     .then(
       (resp: any) => {
         this.pageLoading = false;
-        this.user = new User().initialize(resp.data);
+        this.partner = new User().initialize(resp.data);
+        this.getAuthUser();
       },err => {
         this.pageLoading = false;
         this.location.back()
@@ -72,29 +83,69 @@ export class VideoComponent implements OnInit {
     )
   }
 
+  getAuthUser(){
+    this.nativeStorage.getItem('user').then(resp => {
+      this.user = new User().initialize(resp);
+      const timer = setInterval(() => {
+        if(this.init()){
+          console.log('cancel listenter');
+          
+          this.cancelListener();
+          clearInterval(timer);
+        }
+      }, 200);
+    })
+  }
+
   init() {
-    this.myEl = this.elRef.nativeElement.querySelector('#my-video');
+    this.myEl = document.querySelector('#my-video');
     this.partnerEl = this.elRef.nativeElement.querySelector('#partner-video');
 
     if(this.myEl && this.partnerEl){
-      this.webRTC.init(this.myEl, this.partnerEl);
-      this.call();
-      return true;
+      this.webRTC.init(this.myEl, this.partnerEl).then(
+        () => {if(!this.answer) this.call()}
+      )
+      return true
     }
     return false;
   }
 
   call() {
-    this.webRTC.call(this.partnerId);
-    // this.swapVideo('my-video');
+    this.webRTC.callPartner(this.partner.id);
+    this.waitForAnswer();
+  }
+
+  waitForAnswer(){
+    const timer = setInterval(() => {
+      if(this.partnerEl && this.partnerEl.srcObject){
+         this.answered = true;
+         this.swapVideo('my-video');
+         clearInterval(timer);
+      }
+    }, 10)
   }
 
   swapVideo(topVideo: string) {
     this.topVideoFrame = topVideo;
   }
 
+  closeCall(){
+    this.socket.emit('cancel-video', this.partner.id);
+    this.cancel();
+  }
+
   cancel(){
+    try {
+      WebrtcService.call.close();
+    } catch (error) {
+      console.log(error);
+    }
     this.location.back();
+  }
+
+  answerCall(){
+    this.webRTC.answer();
+    this.waitForAnswer();
   }
 
 }

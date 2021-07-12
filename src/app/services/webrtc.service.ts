@@ -2,6 +2,8 @@ import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { Platform } from '@ionic/angular';
 import { Injectable } from '@angular/core';
 import Peer from 'peerjs';
+import { PermissionService } from './permission.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -22,63 +24,64 @@ export class WebrtcService {
   stunServer: RTCIceServer = {
     urls: 'stun:' + this.stun,
   };
+  static call;
 
-  constructor(private platform: Platform, private androidPermissions: AndroidPermissions) {
+  constructor(private androidPermission: AndroidPermissions, private permissionService: PermissionService, 
+              private router: Router) {
     this.options = {
       key: 'cd1ft79ro8g833di',
       debug: 3
     };
   }
 
-  getPermission(){
-    return this.platform.ready().then(() => {
-      this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.CAMERA).then(
-        result => true,
-        err => {
-          this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.CAMERA);
-          return false;
-        }
-      );
-    });
-  }
 
   getMedia() {
-    navigator.mediaDevices.getUserMedia({
-        video: true
+    return navigator.mediaDevices.getUserMedia({
+        video: true,
+        audio: true
     })
     .then((stream) => {
       this.handleSuccess(stream);
+      return true
     }, err => {
       this.handleError(err);
+      return false
     })
   }
 
   async init(myEl: HTMLMediaElement, partnerEl: HTMLMediaElement) {
-    if(this.getPermission()){
-      this.myEl = myEl;
-      this.partnerEl = partnerEl;
-      try {
-        this.getMedia();
-      } catch (e) {
-        this.handleError(e);
-      }
-      return true;
-    }else{
-      return false;
-    }
+    return new Promise((resolve, reject) => {
+      this.permissionService.getPermission(this.androidPermission.PERMISSION.CAMERA).then(() => {
+        this.permissionService.getPermission(this.androidPermission.PERMISSION.RECORD_AUDIO).then(() => {
+          this.myEl = myEl;
+          this.partnerEl = partnerEl;
+          try {
+            this.getMedia().then(() => resolve(true), () => reject(true))
+          } catch (e) {
+            this.handleError(e);
+            reject(true)
+          }
+        })
+      })
+    })
   }
 
   async createPeer(userId: string) {
-    console.log('creating peer for me : ' + userId);
+    this.userId = userId
     WebrtcService.peer = new Peer(userId);
     WebrtcService.peer.on('open', () => {
       this.wait();
     });
   }
 
-  call(partnerId: string) {
-    const call = WebrtcService.peer.call(partnerId, this.myStream);
-    call.on('stream', (stream) => {
+  callPartner(partnerId: string) {    
+    WebrtcService.call= WebrtcService.peer.call(partnerId, this.myStream);
+
+    WebrtcService.call.on('error', (error) => {
+      console.log(error);
+    })
+
+    WebrtcService.call.on('stream', (stream) => {
       this.partnerEl.srcObject = stream;
     });
   }
@@ -86,8 +89,9 @@ export class WebrtcService {
   wait() {
     console.log('waiting for a call');
     WebrtcService.peer.on('call', (call) => {
-      console.log('there is a call');
-      
+      WebrtcService.call = call;
+      console.log('call', WebrtcService.call);
+      this.router.navigateByUrl('/messages/video/' + call.peer + '?answer=true')
       // call.answer(this.myStream);
       // call.on('stream', (stream) => {
       //   this.partnerEl.srcObject = stream;0
@@ -119,5 +123,16 @@ export class WebrtcService {
     if (typeof error !== 'undefined') {
       console.error(error);
     }
+  }
+
+  answer(){
+    console.log('answering', WebrtcService.call);
+    
+    WebrtcService.call.answer(this.myStream)
+    WebrtcService.call.on('stream', (stream) => {
+      console.log(stream);
+      
+      this.partnerEl.srcObject = stream;
+    });
   }
 }
