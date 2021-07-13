@@ -35,9 +35,11 @@ export class WebrtcService {
   }
 
 
-  getMedia() {
+  getMedia(facingMode: string) {
     return navigator.mediaDevices.getUserMedia({
-        video: true,
+        video: {
+          facingMode: facingMode
+        },
         audio: true
     })
     .then((stream) => {
@@ -56,7 +58,7 @@ export class WebrtcService {
           this.myEl = myEl;
           this.partnerEl = partnerEl;
           try {
-            this.getMedia().then(() => resolve(true), () => reject(true))
+            this.getMedia('user').then(() => resolve(true), () => reject(true))
           } catch (e) {
             this.handleError(e);
             reject(true)
@@ -91,11 +93,7 @@ export class WebrtcService {
     WebrtcService.peer.on('call', (call) => {
       WebrtcService.call = call;
       console.log('call', WebrtcService.call);
-      this.router.navigateByUrl('/messages/video/' + call.peer + '?answer=true')
-      // call.answer(this.myStream);
-      // call.on('stream', (stream) => {
-      //   this.partnerEl.srcObject = stream;0
-      // });
+      this.router.navigateByUrl('/messages/video/' + call.peer + '?answer=true');
     });
   }
 
@@ -126,13 +124,25 @@ export class WebrtcService {
   }
 
   answer(){
-    console.log('answering', WebrtcService.call);
-    
     WebrtcService.call.answer(this.myStream)
     WebrtcService.call.on('stream', (stream) => {
-      console.log(stream);
-      
       this.partnerEl.srcObject = stream;
     });
   }
+
+  toggleCamera(){
+    this.myStream.getVideoTracks()[0].enabled = !this.myStream.getVideoTracks()[0].enabled;
+    return this.myStream.getVideoTracks()[0].enabled
+  }
+
+  
+  toggleAudio(){
+    this.myStream.getAudioTracks()[0].enabled = !this.myStream.getAudioTracks()[0].enabled
+    return this.myStream.getAudioTracks()[0].enabled
+  }
+
+  toggleCameraDirection(){
+    this.getMedia('environment');
+  }
+
 }

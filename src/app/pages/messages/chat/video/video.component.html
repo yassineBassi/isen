@@ -48,17 +48,27 @@
     </ion-row>
     <ion-row *ngIf="answered || !answer">
       <ion-col size="4" class="d-flex justify-content-center">
-        <ion-fab-button color="light">
-          <i class="fas fa-microphone"></i>
+        <ion-fab-button (click)="toggleAudio()" [color]="audioEnabled ? 'light' : 'danger'">
+          <span *ngIf="audioEnabled">
+            <i class="fas fa-microphone"></i>
+          </span>
+          <span *ngIf="!audioEnabled">
+            <i class="fas fa-microphone-slash"></i>
+          </span>
         </ion-fab-button>
       </ion-col>
       <ion-col size="4" class="d-flex justify-content-center">
-        <ion-fab-button color="light">
-          <i class="fas fa-camera"></i>
+        <ion-fab-button (click)="toggleCamera()" [color]="cameraEnabled ? 'light' : 'danger'">
+          <span *ngIf="cameraEnabled">
+            <i class="fas fa-video"></i>
+          </span>
+          <span *ngIf="!cameraEnabled">
+            <i class="fas fa-video-slash"></i>
+          </span>
         </ion-fab-button>
       </ion-col>
       <ion-col size="4" class="d-flex justify-content-center">
-        <ion-fab-button color="light">
+        <ion-fab-button (click)="toggleCameraDirection()" color="light">
           <i class="fas fa-retweet"></i>
         </ion-fab-button>
       </ion-col>

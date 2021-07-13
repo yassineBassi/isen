@@ -29,6 +29,8 @@ export class VideoComponent implements OnInit {
   answered = false;
   socket = SocketService.socket;
   audio: HTMLAudioElement;
+  audioEnabled = true
+  cameraEnabled = true;
 
   constructor(
     public webRTC: WebrtcService,
@@ -161,6 +163,16 @@ export class VideoComponent implements OnInit {
     if(this.audio) this.audio.pause();
     this.webRTC.answer();
     this.waitForAnswer();
+  }
+
+  toggleCamera(){
+    this.cameraEnabled = this.webRTC.toggleCamera();
+  }
+  toggleAudio(){
+    this.audioEnabled = this.webRTC.toggleAudio();
+  }
+  toggleCameraDirection(){
+    this.webRTC.toggleCameraDirection();
   }
 
 }
