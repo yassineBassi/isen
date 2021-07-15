@@ -3,7 +3,7 @@ import { ToastService } from './../../../../services/toast.service';
 import { ChannelService } from './../../../../services/channel.service';
 import { AlertController, ModalController, PopoverController } from '@ionic/angular';
 import { User } from './../../../../models/User';
-import { Comment } from './../../../../models/Commentt';
+import { Comment } from '../../../../models/Comment';
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { DropDownComponent } from 'src/app/pages/drop-down/drop-down.component';
 

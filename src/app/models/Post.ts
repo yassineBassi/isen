@@ -1,5 +1,5 @@
 import { Channel } from './Channel';
-import { Comment } from './Commentt';
+import { Comment } from './Comment';
 import { User } from './User';
 export class Post{
 

@@ -8,6 +8,7 @@ import { SubscriptionPageRoutingModule } from './subscription-routing.module';
 
 import { SubscriptionPage } from './subscription.page';
 import { SharingModule } from '../sharing/sharing.module';
+import { PaymentComponent } from './payment/payment.component';
 
 @NgModule({
   imports: [
@@ -17,6 +18,9 @@ import { SharingModule } from '../sharing/sharing.module';
     SubscriptionPageRoutingModule,
     SharingModule
   ],
-  declarations: [SubscriptionPage]
+  declarations: [
+    SubscriptionPage,
+    PaymentComponent
+  ]
 })
 export class SubscriptionPageModule {}

@@ -1,0 +1,40 @@
+<app-header title="Payment" [menu]="true"></app-header>
+
+<app-loader *ngIf="pageLoading"></app-loader>
+
+<ion-content>
+    <div class="w-100 text-center">
+        <img src="../../../../assets/card_payment.png" class="card-pay" alt="">
+    </div>
+
+    <ion-list class="mx-2">
+       
+        <div class="mt-3">
+            <ion-label>Card Number</ion-label>
+            <ion-item>
+                <ion-input type="number" placeholder="Enter your 16 digit card number"  [(ngModel)]="cardNumber"></ion-input>
+            </ion-item>
+        </div>
+
+        <div class="mt-3">
+            <ion-label>Expiration Month</ion-label>
+            <ion-item>
+                <ion-input type="number" placeholder="Month" [(ngModel)]="cardMonth"></ion-input>
+                <ion-input type="number" placeholder="Year" [(ngModel)]="cardYear"></ion-input>
+            </ion-item>
+        </div>
+
+        <div class="mt-3">
+            <ion-label>CVV</ion-label>
+            <ion-item>
+                <ion-input type="number" placeholder="Enter your CVV" [(ngModel)]="cardCVV"></ion-input>
+            </ion-item>
+        </div>
+    </ion-list>  
+</ion-content>
+
+<ion-footer>
+    <ion-button class="mx-1" expand="block" color="success" size="default" (click)="validateCard()">
+        <i class="fas fa-credit-card mr-2"></i> Pay
+    </ion-button>
+</ion-footer>

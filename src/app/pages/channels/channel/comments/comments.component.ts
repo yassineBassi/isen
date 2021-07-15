@@ -1,6 +1,6 @@
 import { User } from 'src/app/models/User';
 import { IonInfiniteScroll } from '@ionic/angular';
-import { Comment } from './../../../../models/Commentt';
+import { Comment } from '../../../../models/Comment';
 import { ToastService } from './../../../../services/toast.service';
 import { ChannelService } from './../../../../services/channel.service';
 import { Post } from './../../../../models/Post';

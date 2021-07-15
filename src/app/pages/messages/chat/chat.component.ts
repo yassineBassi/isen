@@ -5,7 +5,7 @@ import { UploadFileService } from './../../../services/upload-file.service';
 import { MessageService } from './../../../services/message.service';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { User } from './../../../models/User';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from './../../../services/user.service';
 import { Message } from './../../../models/Message';
 import { Camera } from '@ionic-native/camera/ngx';
@@ -43,7 +43,7 @@ export class ChatComponent implements OnInit {
   constructor(private camera: Camera, private userService: UserService, private route: ActivatedRoute,
               private nativeStorage: NativeStorage, private messageService: MessageService, private changeDetection: ChangeDetectorRef,
               private platfrom: Platform, private uploadFileService: UploadFileService, private webView: WebView,
-              private toastService: ToastService, private location: Location) { }
+              private toastService: ToastService, private location: Location, private router: Router) { }
 
   ngOnInit() {
   }
@@ -192,12 +192,60 @@ export class ChatComponent implements OnInit {
     this.sendMessage(message, message.id);
   }
 
+  chatPermission(){
+    return new Promise((resolve, reject) => {
+      this.nativeStorage.getItem('chat')
+      .then(
+        chat => {
+          chat = JSON.parse(chat);
+          if(chat[this.authUser.id]){
+            if(new Date().getTime() - chat[this.authUser.id].date> 24 * 60 * 60 * 1000){
+              chat[this.authUser.id].attempts = 1;
+              chat[this.authUser.id].date = new Date();
+              resolve(true);
+            }else if(chat[this.authUser.id].attempts >= 3){
+              reject(true);
+            }else{
+              chat[this.authUser.id].attempts++;
+              resolve(true)
+            }
+            this.nativeStorage.setItem('chat', JSON.stringify(chat))
+          }else{
+            this.createChatAttempt();
+          }
+        },
+        () => {
+          this.createChatAttempt();
+          resolve(true);
+        }
+      )
+    })
+  }
+
+  createChatAttempt(){
+    const chat = {}
+    chat[this.authUser.id] = {
+      attempts: {},
+      date: {}
+    }
+    chat[this.authUser.id].attempts = 1;
+    chat[this.authUser.id].date = new Date();
+    this.nativeStorage.setItem('chat', JSON.stringify(chat))
+  }
+
   sendMessage(message, ind){
-    this.socket.emit('send-message', {
-      text: message.text,
-      from: message.from,
-      to: message.to,
-    }, this.imageFile, ind)
+    this.chatPermission().then(
+      () => {
+        this.socket.emit('send-message', {
+          text: message.text,
+          from: message.from,
+          to: message.to,
+        }, this.imageFile, ind);
+      },
+      () => {
+        this.router.navigate(['/subscription']);
+      }
+    )
   }
 
   addMessage(){

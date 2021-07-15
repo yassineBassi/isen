@@ -14,6 +14,8 @@ import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { SharingModule } from './pages/sharing/sharing.module';
 import { OpenNativeSettings } from '@ionic-native/open-native-settings/ngx';
 import { OneSignal } from '@ionic-native/onesignal/ngx'
+import { Stripe } from '@ionic-native/stripe/ngx';
+
 
 @NgModule({
   declarations: [
@@ -25,7 +27,7 @@ import { OneSignal } from '@ionic-native/onesignal/ngx'
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
-    SharingModule
+    SharingModule,
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
@@ -34,7 +36,8 @@ import { OneSignal } from '@ionic-native/onesignal/ngx'
     Toast,
     AndroidPermissions,
     OpenNativeSettings,
-    OneSignal
+    OneSignal,
+    Stripe
   ],
   bootstrap: [AppComponent]
 })
