@@ -24,7 +24,7 @@
         </ion-button>
       </ion-col>
       <ion-col *ngIf="random" class="ion-no-padding text-center" size="6">
-        <ion-button size="large" shape="round" color="light" fill="clear">
+        <ion-button (click)="navigateTo('/messages/video/' + user.id)" size="large" shape="round" color="light" fill="clear">
           <span><i class="fas fa-video"></i></span>
         </ion-button>
       </ion-col>
@@ -34,7 +34,7 @@
         </ion-button>
       </ion-col>
       <ion-col *ngIf="random" class="ion-no-padding text-center" size="6">
-        <ion-button size="large" shape="round" color="light" fill="clear">
+        <ion-button (click)="navigateTo('/messages/chat/' + user.id)" size="large" shape="round" color="light" fill="clear">
           <span><i class="fas fa-comments"></i></span>
         </ion-button>
       </ion-col>

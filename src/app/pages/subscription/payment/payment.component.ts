@@ -15,11 +15,14 @@ import { ToastService } from 'src/app/services/toast.service';
 })
 export class PaymentComponent implements OnInit {
 
-  cardNumber = "4242424242424242";
-  cardMonth = "12";
-  cardYear = "2022";
-  cardCVV = '220';
-  cardUserName = "YASSINE BASSI"
+  // testCrad "4242424242424242"
+
+
+  cardNumber;
+  cardMonth;
+  cardYear;
+  cardCVV;
+  cardUserName;
 
   months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
   years = [];

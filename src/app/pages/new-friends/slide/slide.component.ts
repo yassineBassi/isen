@@ -124,4 +124,8 @@ export class SlideComponent implements OnInit {
   showProfile(){
     this.router.navigateByUrl('/profile/display/' + this.user.id)
   }
+
+  navigateTo(link){
+    this.router.navigateByUrl(link)
+  }
 }
