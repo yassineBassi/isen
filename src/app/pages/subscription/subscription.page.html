@@ -32,6 +32,11 @@
       <span class="mt-4 d-block">What are you waiting for ? upgrade now!</span>
       <ion-button
         [routerLink]="['/subscription/pay']"
+        [queryParams]="{
+          subscription_id: subscription.id,
+          price: prices[selectedPrice].price,
+          duration: prices[selectedPrice].duration
+        }"
         color="warning"
         class="mt-4"
         size="large"

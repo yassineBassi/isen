@@ -20,4 +20,12 @@ export class SubscriptionService extends DataService {
     })
   }
 
+  pay(id: string, data: any){
+    return this.sendRequest({
+      method: 'post',
+      url: '/' + id + '/pay',
+      data
+    })
+  }
+
 }
