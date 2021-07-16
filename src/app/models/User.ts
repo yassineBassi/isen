@@ -2,6 +2,10 @@ import { Request } from './Request';
 import { Message } from './Message';
 import { File } from './File';
 type RequestEnum = 'requesting' | 'requested';
+type userSubscription = {
+  id: string,
+  expireDate: Date
+}
 
 export class User{
 
@@ -31,6 +35,8 @@ export class User{
   private _online: boolean;
 
   private _messages: Message[];
+
+  private _subscription: userSubscription
 
   constructor(){
   }
@@ -78,6 +84,8 @@ export class User{
       })
     }
 
+    this.subscription = user.subscription;
+
     return this;
   }
 
@@ -120,6 +128,7 @@ export class User{
   get messages(): Message[] {return this._messages};
 
   get requests(): Request[] {return this._requests};
+  get subscription(): userSubscription {return this._subscription};
 
 
   set id(id: string){this._id = id}
@@ -156,6 +165,15 @@ export class User{
         this._requests.push(new Request(request));
       })
   };
+
+  set subscription(subscription: userSubscription) {
+    this._subscription = subscription ? {
+      id: subscription.id,
+      expireDate: new Date(subscription.expireDate)
+    } : null;
+  };
+
+
 
   private sortInterests(){
     this._interests = this._interests.sort((int1, int2) => {

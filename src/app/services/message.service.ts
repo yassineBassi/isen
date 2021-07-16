@@ -28,4 +28,11 @@ export class MessageService extends DataService {
       data: {page: page.toString()}
     })
   }
+
+  getPermission(){
+    return this.sendRequest({
+      method: 'get',
+      url: '/permission'
+    })
+  }
 }

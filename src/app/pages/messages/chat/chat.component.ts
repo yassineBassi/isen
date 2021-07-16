@@ -40,6 +40,7 @@ export class ChatComponent implements OnInit {
   authUser: User;
   pageLoading = false;
 
+
   constructor(private camera: Camera, private userService: UserService, private route: ActivatedRoute,
               private nativeStorage: NativeStorage, private messageService: MessageService, private changeDetection: ChangeDetectorRef,
               private platfrom: Platform, private uploadFileService: UploadFileService, private webView: WebView,
@@ -192,91 +193,69 @@ export class ChatComponent implements OnInit {
     this.sendMessage(message, message.id);
   }
 
-  chatPermission(){
+  getChatPermission(){
     return new Promise((resolve, reject) => {
-      this.nativeStorage.getItem('chat')
+      this.messageService.getPermission()
       .then(
-        chat => {
-          chat = JSON.parse(chat);
-          if(chat[this.authUser.id]){
-            if(new Date().getTime() - chat[this.authUser.id].date> 24 * 60 * 60 * 1000){
-              chat[this.authUser.id].attempts = 1;
-              chat[this.authUser.id].date = new Date();
-              resolve(true);
-            }else if(chat[this.authUser.id].attempts >= 3){
-              reject(true);
-            }else{
-              chat[this.authUser.id].attempts++;
-              resolve(true)
-            }
-            this.nativeStorage.setItem('chat', JSON.stringify(chat))
-          }else{
-            this.createChatAttempt();
-          }
+        (resp: any) => {
+          console.log('chat permission');
+          console.log(resp);
+          if(resp.data) resolve(true)
+          reject(true)
         },
-        () => {
-          this.createChatAttempt();
-          resolve(true);
+        err => {
+          console.log(err);
+          this.toastService.presentStdToastr(err)
+          reject(false)
         }
       )
-    })
-  }
-
-  createChatAttempt(){
-    const chat = {}
-    chat[this.authUser.id] = {
-      attempts: {},
-      date: {}
-    }
-    chat[this.authUser.id].attempts = 1;
-    chat[this.authUser.id].date = new Date();
-    this.nativeStorage.setItem('chat', JSON.stringify(chat))
+    });
   }
 
   sendMessage(message, ind){
-    this.chatPermission().then(
-      () => {
-        this.socket.emit('send-message', {
-          text: message.text,
-          from: message.from,
-          to: message.to,
-        }, this.imageFile, ind);
-      },
-      () => {
-        this.router.navigate(['/subscription']);
-      }
-    )
+    this.socket.emit('send-message', {
+      text: message.text,
+      from: message.from,
+      to: message.to,
+    }, this.imageFile, ind);
   }
 
   addMessage(){
     if(!this.messageText && !this.imageFile) return;
 
-    const message = new Message();
-    message.id = this.index.toString();
-    message.from = this.authUser.id;
-    message.to = this.user.id;
-    message.text = this.messageText;
-    message.state = '';
-    message.createdAt = new Date()
-    if(this.image){
-      message.image = {
-        path: this.image,
-        type: 'png'
-      };
-    }
-
-    this.messages.push(message)
-    this.sentMessages[this.index] = message
-
-    setTimeout(() => {
-      this.scrollToBottom()
-    }, 200);
-
-    this.sendMessage(message, this.index++);
-
-    this.messageText = "";
-    this.image = null;
-    this.imageFile = null;
+    this.getChatPermission().then(
+      () => {
+        const message = new Message();
+        message.id = this.index.toString();
+        message.from = this.authUser.id;
+        message.to = this.user.id;
+        message.text = this.messageText;
+        message.state = '';
+        message.createdAt = new Date()
+        if(this.image){
+          message.image = {
+            path: this.image,
+            type: 'png'
+          };
+        }
+    
+        this.messages.push(message)
+        this.sentMessages[this.index] = message
+    
+        setTimeout(() => {
+          this.scrollToBottom()
+        }, 200);
+    
+        this.sendMessage(message, this.index++);
+    
+        this.messageText = "";
+        this.image = null;
+        this.imageFile = null;
+      },
+      err => {
+        if(err) this.router.navigate(['/subscription']);
+      }
+    )
   }
 
   pickImage(){
