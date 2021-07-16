@@ -3,6 +3,7 @@ import { UserService } from './../../../services/user.service';
 import { User } from './../../../models/User';
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { SearchOptionsComponent } from '../search-options/search-options.component';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-list',
@@ -14,7 +15,7 @@ export class ListComponent implements OnInit {
 
   @Input() users: User[];
   @Output() loadMore = new EventEmitter();
-  @Output() showUser = new EventEmitter();
+  // @Output() showUser = new EventEmitter();
   @Output() setUsers = new EventEmitter();
 
   options = {
@@ -25,21 +26,33 @@ export class ListComponent implements OnInit {
   }
   page = 0;
   pageLoading = false;
+  initialSlide = 0;
+  showSlides = false;
+  random = false;
 
-  constructor(private userService: UserService, private modalController: ModalController) { }
+  constructor(private userService: UserService, private modalController: ModalController, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.page = 0;
-    this.getNearUsers();
   }
 
   ionViewWillEnter(){
+    this.page = 0;
+    this.checkRandom();
+  }
+
+  checkRandom(){
+    this.route.paramMap.subscribe(
+      params => {
+        this.random = params.get('random') ? true : false;
+        this.getNearUsers();
+      }
+    )
   }
 
   getNearUsers(event?, refresh?){
     if(!event) this.pageLoading = true;
     if(refresh) this.page = 0
-    this.userService.getNearUsers(this.page++, this.options)
+    this.userService.getUsers(this.page++, {...this.options, type: this.random ? 'random' : 'near'})
     .then(
       (resp: any) => {
         if(!event || refresh) this.users = [];
@@ -54,6 +67,11 @@ export class ListComponent implements OnInit {
         resp.data.users.forEach(user => {
           this.users.push(new User().initialize(user));
         })
+
+        if(this.random){
+          this.showSlides = true
+          this.initialSlide = 0
+        }
 
         this.setUsers.emit(this.users)
         this.pageLoading = false;
@@ -83,5 +101,10 @@ export class ListComponent implements OnInit {
       this.options = data
       this.getNearUsers(null, true)
     }
+  }
+
+  showUser(ind: number){
+    this.initialSlide = ind;
+    this.showSlides = true
   }
 }

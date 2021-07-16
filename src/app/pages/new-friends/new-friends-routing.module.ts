@@ -8,12 +8,22 @@ import { NewFriendsPage } from './new-friends.page';
 const routes: Routes = [
   {
     path: '',
-    component: NewFriendsPage
+    component: NewFriendsPage,
+    children: [
+      {
+        path: '',
+        redirectTo: 'list'
+      },
+      {
+        path: 'list',
+        component: ListComponent
+      },
+      {
+        path: 'list/:random',
+        component: ListComponent
+      }
+    ]
   },
-  {
-    path: ':type',
-    component: NewFriendsPage
-  }
 ];
 
 @NgModule({

@@ -1,6 +1,7 @@
 <app-header 
   title="New Friends" 
   [menu]="true"
+  *ngIf="!showSlides"
 >
   <div id="end-buttons">
     <ion-button
@@ -15,7 +16,9 @@
 
 <ion-content>
 
-  <ion-refresher slot="fixed" pullFactor="0.5" pullMin="100" pullMax="200"  (ionRefresh)="getNearUsers($event, true)">
+  <app-slides [random]="random" (back)="showSlides = false" *ngIf="showSlides" [initialSlide]="initialSlide" [users]="users"></app-slides>
+
+  <ion-refresher *ngIf="!showSlides" slot="fixed" pullFactor="0.5" pullMin="100" pullMax="200"  (ionRefresh)="getNearUsers($event, true)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
@@ -24,7 +27,7 @@
   </ion-card>
 
   <ion-row class="mt-1" *ngIf="users">
-    <ion-col size="6" *ngFor="let user of users; let ind = index" (click)="showUser.emit(ind)" >
+    <ion-col size="6" *ngFor="let user of users; let ind = index" (click)="showUser(ind)" >
       <div class="photo-container">
         <app-img-loader
           [src]="user.avatar.path"

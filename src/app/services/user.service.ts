@@ -30,10 +30,10 @@ export class UserService extends DataService {
     })
   }
 
-  getNearUsers(page: number, options: any){
+  getUsers(page: number, options: any){
     return this.sendRequest({
       method: 'get',
-      url: '/nearUsers', 
+      url: '/users', 
       data: {page: page.toString(), ...options}
     });
   }

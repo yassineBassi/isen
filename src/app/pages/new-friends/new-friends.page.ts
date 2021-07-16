@@ -1,8 +1,6 @@
 import { User } from './../../models/User';
-import { UserService } from './../../services/user.service';
-import { Platform, IonInfiniteScroll } from '@ionic/angular';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-new-friends',
@@ -13,7 +11,7 @@ export class NewFriendsPage implements OnInit {
 
   page: number;
   pageLoading = true;
-  users: User[];
+  users: User[] = [];
   initialSlide: number = null;
   random = false;
 
@@ -33,7 +31,6 @@ export class NewFriendsPage implements OnInit {
         this.initialSlide = 0
         this.random = true
       }
-      
     })
   }
 

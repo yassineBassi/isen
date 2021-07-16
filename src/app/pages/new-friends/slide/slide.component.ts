@@ -39,8 +39,8 @@ export class SlideComponent implements OnInit {
 
   request(){
     if(this.user.friend) this.removeFriendShipConf();
-    else if(this.user.request == 'requesting') this.cancelRequest()
-    else if(this.user.request == 'requested') this.acceptRequest()
+    else if(this.user.request == 'requesting') this.acceptRequest() 
+    else if(this.user.request == 'requested') this.cancelRequest()
     else this.requestFriendship()
   }
 
@@ -71,7 +71,6 @@ export class SlideComponent implements OnInit {
   }
 
   requestFriendship(){
-    console.log('request');
     this.requestService.request(this.user.id)
     .then(
       (resp: any) => {
@@ -79,7 +78,7 @@ export class SlideComponent implements OnInit {
         if(typeof resp.data.request == 'string')  this.user.request = resp.data.request;
         else{
            this.user.requests.push(new Request(resp.data.request));
-           this.user.request = 'requesting';
+           this.user.request = 'requested';
         }
         this.toastService.presentStdToastr(resp.message);
       },
