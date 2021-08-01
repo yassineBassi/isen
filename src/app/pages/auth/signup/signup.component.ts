@@ -55,7 +55,7 @@ export class SignupComponent implements OnInit {
               private cdr: ChangeDetectorRef, private modalController: ModalController, private nativeStorage: NativeStorage) { }
 
   ionViewWillEnter(){
-    this.step = 0;
+    this.step = 5;
   }
 
   ngOnInit() {
@@ -175,5 +175,18 @@ export class SignupComponent implements OnInit {
     const { data } = await modal.onDidDismiss();
     this.selectedCountry = data.data;
     this.cities = this.countriesObject[this.selectedCountry]
+  }
+
+  async presentCitiesModal(){
+    const modal = await this.modalController.create({
+      componentProps: {
+        data: this.cities,
+        title: 'Cities'
+      },
+      component: ListSearchComponent
+    });
+    await modal.present();
+    const { data } = await modal.onDidDismiss();
+    this.selectedCity = data.data;
   }
 }

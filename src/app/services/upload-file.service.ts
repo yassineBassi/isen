@@ -24,6 +24,7 @@ export class UploadFileService {
       targetHeight: 600,
       mediaType: this.camera.MediaType.PICTURE,
       encodingType: this.camera.EncodingType.PNG,
+      allowEdit: false,
       saveToPhotoAlbum: false,
     };
 

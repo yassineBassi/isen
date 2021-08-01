@@ -1,5 +1,5 @@
 export default {
-  DOMAIN_URL: 'http://127.0.0.1:3300/',
+  DOMAIN_URL: 'http://212.71.238.50:3300/',
   API_V1: 'api/v1/',
   VERSION: '1.0.0',
   imagePlaceholder: "default-img2.png",

@@ -66,6 +66,9 @@ export class DataService{
             err => {
               console.log('err');
               console.log(err);
+              if(err.status == -1){
+                reject('failed, please check your internet');
+              }
               if(err.status == 400){
                 reject(JSON.parse(err.error));
               }else if(err.status == 401){
