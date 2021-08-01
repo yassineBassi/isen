@@ -1,3 +1,4 @@
+import { OneSignalService } from './../../../services/one-signal.service';
 import { ToastService } from './../../../services/toast.service';
 import constants from 'src/app/helpers/constants';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
@@ -29,7 +30,7 @@ export class SigninComponent implements OnInit {
   }
 
   constructor(private formBuilder: FormBuilder, private auth: AuthService, private toastService: ToastService,
-              private router: Router, private nativeStorage: NativeStorage, private oneSignal: OneSignal) {
+              private router: Router, private nativeStorage: NativeStorage, private oneSignalService: OneSignalService) {
 
   }
 
@@ -61,14 +62,10 @@ export class SigninComponent implements OnInit {
     .then(
       (resp: any) => {
         this.pageLoading = false;
-        console.log('--------', resp.data.user.id);
-        console.log('--------', resp.data.user._id);
-        
         this.nativeStorage.setItem('token', resp.data.token);
         this.nativeStorage.setItem('user', resp.data.user);
         this.socket.emit('connectUser', resp.data.user._id);
-        this.oneSignal.setSubscription(true);
-        this.oneSignal.sendTags({user_id: resp.data.user._id})
+        this.oneSignalService.open(resp.user.id);
         this.router.navigate(['/profile']);
       },
       err => {

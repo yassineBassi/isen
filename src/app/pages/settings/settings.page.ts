@@ -1,3 +1,4 @@
+import { OneSignalService } from './../../services/one-signal.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
@@ -21,7 +22,7 @@ export class SettingsPage implements OnInit {
   socket = SocketService.socket;
 
   constructor(private alertController: AlertController, private nativeStorage: NativeStorage, private userService: UserService,
-              private toastService: ToastService, private router: Router, private auth: AuthService) { }
+              private toastService: ToastService, private router: Router, private auth: AuthService, private oneSignalService: OneSignalService) { }
 
   ngOnInit() {
     this.getUser();
@@ -135,11 +136,11 @@ export class SettingsPage implements OnInit {
     await alert.present()
   }
 
-  
   signout(){
     this.auth.signout()
     .then(
       () => {
+        this.oneSignalService.close();
         this.socket.emit('disconnect-user')
         this.nativeStorage.remove('token');
         this.router.navigate(['/auth/home']);

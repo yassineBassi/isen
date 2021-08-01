@@ -1,3 +1,4 @@
+import { OneSignalService } from './services/one-signal.service';
 import { User } from './models/User';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { Platform } from '@ionic/angular';
@@ -23,8 +24,7 @@ export class AppComponent {
     private platform: Platform,
     private nativeStorage: NativeStorage,
     private jsonService: JsonService,
-    private oneSignel: OneSignal,
-    private router: Router,
+    private oneSignalService: OneSignalService,
     private webrtcService: WebrtcService
   ) {
     this.initializeApp();
@@ -45,18 +45,8 @@ export class AppComponent {
     });
   }
 
-  setupPush(){
-    this.oneSignel.startInit("3b993591-823b-4f45-94b0-c2d0f7d0f6d8", "138360337223");    
-    this.oneSignel.inFocusDisplaying(this.oneSignel.OSInFocusDisplayOption.Notification)
-    this.oneSignel.setExternalUserId(this.user.id);
-    this.oneSignel.setSubscription(true);
-    this.oneSignel.handleNotificationOpened().subscribe(resp => {
-      const data = resp.notification.payload.additionalData;
-      if(data.link) this.router.navigateByUrl(data.link);
-    });
-    this.oneSignel.handleNotificationReceived().subscribe(data => {
-    });
-    this.oneSignel.endInit();
+  ionViewWillEnter(){
+    this.oneSignalService.close();
   }
 
   connectUser(){
@@ -72,7 +62,7 @@ export class AppComponent {
         this.user = new User().initialize(user);
         this.connectUser();
         if(this.platform.is('cordova'))
-          this.setupPush();
+          this.oneSignalService.open(this.user.id);
         this.initWebrtc();
       }
     )
