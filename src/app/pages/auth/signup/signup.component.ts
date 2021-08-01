@@ -55,7 +55,7 @@ export class SignupComponent implements OnInit {
               private cdr: ChangeDetectorRef, private modalController: ModalController, private nativeStorage: NativeStorage) { }
 
   ionViewWillEnter(){
-    this.step = 5;
+    this.step = 0;
   }
 
   ngOnInit() {
