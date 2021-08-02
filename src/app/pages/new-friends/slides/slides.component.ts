@@ -20,8 +20,6 @@ export class SlidesComponent implements OnInit {
 
   ngOnChanges(changes: SimpleChanges) {
     if(changes.initialSlide){
-      console.log(this.users);
-      
       this.slideOpts.initialSlide = this.initialSlide
     }
   }

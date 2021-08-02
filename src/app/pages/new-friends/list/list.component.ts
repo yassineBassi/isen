@@ -1,7 +1,7 @@
 import { IonInfiniteScroll, ModalController } from '@ionic/angular';
 import { UserService } from './../../../services/user.service';
 import { User } from './../../../models/User';
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { SearchOptionsComponent } from '../search-options/search-options.component';
 import { ActivatedRoute } from '@angular/router';
 
@@ -30,7 +30,8 @@ export class ListComponent implements OnInit {
   showSlides = false;
   random = false;
 
-  constructor(private userService: UserService, private modalController: ModalController, private route: ActivatedRoute) { }
+  constructor(private userService: UserService, private modalController: ModalController, private route: ActivatedRoute,
+              private changeDetectorRef: ChangeDetectorRef) { }
 
   ngOnInit() {
   }
@@ -44,7 +45,7 @@ export class ListComponent implements OnInit {
     this.route.paramMap.subscribe(
       params => {
         this.random = params.get('random') ? true : false;
-        this.getNearUsers();
+        this.getNearUsers(null, true);
       }
     )
   }
@@ -64,6 +65,7 @@ export class ListComponent implements OnInit {
           if(!resp.data.more && !refresh) event.target.disabled = true;
         }
 
+        console.log(resp.data);
         resp.data.users.forEach(user => {
           this.users.push(new User().initialize(user));
         })
@@ -75,6 +77,7 @@ export class ListComponent implements OnInit {
 
         this.setUsers.emit(this.users)
         this.pageLoading = false;
+        this.changeDetectorRef.detectChanges()
       },
       err => {
         this.pageLoading = false;

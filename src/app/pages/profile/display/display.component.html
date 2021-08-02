@@ -1,5 +1,6 @@
 <app-header
-  [menu]="true"
+  [menu]="myProfile"
+  [back]="!myProfile"
   [title]="user ? (myProfile ? 'My Profile' : user.fullName) : ''"
   [backgroundColor]="'rgba(0, 0, 0, 0.6)'"
   [textColor]="'#fff'"
