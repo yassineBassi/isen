@@ -92,6 +92,7 @@ export class VideoComponent implements OnInit {
   getAuthUser(){
     this.nativeStorage.getItem('user').then(resp => {
       this.user = new User().initialize(resp);
+      this.socket.emit('connect-user', this.user.id)
       const timer = setInterval(() => {
         if(this.init()){
           if(this.answer) this.playAudio("./../../../../../assets/audio/phone-ringing.mp3");

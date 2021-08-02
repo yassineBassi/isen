@@ -37,13 +37,10 @@ export class MenuComponent implements OnInit {
   }
 
   updateUserData(){
-    console.log('hi');
     this.nativeStorage.getItem('user')
     .then(
       user => {
-        console.log(this.user);
         this.user = new User().initialize(user);
-        console.log(this.user);
       }
     )
   }

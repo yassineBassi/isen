@@ -36,7 +36,8 @@ export class User{
 
   private _messages: Message[];
 
-  private _subscription: userSubscription
+  private _subscription: userSubscription;
+  private _randomVisible: boolean;
 
   constructor(){
   }
@@ -85,6 +86,7 @@ export class User{
     }
 
     this.subscription = user.subscription;
+    this.randomVisible = user.randomVisible;
 
     return this;
   }
@@ -129,6 +131,7 @@ export class User{
 
   get requests(): Request[] {return this._requests};
   get subscription(): userSubscription {return this._subscription};
+  get randomVisible(): boolean {return this._randomVisible};
 
 
   set id(id: string){this._id = id}
@@ -151,7 +154,7 @@ export class User{
     this._interests = interests;
     if(this.interests) this.sortInterests();
   }
-
+  
   set followed(followed: Boolean) {this._followed = followed};
   set friend(friend: Boolean) {this._friend = friend};
   set request(request: RequestEnum) {this._request = request};
@@ -172,7 +175,7 @@ export class User{
       expireDate: new Date(subscription.expireDate)
     } : null;
   };
-
+  set randomVisible(randomVisible: boolean) {this._randomVisible = randomVisible};
 
 
   private sortInterests(){
@@ -199,6 +202,7 @@ export class User{
       country: this.country,
       city: this.city,
       online: this.online,
+      randomVisible: this.randomVisible
     }
   }
 }

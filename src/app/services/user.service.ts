@@ -92,13 +92,19 @@ export class UserService extends DataService {
     })
   }
 
-  updatePassword(data: any){
-    console.log(data);
-    
+  updatePassword(data: any){    
     return this.sendRequest({
       method: 'put',
       url: '/password',
       data: data
+    })
+  }
+
+  updateRandomVisibility(visible: boolean){
+    return this.sendRequest({
+      method: 'put',
+      url: '/randomVisibility',
+      data: {visible}
     })
   }
 }

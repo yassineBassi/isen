@@ -86,7 +86,7 @@
         <div class="form-group" *ngIf="steps[step] == 'birthDate'">
           <h2>When's your Birthday ?</h2>
           <ion-item class="w-100">
-            <ion-input ngModel formControlName="birthDate" type="date"></ion-input>
+            <ion-input ngModel formControlName="birthDate" type="date" [max]="getMaxDate()"></ion-input>
           </ion-item>
           <div class="w-100 text-center mt-4" *ngIf="validationErrors['birthDate']">
             <span class="d-block text-danger" *ngFor="let error of validationErrors['birthDate']">{{ error }}</span>

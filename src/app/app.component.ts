@@ -50,8 +50,6 @@ export class AppComponent {
   }
 
   connectUser(){
-    console.log('connecting user', this.user.id);
-    
     this.socket.emit('connect-user', this.user.id)
   }
 

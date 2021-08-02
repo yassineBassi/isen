@@ -55,7 +55,7 @@ export class SignupComponent implements OnInit {
               private cdr: ChangeDetectorRef, private modalController: ModalController, private nativeStorage: NativeStorage) { }
 
   ionViewWillEnter(){
-    this.step = 0;
+    this.step = 3;
   }
 
   ngOnInit() {
@@ -188,5 +188,12 @@ export class SignupComponent implements OnInit {
     await modal.present();
     const { data } = await modal.onDidDismiss();
     this.selectedCity = data.data;
+  }
+
+  getMaxDate(){
+    const currDate = new Date();
+    currDate.setFullYear(currDate.getFullYear() - 18);
+    // alert(currDate.toJSON().slice(0, 10);)
+    return currDate.toJSON().slice(0, 10);
   }
 }

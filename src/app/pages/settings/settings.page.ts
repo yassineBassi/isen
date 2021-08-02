@@ -20,17 +20,24 @@ export class SettingsPage implements OnInit {
   appVersion = constants.VERSION
   user: User;
   socket = SocketService.socket;
+  pageLoading = false;
 
   constructor(private alertController: AlertController, private nativeStorage: NativeStorage, private userService: UserService,
               private toastService: ToastService, private router: Router, private auth: AuthService, private oneSignalService: OneSignalService) { }
 
   ngOnInit() {
+  }
+
+  ionViewWillEnter(){
+    this.pageLoading = true;
     this.getUser();
   }
 
   getUser(){
     this.nativeStorage.getItem('user').then(user => {
+      this.pageLoading = false;
       this.user = new User().initialize(user)
+      console.log(user);
     })
   }
 
@@ -53,15 +60,18 @@ export class SettingsPage implements OnInit {
         {
           text: 'CHANGE',
           handler: (res) => {
+            this.pageLoading = true;
             return this.userService.updateEmail(res.email).then(
               (resp: any) => {
                 this.toastService.presentStdToastr(resp.message);
                 this.user = new User().initialize(resp.data);
                 console.log(this.user);
                 this.nativeStorage.setItem('user', this.user);
+                this.pageLoading = false;
                 return true;
               },
               err => {
+                this.pageLoading = false;
                 if(typeof err == 'string'){
                   this.toastService.presentStdToastr(err);
                   return false;
@@ -110,11 +120,14 @@ export class SettingsPage implements OnInit {
         {
           text: 'CHANGE',
           handler: (res) => {
+            this.pageLoading = true;
             this.userService.updatePassword({...res}).then(
               (resp: any) => {
+                this.pageLoading = false;
                 this.toastService.presentStdToastr(resp.message)
               },
               err => {
+                this.pageLoading = false;
                 if(typeof err == 'string'){
                   this.toastService.presentStdToastr(err);
                   return false;
@@ -137,16 +150,34 @@ export class SettingsPage implements OnInit {
   }
 
   signout(){
+    this.pageLoading = true;
     this.auth.signout()
     .then(
       () => {
+        this.pageLoading = false;
         this.oneSignalService.close();
         this.socket.emit('disconnect-user')
         this.nativeStorage.remove('token');
         this.router.navigate(['/auth/home']);
       },
       err => {
-        this.toastService.presentStdToastr('sorry an error has occured, please try again later')
+        this.pageLoading = false;
+        this.toastService.presentStdToastr('sorry an error has occurred, please try again later')
+      }
+    )
+  }
+
+  toggleRandomVisibility(event){
+    this.pageLoading = true;
+    this.userService.updateRandomVisibility(!this.user.randomVisible)
+    .then(
+      (resp: any) => {
+        this.pageLoading = false;
+        this.toastService.presentStdToastr(resp.message)
+      },
+      err => {
+        this.pageLoading = false;
+        this.toastService.presentStdToastr(err)
       }
     )
   }

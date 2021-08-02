@@ -75,6 +75,7 @@ export class ChatComponent implements OnInit {
 
   initializeSocket(){
     this.page = 0;
+    this.socket.emit('connect-user', this.authUser.id)
     this.initSocketListeners();
   }
 
