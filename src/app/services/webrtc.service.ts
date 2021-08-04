@@ -38,14 +38,7 @@ export class WebrtcService {
   getMedia(facingMode: string) {
     return navigator.mediaDevices.getUserMedia({
         video: {
-          facingMode: facingMode,
-          autoGainControl: false,
-          channelCount: 2,
-          echoCancellation: false,
-          latency: 0,
-          noiseSuppression: false,
-          sampleRate: 48000,
-          sampleSize: 16,
+          facingMode: facingMode
         },
         audio: true
     })

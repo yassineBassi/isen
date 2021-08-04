@@ -4,7 +4,7 @@ import { User } from './../../models/User';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { AuthService } from './../../services/auth.service';
 import { Component, Input, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, UrlTree } from '@angular/router';
 
 @Component({
   selector: 'app-menu',
@@ -14,8 +14,13 @@ import { Router } from '@angular/router';
 export class MenuComponent implements OnInit {
 
   @Input() user: User;
-  appPages = [
-    { title: 'Upgrade', url: '/subscription', icon: 'fas fa-crown', iconColor: 'rgb(222, 150, 0)'},
+  appPages: {
+    title: string,
+    url: string,
+    icon?: string,
+    exact?: boolean,
+    iconColor?: string
+  }[] = [
     { title: 'Profile', url: '/profile/display/null', icon: 'fas fa-user' },
     { title: 'Find New Friends', url: '/new-friends', exact: true, icon: 'fas fa-search' },
     { title: 'Random chat', url: '/new-friends/random', exact: true, icon: 'fas fa-random' },
@@ -48,6 +53,9 @@ export class MenuComponent implements OnInit {
     .then(
       user => {
         this.user = new User().initialize(user);
+        if(!user.subscription){
+          this.appPages.unshift({ title: 'Upgrade', url: '/subscription', icon: 'fas fa-crown', iconColor: 'rgb(222, 150, 0)'})
+        }
       }
     )
   }

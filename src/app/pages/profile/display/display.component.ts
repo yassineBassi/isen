@@ -85,7 +85,14 @@ export class DisplayComponent implements OnInit {
     this.auth.getAuthUser()
     .then(
       (resp: any) => {
+        console.log('----------------');
+        
+        console.log(resp.data);
+        
         this.user = new User().initialize(resp.data);
+        console.log('----------------');
+        
+        console.log(this.user);
         this.nativeStorage.setItem('user', this.user.toObjeect())
         if(event) event.target.complete()
         this.pageLoading = false;

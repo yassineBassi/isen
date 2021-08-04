@@ -202,6 +202,10 @@ export class User{
       country: this.country,
       city: this.city,
       online: this.online,
+      subscription: {
+        _id: this.subscription.id,
+        expireDate: this.subscription.expireDate
+      },
       randomVisible: this.randomVisible
     }
   }
