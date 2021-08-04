@@ -1,3 +1,4 @@
+import { MessengerService } from './../../messenger.service';
 import { ListSearchComponent } from './../../list-search/list-search.component';
 import { ToastService } from './../../../services/toast.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -53,7 +54,7 @@ export class FormComponent implements OnInit {
     return this.form.get('education')
   }
 
-  constructor(private userService: UserService, private router: Router, private auth: AuthService,
+  constructor(private userService: UserService, private router: Router, private auth: AuthService, private messengerService: MessengerService,
               private nativeStorage: NativeStorage, private formBuilder: FormBuilder,
               private toastService: ToastService, private modalController: ModalController) { }
 
@@ -169,6 +170,7 @@ export class FormComponent implements OnInit {
       (resp: any) => {
         this.user = new User().initialize(resp.data);
         this.formPatchValues();
+        this.messengerService.sendMessage({event: 'update-user'});
         console.log(this.user);
         this.pageLoading = false;
       },

@@ -1,3 +1,4 @@
+import { MessengerService } from './../messenger.service';
 import { OneSignalService } from './../../services/one-signal.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
@@ -23,7 +24,8 @@ export class SettingsPage implements OnInit {
   pageLoading = false;
 
   constructor(private alertController: AlertController, private nativeStorage: NativeStorage, private userService: UserService,
-              private toastService: ToastService, private router: Router, private auth: AuthService, private oneSignalService: OneSignalService) { }
+              private toastService: ToastService, private router: Router, private auth: AuthService, private oneSignalService: OneSignalService,
+              private messengerService: MessengerService) { }
 
   ngOnInit() {
   }
@@ -65,6 +67,7 @@ export class SettingsPage implements OnInit {
               (resp: any) => {
                 this.toastService.presentStdToastr(resp.message);
                 this.user = new User().initialize(resp.data);
+                this.messengerService.sendMessage({event: 'update-user'});
                 console.log(this.user);
                 this.nativeStorage.setItem('user', this.user);
                 this.pageLoading = false;

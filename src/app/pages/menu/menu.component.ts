@@ -1,3 +1,4 @@
+import { MessengerService } from './../messenger.service';
 import { ToastService } from './../../services/toast.service';
 import { User } from './../../models/User';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
@@ -27,7 +28,13 @@ export class MenuComponent implements OnInit {
   ];
 
   constructor(private auth: AuthService, private nativeStorage: NativeStorage, private router: Router,
-              private toastrService: ToastService) { }
+              private messengerService: MessengerService) {
+      this.messengerService.onMessage().subscribe(msg =>  {
+        if(msg.event == "update-user"){
+          this.updateUserData();
+        }
+      })
+  }
 
   ngOnInit() {
   }

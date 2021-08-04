@@ -1,3 +1,4 @@
+import { MessengerService } from './../../messenger.service';
 import { RequestService } from './../../../services/request.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastService } from './../../../services/toast.service';
@@ -29,7 +30,7 @@ export class DisplayComponent implements OnInit {
   userId: string;
 
   constructor(private auth: AuthService, private camera: Camera, private nativeStorage: NativeStorage,private popoverController: PopoverController,
-  private userService: UserService, private uploadFileService: UploadFileService, private toastService: ToastService,
+  private userService: UserService, private uploadFileService: UploadFileService, private toastService: ToastService,private messengerService: MessengerService,
   private route: ActivatedRoute, private requestService: RequestService, private alertCtrl: AlertController, private router: Router) { }
 
   ngOnInit() {
@@ -124,6 +125,8 @@ export class DisplayComponent implements OnInit {
     .then(
       (resp: any) => {
         this.user.avatar = resp.data.avatar;
+        this.nativeStorage.setItem('user', this.user.toObjeect())
+        this.messengerService.sendMessage({event: 'update-user'});
         this.toastService.presentStdToastr('your avatar has been updated successfully');
       },
       err =>{
