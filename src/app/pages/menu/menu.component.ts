@@ -21,6 +21,7 @@ export class MenuComponent implements OnInit {
     exact?: boolean,
     iconColor?: string
   }[] = [
+    { title: 'Upgrade', url: '/subscription', icon: 'fas fa-crown', iconColor: 'rgb(222, 150, 0)'},
     { title: 'Profile', url: '/profile/display/null', icon: 'fas fa-user' },
     { title: 'Find New Friends', url: '/new-friends', exact: true, icon: 'fas fa-search' },
     { title: 'Random chat', url: '/new-friends/random', exact: true, icon: 'fas fa-random' },
@@ -53,9 +54,6 @@ export class MenuComponent implements OnInit {
     .then(
       user => {
         this.user = new User().initialize(user);
-        if(!user.subscription){
-          this.appPages.unshift({ title: 'Upgrade', url: '/subscription', icon: 'fas fa-crown', iconColor: 'rgb(222, 150, 0)'})
-        }
       }
     )
   }

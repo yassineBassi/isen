@@ -16,7 +16,7 @@
 
 <ion-content>
 
-  <app-slides [random]="random" (back)="showSlides = false" *ngIf="showSlides" [initialSlide]="initialSlide" [users]="users"></app-slides>
+  <app-slides [authUser]="authUser" [random]="random" (back)="showSlides = false" *ngIf="showSlides" [initialSlide]="initialSlide" [users]="users"></app-slides>
 
   <ion-refresher *ngIf="!showSlides" slot="fixed" pullFactor="0.5" pullMin="100" pullMax="200"  (ionRefresh)="getNearUsers($event, true)">
     <ion-refresher-content></ion-refresher-content>

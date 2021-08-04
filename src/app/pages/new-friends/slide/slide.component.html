@@ -22,8 +22,8 @@
             <span *ngIf="user.request == 'requesting'"><i class="text-secondary fas fa-user-check"></i></span>
           </span>
         </ion-button>
-      </ion-col>
-      <ion-col *ngIf="random" class="ion-no-padding text-center" size="6">
+      </ion-col> 
+      <ion-col *ngIf="random && authUser && authUser.subscription" class="ion-no-padding text-center" size="6">
         <ion-button (click)="navigateTo('/messages/video/' + user.id)" size="large" shape="round" color="light" fill="clear">
           <span><i class="fas fa-video"></i></span>
         </ion-button>

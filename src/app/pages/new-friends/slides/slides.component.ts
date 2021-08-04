@@ -16,6 +16,7 @@ export class SlidesComponent implements OnInit {
   @Input() users: User[];
   @Input() initialSlide: number;
   @Input() random: boolean;
+  @Input() authUser: User;
   @Output() back = new EventEmitter();
 
   ngOnChanges(changes: SimpleChanges) {

@@ -9,7 +9,7 @@
   </div>
   <ion-slides class="h-100" pager="false" [options]="slideOpts">
     <ion-slide class="h-100" *ngFor="let user of users">
-      <app-slide [random]="random" class="h-100 w-100" [user]="user"></app-slide>
+      <app-slide [authUser]="authUser" [random]="random" class="h-100 w-100" [user]="user"></app-slide>
     </ion-slide>
   </ion-slides>
 </ion-content>

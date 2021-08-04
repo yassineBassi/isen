@@ -1,3 +1,4 @@
+import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { IonInfiniteScroll, ModalController } from '@ionic/angular';
 import { UserService } from './../../../services/user.service';
 import { User } from './../../../models/User';
@@ -29,9 +30,10 @@ export class ListComponent implements OnInit {
   initialSlide = 0;
   showSlides = false;
   random = false;
+  authUser: User;
 
   constructor(private userService: UserService, private modalController: ModalController, private route: ActivatedRoute,
-              private changeDetectorRef: ChangeDetectorRef) { }
+              private changeDetectorRef: ChangeDetectorRef, private nativeStorage: NativeStorage) { }
 
   ngOnInit() {
   }
@@ -39,6 +41,16 @@ export class ListComponent implements OnInit {
   ionViewWillEnter(){
     this.page = 0;
     this.checkRandom();
+    this.getAuthUser();
+  }
+
+  getAuthUser(){
+    this.nativeStorage.getItem('user').then(
+      user => {
+        this.authUser = new User().initialize(user);
+        console.log(this.authUser)
+      }
+    )
   }
 
   checkRandom(){
