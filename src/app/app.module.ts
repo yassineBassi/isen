@@ -1,3 +1,6 @@
+import { Network } from '@ionic-native/network/ngx';
+import { SplashScreen } from '@ionic-native/splash-screen/ngx';
+import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { MenuComponent } from './pages/menu/menu.component';
 import { HTTP } from '@ionic-native/http/ngx';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
@@ -37,7 +40,10 @@ import { Stripe } from '@ionic-native/stripe/ngx';
     AndroidPermissions,
     OpenNativeSettings,
     OneSignal,
-    Stripe
+    Stripe,
+    StatusBar,
+    SplashScreen,
+    Network
   ],
   bootstrap: [AppComponent]
 })

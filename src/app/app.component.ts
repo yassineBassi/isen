@@ -1,12 +1,13 @@
 import { OneSignalService } from './services/one-signal.service';
 import { User } from './models/User';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
-import { Platform } from '@ionic/angular';
+import { Platform, AlertController } from '@ionic/angular';
 import { Component } from '@angular/core';
 import { SocketService } from './services/socket.service';
 import { JsonService } from './services/json.service';
-import { OneSignal } from '@ionic-native/onesignal/ngx';
-import { Router } from '@angular/router';
+import { SplashScreen } from '@ionic-native/splash-screen/ngx';
+import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { Network } from '@ionic-native/network/ngx';
 import { WebrtcService } from './services/webrtc.service';
 
 @Component({
@@ -18,14 +19,16 @@ export class AppComponent {
 
   socket = SocketService.socket;
   user: User;
-    // private statusBar: StatusBar
-    // private splashScreen: SplashScreen,
   constructor(
     private platform: Platform,
     private nativeStorage: NativeStorage,
     private jsonService: JsonService,
     private oneSignalService: OneSignalService,
-    private webrtcService: WebrtcService
+    private webrtcService: WebrtcService,
+    private statusBar: StatusBar,
+    private splashScreen: SplashScreen,
+    private network: Network,
+    private alertController: AlertController
   ) {
     this.initializeApp();
   }
@@ -34,14 +37,13 @@ export class AppComponent {
     this.platform.ready().then(() => {
       this.getUserData();
       this.getJsonData();
-      // this.statusBar.styleLightContent();
-      // setTimeout(() => {
-      //   this.splashScreen.hide();
-      // }, 1000);
-      // this.network.onDisconnect().subscribe(() => {
-      //   this.onOffline();
-      // });
-      // this.migrateToNativeStorage();
+      this.statusBar.styleLightContent();
+      setTimeout(() => {
+        this.splashScreen.hide();
+      }, 1000);
+      this.network.onDisconnect().subscribe(() => {
+        this.onOffline();
+      });
     });
   }
 
@@ -101,6 +103,24 @@ export class AppComponent {
         )
       }
     )
+  }
+
+  async onOffline(){
+    const alert = await this.alertController.create({
+      header: 'Network Failed',
+      message: 'Your connection is Offline!',
+      buttons: [
+        {
+          text: 'Exit',
+          cssClass: 'bg-danger text-white text-center px-5 mx-auto',
+          handler: () => {
+            // tslint:disable-next-line: no-string-literal
+            navigator['app'].exitApp();
+          }
+        },
+      ]
+    });
+    await alert.present();
   }
 
 }

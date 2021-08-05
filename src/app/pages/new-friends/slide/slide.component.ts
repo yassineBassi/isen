@@ -1,3 +1,4 @@
+import constants from 'src/app/helpers/constants';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { RequestService } from './../../../services/request.service';
@@ -83,7 +84,14 @@ export class SlideComponent implements OnInit {
         }
         this.toastService.presentStdToastr(resp.message);
       },
-      err => this.handleError(err)
+      err =>{
+        err = JSON.parse(err);
+        if(err.code && err.code == constants.ERROR_CODES.SUBSCRIPTION_ERROR){
+          this.router.navigate(['/subscription']);
+          this.toastService.presentStdToastr(err.message)
+        }
+        else this.handleError(err)
+      }
     )
   }
 

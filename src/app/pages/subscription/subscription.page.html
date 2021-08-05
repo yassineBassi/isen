@@ -4,8 +4,9 @@
 >
 </app-header>
 
+<app-loader *ngIf="loading"></app-loader>
+
 <ion-content>
-  <app-loader *ngIf="loading"></app-loader>
   <ion-row class="h-100" *ngIf="!loading && subscription">
     <ion-col class="text-center text-container px-3" size="12">
       <span class="title1 mt-4 d-block">Upgarde<br> Have a premium account Now!!</span>

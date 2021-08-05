@@ -193,7 +193,14 @@ export class DisplayComponent implements OnInit {
         this.user.requests.push(new Request(resp.data.request))
         this.toastService.presentStdToastr(resp.message);
       },
-      err => this.toastService.presentStdToastr(err)
+      err => {
+        err = JSON.parse(err);
+        if(err.code && err.code == constants.ERROR_CODES.SUBSCRIPTION_ERROR){
+          this.router.navigate(['/subscription']);
+          this.toastService.presentStdToastr(err.message)
+        }
+        else this.toastService.presentStdToastr(err)
+      }
     )
   }
 
