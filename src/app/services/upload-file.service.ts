@@ -19,25 +19,26 @@ export class UploadFileService {
   takePicture(sourceType){
     
     const options: CameraOptions = {
-      quality: 100,
-      targetWidth: 900,
-      targetHeight: 600,
-      mediaType: this.camera.MediaType.PICTURE,
-      encodingType: this.camera.EncodingType.PNG,
+      quality: 30,
+      correctOrientation: true,
       allowEdit: false,
-      saveToPhotoAlbum: false,
+      targetWidth: 4000,
+      targetHeight: 2250,
+      destinationType: this.camera.DestinationType.DATA_URL,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE
     };
 
     options.sourceType = sourceType;
-    if(sourceType == this.camera.PictureSourceType.PHOTOLIBRARY) options.allowEdit = true;
     options.destinationType = this.platform.is('ios') ? this.camera.DestinationType.NATIVE_URI : (this.platform.is('android') ? this.camera.DestinationType.FILE_URI : this.camera.DestinationType.DATA_URL);
-    
     return new Promise((resolve, reject) => {
       this.permissionService.getPermission(sourceType == this.camera.PictureSourceType.CAMERA ? this.androidPermission.PERMISSION.CAMERA : this.androidPermission.PERMISSION.READ_EXTERNAL_STORAGE)
       .then(
         () => {
           this.camera.getPicture(options)
-          .then((imageData) => {            
+          .then((imageData) => {   
+            console.log(imageData);
+                     
             if (this.platform.is('android') && sourceType === this.camera.PictureSourceType.PHOTOLIBRARY) {
               this.filePath.resolveNativePath(imageData)
                 .then(filePath => {

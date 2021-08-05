@@ -194,24 +194,24 @@ export class ChatComponent implements OnInit {
     this.sendMessage(message, message.id);
   }
 
-  // getChatPermission(){
-  //   return new Promise((resolve, reject) => {
-  //     this.messageService.getPermission()
-  //     .then(
-  //       (resp: any) => {
-  //         console.log('chat permission');
-  //         console.log(resp);
-  //         if(resp.data) resolve(true)
-  //         reject(true)
-  //       },
-  //       err => {
-  //         console.log(err);
-  //         this.toastService.presentStdToastr(err)
-  //         reject(false)
-  //       }
-  //     )
-  //   });
-  // }
+  getChatPermission(){
+    return new Promise((resolve, reject) => {
+      this.messageService.getPermission(this.user.id)
+      .then(
+        (resp: any) => {
+          console.log('chat permission');
+          console.log(resp);
+          if(resp.data) resolve(true)
+          reject(true)
+        },
+        err => {
+          console.log(err);
+          this.toastService.presentStdToastr(err)
+          reject(false)
+        }
+      )
+    });
+  }
 
   sendMessage(message, ind){
     this.socket.emit('send-message', {
@@ -224,33 +224,39 @@ export class ChatComponent implements OnInit {
   addMessage(){
     if(!this.messageText && !this.imageFile) return;
 
-    const message = new Message();
-    message.id = this.index.toString();
-    message.from = this.authUser.id;
-    message.to = this.user.id;
-    message.text = this.messageText;
-    message.state = '';
-    message.createdAt = new Date()
-    if(this.image){
-      message.image = {
-        path: this.image,
-        type: 'png'
-      };
-    }
-
-    this.messages.push(message)
-    this.sentMessages[this.index] = message
-
-    setTimeout(() => {
-      this.scrollToBottom()
-    }, 200);
-
-    this.sendMessage(message, this.index++);
-
-    this.messageText = "";
-    this.image = null;
-    this.imageFile = null;
-      
+    this.getChatPermission().then(
+      () => {
+        const message = new Message();
+        message.id = this.index.toString();
+        message.from = this.authUser.id;
+        message.to = this.user.id;
+        message.text = this.messageText;
+        message.state = '';
+        message.createdAt = new Date()
+        if(this.image){
+          message.image = {
+            path: this.image,
+            type: 'png'
+          };
+        }
+    
+        this.messages.push(message)
+        this.sentMessages[this.index] = message
+    
+        setTimeout(() => {
+          this.scrollToBottom()
+        }, 200);
+    
+        this.sendMessage(message, this.index++);
+    
+        this.messageText = "";
+        this.image = null;
+        this.imageFile = null;
+      },
+      err => {
+        if(err) this.router.navigate(['/subscription']);
+      }
+    )
   }
 
   pickImage(){

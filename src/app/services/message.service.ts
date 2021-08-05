@@ -29,10 +29,10 @@ export class MessageService extends DataService {
     })
   }
 
-  getPermission(){
+  getPermission(id: string){
     return this.sendRequest({
       method: 'get',
-      url: '/permission'
+      url: '/permission/' + id
     })
   }
 }
