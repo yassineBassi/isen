@@ -31,12 +31,3 @@
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
-
-<ion-searchbar
-  showCancelButton="never"
-  (ionCancel)="cancelSearch()"
-  (ionInput)="doSearch($event)"
-  [animated]="true"
-  color="light"
-  *ngIf="search"
-></ion-searchbar>

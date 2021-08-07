@@ -1,7 +1,5 @@
-<app-header 
-  title="New Friends" 
-  [menu]="true"
-  *ngIf="!showSlides && !random"
+<app-header
+  [title]="random ? 'New Friends' : 'Random chat'"
 >
   <div id="end-buttons">
     <ion-button

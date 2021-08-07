@@ -3,11 +3,11 @@
   bottom: 0px;
 }
 .user-name{
-  font-size: 28px;
+  font-size: 22px;
   font-weight: bold;
 }
 .other-info{
-  font-size: 22px;
+  font-size: 20px;
 }
 .online-icon{
   font-size: 11px;
@@ -15,5 +15,18 @@
 }
 
 ion-button > span{
- font-size: 25px;
+ font-size: 22px;
+}
+.slide-card{
+  overflow: hidden!important;
+  border-radius: 20x!important;
+  border: 1px solid #ccc;
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5)
+}
+.user-details{
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  color: white;
 }

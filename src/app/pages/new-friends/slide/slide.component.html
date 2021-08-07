@@ -1,43 +1,53 @@
 <div class="position-relative h-100 w-100">
   <ion-row class="ion-align-items-center h-100">
     <ion-col class="ion-no-padding my-auto" size="12">
-      <img (click)="showProfile()" class="w-100" [src]="user.avatar.path" alt="">
+      <ion-card class="slide-card ion-no-pading mx-3">
+        <ion-card-content class="ion-no-padding">
+          <img (click)="showProfile()" class="w-100" [src]="user.avatar.path" alt="">
+          <div class="p-2 user-details w-100 pl-3">
+            <span (click)="showProfile()" class="user-name d-flex align-items-center">
+              {{ user.fullName }}, {{ user.age }}
+              <span *ngIf="user.online"><i class="fas fa-circle online-icon ml-2"></i></span>
+            </span>
+            <span class="d-block text-left other-info ">{{ user.gender }}, {{ user.city }}</span>
+          </div>
+        </ion-card-content>
+      </ion-card>
+      <ion-row class="mt-4">
+        <ion-col *ngIf="!random" class="ion-no-padding text-center position-relative " size="6">
+          <ion-fab horizontal="center">
+            <ion-fab-button (click)="request()" color="primary">
+              <span *ngIf="user.friend"><i class="text-success fas fa-user-minus"></i></span>
+              <span *ngIf="!user.friend">
+                <span *ngIf="user.request == null"><i class="fas fa-user-plus"></i></span>
+                <span *ngIf="user.request == 'requested'"><i class="text-secondary fas fa-user-times"></i></span>
+                <span *ngIf="user.request == 'requesting'"><i class="text-secondary fas fa-user-check"></i></span>
+              </span>
+            </ion-fab-button>
+          </ion-fab>
+        </ion-col>
+        <ion-col *ngIf="random && authUser && authUser.subscription" class="ion-no-padding text-center position-relative " size="6">
+          <ion-fab horizontal="center">
+            <ion-fab-button (click)="navigateTo('/messages/video/' + user.id)" color="primary">
+              <span><i class="fas fa-video"></i></span>
+            </ion-fab-button>
+          </ion-fab>
+        </ion-col>
+        <ion-col *ngIf="!random" class="ion-no-padding position-relative text-center" size="6">
+          <ion-fab horizontal="center">
+            <ion-fab-button (click)="follow()" color="primary">
+              <span [class.text-warning]="user.followed"><i class="fas fa-star"></i></span>
+            </ion-fab-button>
+          </ion-fab>
+        </ion-col>
+        <ion-col *ngIf="random" class="ion-no-padding position-relative text-center" size="6">
+          <ion-fab horizontal="center">
+            <ion-fab-button (click)="navigateTo('/messages/chat/' + user.id)" color="primary">
+              <span><i class="fas fa-comments"></i></span>
+            </ion-fab-button>
+          </ion-fab>
+        </ion-col>
+      </ion-row>
     </ion-col>
   </ion-row>
-  <div class="user-info w-100 text-left">
-    <div class="p-2 pb-5 pl-3">
-      <span (click)="showProfile()" class="user-name d-flex align-items-center">
-        {{ user.fullName }}, {{ user.age }}
-        <span *ngIf="user.online"><i class="fas fa-circle online-icon ml-2"></i></span>
-      </span>
-      <span class="d-block text-left other-info ">{{ user.gender }}, {{ user.city }}</span>
-    </div>
-    <ion-row>
-      <ion-col *ngIf="!random" class="ion-no-padding text-center" size="6">
-        <ion-button (click)="request()" size="large" shape="round" color="light" fill="clear">
-          <span *ngIf="user.friend"><i class="text-success fas fa-user-minus"></i></span>
-          <span *ngIf="!user.friend">
-            <span *ngIf="user.request == null"><i class="fas fa-user-plus"></i></span>
-            <span *ngIf="user.request == 'requested'"><i class="text-secondary fas fa-user-times"></i></span>
-            <span *ngIf="user.request == 'requesting'"><i class="text-secondary fas fa-user-check"></i></span>
-          </span>
-        </ion-button>
-      </ion-col> 
-      <ion-col *ngIf="random && authUser && authUser.subscription" class="ion-no-padding text-center" size="6">
-        <ion-button (click)="navigateTo('/messages/video/' + user.id)" size="large" shape="round" color="light" fill="clear">
-          <span><i class="fas fa-video"></i></span>
-        </ion-button>
-      </ion-col>
-      <ion-col *ngIf="!random" class="ion-no-padding text-center" size="6">
-        <ion-button (click)="follow()" size="large" shape="round" color="light" fill="clear">
-          <span [class.text-warning]="user.followed"><i class="fas fa-star"></i></span>
-        </ion-button>
-      </ion-col>
-      <ion-col *ngIf="random" class="ion-no-padding text-center" size="6">
-        <ion-button (click)="navigateTo('/messages/chat/' + user.id)" size="large" shape="round" color="light" fill="clear">
-          <span><i class="fas fa-comments"></i></span>
-        </ion-button>
-      </ion-col>
-    </ion-row>
-  </div>
 </div>

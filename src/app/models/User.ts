@@ -154,7 +154,7 @@ export class User{
     this._interests = interests;
     if(this.interests) this.sortInterests();
   }
-  
+
   set followed(followed: Boolean) {this._followed = followed};
   set friend(friend: Boolean) {this._friend = friend};
   set request(request: RequestEnum) {this._request = request};

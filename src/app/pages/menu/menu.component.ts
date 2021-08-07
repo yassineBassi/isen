@@ -23,9 +23,9 @@ export class MenuComponent implements OnInit {
   }[] = [
     // { title: 'Upgrade', url: '/subscription', icon: 'fas fa-crown', iconColor: 'rgb(222, 150, 0)'},
     { title: 'Profile', url: '/profile', icon: 'fas fa-user' },
-    { title: 'Find New Friends', url: '/new-friends', exact: true, icon: 'fas fa-search' },
     // { title: 'Random chat', url: '/new-friends/random', exact: true, icon: 'fas fa-random' },
     { title: 'Friends', url: '/friends', icon: 'fas fa-users' },
+    { title: 'Find New Friends', url: '/new-friends', icon: 'fas fa-search' },
     // { title: 'Messages', url: '/messages', icon: 'fas fa-comments' },
     { title: 'Channels', url: '/channels', icon: 'far fa-object-group' },
     // { title: 'buy and sell', url: '/buy-and-sell', icon: 'fas fa-store' },

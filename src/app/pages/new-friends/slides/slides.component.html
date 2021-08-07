@@ -1,12 +1,5 @@
-<ion-content color="dark" [fullscreen]="true">
+<ion-content [fullscreen]="true">
   <app-loader *ngIf="!users || !users.length"></app-loader>
-  <div class="backbtn-container d-flex align-items-center">
-    <ion-button class="ion-no-margin ion-no-padding ml-3" *ngIf="!random" (click)="goBack()" fill="clear" shape="round" color="light">
-      <span class="backbtn"><i class="fas fa-chevron-left"></i></span>
-    </ion-button>
-    <ion-menu-button *ngIf="random"></ion-menu-button>
-    <span *ngIf="random" class="title ml-2">Random Chat</span>
-  </div>
   <ion-slides class="h-100" pager="false" [options]="slideOpts">
     <ion-slide class="h-100" *ngFor="let user of users">
       <app-slide [authUser]="authUser" [random]="random" class="h-100 w-100" [user]="user"></app-slide>
