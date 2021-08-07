@@ -16,14 +16,12 @@ export class HeaderComponent implements OnInit {
   @Input() backLink = undefined;
   @Input() search = false;
   @Input() modal = false;
-  @Input() backgroundColor: string;
-  @Input() textColor: string;
+  backgroundColor = "white";
+  textColor = "#7C3CD7";
   @Input() avatar = false;
   @Input() avatarSrc: string;
 
   @Output() searchKeyUp = new EventEmitter();
-
-  showSearch = false;
 
   constructor(private location: Location, private router: Router, private modalCtrl: ModalController) { }
 
@@ -33,11 +31,6 @@ export class HeaderComponent implements OnInit {
     if(this.modal) this.modalCtrl.dismiss({});
     else if(this.backLink) this.router.navigateByUrl(this.backLink);
     else this.location.back();
-  }
-
-  cancelSearch(){
-    this.showSearch = false;
-    this.searchKeyUp.emit('');
   }
 
   doSearch(event){

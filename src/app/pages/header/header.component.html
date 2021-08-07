@@ -1,4 +1,5 @@
 <ion-header
+  class="ion-no-border"
 >
   <ion-toolbar
     [style]="{
@@ -6,38 +7,36 @@
       '--color': textColor ? (textColor + '!important') : ''
     }"
   >
-    <ion-buttons class="ion-no-padding ion-no-margin" slot="start" *ngIf="!showSearch">
+    <ion-buttons class="ion-no-padding ion-no-margin" slot="start">
       <ion-button shape="round" (click)="goBack()" *ngIf="back">
-        <i class="fas fa-chevron-left"></i>
+        <i class="fas fa-arrow-left"></i>
       </ion-button>
       <ion-menu-button *ngIf="menu"></ion-menu-button>
     </ion-buttons>
 
     <ion-item [style]="{'--background': 'transparent', '--color': textColor ? (textColor + '!important') : ''}">
-      <ion-searchbar
-        showCancelButton="alwayse"
-        (ionCancel)="cancelSearch()"
-        (ionInput)="doSearch($event)"
-        [animated]="true"
-        color="secondary"
-        cancelButtonIcon="arrow-back"
-        *ngIf="showSearch"
-      ></ion-searchbar>
-      
+
+
       <ion-avatar *ngIf="avatar">
         <img [src]="avatarSrc" alt="">
       </ion-avatar>
 
-      <ion-title class="ion-no-margin ion-no-padding pl-2" *ngIf="!showSearch">
+      <ion-title class="ion-no-margin ion-no-padding pl-2">
         <span>{{ title }}</span>
       </ion-title>
     </ion-item>
 
     <ion-buttons slot="end">
       <ng-content select="#end-buttons"></ng-content>
-      <ion-button shape="round" *ngIf="search && !showSearch" (click)="showSearch = true">
-        <i class="fas fa-search"></i>
-      </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
+
+<ion-searchbar
+  showCancelButton="never"
+  (ionCancel)="cancelSearch()"
+  (ionInput)="doSearch($event)"
+  [animated]="true"
+  color="light"
+  *ngIf="search"
+></ion-searchbar>
