@@ -2,12 +2,13 @@
   [menu]="myProfile"
   [back]="!myProfile"
   [title]="user ? (myProfile ? 'My Profile' : user.fullName) : ''"
-  [backgroundColor]="'rgba(0, 0, 0, 0.6)'"
-  [textColor]="'#fff'"
 >
   <div id="end-buttons" *ngIf="user">
     <ion-button shape="round" *ngIf="myProfile" routerLink="/profile/form">
       <i class="fas fa-pen"></i>
+    </ion-button>
+    <ion-button shape="round" *ngIf="myProfile" routerLink="/profile/settings">
+      <i class="fas fa-cog"></i>
     </ion-button>
     <ion-button *ngIf="!myProfile" (click)="request()" shape="round">
       <span *ngIf="user.friend"><i class="text-success fas fa-user-minus"></i></span>
@@ -40,7 +41,7 @@
 
   <div *ngIf="user">
     <div class="w-100 image-container" *ngIf="user">
-      
+
       <app-img-loader
         [src]="user.avatar.path"
       >
@@ -74,7 +75,7 @@
   </div>
 
   <div class="p-3" *ngIf="user">
-      <ion-text class="text-danger"><i class="fas fa-info-circle mr-2"></i> Basic information</ion-text>
+      <ion-text color="primary"><i class="fas fa-info-circle mr-2"></i> Basic information</ion-text>
       <ion-list class="ml-3">
           <ion-item class="d-flex" lines="none">
               <ion-label >
@@ -111,7 +112,7 @@
 
 
       <div>
-        <ion-text class="text-danger"><i class="fas fa-school mr-2"></i> School</ion-text>
+        <ion-text color="primary"><i class="fas fa-school mr-2"></i> School</ion-text>
         <ion-item lines="none" class="ml-2 mb-2">
             <ion-label class="ml-2 text-capitalize">
                 {{ user.school ? user.school : 'undefined' }}
@@ -120,7 +121,7 @@
       </div>
 
       <div>
-        <ion-text class="text-danger"><i class="fas fa-graduation-cap mr-2"></i> Education</ion-text>
+        <ion-text color="primary"><i class="fas fa-graduation-cap mr-2"></i> Education</ion-text>
         <ion-item lines="none" class="ml-2 mb-2">
             <ion-label class="ml-2 text-capitalize">
                 <span>{{ user.education ? user.education : 'undefined' }}</span>
@@ -129,7 +130,7 @@
       </div>
 
       <div class=" mt-2">
-        <ion-text class="text-danger"><i class="fas fa-briefcase mr-2"></i> Profession</ion-text>
+        <ion-text color="primary"><i class="fas fa-briefcase mr-2"></i> Profession</ion-text>
         <ion-item lines="none" class="ml-2 mb-2">
             <ion-label class="ml-2 text-capitalize" >
                 {{ user.profession ? user.profession : 'undefined' }}
@@ -138,7 +139,7 @@
       </div>
 
       <div>
-        <ion-text class="text-danger mt-3"><i class="fas fa-heart mr-2"></i> Intersets</ion-text>
+        <ion-text color="primary" class="mt-3"><i class="fas fa-heart mr-2"></i> Intersets</ion-text>
         <ion-item lines="none" class="ml-2 mb-2" *ngIf="!user.interests || !user.interests.length">
           <ion-label class="ml-2 text-capitalize">
               <span>no interests</span>

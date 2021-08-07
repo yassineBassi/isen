@@ -22,7 +22,7 @@ export class MenuComponent implements OnInit {
     iconColor?: string
   }[] = [
     // { title: 'Upgrade', url: '/subscription', icon: 'fas fa-crown', iconColor: 'rgb(222, 150, 0)'},
-    { title: 'Profile', url: '/profile/display/null', icon: 'fas fa-user' },
+    { title: 'Profile', url: '/profile', icon: 'fas fa-user' },
     { title: 'Find New Friends', url: '/new-friends', exact: true, icon: 'fas fa-search' },
     // { title: 'Random chat', url: '/new-friends/random', exact: true, icon: 'fas fa-random' },
     { title: 'Friends', url: '/friends', icon: 'fas fa-users' },
