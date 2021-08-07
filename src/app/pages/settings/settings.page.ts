@@ -3,13 +3,15 @@ import { OneSignalService } from './../../services/one-signal.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
 import constants from 'src/app/helpers/constants';
 import { User } from 'src/app/models/User';
 import { AuthService } from 'src/app/services/auth.service';
 import { SocketService } from 'src/app/services/socket.service';
 import { ToastService } from 'src/app/services/toast.service';
 import { UserService } from 'src/app/services/user.service';
+import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
+import { TermsOfServiceComponent } from './terms-of-service/terms-of-service.component';
 
 @Component({
   selector: 'app-settings',
@@ -25,7 +27,7 @@ export class SettingsPage implements OnInit {
 
   constructor(private alertController: AlertController, private nativeStorage: NativeStorage, private userService: UserService,
               private toastService: ToastService, private router: Router, private auth: AuthService, private oneSignalService: OneSignalService,
-              private messengerService: MessengerService) { }
+              private messengerService: MessengerService, private modalCtrl: ModalController) { }
 
   ngOnInit() {
   }
@@ -183,6 +185,22 @@ export class SettingsPage implements OnInit {
         this.toastService.presentStdToastr(err)
       }
     )
+  }
+
+  async openPrivacyPolicy(){
+    const modal = await this.modalCtrl.create({
+      component: PrivacyPolicyComponent
+    });
+
+    await modal.present();
+  }
+
+  async openTermsOfService(){
+    const modal = await this.modalCtrl.create({
+      component: TermsOfServiceComponent
+    });
+
+    await modal.present();
   }
 
 }

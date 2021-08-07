@@ -8,6 +8,8 @@ import { SettingsPageRoutingModule } from './settings-routing.module';
 
 import { SettingsPage } from './settings.page';
 import { SharingModule } from '../sharing/sharing.module';
+import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
+import { TermsOfServiceComponent } from './terms-of-service/terms-of-service.component';
 
 @NgModule({
   imports: [
@@ -17,6 +19,10 @@ import { SharingModule } from '../sharing/sharing.module';
     SettingsPageRoutingModule,
     SharingModule
   ],
-  declarations: [SettingsPage]
+  declarations: [
+    SettingsPage,
+    PrivacyPolicyComponent,
+    TermsOfServiceComponent
+  ]
 })
 export class SettingsPageModule {}
