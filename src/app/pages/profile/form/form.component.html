@@ -50,6 +50,7 @@
             placeholder="select your birth day"
             formControlName="birthDate"
             type="date"
+            [max]="getMaxDate()"
           ></ion-input>
         </ion-label>
       </ion-item>
@@ -100,7 +101,7 @@
         </ion-item>
       </div>
 
-      
+
       <div class="mt-3">
         <ion-text><i class="far fa-flag mr-2"></i>City: </ion-text>
         <ion-item class="w-100">

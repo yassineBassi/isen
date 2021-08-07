@@ -87,7 +87,7 @@ export class FormComponent implements OnInit {
     this.nativeStorage.getItem('interests').then(resp => {
       this.interests = JSON.parse(resp);
     })
-    
+
   }
 
   formPatchValues(){
@@ -95,7 +95,7 @@ export class FormComponent implements OnInit {
       firstName: this.user.firstName,
       lastName: this.user.lastName,
       gender: this.user.gender,
-      birthDate: this.user.birthDate.toJSON().slice(0, 10),
+      birthDate: this.user.birthDate.toJSON() ? this.user.birthDate.toJSON().slice(0, 10) : null,
       school: this.user.school,
       profession: this.user.profession,
       education: this.user.education,
@@ -143,8 +143,6 @@ export class FormComponent implements OnInit {
 
   submit(){
     this.pageLoading = true;
-    console.log("-----------------------------");
-    console.log(this.getUserForm());
     this.userService.update(this.getUserForm())
     .then(
       resp => {
@@ -226,6 +224,12 @@ export class FormComponent implements OnInit {
     await modal.present();
     const { data } = await modal.onDidDismiss();
     return data.data;
-  } 
+  }
+
+  getMaxDate(){
+    const currDate = new Date();
+    currDate.setFullYear(currDate.getFullYear() - 18);
+    return currDate.toJSON().slice(0, 10);
+  }
 
 }

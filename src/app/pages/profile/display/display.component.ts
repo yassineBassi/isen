@@ -87,6 +87,7 @@ export class DisplayComponent implements OnInit {
     .then(
       (resp: any) => {
         this.user = new User().initialize(resp.data);
+        console.log(resp.data);
         this.nativeStorage.setItem('user', this.user.toObjeect())
         if(event) event.target.complete()
         this.pageLoading = false;
@@ -264,7 +265,7 @@ export class DisplayComponent implements OnInit {
 
     const { data } = await popover.onDidDismiss();
     console.log(data);
-    
+
     if(data && data.event){
       if(data.event == 'block'){
         this.blockUserConf();
