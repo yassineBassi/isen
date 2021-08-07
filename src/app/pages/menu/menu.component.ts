@@ -21,16 +21,16 @@ export class MenuComponent implements OnInit {
     exact?: boolean,
     iconColor?: string
   }[] = [
-    { title: 'Upgrade', url: '/subscription', icon: 'fas fa-crown', iconColor: 'rgb(222, 150, 0)'},
+    // { title: 'Upgrade', url: '/subscription', icon: 'fas fa-crown', iconColor: 'rgb(222, 150, 0)'},
     { title: 'Profile', url: '/profile/display/null', icon: 'fas fa-user' },
     { title: 'Find New Friends', url: '/new-friends', exact: true, icon: 'fas fa-search' },
-    { title: 'Random chat', url: '/new-friends/random', exact: true, icon: 'fas fa-random' },
+    // { title: 'Random chat', url: '/new-friends/random', exact: true, icon: 'fas fa-random' },
     { title: 'Friends', url: '/friends', icon: 'fas fa-users' },
-    { title: 'Messages', url: '/messages', icon: 'fas fa-comments' },
+    // { title: 'Messages', url: '/messages', icon: 'fas fa-comments' },
     { title: 'Channels', url: '/channels', icon: 'far fa-object-group' },
-    { title: 'buy and sell', url: '/buy-and-sell', icon: 'fas fa-store' },
+    // { title: 'buy and sell', url: '/buy-and-sell', icon: 'fas fa-store' },
     { title: 'small business', url: '/small-business', icon: 'fas fa-briefcase' },
-    { title: 'settings', url: '/settings', icon: 'fas fa-cog' }
+    // { title: 'settings', url: '/settings', icon: 'fas fa-cog' }
   ];
 
   constructor(private auth: AuthService, private nativeStorage: NativeStorage, private router: Router,

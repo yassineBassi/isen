@@ -130,3 +130,12 @@ ion-toolbar.menu-header{
 .crown{
   color: rgb(222, 150, 0);
 }
+
+.icon{
+  font-size: 20px;
+  color: rgb(160, 160, 160);
+}
+.selected>.icon{
+  font-size: 22px;
+  color: var(--ion-color-primary);
+}

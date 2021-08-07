@@ -1,5 +1,19 @@
 
-  <ion-split-pane contentId="main-content" class="ion-no-padding ion-no-margin">
+  <ion-tabs>
+    <ion-tab-bar color="light" slot="bottom">
+      <ion-tab-button
+        *ngFor="let page of appPages"
+        [routerLink]="[page.url]"
+        routerDirection="root"
+        [routerLinkActiveOptions]="{exact: page.exact ? true : false}"
+        routerLinkActive="selected"
+      >
+        <i [class]="'icon ' + page.icon"></i>
+      </ion-tab-button>
+    </ion-tab-bar>
+  </ion-tabs>
+
+  <!-- <ion-split-pane contentId="main-content" class="ion-no-padding ion-no-margin">
     <ion-menu (ionDidOpen)="updateUserData()" side="start" menuId="first" contentId="main-content" type="overlay">
       <ion-header>
         <ion-toolbar class="menu-header px-2 pt-3 pb-2">
@@ -22,11 +36,11 @@
       <ion-content>
         <ion-list>
           <ion-menu-toggle auto-hide="false" *ngFor="let page of appPages">
-            <ion-item 
-              [routerLinkActiveOptions]="{exact: page.exact ? true : false}" 
-              routerDirection="root" 
-              [routerLink]="[page.url]" 
-              lines="none" detail="false" 
+            <ion-item
+              [routerLinkActiveOptions]="{exact: page.exact ? true : false}"
+              routerDirection="root"
+              [routerLink]="[page.url]"
+              lines="none" detail="false"
               routerLinkActive="selected"
             >
               <span class="mr-3" [style]="{color: page.iconColor ? page.iconColor : 'black'}"><i [class]="page.icon"></i></span>
@@ -37,4 +51,4 @@
       </ion-content>
     </ion-menu>
     <ion-router-outlet id="main-content"></ion-router-outlet>
-  </ion-split-pane>
+  </ion-split-pane> -->

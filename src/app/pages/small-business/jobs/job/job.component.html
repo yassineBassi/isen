@@ -32,25 +32,16 @@
           <span class="job-title font-weight-bold d-block">{{ job.title }} </span>
           <span class="">{{ job.company }}</span>
         </ion-label>
-        <small>{{ job.createdAt | extractDiffTime }} ago</small>
-      </ion-item>
-      <ion-item>
-        <ion-label class="ml-2">
-          <span class="font-weight-bold d-block">Location</span>
-          <span class="d-block">{{ job.country }}, {{ job.city }}</span>
-        </ion-label>
-      </ion-item>
-      <ion-item>
-        <ion-label class="ml-2">
-          <span class="font-weight-bold d-block">E-mail</span>
-          <span class="d-block">{{ job.email }}</span>
-        </ion-label>
       </ion-item>
       <ion-item>
         <ion-label class="ml-2" text-wrap>
           <span class="job-title font-weight-bold d-block">Description</span>
           <span>{{ job.description }}</span>
         </ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label></ion-label>
+        <span>posted by jack</span>
       </ion-item>
     </div>
 </ion-content>
