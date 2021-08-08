@@ -3,6 +3,7 @@
 >
   <div id="end-buttons">
     <ion-button
+      shape="round"
       (click)="presentSearchByModal()"
     >
       <i class="fas fa-filter"></i>
@@ -10,9 +11,9 @@
   </div>
 </app-header>
 
-<ion-item *ngIf="!pageLoading">
+<ion-item>
   <ion-label class="ml-2">Random</ion-label>
-  <ion-toggle [(ngModel)]="random" (change)="getNearUsers(null, true)" ></ion-toggle>
+  <ion-toggle [(ngModel)]="random" (ionChange)="getNearUsers(null, true)" ></ion-toggle>
 </ion-item>
 
 <ion-content>

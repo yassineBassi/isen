@@ -18,16 +18,16 @@
     
     <ion-item class="px-2" *ngFor="let item of checkItemsNames">
       <ion-label>{{ item }}</ion-label>
-      <ion-checkbox [(ngModel)]="checkItems[item]" color="secondary"></ion-checkbox>
+      <ion-toggle [(ngModel)]="checkItems[item]" color="primary"></ion-toggle>
     </ion-item>
   </ion-list>
 </ion-content>
 
 <ion-footer>
   <ion-button
-    color="secondary"
+    color="primary"
     expand="block"
-    class="mx-2"
+    class="mx-4 my-2"
     (click)="submit()"
   >
     <i class="fas fa-search mr-2"></i>Search

@@ -69,7 +69,7 @@ export class ListComponent implements OnInit {
 
   getNearUsers(event?, refresh?){
     if(!event) this.pageLoading = true;
-    if(refresh) this.page = 0
+    if(refresh) this.page = 0;
     this.userService.getUsers(this.page++, {...this.options, type: this.random ? 'random' : 'near'})
     .then(
       (resp: any) => {
@@ -117,8 +117,11 @@ export class ListComponent implements OnInit {
     });
     await modal.present();
     const { data } = await modal.onDidDismiss();
-    if(data){
-      this.options = data
+    console.log(data);
+    
+    if(Object.keys(data).length){
+      this.options = data;
+      this.page = 0;
       this.getNearUsers(null, true)
     }
   }
