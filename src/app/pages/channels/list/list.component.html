@@ -1,27 +1,30 @@
-<app-channels-header *ngIf="type && type != 'explore'"></app-channels-header>
+<app-channels-header *ngIf="!type || type != 'explore'"></app-channels-header>
 <app-header *ngIf="type && type == 'explore'" [back]="true" [title]="'Explore channels (' + (user ? user.city : '') + ')'"></app-header>
 
-<app-loader *ngIf="pageLoading"></app-loader>
-
 <ion-content>
+  <app-loader *ngIf="pageLoading"></app-loader>
 
   <ion-refresher slot="fixed" pullFactor="0.5" pullMin="100" pullMax="200"  (ionRefresh)="getChannels($event, true)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  <ion-card class="p-2" *ngIf="channels && !channels.length && !pageLoading">
-    <ion-card-subtitle>
-      <span *ngIf="type == 'mines'">You didn't create any channel yet !</span>
-      <span *ngIf="type == 'followed'">You didn't follow any channel yet !</span>
-      <span *ngIf="type == 'explore'">
-        there is no other channels available in your city !
+  <div class="h-100 d-flex align-items-center" *ngIf="channels && !channels.length && !pageLoading">
+    <div class="w-100 text-center">
+      <span class="empty-alert">
+        <span *ngIf="type == 'mines'">You didn't create any channel yet !</span>
+        <span *ngIf="type == 'followed'">You didn't follow any channel yet !</span>
+        <span *ngIf="type == 'explore'">
+          there is no other channels available in your city !
+        </span>
       </span>
-    </ion-card-subtitle>
-  </ion-card>
+    </div>
+  </div>
 
-  <ion-list *ngIf="channels && channels.length">
+  <ion-list class="p-0 m-0" *ngIf="channels && channels.length">
     <ion-item
       *ngFor="let channel of channels"
+      lines="none"
+      button="true"
       (click)="showChannel(channel)"
     >
       <ion-avatar class="avatar ml-2">
@@ -62,12 +65,12 @@
   </ion-infinite-scroll>
 
   <ion-fab position="fixed" vertical="bottom" horizontal="end" *ngIf="type == 'mines'">
-    <ion-fab-button routerLink="/channels/form" color="secondary">
+    <ion-fab-button routerLink="/channels/form" color="primary">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>
   <ion-fab position="fixed" vertical="bottom" horizontal="end" *ngIf="type == 'followed'">
-    <ion-fab-button  routerLink="/channels/list/explore" color="secondary">
+    <ion-fab-button  routerLink="/channels/list/explore" color="primary">
       <i class="fas fa-globe-americas"></i>
     </ion-fab-button>
   </ion-fab>
