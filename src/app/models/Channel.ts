@@ -1,4 +1,4 @@
-import { User } from 'src/app/models/User';
+import { User } from './User';
 import { File } from './File';
 export class Channel{
 

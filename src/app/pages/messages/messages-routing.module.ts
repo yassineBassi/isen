@@ -20,14 +20,6 @@ const routes: Routes = [
         path: 'list',
         component: ListComponent
       },
-      {
-        path: 'chat/:id',
-        component: ChatComponent
-      },
-      {
-        path: 'video/:id',
-        component: VideoComponent
-      }
     ]
   }
 ];

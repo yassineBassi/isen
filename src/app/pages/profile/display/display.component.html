@@ -4,10 +4,10 @@
   [title]=" !user || myProfile ? 'My Profile' : (user ? user.fullName: '')"
 >
   <div id="end-buttons" *ngIf="user">
-    <ion-button shape="round" *ngIf="myProfile" routerLink="/profile/form">
+    <ion-button shape="round" *ngIf="myProfile" routerLink="/tabs/profile/form">
       <i class="fas fa-pen"></i>
     </ion-button>
-    <ion-button shape="round" *ngIf="myProfile" routerLink="/profile/settings">
+    <ion-button shape="round" *ngIf="myProfile" routerLink="/tabs/profile/settings">
       <i class="fas fa-cog"></i>
     </ion-button>
     <ion-button *ngIf="!myProfile" (click)="request()" shape="round">

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-internet-error',
@@ -7,8 +9,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class InternetErrorComponent implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router) { }
 
-  ngOnInit() {}
+  ngOnInit() {
 
+  }
+
+  reload(){
+    this.router.navigateByUrl('/tabs/profile')
+  }
 }
