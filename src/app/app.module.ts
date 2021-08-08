@@ -18,12 +18,14 @@ import { SharingModule } from './pages/sharing/sharing.module';
 import { OpenNativeSettings } from '@ionic-native/open-native-settings/ngx';
 import { OneSignal } from '@ionic-native/onesignal/ngx'
 import { Stripe } from '@ionic-native/stripe/ngx';
+import { InternetErrorComponent } from './pages/internet-error/internet-error.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     MenuComponent,
+    InternetErrorComponent
   ],
   entryComponents: [],
   imports: [

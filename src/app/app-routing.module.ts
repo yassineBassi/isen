@@ -2,6 +2,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { GuestGuard } from './guards/guest.guard';
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { InternetErrorComponent } from './pages/internet-error/internet-error.component';
 
 const routes: Routes = [
   {
@@ -57,6 +58,10 @@ const routes: Routes = [
     path: 'profile/settings',
     loadChildren: () => import('./pages/settings/settings.module').then( m => m.SettingsPageModule),
     canActivate: [AuthGuard]
+  },
+  {
+    path: 'internet-error',
+    component: InternetErrorComponent
   },
   {
     path: 'subscription',

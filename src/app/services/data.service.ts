@@ -55,19 +55,19 @@ export class DataService{
             serializer: requestOptions.serializer ? requestOptions.serializer : 'json'
           }
           console.log(url);
-          
+
           this.http.sendRequest(url, options).then(
             resp => {
               // console.log('resp');
               // console.log(resp);
-              resp = JSON.parse(resp.data);              
+              resp = JSON.parse(resp.data);
               resolve(resp);
             },
             err => {
               console.log('err');
               console.log(err);
               if(err.status == -1){
-                reject('failed, please check your internet');
+                this.router.navigateByUrl('internet-error');
               }
               if(err.status == 400){
                 reject(JSON.parse(err.error));

@@ -1,7 +1,7 @@
 <app-header
   [menu]="myProfile"
   [back]="!myProfile"
-  [title]="user ? (myProfile ? 'My Profile' : user.fullName) : ''"
+  [title]=" !user || myProfile ? 'My Profile' : (user ? user.fullName: '')"
 >
   <div id="end-buttons" *ngIf="user">
     <ion-button shape="round" *ngIf="myProfile" routerLink="/profile/form">
@@ -32,9 +32,10 @@
   </div>
 </app-header>
 
-<app-loader *ngIf="pageLoading"></app-loader>
-
 <ion-content>
+
+  <app-loader *ngIf="pageLoading"></app-loader>
+
   <ion-refresher slot="fixed" pullFactor="0.5" pullMin="100" pullMax="200"  (ionRefresh)="refresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
