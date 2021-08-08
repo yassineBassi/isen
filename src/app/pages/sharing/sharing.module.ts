@@ -6,6 +6,7 @@ import { HeaderComponent } from './../header/header.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ImgLoaderComponent } from '../img-loader/img-loader.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { ImgLoaderComponent } from '../img-loader/img-loader.component';
   ],
   imports: [
     CommonModule,
-    IonicModule
+    IonicModule,
+    RouterModule
   ],
   exports: [
     HeaderComponent,

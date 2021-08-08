@@ -40,7 +40,7 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  <div *ngIf="user">
+  <div *ngIf="user && !pageLoading">
     <div class="w-100 image-container" *ngIf="user">
 
       <app-img-loader

@@ -14,8 +14,9 @@
       <ion-menu-button *ngIf="menu"></ion-menu-button>
     </ion-buttons>
 
-    <ion-item [style]="{'--background': 'transparent', '--color': textColor ? (textColor + '!important') : ''}">
-
+    <ion-item 
+      [style]="{'--background': 'transparent', '--color': textColor ? (textColor + '!important') : ''}"
+    >
 
       <ion-avatar *ngIf="avatar">
         <img [src]="avatarSrc" alt="">

@@ -40,6 +40,7 @@ export class ChatComponent implements OnInit {
   authUser: User;
   pageLoading = false;
 
+  allowToChat = false;
 
   constructor(private camera: Camera, private userService: UserService, private route: ActivatedRoute,
               private nativeStorage: NativeStorage, private messageService: MessageService, private changeDetection: ChangeDetectorRef,
@@ -124,10 +125,8 @@ export class ChatComponent implements OnInit {
     this.messageService.indexMessages(this.user.id, this.page++)
     .then(
       (resp: any) => {
-        console.log(resp);
-
         this.pageLoading = false;
-
+        console.log(resp)
         if(!event){
           this.messages = [];
           resp.data.messages.reverse().forEach(message => {
@@ -143,6 +142,8 @@ export class ChatComponent implements OnInit {
           });
           if(!resp.data.more) event.target.disabled = true;
         }
+
+        this.allowToChat = resp.data.allowToChat;
 
         console.log(this.messages);
         
@@ -224,6 +225,11 @@ export class ChatComponent implements OnInit {
   addMessage(){
     if(!this.messageText && !this.imageFile) return;
 
+    if(!this.chatEnabled()){
+      this.messageText = "";
+      return;
+    }
+
     this.getChatPermission().then(
       () => {
         const message = new Message();
@@ -287,5 +293,9 @@ export class ChatComponent implements OnInit {
           || currDate.year != lastDate.year
     }
     return true
+  }
+
+  chatEnabled(){
+    return this.allowToChat || (this.messages && (this.messages.length <= 1 || this.messages.filter(msg => !msg.isMine).length > 0))
   }
 }

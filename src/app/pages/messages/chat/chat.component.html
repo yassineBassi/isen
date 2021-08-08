@@ -73,6 +73,9 @@
         </ion-button>
       </ion-item>
     </div>
+    <div class="w-100 text-center text-danger px-4" *ngIf="messages && !chatEnabled()">
+      You can't send more messages until '{{ user.fullName }}' responded
+    </div>
   </ion-list>
 </ion-content>
 
@@ -88,6 +91,7 @@
       (keydown.enter)="addMessage()"
       (ionFocus)="scrollToBottom()"
       [(ngModel)]="messageText"
+      [disabled]="!chatEnabled()"
       class="mx-2 chat-input"
       placeholder="tape your message here"
     ></ion-input>

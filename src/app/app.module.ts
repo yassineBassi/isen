@@ -24,18 +24,26 @@ import { File } from '@ionic-native/file/ngx';
 import { FilePath } from '@ionic-native/file-path/ngx';
 import { WebView } from '@ionic-native/ionic-webview/ngx';
 import { WebrtcService } from './services/webrtc.service';
+import { ChatComponent } from './pages/messages/chat/chat.component';
+import { VideoComponent } from './pages/messages/chat/video/video.component';
+import { FormsModule } from '@angular/forms';
+import { SharingPipeModule } from './pipes/sharing/sharing-pipe.module';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    InternetErrorComponent
+    InternetErrorComponent,
+    ChatComponent,
+    VideoComponent
   ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
+    FormsModule,
     AppRoutingModule,
     SharingModule,
+    SharingPipeModule
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },

@@ -9,6 +9,7 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Network } from '@ionic-native/network/ngx';
 import { WebrtcService } from './services/webrtc.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -28,7 +29,7 @@ export class AppComponent {
     private statusBar: StatusBar,
     private splashScreen: SplashScreen,
     private network: Network,
-    private alertController: AlertController
+    private router: Router
   ) {
     this.initializeApp();
   }
@@ -106,21 +107,7 @@ export class AppComponent {
   }
 
   async onOffline(){
-    const alert = await this.alertController.create({
-      header: 'Network Failed',
-      message: 'Your connection is Offline!',
-      buttons: [
-        {
-          text: 'Exit',
-          cssClass: 'bg-danger text-white text-center px-5 mx-auto',
-          handler: () => {
-            // tslint:disable-next-line: no-string-literal
-            navigator['app'].exitApp();
-          }
-        },
-      ]
-    });
-    await alert.present();
+    this.router.navigateByUrl('/internet-error')
   }
 
 }

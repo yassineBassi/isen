@@ -21,6 +21,7 @@ export class HeaderComponent implements OnInit, OnChanges {
   textColor = "#7C3CD7";
   @Input() avatar = false;
   @Input() avatarSrc: string;
+  @Input() avatarLink: string;
 
   @Output() searchKeyUp = new EventEmitter();
 

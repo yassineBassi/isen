@@ -18,7 +18,7 @@ export class TabsPage implements OnInit {
     { url: 'friends', icon: 'fas fa-users' },
     { url: 'messages', icon: 'fas fa-comments' },
     { url: 'new-friends', icon: 'fas fa-search' },
-    { url: 'channels', icon: 'far fa-object-group' },
+    { url: 'channels', icon: 'fas fa-object-group' },
     { url: 'buy-and-sell', icon: 'fas fa-store' },
     { url: 'small-business', icon: 'fas fa-briefcase' },
     // { title: 'settings', url: '/settings', icon: 'fas fa-cog' }

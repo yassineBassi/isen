@@ -30,9 +30,7 @@ import { MessagesPage } from './messages.page';
   ],
   declarations: [
     MessagesPage,
-    ChatComponent,
     ListComponent,
-    VideoComponent
   ],
   providers: [
     Camera,
