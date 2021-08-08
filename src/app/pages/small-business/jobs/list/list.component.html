@@ -1,38 +1,11 @@
 <app-header
   title="Find a Job"
   [back]="true"
-  [backLink]="'/small-business'"
+  [backLink]="'/tabs/small-business'"
   [search]="true"
   (searchKeyUp)="search($event)"
 >
 </app-header>
-
-<!-- <ion-row>
-  <ion-col size="6" class="ion-no-padding">
-    <ion-button
-        expand="block"
-        class="ion-no-margin tab-button text-capitalize"
-        size="default"
-        color="secondary"
-        routerLinkActive="selected"
-        routerLink="/small-business/jobs/list/posted"
-    >
-        Posted Jobs
-    </ion-button>
-  </ion-col>
-  <ion-col size="6" class="ion-no-padding">
-    <ion-button
-        expand="block"
-        class="ion-no-margin tab-button text-capitalize"
-        size="default"
-        color="secondary"
-        routerLinkActive="selected"
-        routerLink="/small-business/jobs/list/available"
-    >
-        Available Jobs
-    </ion-button>
-  </ion-col>
-</ion-row> -->
 
 <app-loader *ngIf="pageLoading" ></app-loader>
 
@@ -55,7 +28,7 @@
       </ion-button><ion-button
         fill="clear"
         *ngIf="type == 'posted'"
-        routerLink="/small-business/jobs/list/available"
+        routerLink="/tabs/small-business/jobs/list/available"
       >
         View as Buyer
       </ion-button>
@@ -66,7 +39,7 @@
     </ion-card>
 
     <ion-list class="mt-0 pt-0" *ngIf="jobs" >
-      <ion-item *ngFor="let job of jobs" class="job-item mb-2 podition-relative ion-no-padding" [routerLink]="['/small-business/jobs/job/' + job.id]">
+      <ion-item *ngFor="let job of jobs" class="job-item mb-2 podition-relative ion-no-padding" [routerLink]="['/tabs/small-business/jobs/job/' + job.id]">
         <img [src]="job.photo.path" alt="">
         <div class="job-info d-flex">
           <div class="ml-2 mt-auto">

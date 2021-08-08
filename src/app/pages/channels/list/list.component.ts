@@ -128,7 +128,7 @@ export class ListComponent implements OnInit {
   }
 
   showChannel(channel: Channel){
-    this.router.navigate(['/channels/channel'], {
+    this.router.navigate(['/tabs/channels/channel'], {
       queryParams: {
         channel: JSON.stringify(channel.toObject())
       }

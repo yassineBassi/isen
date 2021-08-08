@@ -40,12 +40,12 @@ export class ProductsComponent implements OnInit {
     .then(
       (resp: any) => {
         if(resp.data.date){
-          this.router.navigate(['/subscription'], {
+          this.router.navigate(['/tabs/subscription'], {
             queryParams: {
               lastDate: resp.data.date
             }
           });
-        }else this.router.navigateByUrl('/buy-and-sell/product/form')
+        }else this.router.navigateByUrl('/tabs/buy-and-sell/product/form')
         this.pageLoading = false;
       },
       err => {

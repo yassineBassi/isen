@@ -1,7 +1,7 @@
 <app-header 
   title="Services" 
   [back]="true" 
-  [backLink]="'/small-business'"
+  [backLink]="'/tabs/small-business'"
   [search]="true"
   (searchKeyUp)="search($event)"
 >
@@ -18,7 +18,7 @@
         size="default"
         color="secondary"
         routerLinkActive="selected"
-        routerLink="/small-business/services/list/posted"
+        routerLink="/tabs/small-business/services/list/posted"
     >
         Posted Services
     </ion-button>
@@ -30,7 +30,7 @@
         size="default"
         color="secondary"
         routerLinkActive="selected"
-        routerLink="/small-business/services/list/available"
+        routerLink="/tabs/small-business/services/list/available"
     >
         Available Services
     </ion-button>
@@ -48,7 +48,7 @@
   </ion-card>
 
   <ion-list *ngIf="services">
-    <ion-item *ngFor="let service of services" [routerLink]="['/small-business/services/service/' + service.id]">
+    <ion-item *ngFor="let service of services" [routerLink]="['/tabs/small-business/services/service/' + service.id]">
       <ion-thumbnail class="ml-2">
         <ion-img [src]="service.photo.path"></ion-img>
       </ion-thumbnail>

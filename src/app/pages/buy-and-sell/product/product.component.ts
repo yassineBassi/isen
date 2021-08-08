@@ -75,7 +75,7 @@ export class ProductComponent implements OnInit {
       (resp: any) => {
         console.log(resp);
         this.toastService.presentStdToastr(resp.message);
-        this.router.navigateByUrl('/buy-and-sell/products/sell')
+        this.router.navigateByUrl('/tabs/buy-and-sell/products/sell')
       },
       err => {
         console.log(err);

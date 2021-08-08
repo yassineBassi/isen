@@ -18,7 +18,7 @@
         <span *ngIf="user.request == 'requesting'"><i class="text-warning fas fa-user-check"></i></span>
       </span>
     </ion-button>
-    <ion-button [routerLink]="['/messages/video/' + user.id]" *ngIf="!myProfile && authUser && authUser.subscription" shape="round">
+    <ion-button [routerLink]="['/tabs/messages/video/' + user.id]" *ngIf="!myProfile && authUser && authUser.subscription" shape="round">
       <i class="fas fa-video"></i>
     </ion-button>
     <ion-button *ngIf="!myProfile" (click)="follow()" shape="round">
@@ -67,7 +67,7 @@
             </ion-fab-list>
         </ion-fab>
 
-        <ion-fab [routerLink]="['/messages/chat/' + user.id]" *ngIf="!myProfile" horizontal="end" vertical="bottom" >
+        <ion-fab [routerLink]="['/tabs/messages/chat/' + user.id]" *ngIf="!myProfile" horizontal="end" vertical="bottom" >
             <ion-fab-button color="secondary">
               <i class="fas fa-comments"></i>
             </ion-fab-button>

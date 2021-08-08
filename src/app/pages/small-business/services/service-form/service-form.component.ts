@@ -130,7 +130,7 @@ export class ServiceFormComponent implements OnInit {
         this.pageLoading = false;
         console.log(resp);
         this.toastService.presentStdToastr('service created successfully');
-        this.router.navigateByUrl('/small-business/services');
+        this.router.navigateByUrl('/tabs/small-business/services');
         this.clearProductForm();
       },
       err => {

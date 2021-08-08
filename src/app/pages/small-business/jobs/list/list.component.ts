@@ -43,12 +43,12 @@ export class ListComponent implements OnInit {
     .then(
       (resp: any) => {
         if(resp.data.date){
-          this.router.navigate(['/subscription'], {
+          this.router.navigate(['/tabs/subscription'], {
             queryParams: {
               lastDate: resp.data.date
             }
           });
-        }else this.router.navigateByUrl('/small-business/jobs/form')
+        }else this.router.navigateByUrl('/tabs/small-business/jobs/form')
         this.pageLoading = false;
       },
       err => {

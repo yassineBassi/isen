@@ -93,7 +93,7 @@ export class WebrtcService {
     WebrtcService.peer.on('call', (call) => {
       WebrtcService.call = call;
       console.log('call', WebrtcService.call);
-      this.router.navigateByUrl('/messages/video/' + call.peer + '?answer=true');
+      this.router.navigateByUrl('/tabs/messages/video/' + call.peer + '?answer=true');
     });
   }
 

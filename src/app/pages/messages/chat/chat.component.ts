@@ -254,7 +254,7 @@ export class ChatComponent implements OnInit {
         this.imageFile = null;
       },
       err => {
-        if(err) this.router.navigate(['/subscription']);
+        if(err) this.router.navigate(['/tabs/subscription']);
       }
     )
   }

@@ -15,7 +15,7 @@
   </div>
 
   <ion-list class="p-0">
-    <ion-item class="my-2" lines="none" [routerLink]="['/messages/chat/' + user.id]" *ngFor="let user of users">
+    <ion-item class="my-2" lines="none" [routerLink]="['/tabs/messages/chat/' + user.id]" *ngFor="let user of users">
       <ion-avatar class="avatar ml-2">
         <img [src]="user.avatar.path" alt="">
       </ion-avatar>

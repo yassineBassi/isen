@@ -41,7 +41,7 @@ export class SlideComponent implements OnInit {
 
   request(){
     if(this.user.friend) this.removeFriendShipConf();
-    else if(this.user.request == 'requesting') this.acceptRequest() 
+    else if(this.user.request == 'requesting') this.acceptRequest()
     else if(this.user.request == 'requested') this.cancelRequest()
     else this.requestFriendship()
   }
@@ -87,7 +87,7 @@ export class SlideComponent implements OnInit {
       err =>{
         err = JSON.parse(err);
         if(err.code && err.code == constants.ERROR_CODES.SUBSCRIPTION_ERROR){
-          this.router.navigate(['/subscription']);
+          this.router.navigate(['/tabs/subscription']);
           this.toastService.presentStdToastr(err.message)
         }
         else this.handleError(err)
@@ -130,7 +130,7 @@ export class SlideComponent implements OnInit {
   }
 
   showProfile(){
-    this.router.navigateByUrl('/profile/display/' + this.user.id)
+    this.router.navigateByUrl('/tabs/profile/display/' + this.user.id)
   }
 
   navigateTo(link){

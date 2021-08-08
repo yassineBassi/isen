@@ -28,7 +28,7 @@
         </ion-col>
         <ion-col *ngIf="random && authUser && authUser.subscription" class="ion-no-padding text-center position-relative " size="6">
           <ion-fab horizontal="center">
-            <ion-fab-button (click)="navigateTo('/messages/video/' + user.id)" color="primary">
+            <ion-fab-button (click)="navigateTo('/tabs/messages/video/' + user.id)" color="primary">
               <span><i class="fas fa-video"></i></span>
             </ion-fab-button>
           </ion-fab>
@@ -42,7 +42,7 @@
         </ion-col>
         <ion-col *ngIf="random" class="ion-no-padding position-relative text-center" size="6">
           <ion-fab horizontal="center">
-            <ion-fab-button (click)="navigateTo('/messages/chat/' + user.id)" color="primary">
+            <ion-fab-button (click)="navigateTo('/tabs/messages/chat/' + user.id)" color="primary">
               <span><i class="fas fa-comments"></i></span>
             </ion-fab-button>
           </ion-fab>

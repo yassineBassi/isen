@@ -73,7 +73,7 @@ export class JobComponent implements OnInit {
       (resp: any) => {
         console.log(resp);
         this.toastService.presentStdToastr(resp.message);
-        this.router.navigateByUrl('/small-business/jobs/list/posted')
+        this.router.navigateByUrl('/tabs/small-business/jobs/list/posted')
       },
       err => {
         console.log(err);

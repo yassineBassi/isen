@@ -74,7 +74,7 @@ export class ServiceComponent implements OnInit {
       (resp: any) => {
         console.log(resp);
         this.toastService.presentStdToastr(resp.message);
-        this.router.navigateByUrl('/small-business/services/list/posted')
+        this.router.navigateByUrl('/tabs/small-business/services/list/posted')
       },
       err => {
         console.log(err);

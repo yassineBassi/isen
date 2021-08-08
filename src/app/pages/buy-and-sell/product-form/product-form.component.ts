@@ -118,7 +118,7 @@ export class ProductFormComponent implements OnInit {
       (resp: any) => {
         this.pageLoading = false;
         this.toastService.presentStdToastr('product created successfully');
-        this.router.navigateByUrl('/buy-and-sell/products/sell');
+        this.router.navigateByUrl('/tabs/buy-and-sell/products/sell');
         console.log(resp);
         this.clearProductForm();
       },

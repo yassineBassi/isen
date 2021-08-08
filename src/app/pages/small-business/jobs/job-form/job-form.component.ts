@@ -133,7 +133,7 @@ export class JobFormComponent implements OnInit {
         this.pageLoading = false;
         console.log(resp);
         this.toastService.presentStdToastr('job created successfully');
-        this.router.navigateByUrl('/small-business/jobs');
+        this.router.navigateByUrl('/tabs/small-business/jobs');
         this.clearProductForm();
       },
       err => {

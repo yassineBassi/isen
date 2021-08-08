@@ -12,7 +12,7 @@ export class TabsPage implements OnInit {
     icon?: string,
     // exact?: boolean,
   }[] = [
-    // { title: 'Upgrade', url: '/subscription', icon: 'fas fa-crown', iconColor: 'rgb(222, 150, 0)'},
+    // { title: 'Upgrade', url: '/tabs/subscription', icon: 'fas fa-crown', iconColor: 'rgb(222, 150, 0)'},
     { url: 'profile', icon: 'fas fa-user' },
     // { title: 'Random chat', url: '/new-friends/random', exact: true, icon: 'fas fa-random' },
     { url: 'friends', icon: 'fas fa-users' },

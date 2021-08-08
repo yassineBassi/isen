@@ -1,7 +1,7 @@
 <app-header
   [back]="true"
   [title]="type ? (type == 'buy' ? 'Available Product' : 'Posted products') : ''"
-  [backLink]="'/buy-and-sell'"
+  [backLink]="'/tabs/buy-and-sell'"
   [search]="true"
   (searchKeyUp)="search($event)"
 ></app-header>
@@ -19,7 +19,7 @@
   </ion-card>
 
   <ion-list *ngIf="products">
-    <ion-item *ngFor="let product of products" [routerLink]="['/buy-and-sell/product/' + product.id]">
+    <ion-item *ngFor="let product of products" [routerLink]="['/tabs/buy-and-sell/product/' + product.id]">
       <ion-thumbnail class="ml-2">
         <ion-img [src]="product.photo.path"></ion-img>
       </ion-thumbnail>

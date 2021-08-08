@@ -16,7 +16,7 @@
   </div>
 
   <ion-list class="p-0">
-    <ion-item [routerLink]="['/profile/display/' + friend.id]" *ngFor="let friend of friends">
+    <ion-item [routerLink]="['/tabs/profile/display/' + friend.id]" *ngFor="let friend of friends">
       <ion-avatar class="ml-2">
         <img [src]="friend.avatar.path" alt="">
       </ion-avatar>

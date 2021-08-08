@@ -216,7 +216,7 @@ export class ChannelComponent implements OnInit {
     .then(
       (resp: any) => {
         this.toastService.presentStdToastr(resp.message)
-        this.router.navigateByUrl('/channels/list/mines')
+        this.router.navigateByUrl('/tabs/channels/list/mines')
       },
       err => {
         this.toastService.presentStdToastr(err)

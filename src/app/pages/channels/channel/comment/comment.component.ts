@@ -84,7 +84,7 @@ export class CommentComponent implements OnInit {
 
   showUserProfile(id: string){
     if(!this.comment.anonyme && this.user.id != id){
-      this.router.navigate(['/profile/display/' + id])
+      this.router.navigate(['/tabs/profile/display/' + id])
       this.modalCtrl.dismiss();
     }
   }

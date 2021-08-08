@@ -197,7 +197,7 @@ export class DisplayComponent implements OnInit {
       err => {
         err = JSON.parse(err);
         if(err.code && err.code == constants.ERROR_CODES.SUBSCRIPTION_ERROR){
-          this.router.navigate(['/subscription']);
+          this.router.navigate(['/tabs/subscription']);
           this.toastService.presentStdToastr(err.message)
         }
         else this.toastService.presentStdToastr(err)
@@ -300,7 +300,7 @@ export class DisplayComponent implements OnInit {
     .then(
       (resp: any) => {
         this.toastService.presentStdToastr(resp.message)
-        this.router.navigateByUrl('/profile/display/null')
+        this.router.navigateByUrl('/tabs/profile/display/null')
       },
       err => {
         this.toastService.presentStdToastr(err)
