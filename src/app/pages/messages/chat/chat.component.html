@@ -7,7 +7,7 @@
 >
   <div id="end-buttons">
     <ion-buttons slot="end">
-      <ion-button *ngIf="authUser && authUser.subscription" shape="round" [routerLink]="['/tabs/messages/video/' + (user ? user.id : '')]">
+      <ion-button *ngIf="authUser && authUser.subscription" shape="round" [routerLink]="['/messages/video/' + (user ? user.id : '')]">
          <i class="fas fa-video"></i>
        </ion-button>
     </ion-buttons>

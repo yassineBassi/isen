@@ -2,7 +2,6 @@ import { UserService } from './../../services/user.service';
 import { HTTP } from '@ionic-native/http/ngx';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { SlideComponent } from './slide/slide.component';
-import { SlidesComponent } from './slides/slides.component';
 import { ListComponent } from './list/list.component';
 import { SharingModule } from './../sharing/sharing.module';
 import { NgModule } from '@angular/core';
@@ -27,7 +26,6 @@ import { SearchOptionsComponent } from './search-options/search-options.componen
   declarations: [
     NewFriendsPage,
     ListComponent,
-    SlidesComponent,
     SlideComponent,
     SearchOptionsComponent
   ],

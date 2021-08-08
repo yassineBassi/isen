@@ -10,46 +10,26 @@
   </div>
 </app-header>
 
-<ion-row>
-  <ion-col size="6" class="ion-no-padding">
-    <ion-button
-        expand="block"
-        fill="clear"
-        class="ion-no-margin tab-button text-capitalize"
-        size="default"
-        routerLinkActive="selected"
-        [routerLinkActiveOptions]="{exact: true}"
-        routerLink="/tabs/new-friends/list/near"
-    >
-      Near Users
-    </ion-button>
-  </ion-col>
-  <ion-col size="6" class="ion-no-padding">
-    <ion-button
-        expand="block"
-        fill="clear"
-        class="ion-no-margin tab-button text-capitalize"
-        size="default"
-        routerLinkActive="selected"
-        [routerLinkActiveOptions]="{exact: true}"
-        routerLink="/tabs/new-friends/list/random"
-    >
-      Random Users
-    </ion-button>
-  </ion-col>
-</ion-row>
+<ion-item *ngIf="!pageLoading">
+  <ion-label class="ml-2">Random</ion-label>
+  <ion-toggle [(ngModel)]="random" (change)="getNearUsers(null, true)" ></ion-toggle>
+</ion-item>
 
 <ion-content>
 
   <app-loader *ngIf="pageLoading" ></app-loader>
 
-  <app-slides [authUser]="authUser" [random]="random" (back)="showSlides = false" *ngIf="showSlides" [initialSlide]="initialSlide" [users]="users"></app-slides>
+  <ion-slides *ngIf="!pageLoading" class="h-100" pager="false" [options]="slideOpts">
+    <ion-slide class="h-100" *ngFor="let user of users">
+      <app-slide [authUser]="authUser" [random]="random" class="h-100 w-100" [user]="user"></app-slide>
+    </ion-slide>
+  </ion-slides>
 
   <ion-refresher *ngIf="!showSlides" slot="fixed" pullFactor="0.5" pullMin="100" pullMax="200"  (ionRefresh)="getNearUsers($event, true)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  <ion-card class="p-2" *ngIf="users && !users.length">
+  <!-- <ion-card class="p-2" *ngIf="users && !users.length">
     <ion-card-subtitle>There is no friend in this area</ion-card-subtitle>
   </ion-card>
 
@@ -83,5 +63,5 @@
       loadingSpinner="crescent"
     >
     </ion-infinite-scroll-content>
-  </ion-infinite-scroll>
+  </ion-infinite-scroll> -->
 </ion-content>

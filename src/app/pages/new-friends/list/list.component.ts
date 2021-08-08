@@ -31,6 +31,11 @@ export class ListComponent implements OnInit {
   showSlides = false;
   random = false;
   authUser: User;
+  slideOpts = {
+    initialSlide: 1,
+    speed: 400
+  };
+
 
   constructor(private userService: UserService, private modalController: ModalController, private route: ActivatedRoute,
               private changeDetectorRef: ChangeDetectorRef, private nativeStorage: NativeStorage) { }
@@ -70,7 +75,7 @@ export class ListComponent implements OnInit {
       (resp: any) => {
         if(!event || refresh) this.users = [];
 
-        if(refresh) this.infinitScroll.disabled = false
+        // if(refresh) this.infinitScroll.disabled = false
 
         if(event){
           event.target.complete();

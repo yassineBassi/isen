@@ -1,14 +1,10 @@
 
 .icon{
-  font-size: 20px;
+  font-size: 17px;
   color: rgb(160, 160, 160);
 }
-.selected>.icon{
-  font-size: 22px;
-  color: var(--ion-color-primary);
-}
 .tab-selected>*{
-  font-size: 22px;
+  font-size: 24px;
   --color: var(--ion-color-primary);
   color: var(--ion-color-primary);
  }

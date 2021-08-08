@@ -1,4 +1,3 @@
-import { SlidesComponent } from './slides/slides.component';
 import { ListComponent } from './list/list.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';

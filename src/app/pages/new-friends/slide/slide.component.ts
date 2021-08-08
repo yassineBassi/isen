@@ -64,7 +64,8 @@ export class SlideComponent implements OnInit {
   cancelRequest(){
     this.requestService.cancelRequest(this.user.requests[0].id)
     .then(
-      resp => {
+      (resp: any) => {
+        this.toastService.presentStdToastr(resp.message)
         this.user.request = null;
         this.user.requests = [];
       },
@@ -77,6 +78,7 @@ export class SlideComponent implements OnInit {
     .then(
       (resp: any) => {
         this.user.friend = false;
+        
         if(typeof resp.data.request == 'string')  this.user.request = resp.data.request;
         else{
            this.user.requests.push(new Request(resp.data.request));
