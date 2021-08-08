@@ -51,10 +51,10 @@ const routes: Routes = [
         path: 'profile/settings',
         loadChildren: () => import('./../settings/settings.module').then( m => m.SettingsPageModule),
       },
-      // {
-      //   path: 'subscription',
-      //   loadChildren: () => import('./pages/subscription/subscription.module').then( m => m.SubscriptionPageModule)
-      // },
+      {
+        path: 'subscription',
+        loadChildren: () => import('./../subscription/subscription.module').then( m => m.SubscriptionPageModule)
+      },
     ]
   }
 ];

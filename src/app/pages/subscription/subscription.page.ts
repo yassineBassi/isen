@@ -43,4 +43,22 @@ export class SubscriptionPage implements OnInit {
       console.log(err);
     })
   }
+
+  savedPrice(ind: number){
+    const previousPrice = this.prices[ind - 1];
+    const currentPrice = this.prices[ind];
+    const expectedPrice = this.howManyIn(previousPrice.duration, currentPrice.duration) * parseFloat(previousPrice.price);
+    const diff = expectedPrice - parseFloat(currentPrice.price);
+    return Math.round( diff * 100 / expectedPrice);
+  }
+
+  howManyIn(duration1, duration2): number{
+    if(duration2 == 'year'){
+      return duration1 == 'month' ? 12 : (duration1 == 'week' ? 48 : 365)
+    }
+    if(duration2 ==  'month'){
+      return duration1 == 'week' ? 4 : 30
+    }
+    return 7;
+  }
 }

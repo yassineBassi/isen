@@ -31,7 +31,6 @@ import { WebrtcService } from './services/webrtc.service';
     AppComponent,
     InternetErrorComponent
   ],
-  entryComponents: [],
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
