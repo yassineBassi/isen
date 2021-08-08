@@ -3,6 +3,7 @@
   [back]="true"
   [avatar]="!!user"
   [avatarSrc]="user ? user.avatar.path : null"
+  [reverseColors]="true"
 >
   <div id="end-buttons">
     <ion-buttons slot="end">
@@ -56,7 +57,7 @@
           [class]="[message.isMine(authUser.id) ? 'text-right' : 'text-left']"
             size="12"
           >
-            
+
           </ion-col>
         </ion-row>
         <ion-button
@@ -83,11 +84,11 @@
       </ion-button>
     </ion-buttons>
 
-    <ion-input 
-      (keydown.enter)="addMessage()" 
+    <ion-input
+      (keydown.enter)="addMessage()"
       (ionFocus)="scrollToBottom()"
-      [(ngModel)]="messageText" 
-      class="mx-2 chat-input" 
+      [(ngModel)]="messageText"
+      class="mx-2 chat-input"
       placeholder="tape your message here"
     ></ion-input>
 

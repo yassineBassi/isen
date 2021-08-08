@@ -1,4 +1,15 @@
-<app-header title="Friends" [menu]="true"></app-header>
+<app-header title="Friends" [menu]="true">
+  <div id="end-buttons">
+    <ion-button
+      fill="clear"
+      shape="round"
+      class="mr-2"
+      routerLink="/messages"
+    >
+      <i class="icon far fa-comments"></i>
+    </ion-button>
+  </div>
+</app-header>
 
 <ion-row>
   <ion-col size="6" class="ion-no-padding">

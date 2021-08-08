@@ -37,3 +37,7 @@
 .online-icon{
   font-size: 10px;
 }
+
+.tab-button.selected{
+  border-bottom:2px solid var(--ion-color-primary)!important;
+}

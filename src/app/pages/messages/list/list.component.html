@@ -1,23 +1,26 @@
-<app-header title="Messages" [menu]="true"></app-header>
-
-<app-loader *ngIf="pageLoading"></app-loader>
+<app-header title="Friends Chat" [back]="true"></app-header>
 
 <ion-content>
+  <app-loader *ngIf="pageLoading"></app-loader>
+
   <ion-refresher slot="fixed" pullFactor="0.5" pullMin="100" pullMax="200"  (ionRefresh)="getUsersMessages($event, true)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  <ion-card class="p-2 mt-2 text-center" *ngIf="(!users || !users.length) && !pageLoading">
-    <ion-card-subtitle>You don't have any message yet</ion-card-subtitle>
-  </ion-card>
+
+  <div class="h-100 d-flex align-items-center" *ngIf="(!users || !users.length) && !pageLoading">
+    <div class="w-100 text-center">
+      <span class="empty-alert">You have no chat yet</span>
+    </div>
+  </div>
 
   <ion-list class="p-0">
-    <ion-item [routerLink]="['/messages/chat/' + user.id]" *ngFor="let user of users">
-      <ion-avatar class="ml-2">
+    <ion-item class="my-2" lines="none" [routerLink]="['/messages/chat/' + user.id]" *ngFor="let user of users">
+      <ion-avatar class="avatar ml-2">
         <img [src]="user.avatar.path" alt="">
       </ion-avatar>
-      <ion-label class="ml-2">
-        <span class="mb-0 title font-weight-bold d-block">{{ user.fullName }}</span>
+      <ion-label class="ml-3">
+        <span class="mb-0 title d-block">{{ user.fullName }}</span>
         <span *ngIf="user.messages && user.messages.length">
           <span *ngIf="user.messages[0].image" class="text-secondary">
             <i class="fas fa-image mr-1"></i> Photo

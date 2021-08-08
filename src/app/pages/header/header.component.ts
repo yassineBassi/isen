@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, OnChanges, SimpleChange, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 
@@ -8,7 +8,7 @@ import { ModalController } from '@ionic/angular';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnChanges {
 
   @Input() back = false;
   @Input() menu = false;
@@ -16,6 +16,7 @@ export class HeaderComponent implements OnInit {
   @Input() backLink = undefined;
   @Input() search = false;
   @Input() modal = false;
+  @Input() reverseColors = false;
   backgroundColor = "white";
   textColor = "#7C3CD7";
   @Input() avatar = false;
@@ -26,6 +27,14 @@ export class HeaderComponent implements OnInit {
   constructor(private location: Location, private router: Router, private modalCtrl: ModalController) { }
 
   ngOnInit() {}
+
+  ngOnChanges(changes: SimpleChanges){
+    if(changes.reverseColors){
+      const color = this.backgroundColor;
+      this.backgroundColor = this.textColor;
+      this.textColor = color
+    }
+  }
 
   goBack(){
     if(this.modal) this.modalCtrl.dismiss({});

@@ -3,11 +3,9 @@
   font-size: 14px;
   height: 45px;
 }
-.tab-button{
-  --ion-color-base: #fff!important;
-  --ion-color-contrast: #000!important;
-}
-
 .tab-button.selected{
   border-bottom:2px solid var(--ion-color-primary)!important;
+}
+.icon{
+  font-size: 20px;
 }
