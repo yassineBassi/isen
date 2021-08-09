@@ -14,9 +14,18 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  <ion-card class="p-2 text-center" *ngIf="products && !products.length">
-    <ion-card-subtitle>There is no product to show</ion-card-subtitle>
-  </ion-card>
+  <div class="h-100 d-flex align-items-center" *ngIf="products && !products.length">
+    <div class="w-100 text-center px-4">
+      <img src="./../../../../assets/shop.svg" alt="">
+      <span class="empty-alert d-block mt-4">
+        <span *ngIf="type == 'sell'">
+          You didn't post any product yet<br/>
+          <small>Click on <i class="fas fa-plus"></i> to sell your first product</small>
+        </span>
+        <span *ngIf="type == 'buy'">There is no product available to buy yet!</span>
+      </span>
+    </div>
+  </div>
 
   <ion-list *ngIf="products">
     <ion-item *ngFor="let product of products" [routerLink]="['/tabs/buy-and-sell/product/' + product.id]">
@@ -42,7 +51,7 @@
   </ion-infinite-scroll>
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed" *ngIf="type == 'sell'">
-    <ion-fab-button color="secondary" (click)="showProductForm()" class="mr-2">
+    <ion-fab-button color="primary" (click)="showProductForm()" class="mr-2">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>

@@ -1,5 +1,5 @@
 <app-header
-  title="Find a Job"
+  [title]="type == 'posted' ? 'Posted Jobs' : 'Available Jobs'"
   [back]="true"
   [backLink]="'/tabs/small-business'"
   [search]="true"
@@ -7,7 +7,24 @@
 >
 </app-header>
 
-<app-loader *ngIf="pageLoading" ></app-loader>
+<ion-item class="ml-2 -dlex">
+  <ion-button
+    fill="clear"
+    *ngIf="type == 'posted'"
+    class="mx-auto"
+    routerLink="/tabs/small-business/jobs/list/available"
+  >
+    View Available Jobs
+  </ion-button>
+  <ion-button
+    fill="clear"
+    *ngIf="type == 'available'"
+    class="mx-auto"
+    routerLink="/tabs/small-business/jobs/list/posted"
+  >
+    View Posted Jobs
+  </ion-button>
+</ion-item>
 
 <ion-content>
 
@@ -15,28 +32,22 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
+  <app-loader *ngIf="pageLoading" ></app-loader>
+
+  <div class="h-100 d-flex align-items-center" *ngIf="jobs && !jobs.length">
+    <div class="w-100 text-center px-4">
+      <img src="./../../../../assets/job.svg" alt="">
+      <span class="empty-alert d-block mt-4">
+        <span *ngIf="type == 'posted'">
+          You didn't post any job yet<br>
+          <small>Click on <i class="fas fa-plus"></i> to create you first job post</small>
+        </span>
+        <span *ngIf="type == 'available'">There is no job available now, come back later!</span>
+      </span>
+    </div>
+  </div>
+
   <div class="px-2" >
-
-    <ion-item class="ml-2">
-      <ion-label class="m-0">{{ type == 'posted' ? 'Posted Jobs' : 'All Jobs' }}</ion-label>
-      <ion-button
-        fill="clear"
-        *ngIf="type != 'posted'"
-        (click)="showJobForm()"
-      >
-        Post job
-      </ion-button><ion-button
-        fill="clear"
-        *ngIf="type == 'posted'"
-        routerLink="/tabs/small-business/jobs/list/available"
-      >
-        View as Buyer
-      </ion-button>
-    </ion-item>
-
-    <ion-card class="p-2 text-center" *ngIf="jobs && !jobs.length">
-      <ion-card-subtitle>There is no job to show</ion-card-subtitle>
-    </ion-card>
 
     <ion-list class="mt-0 pt-0" *ngIf="jobs" >
       <ion-item *ngFor="let job of jobs" class="job-item mb-2 podition-relative ion-no-padding" [routerLink]="['/tabs/small-business/jobs/job/' + job.id]">
@@ -48,22 +59,14 @@
           </div>
         </div>
       </ion-item>
-
-      <!-- <ion-item *ngFor="let job of jobs" >
-        <ion-thumbnail class="ml-2">
-          <ion-img [src]="job.photo.path"></ion-img>
-        </ion-thumbnail>
-        <ion-label class="ml-2">
-          <span class="d-block">{{ job.title }}</span>
-          <small>{{ job.company }}</small>
-        </ion-label>
-        <small class="mr-2 text-right">
-          <span class="d-block">{{ job.createdAt | extractDiffTime }} ago</span>
-          <span class="d-block">{{ job.city }}</span>
-        </small>
-      </ion-item> -->
     </ion-list>
   </div>
+
+  <ion-fab slot="fixed" horizontal="end" vertical="bottom" *ngIf="type == 'posted'">
+    <ion-fab-button (click)="showJobForm()">
+      <i class="fas fa-plus"></i>
+    </ion-fab-button>
+  </ion-fab>
 
   <ion-infinite-scroll #infinitScroll threshold="100px" (ionInfinite)="getJobs($event)">
     <ion-infinite-scroll-content

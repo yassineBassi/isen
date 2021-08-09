@@ -58,7 +58,6 @@ export class ListComponent implements OnInit {
   }
 
   handleResponse(resp, event, refresh){
-    this.pageLoading = false;
     if(!event || refresh) this.channels = []
 
     resp.data.channels.forEach(channel => {
@@ -71,6 +70,7 @@ export class ListComponent implements OnInit {
       event.target.complete();
       if(!refresh && !resp.data.more) event.target.disabled = true;
     }
+    this.pageLoading = false;
   }
 
   handleError(err){

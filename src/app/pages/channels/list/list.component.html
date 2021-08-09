@@ -9,10 +9,17 @@
   </ion-refresher>
 
   <div class="h-100 d-flex align-items-center" *ngIf="channels && !channels.length && !pageLoading">
-    <div class="w-100 text-center">
-      <span class="empty-alert">
-        <span *ngIf="type == 'mines'">You didn't create any channel yet !</span>
-        <span *ngIf="type == 'followed'">You didn't follow any channel yet !</span>
+    <div class="w-100 text-center px-4">
+      <img src="./../../../../assets/channels.svg" alt="">
+      <span class="empty-alert pt-4 d-block">
+        <span *ngIf="type == 'mines'">
+          You didn't create any channel yet !<br/>
+          <small>Click on <i class="fas fa-plus"></i> to add new channel, and share your thought with other peoples</small>
+        </span>
+        <span *ngIf="type == 'followed'">
+          You didn't follow any channel yet !<br>
+          <small>Click on <i class="fas fa-globe-americas"></i> to explore new channels around your city</small>
+        </span>
         <span *ngIf="type == 'explore'">
           there is no other channels available in your city !
         </span>
@@ -20,7 +27,7 @@
     </div>
   </div>
 
-  <ion-list class="p-0 m-0" *ngIf="channels && channels.length">
+  <ion-list class="p-0 m-0" *ngIf="channels && channels.length ">
     <ion-item
       *ngFor="let channel of channels"
       lines="none"
