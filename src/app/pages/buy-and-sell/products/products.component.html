@@ -27,21 +27,21 @@
     </div>
   </div>
 
-  <ion-list *ngIf="products">
-    <ion-item *ngFor="let product of products" [routerLink]="['/tabs/buy-and-sell/product/' + product.id]">
-      <ion-thumbnail class="ml-2">
-        <ion-img [src]="product.photo.path"></ion-img>
-      </ion-thumbnail>
-      <ion-label class="ml-2">
-        <span class="d-block">{{ product.label }}</span>
-        <small>{{ product.createdAt | extractDate }}</small>
-      </ion-label>
-      <span class="mr-2 text-right">
-        <span class="d-block">{{ product.price }} {{ product.currency }}</span>
-        <small class="d-block">{{ product.country }}, {{ product.city }}</small>
-      </span>
-    </ion-item>
-  </ion-list>
+
+  <div class="px-2" >
+    <ion-list class="mt-0 pt-0" *ngIf="products" >
+      <ion-item *ngFor="let product of products" class="product-item mb-2 podition-relative ion-no-padding" [routerLink]="['/tabs/small-business/products/product/' + product.id]">
+        <img [src]="product.photo.path" alt="">
+        <div class="product-info d-flex">
+          <div class="ml-2 mt-auto">
+            <span class="title d-block">{{ product.label }}</span>
+            <small class="subtitle">{{ product.price + ' ' + product.currency }}</small>
+          </div>
+        </div>
+      </ion-item>
+    </ion-list>
+  </div>
+
 
   <ion-infinite-scroll #infinitScroll threshold="100px" (ionInfinite)="getProducts($event)">
     <ion-infinite-scroll-content

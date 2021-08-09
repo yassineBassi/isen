@@ -17,28 +17,32 @@ export class UploadFileService {
 
 
   takePicture(sourceType){
-    
+    const destinationType = this.platform.is('ios') ? this.camera.DestinationType.NATIVE_URI
+    : (this.platform.is('android') ? this.camera.DestinationType.FILE_URI : this.camera.DestinationType.DATA_URL);
+
     const options: CameraOptions = {
-      quality: 30,
-      correctOrientation: true,
-      allowEdit: false,
-      targetWidth: 4000,
-      targetHeight: 2250,
-      destinationType: this.camera.DestinationType.DATA_URL,
+      quality: 75,
+      destinationType,
       encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE
+      mediaType: this.camera.MediaType.PICTURE,
+      sourceType,
+      targetWidth: 1024,
+      targetHeight: 1024,
+      allowEdit: false,
+      saveToPhotoAlbum: false
     };
 
-    options.sourceType = sourceType;
-    options.destinationType = this.platform.is('ios') ? this.camera.DestinationType.NATIVE_URI : (this.platform.is('android') ? this.camera.DestinationType.FILE_URI : this.camera.DestinationType.DATA_URL);
+    console.log(options)
     return new Promise((resolve, reject) => {
       this.permissionService.getPermission(sourceType == this.camera.PictureSourceType.CAMERA ? this.androidPermission.PERMISSION.CAMERA : this.androidPermission.PERMISSION.READ_EXTERNAL_STORAGE)
       .then(
         () => {
+          console.log('got permission')
           this.camera.getPicture(options)
-          .then((imageData) => {   
+          .then((imageData) => {
+            console.log('imageData');
             console.log(imageData);
-                     
+
             if (this.platform.is('android') && sourceType === this.camera.PictureSourceType.PHOTOLIBRARY) {
               this.filePath.resolveNativePath(imageData)
                 .then(filePath => {
@@ -51,6 +55,7 @@ export class UploadFileService {
             }
           },
           err => {
+            console.log('err 1 ');
             reject(err);
           });
         }
@@ -72,7 +77,7 @@ export class UploadFileService {
         });
     });
   }
-  
+
   generateBlobImg(file: IFile,imageData) {
     return new Promise((resolve, reject) => {
         const fileName = file.name.substring(0, file.name.lastIndexOf('.') + 1) + 'jpg';
@@ -88,5 +93,5 @@ export class UploadFileService {
         };
     });
   }
-  
+
 }

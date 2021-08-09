@@ -2,7 +2,6 @@ import { FilePath } from '@ionic-native/file-path/ngx';
 import { UploadFileService } from './../../services/upload-file.service';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { SharingModule } from './../sharing/sharing.module';
-import { ImageResizer } from '@ionic-native/image-resizer/ngx';
 import { Camera } from '@ionic-native/camera/ngx';
 import { DisplayComponent } from './display/display.component';
 import { FormComponent } from './form/form.component';
@@ -33,7 +32,6 @@ import { ProfilePage } from './profile.page';
   ],
   providers: [
     Camera,
-    ImageResizer,
     NativeStorage,
     UploadFileService,
     FilePath,
