@@ -17,7 +17,7 @@
 
   <ion-row *ngIf="step < steps.length - 1">
     <ion-col class="px-3">
-      <ion-progress-bar  color="secondary" [value]="(step + 1) * 0.2"></ion-progress-bar>
+      <ion-progress-bar  color="primary" [value]="(step + 1) * 0.2"></ion-progress-bar>
     </ion-col>
   </ion-row>
 
@@ -170,11 +170,10 @@
     </ion-col>
   </ion-row>
 </ion-content>
-<ion-footer>
-
+<ion-footer class="px-4">
   <ion-button
     expand="block"
-    color="secondary"
+    color="primary"
     class="my-2 mx-2"
     (click)="continue()"
     [disabled]="!isValid()"

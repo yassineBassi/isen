@@ -20,7 +20,7 @@ export class SignupComponent implements OnInit {
   btnLoading = false;
   pageLoading = false;
   form: FormGroup
-  
+
   countriesObject;
   countries: string[] = [];
   cities: string[] = [];
@@ -55,7 +55,7 @@ export class SignupComponent implements OnInit {
               private cdr: ChangeDetectorRef, private modalController: ModalController, private nativeStorage: NativeStorage) { }
 
   ionViewWillEnter(){
-    this.step = 3;
+    this.step = 0;
   }
 
   ngOnInit() {

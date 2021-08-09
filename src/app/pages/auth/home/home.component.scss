@@ -1,5 +1,8 @@
 .background{
-  --background: linear-gradient(rgb(112, 43, 43), rgb(216, 68, 68) 50%, rgb(112, 43, 43)) !important;;
+  --background: linear-gradient(
+    rgba(var(--ion-color-primary-rgb), 2),
+    rgba(var(--ion-color-primary-rgb), 0.8) 50%,
+    #000) !important;;
 }
 
 .logo-img{
@@ -29,4 +32,8 @@
   background-color: rgba(var(--ion-color-dark-rgb), 0.7);
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
+}
+ion-footer{
+  background-color: #000;
+  color: #fff;
 }

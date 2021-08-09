@@ -4,44 +4,43 @@
 <ion-content>
     <form [formGroup]="form">
       <ion-list class="mx-3">
-        <ion-item>
+        <ion-item class="my-3">
           <ion-input formControlName="email" placeholder="E-mail"></ion-input>
         </ion-item>
         <div class="w-100 text-danger mt-1" *ngIf="validationErrors['email']">
           <span *ngFor="let error of validationErrors['email']">{{ error }}</span>
         </div>
-        <ion-item>
+        <ion-item class="my-3">
           <ion-input type="password" formControlName="password" placeholder="Password"></ion-input>
         </ion-item>
         <div class="w-100 text-danger mt-1" *ngIf="validationErrors['password']">
           <span *ngFor="let error of validationErrors['password']">{{ error }}</span>
         </div>
-            <ion-button
-              expand="block"
-              size="small"
-              fill="clear"
-              class="mt-4"
-            >
-              Forget password ?
-            </ion-button>
-            <ion-button
-              expand="block"
-              color="secondary"
-              fill="outline"
-              size="small"
-              class="mt-2"
-              routerLink="/auth/signup"
-            >
-              Register
-            </ion-button>
+        <!-- <ion-button
+          expand="block"
+          size="small"
+          fill="clear"
+          class="mt-4"
+        >
+          Forget password ?
+        </ion-button> -->
+        <ion-button
+          expand="block"
+          color="primary"
+          fill="outline"
+          size="small"
+          class="mt-4"
+          routerLink="/auth/signup"
+        >
+          Register
+        </ion-button>
       </ion-list>
     </form>
 </ion-content>
-<ion-footer>
+<ion-footer class="px-3">
   <ion-button
     expand="block"
-    color="secondary"
-    class="my-2 mx-2"
+    color="primary"
     (click)="submit()"
   >
     Login
