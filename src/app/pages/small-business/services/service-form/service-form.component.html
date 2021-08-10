@@ -2,7 +2,7 @@
 
 <app-loader *ngIf="pageLoading"></app-loader>
 
-<ion-content>
+<ion-content *ngIf="!pageLoading">
   <div (click)="pickImage()" class="w-100 image-container">
     <div *ngIf="!serviceImage.url" class="w-100 h-100 bg-light d-flex justify-content-center align-items-center">
       <span class="text-center">

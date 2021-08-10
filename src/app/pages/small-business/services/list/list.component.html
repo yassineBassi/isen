@@ -34,7 +34,7 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  <div class="h-100 d-flex align-items-center"  *ngIf="services && !services.length">
+  <div class="h-100 d-flex align-items-center"  *ngIf="services && !services.length && !pageLoading">
     <div class="w-100 text-center px-4">
       <img src="./../../../../../assets/services.svg" alt="">
       <span class="empty-alert d-block mt-4">
@@ -47,20 +47,24 @@
     </div>
   </div>
 
-
-  <div class="px-2" >
-    <ion-list class="mt-0 pt-0" *ngIf="services" >
-      <ion-item *ngFor="let service of services" class="service-item mb-2 podition-relative ion-no-padding" [routerLink]="['/tabs/small-business/services/service/' + service.id]">
-        <img [src]="service.photo.path" alt="">
-        <div class="service-info d-flex">
-          <div class="ml-2 mt-auto">
-            <span class="title d-block">{{ service.title }}</span>
-            <small class="subtitle">{{ service.company }}</small>
+  <ion-row *ngIf="services" class="px-2">
+    <ion-col size="6" *ngFor="let service of services" [routerLink]="['/tabs/small-business/services/service/' + service.id]">
+      <ion-item button="true" >
+        <div class="w-100">
+          <div class="square-container overflow-hidden">
+            <img class="w-100" [src]="service.photo.path" alt="">
+          </div>
+          <div class="px-2 pt-1">
+            <div class="d-flex justify-content-between">
+              <span>{{ service.title | resumeText: 6 }}</span>
+              <span>{{ service.company }}</span>
+            </div>
+            <small class="time">{{ service.createdAt | extractDiffTime }} ago</small>
           </div>
         </div>
       </ion-item>
-    </ion-list>
-  </div>
+    </ion-col>
+  </ion-row>
 
   <ion-infinite-scroll #infinitScroll threshold="100px" (ionInfinite)="getServices($event)">
     <ion-infinite-scroll-content

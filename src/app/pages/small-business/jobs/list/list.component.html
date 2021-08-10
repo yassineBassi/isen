@@ -34,7 +34,7 @@
 
   <app-loader *ngIf="pageLoading" ></app-loader>
 
-  <div class="h-100 d-flex align-items-center" *ngIf="jobs && !jobs.length">
+  <div class="h-100 d-flex align-items-center" *ngIf="jobs && !jobs.length && !pageLoading">
     <div class="w-100 text-center px-4">
       <img src="./../../../../assets/job.svg" alt="">
       <span class="empty-alert d-block mt-4">
@@ -47,20 +47,26 @@
     </div>
   </div>
 
-  <div class="px-2" >
 
-    <ion-list class="mt-0 pt-0" *ngIf="jobs" >
-      <ion-item *ngFor="let job of jobs" class="job-item mb-2 podition-relative ion-no-padding" [routerLink]="['/tabs/small-business/jobs/job/' + job.id]">
-        <img [src]="job.photo.path" alt="">
-        <div class="job-info d-flex">
-          <div class="ml-2 mt-auto">
-            <span class="title d-block">{{ job.title }}</span>
-            <small class="subtitle">{{ job.company }}</small>
+
+  <ion-row *ngIf="jobs" class="px-2">
+    <ion-col size="6" *ngFor="let job of jobs" [routerLink]="['/tabs/small-business/jobs/job/' + job.id]">
+      <ion-item button="true" >
+        <div class="w-100">
+          <div class="square-container overflow-hidden">
+            <img class="w-100" [src]="job.photo.path" alt="">
+          </div>
+          <div class="px-2 pt-1">
+            <div class="d-flex justify-content-between">
+              <span>{{ job.title | resumeText: 6 }}</span>
+              <span>{{ job.company }}</span>
+            </div>
+            <small class="time">{{ job.createdAt | extractDiffTime }} ago</small>
           </div>
         </div>
       </ion-item>
-    </ion-list>
-  </div>
+    </ion-col>
+  </ion-row>
 
   <ion-fab slot="fixed" horizontal="end" vertical="bottom" *ngIf="type == 'posted'">
     <ion-fab-button (click)="showJobForm()">

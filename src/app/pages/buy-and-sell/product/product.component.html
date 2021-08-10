@@ -12,7 +12,7 @@
 
 <app-loader *ngIf="pageLoading"></app-loader>
 
-<ion-content>
+<ion-content *ngIf="!pageLoading">
 
   <ion-refresher slot="fixed" pullFactor="0.5" pullMin="100" pullMax="200"  (ionRefresh)="getProduct($event)">
     <ion-refresher-content></ion-refresher-content>
@@ -54,27 +54,23 @@
   </div>
 </ion-content>
 
-<ion-footer>
-  <ion-item *ngIf="product">
-    <div class="w-100 pl-1">
-      <ion-button
-        expand="block"
-        size="default"
-        color="secondary"
-        *ngIf="product.user.id != user.id"
-        [routerLink]="['/messages/chat/' + product.user.id]"
-      >
-        Chat with seller
-      </ion-button>
-      <ion-button
-        expand="block"
-        size="default"
-        color="secondary"
-        (click)="markAsSold()"
-        *ngIf="product.user.id == user.id && !product.sold"
-      >
-        {{ 'Mark as sold' }}
-      </ion-button>
-    </div>
-  </ion-item>
+<ion-footer class="px-3"*ngIf="product">
+    <ion-button
+      expand="block"
+      size="default"
+      color="primary"
+      *ngIf="product.user.id != user.id"
+      [routerLink]="['/messages/chat/' + product.user.id]"
+    >
+      Chat with seller
+    </ion-button>
+    <ion-button
+      expand="block"
+      size="default"
+      color="primary"
+      (click)="markAsSold()"
+      *ngIf="product.user.id == user.id && !product.sold"
+    >
+      {{ 'Mark as sold' }}
+    </ion-button>
 </ion-footer>
