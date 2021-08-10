@@ -1,19 +1,19 @@
 
 <div class="h-100 w-100 d-flex flex-column">
-  <div class="w-100 flex-grow-1 d-flex">
-    <div class="position-relative my-auto w-100">
+  <div class="w-100 flex-grow-1 d-flex position-relative overflow-hidden">
+    <div class="my-auto w-100 ">
       <img (click)="!random ? showProfile() : null" [src]="user.avatar.path" class="w-100" alt="">
-      <div class="p-2 user-details w-100 pl-3">
-        <span (click)="!random ? showProfile() : null" class="user-name d-flex align-items-center">
-          {{ user.fullName }}, {{ user.age }}
-          <span *ngIf="user.online"><i class="fas fa-circle online-icon ml-2"></i></span>
-        </span>
-        <span class="d-block text-left other-info ">{{ user.gender }}, {{ user.city }}</span>
-      </div>
+    </div>
+    <div class="p-2 user-details w-100 pl-3">
+      <span (click)="!random ? showProfile() : null" class="user-name d-flex align-items-center">
+        {{ user.fullName }}, {{ user.age }}
+        <span *ngIf="user.online"><i class="fas fa-circle online-icon ml-2"></i></span>
+      </span>
+      <span class="d-block text-left other-info ">{{ user.gender }}, {{ user.city }}</span>
     </div>
   </div>
-  <ion-row class="pb-4 px-3">
-    <ion-col *ngIf="!random" class="ion-no-padding text-center position-relative " size="6">
+  <div class="px-3 py-3 d-flex flex-grow-auto justify-content-around w-100">
+    <div *ngIf="!random" class="p-0">
         <ion-button shape="round" class="rounded-button"  (click)="request()" color="primary">
           <span *ngIf="user.friend"><i class="text-success fas fa-minus"></i></span>
           <span *ngIf="!user.friend">
@@ -22,26 +22,23 @@
             <span *ngIf="user.request == 'requesting'"><i class="fas fa-check"></i></span>
           </span>
         </ion-button>
-    </ion-col>
-    <ion-col *ngIf="random && authUser && authUser.subscription" class="ion-no-padding px-2 py-2 text-center position-relative " size="6">
+    </div>
+    <div *ngIf="random && authUser && authUser.subscription" class="p-0">
         <ion-button shape="round" class="rounded-button" (click)="navigateTo('/messages/video/' + user.id)" color="primary">
           <span><i class="fas fa-video"></i></span>
         </ion-button>
-    </ion-col>
-    <ion-col *ngIf="!random" class="ion-no-padding px-2 position-relative text-center" size="6">
-      <ion-button shape="round" class="rounded-button" (click)="follow()" [color]="user.followed ? 'primary' : 'warning'">
+    </div>
+    <div *ngIf="!random" class="p-0" >
+      <ion-button shape="round" class="rounded-button" (click)="follow()" [color]="!user.followed ? 'primary' : 'warning'">
         <span><i class="fas fa-star"></i></span>
       </ion-button>
-        <!-- <ion-button shape="round"  class="rounded-button" (click)="follow()" color="primary">
-          <span [class.text-warning]="user.followed"><i class="fas fa-star"></i></span>
-        </ion-button> -->
-    </ion-col>
-    <ion-col *ngIf="random" class="ion-no-padding position-relative px-2 py-2 text-center" size="6">
+    </div>
+    <div *ngIf="random" class="p-0" >
         <ion-button shape="round" class="rounded-button" (click)="navigateTo('/messages/chat/' + user.id)" color="primary">
           <span><i class="fas fa-comments"></i></span>
         </ion-button>
-    </ion-col>
-  </ion-row>
+    </div>
+  </div>
 </div>
 <!-- <div class="position-relative h-100 w-100">
   <ion-row class="ion-align-items-center mt-2">
@@ -58,5 +55,5 @@
           </div>
         </ion-card-content>
       </ion-card>
-      
+
 </div> -->

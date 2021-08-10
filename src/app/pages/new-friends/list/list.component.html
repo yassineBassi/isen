@@ -20,7 +20,7 @@
 
   <app-loader *ngIf="pageLoading" ></app-loader>
 
-  <ion-slides *ngIf="!pageLoading" class="h-100" pager="false" [options]="slideOpts">
+  <ion-slides #slides (ionSlideReachEnd)="getNearUsers()" *ngIf="!pageLoading && users && users.length" class="h-100" pager="false" [options]="slideOpts">
     <ion-slide class="h-100" *ngFor="let user of users">
       <app-slide [authUser]="authUser" [random]="random" class="h-100 w-100" [user]="user"></app-slide>
     </ion-slide>

@@ -7,19 +7,21 @@
 <app-loader *ngIf="pageLoading"></app-loader>
 
 <ion-content
-  [style]="{'--background': post.backgroundColor}"
+  [style]="{'--background': (pageLoading || !comments || !comments.length) ? '#fff' : post.backgroundColor}"
 >
-
 
   <ion-refresher slot="fixed" pullFactor="0.5" pullMin="100" pullMax="200"  (ionRefresh)="getComments($event, true)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  <ion-card class="p-2 text-center" [style]="{'--background': post.backgroundColor}" *ngIf="comments && !comments.length && !pageLoading">
-    <ion-card-subtitle [style]="{'color': post.color}">
-      <span>There is no comment in this post yet!</span>
-    </ion-card-subtitle>
-  </ion-card>
+  <div class="h-100 d-flex align-items-center" [style]="{'--background': post.backgroundColor}" *ngIf="comments && !comments.length && !pageLoading">
+    <div class="w-100 text-center px-4">
+      <img src="./../.../../../../../..//assets/comment.svg" alt="">
+      <span class="empty-alert d-block mt-4">
+        There is no comment in this post yet!
+      </span>
+    </div>
+  </div>
 
   <app-comment
     (removeComment)="removeComment(ind)"

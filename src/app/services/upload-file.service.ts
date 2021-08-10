@@ -29,7 +29,9 @@ export class UploadFileService {
       targetWidth: 1024,
       targetHeight: 1024,
       allowEdit: false,
-      saveToPhotoAlbum: false
+      saveToPhotoAlbum: false,
+      correctOrientation: true,
+
     };
 
     console.log(options)

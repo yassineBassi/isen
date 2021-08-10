@@ -1,5 +1,5 @@
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
-import { IonInfiniteScroll, ModalController } from '@ionic/angular';
+import { IonInfiniteScroll, IonSlides, ModalController } from '@ionic/angular';
 import { UserService } from './../../../services/user.service';
 import { User } from './../../../models/User';
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild, ChangeDetectorRef } from '@angular/core';
@@ -12,7 +12,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./list.component.scss'],
 })
 export class ListComponent implements OnInit {
-  @ViewChild('infinitScroll') infinitScroll: IonInfiniteScroll;
+  @ViewChild('slides') slides: IonSlides;
 
   @Input() users: User[];
   @Output() loadMore = new EventEmitter();
@@ -32,7 +32,7 @@ export class ListComponent implements OnInit {
   random = false;
   authUser: User;
   slideOpts = {
-    initialSlide: 1,
+    initialSlide: 0,
     speed: 400
   };
 
@@ -45,7 +45,11 @@ export class ListComponent implements OnInit {
 
   ionViewWillEnter(){
     this.page = 0;
-    this.checkRandom();
+    this.slideOpts = {
+      initialSlide: 0,
+      speed: 400
+    }
+    this.getNearUsers(null, true);
     this.getAuthUser();
   }
 
@@ -58,29 +62,14 @@ export class ListComponent implements OnInit {
     )
   }
 
-  checkRandom(){
-    this.route.paramMap.subscribe(
-      params => {
-        this.random = params.get('random') ? true : false;
-        this.getNearUsers(null, true);
-      }
-    )
-  }
-
   getNearUsers(event?, refresh?){
-    if(!event) this.pageLoading = true;
-    if(refresh) this.page = 0;
+    if(refresh){
+      this.page = 0;
+    }
     this.userService.getUsers(this.page++, {...this.options, type: this.random ? 'random' : 'near'})
     .then(
       (resp: any) => {
-        if(!event || refresh) this.users = [];
-
-        // if(refresh) this.infinitScroll.disabled = false
-
-        if(event){
-          event.target.complete();
-          if(!resp.data.more && !refresh) event.target.disabled = true;
-        }
+        if(refresh) this.users = [];
 
         console.log(resp.data);
         resp.data.users.forEach(user => {
@@ -90,6 +79,9 @@ export class ListComponent implements OnInit {
         if(this.random){
           this.showSlides = true
           this.initialSlide = 0
+        }
+        if(refresh && this.slides){
+          this.slides.slideTo(0, 200)
         }
 
         this.setUsers.emit(this.users)
@@ -118,7 +110,7 @@ export class ListComponent implements OnInit {
     await modal.present();
     const { data } = await modal.onDidDismiss();
     console.log(data);
-    
+
     if(Object.keys(data).length){
       this.options = data;
       this.page = 0;
@@ -130,4 +122,10 @@ export class ListComponent implements OnInit {
     this.initialSlide = ind;
     this.showSlides = true
   }
+
+  loadMoreData(){
+    console.log('hi');
+
+  }
+
 }
