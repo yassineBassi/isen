@@ -75,7 +75,7 @@
     </div>
   </div>
 
-  <div class="p-3" *ngIf="user">
+  <div class="p-3" *ngIf="user && !pageLoading">
       <ion-text color="primary"><i class="fas fa-info-circle mr-2"></i> Basic information</ion-text>
       <ion-list class="ml-3">
           <ion-item class="d-flex" lines="none">

@@ -9,6 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AfterViewInit, Component, ElementRef, OnInit } from '@angular/core';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { SocketService } from 'src/app/services/socket.service';
+import { MessengerService } from './../../../messenger.service';
 
 @Component({
   selector: 'app-video',
@@ -39,7 +40,9 @@ export class VideoComponent implements OnInit {
     private userService: UserService,
     private toastService: ToastService,
     private location: Location,
-    private nativeStorage: NativeStorage
+    private nativeStorage: NativeStorage,
+    private router: Router,
+    private messengerService: MessengerService
   ) {}
 
   ngOnInit() {}
@@ -52,6 +55,7 @@ export class VideoComponent implements OnInit {
   cancelListener(){
     this.socket.on('video-canceled', () => {
       if(this.audio) this.audio.pause();
+      this.messengerService.sendMessage({event: 'stop-audio'})
       this.playAudio("./../../../../../assets/audio/call-cenceled.mp3")
       setTimeout(() => {
         this.cancel();
@@ -95,7 +99,11 @@ export class VideoComponent implements OnInit {
       this.socket.emit('connect-user', this.user.id)
       const timer = setInterval(() => {
         if(this.init()){
-          if(this.answer) this.playAudio("./../../../../../assets/audio/phone-ringing.mp3");
+          if(this.answer) {
+            if(this.audio) this.audio.pause();
+            this.messengerService.sendMessage({event: 'stop-audio'})
+            this.playAudio("./../../../../../assets/audio/phone-ringing.mp3");
+          }
           this.cancelListener();
           clearInterval(timer);
         }
@@ -125,8 +133,11 @@ export class VideoComponent implements OnInit {
   }
 
   call() {
+    if(this.audio) this.audio.pause();
+    this.messengerService.sendMessage({event: 'stop-audio'})
     this.playAudio("./../../../../../assets/audio/ringing.mp3");
     this.webRTC.callPartner(this.partner.id);
+    this.socket.emit('calling', this.partner.id, this.partner.fullName)
     this.waitForAnswer();
   }
 
@@ -134,9 +145,10 @@ export class VideoComponent implements OnInit {
     const timer = setInterval(() => {
       if(this.partnerEl && this.partnerEl.srcObject){
         if(this.audio) this.audio.pause();
-         this.answered = true;
-         this.swapVideo('my-video');
-         clearInterval(timer);
+        this.messengerService.sendMessage({event: 'stop-audio'})
+        this.answered = true;
+        this.swapVideo('my-video');
+        clearInterval(timer);
       }
     }, 10)
   }
@@ -151,17 +163,21 @@ export class VideoComponent implements OnInit {
   }
 
   cancel(){
+    this.location.back();
+    this.messengerService.sendMessage({event: 'stop-audio'})
     if(this.audio) this.audio.pause();
     try {
       WebrtcService.call.close();
     } catch (error) {
       console.log(error);
+      this.router.navigateByUrl(('/tabs/profile/display/null'))
     }
-    this.location.back();
+
   }
 
   answerCall(){
     if(this.audio) this.audio.pause();
+    this.messengerService.sendMessage({event: 'stop-audio'})
     this.webRTC.answer();
     this.waitForAnswer();
   }

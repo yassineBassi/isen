@@ -10,6 +10,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Network } from '@ionic-native/network/ngx';
 import { WebrtcService } from './services/webrtc.service';
 import { Router } from '@angular/router';
+import { MessengerService } from './pages/messenger.service';
 
 @Component({
   selector: 'app-root',
@@ -20,6 +21,9 @@ export class AppComponent {
 
   socket = SocketService.socket;
   user: User;
+  audio: HTMLAudioElement;
+
+
   constructor(
     private platform: Platform,
     private nativeStorage: NativeStorage,
@@ -29,7 +33,8 @@ export class AppComponent {
     private statusBar: StatusBar,
     private splashScreen: SplashScreen,
     private network: Network,
-    private router: Router
+    private router: Router,
+    private messengerService: MessengerService
   ) {
     this.initializeApp();
   }
@@ -52,8 +57,23 @@ export class AppComponent {
     this.oneSignalService.close();
   }
 
+  playAudio(src){
+    this.audio = new Audio();
+    this.audio.src = src
+    this.audio.load();
+    this.audio.loop = true;
+    this.audio.play();
+  }
+
   connectUser(){
-    this.socket.emit('connect-user', this.user.id)
+    this.socket.emit('connect-user', this.user.id);
+    this.socket.on('called', () => {
+      console.log('called')
+      this.playAudio("./../../../../../assets/audio/phone-ringing.mp3");
+      this.messengerService.onMessage().subscribe(msg => {
+        if(msg && msg.event && msg.event == 'stop-audio') this.audio.pause();
+      })
+    })
   }
 
   getUserData(){

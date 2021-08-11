@@ -26,7 +26,7 @@ export class WebrtcService {
   };
   static call;
 
-  constructor(private androidPermission: AndroidPermissions, private permissionService: PermissionService, 
+  constructor(private androidPermission: AndroidPermissions, private permissionService: PermissionService,
               private router: Router) {
     this.options = {
       key: 'cd1ft79ro8g833di',
@@ -51,18 +51,21 @@ export class WebrtcService {
     })
   }
 
+
   async init(myEl: HTMLMediaElement, partnerEl: HTMLMediaElement) {
     return new Promise((resolve, reject) => {
       this.permissionService.getPermission(this.androidPermission.PERMISSION.CAMERA).then(() => {
         this.permissionService.getPermission(this.androidPermission.PERMISSION.RECORD_AUDIO).then(() => {
-          this.myEl = myEl;
-          this.partnerEl = partnerEl;
-          try {
-            this.getMedia('user').then(() => resolve(true), () => reject(true))
-          } catch (e) {
-            this.handleError(e);
-            reject(true)
-          }
+          this.permissionService.getPermission(this.androidPermission.PERMISSION.MODIFY_AUDIO_SETTINGS).then(() => {
+            this.myEl = myEl;
+            this.partnerEl = partnerEl;
+            try {
+              this.getMedia('user').then(() => resolve(true), () => reject(true))
+            } catch (e) {
+              this.handleError(e);
+              reject(true)
+            }
+          })
         })
       })
     })
@@ -76,7 +79,7 @@ export class WebrtcService {
     });
   }
 
-  callPartner(partnerId: string) {    
+  callPartner(partnerId: string) {
     WebrtcService.call= WebrtcService.peer.call(partnerId, this.myStream);
 
     WebrtcService.call.on('error', (error) => {
@@ -135,7 +138,7 @@ export class WebrtcService {
     return this.myStream.getVideoTracks()[0].enabled
   }
 
-  
+
   toggleAudio(){
     this.myStream.getAudioTracks()[0].enabled = !this.myStream.getAudioTracks()[0].enabled
     return this.myStream.getAudioTracks()[0].enabled

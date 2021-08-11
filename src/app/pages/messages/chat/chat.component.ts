@@ -146,12 +146,12 @@ export class ChatComponent implements OnInit {
         this.allowToChat = resp.data.allowToChat;
 
         console.log(this.messages);
-        
+
       },
       err => {
         console.log(err);
         this.pageLoading = false;
-        this.toastService.presentStdToastr('')
+        this.toastService.presentStdToastr(err)
       }
     )
   }
@@ -162,8 +162,8 @@ export class ChatComponent implements OnInit {
 
   initSocketListeners(){
 
-    this.socket.on('new-message', (message) => {      
-      if(this.user && message.from == this.user.id && !this.checkMessageExisting(message)){        
+    this.socket.on('new-message', (message) => {
+      if(this.user && message.from == this.user.id && !this.checkMessageExisting(message)){
         this.messages.push(new Message().initialize(message));
         this.changeDetection.detectChanges();
         setTimeout(() => {
@@ -245,16 +245,16 @@ export class ChatComponent implements OnInit {
             type: 'png'
           };
         }
-    
+
         this.messages.push(message)
         this.sentMessages[this.index] = message
-    
+
         setTimeout(() => {
           this.scrollToBottom()
         }, 200);
-    
+
         this.sendMessage(message, this.index++);
-    
+
         this.messageText = "";
         this.image = null;
         this.imageFile = null;
@@ -296,6 +296,6 @@ export class ChatComponent implements OnInit {
   }
 
   chatEnabled(){
-    return this.allowToChat || (this.messages && (this.messages.length <= 1 || this.messages.filter(msg => !msg.isMine).length > 0))
+    return this.allowToChat || (this.messages && (this.messages.length <= 1 || this.messages.filter(msg => !msg.isMine(this.authUser.id)).length > 0))
   }
 }
