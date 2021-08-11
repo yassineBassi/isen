@@ -19,24 +19,24 @@ export class ListComponent implements OnInit {
   searchQuery: string;
   type: string;
 
-  constructor(private jobService: JobService, private toastService: ToastService,private route: ActivatedRoute, 
+  constructor(private jobService: JobService, private toastService: ToastService,private route: ActivatedRoute,
               private router: Router) { }
 
   ngOnInit() {
     console.log('init');
-    
+
   }
 
   ionViewWillEnter(){
     console.log('return');
-    
+
     this.pageLoading = true;
     this.searchQuery = "";
     this.page = 0;
     this.getPageType();
   }
 
-  
+
   showJobForm(){
     this.pageLoading = true;
     this.jobService.getStorePermession()
@@ -73,12 +73,12 @@ export class ListComponent implements OnInit {
     this.page = 0;
     this.searchQuery = val;
     console.log('search');
-    
+
     this.getJobs(null);
   }
 
   handleResponse(event, refresh, resp: any){
-    
+
     if(!event || refresh) this.jobs = [];
 
     if(refresh) this.infinitScroll.disabled = false
@@ -87,7 +87,6 @@ export class ListComponent implements OnInit {
       event.target.complete();
       if(!resp.data.more && !refresh) event.target.disabled = true;
     }
-
 
     resp.data.jobs.forEach(prd => {
       const job = new Job(prd);

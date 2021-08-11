@@ -4,7 +4,7 @@ import { UserService } from './../../../services/user.service';
 import { User } from './../../../models/User';
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { SearchOptionsComponent } from '../search-options/search-options.component';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-list',
@@ -12,6 +12,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./list.component.scss'],
 })
 export class ListComponent implements OnInit {
+  @ViewChild('infinitScroll') infinitScroll: IonInfiniteScroll;
   @ViewChild('slides') slides: IonSlides;
 
   @Input() users: User[];
@@ -37,7 +38,7 @@ export class ListComponent implements OnInit {
   };
 
 
-  constructor(private userService: UserService, private modalController: ModalController, private route: ActivatedRoute,
+  constructor(private userService: UserService, private modalController: ModalController, private router: Router,
               private changeDetectorRef: ChangeDetectorRef, private nativeStorage: NativeStorage) { }
 
   ngOnInit() {
@@ -63,9 +64,7 @@ export class ListComponent implements OnInit {
   }
 
   getNearUsers(event?, refresh?){
-    if(refresh){
-      this.page = 0;
-    }
+    if(refresh) this.page = 0
     this.userService.getUsers(this.page++, {...this.options, type: this.random ? 'random' : 'near'})
     .then(
       (resp: any) => {
@@ -76,10 +75,18 @@ export class ListComponent implements OnInit {
           this.users.push(new User().initialize(user));
         })
 
+        if(refresh) this.infinitScroll.disabled = false
+
         if(this.random){
           this.showSlides = true
           this.initialSlide = 0
         }
+
+        if(event){
+          event.target.complete();
+          if(!resp.data.more && !refresh) event.target.disabled = true;
+        }
+
         if(refresh && this.slides){
           this.slides.slideTo(0, 200)
         }
@@ -125,7 +132,10 @@ export class ListComponent implements OnInit {
 
   loadMoreData(){
     console.log('hi');
+  }
 
+  showProfile(id: string){
+    this.router.navigateByUrl('/tabs/profile/display/' + id)
   }
 
 }

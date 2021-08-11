@@ -14,6 +14,7 @@ import { NewFriendsPageRoutingModule } from './new-friends-routing.module';
 
 import { NewFriendsPage } from './new-friends.page';
 import { SearchOptionsComponent } from './search-options/search-options.component';
+import { SharingPipeModule } from 'src/app/pipes/sharing/sharing-pipe.module';
 
 @NgModule({
   imports: [
@@ -21,7 +22,8 @@ import { SearchOptionsComponent } from './search-options/search-options.componen
     FormsModule,
     IonicModule,
     NewFriendsPageRoutingModule,
-    SharingModule
+    SharingModule,
+    SharingPipeModule
   ],
   declarations: [
     NewFriendsPage,

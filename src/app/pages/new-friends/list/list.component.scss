@@ -1,7 +1,5 @@
 .photo-container {
   position: relative;
-  border: 1px solid #888;
-  border-radius: 6px;
   width: 100%; /* The size you want */
 }
 
@@ -21,6 +19,8 @@
   height: 100%; /* This if for the object-fit */
   object-fit: cover; /* Equivalent of the background-size: cover; of a background-image */
   object-position: center;
+  border-radius: 50%;
+  border: 1px solid #bbb;
 }
 
 .photo-container:hover{
