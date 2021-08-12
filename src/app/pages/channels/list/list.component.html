@@ -38,7 +38,7 @@
         <img [src]="channel.photo.path" alt="">
       </ion-avatar>
       <ion-label class="ml-2">
-        <span class="channel-name d-block">{{ channel.name }}</span>
+        <span class="channel-name d-block title">{{ channel.name }}</span>
         <small class=" d-block">{{ channel.followers.length }} Follower</small>
       </ion-label>
       <small *ngIf="user && channel.user.id == user.id">
