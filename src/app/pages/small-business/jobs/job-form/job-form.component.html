@@ -1,10 +1,9 @@
 <app-header title="Add Job" [back]="true"></app-header>
 
-<app-loader *ngIf="pageLoading"></app-loader>
-
 <ion-content>
+  <app-loader *ngIf="pageLoading"></app-loader>
 
-  <div>
+  <div *ngIf="!pageLoading">
     <div (click)="pickImage()" class="w-100 image-container">
       <div *ngIf="!jobImage.url" class="w-100 h-100 bg-light d-flex justify-content-center align-items-center">
         <span *ngIf="!imageLoading" class="text-center">

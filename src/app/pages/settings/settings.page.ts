@@ -203,4 +203,32 @@ export class SettingsPage implements OnInit {
     await modal.present();
   }
 
+  async deleteAccount(){
+    const alert = await this.alertController.create({
+      header: 'Delete Account',
+      message: 'By deleting your account you will not be visible for other users any more, and your posts and comments in different channels will be deleted, however ,your posted products, jobs, services, channels will still exist after deleting the account',
+      buttons: [
+         {
+           text: 'cancel',
+           role: 'cancel'
+         },
+         {
+           text: 'delete account',
+           cssClass: 'text-danger',
+           handler: () => {
+             this.userService.deleteAccount().then(
+               resp => {
+                this.signout();
+               },
+               err => {
+                 this.toastService.presentStdToastr(err);
+               }
+             )
+           }
+         },
+      ]
+    })
+    await alert.present()
+  }
+
 }

@@ -33,14 +33,14 @@ export class UserService extends DataService {
   getUsers(page: number, options: any){
     return this.sendRequest({
       method: 'get',
-      url: '/users', 
+      url: '/users',
       data: {page: page.toString(), ...options}
     });
   }
 
   follow(id: string){
     return this.sendRequest({
-      method: 'post', 
+      method: 'post',
       url: '/follow/' + id
     });
   }
@@ -84,7 +84,7 @@ export class UserService extends DataService {
 
   updateEmail(email: string){
     console.log(email);
-    
+
     return this.sendRequest({
       method: 'put',
       url: '/email',
@@ -92,7 +92,7 @@ export class UserService extends DataService {
     })
   }
 
-  updatePassword(data: any){    
+  updatePassword(data: any){
     return this.sendRequest({
       method: 'put',
       url: '/password',
@@ -107,4 +107,12 @@ export class UserService extends DataService {
       data: {visible}
     })
   }
+
+  deleteAccount(){
+    return this.sendRequest({
+      method: 'delete',
+      url: '/'
+    })
+  }
+
 }

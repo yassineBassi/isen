@@ -22,7 +22,7 @@ import { DropDownComponent } from '../../drop-down/drop-down.component';
 })
 export class DisplayComponent implements OnInit {
 
-  pageLoading = false;
+  pageLoading = true;
   authUser: User;
   user: User;
   domaine = constants.DOMAIN_URL;
@@ -37,6 +37,7 @@ export class DisplayComponent implements OnInit {
   }
 
   ionViewWillEnter(){
+    this.pageLoading = true
     this.getUserId();
   }
 

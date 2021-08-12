@@ -1,6 +1,11 @@
+
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
+import { NativeStorage } from '@ionic-native/native-storage/ngx';
+import { IonInfiniteScroll, IonSlides, ModalController } from '@ionic/angular';
+import { UserService } from 'src/app/services/user.service';
+import { SearchOptionsComponent } from './search-options/search-options.component';
 import { User } from './../../models/User';
-import { ActivatedRoute } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-new-friends',
@@ -8,38 +13,126 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./new-friends.page.scss'],
 })
 export class NewFriendsPage implements OnInit {
+  @ViewChild('infinitScroll') infinitScroll: IonInfiniteScroll;
+  @ViewChild('slides') slides: IonSlides;
 
-  page: number;
-  pageLoading = true;
-  users: User[] = [];
-  initialSlide: number = null;
+  users: User[];
+
+  options = {
+    gender: 'both',
+    profession: '0',
+    interests: '0',
+    education: '0'
+  }
+  page = 0;
+  pageLoading = false;
+  initialSlide = 0;
+  showSlides = false;
   random = false;
+  authUser: User;
+  slideOpts = {
+    initialSlide: 0,
+    speed: 400
+  };
 
-  constructor(private route: ActivatedRoute) { }
+
+  constructor(private userService: UserService, private modalController: ModalController, private router: Router,
+              private changeDetectorRef: ChangeDetectorRef, private nativeStorage: NativeStorage) { }
 
   ngOnInit() {
   }
 
   ionViewWillEnter(){
-    this.getType()
+    this.page = 0;
+    this.slideOpts = {
+      initialSlide: 0,
+      speed: 400
+    }
+    this.getNearUsers(null, true);
+    this.getAuthUser();
   }
 
-  getType(){
-    this.route.paramMap.subscribe(params => {
-      const type = params.get('type')
-      if(type){
-        this.initialSlide = 0
-        this.random = true
+  getAuthUser(){
+    this.nativeStorage.getItem('user').then(
+      user => {
+        this.authUser = new User().initialize(user);
+        console.log(this.authUser)
       }
-    })
+    )
   }
 
-  showUser(ind){
-    console.log(ind);
+  getNearUsers(event?, refresh?){
+    if(refresh) this.page = 0
+    this.userService.getUsers(this.page++, {...this.options, type: this.random ? 'random' : 'near'})
+    .then(
+      (resp: any) => {
+        if(refresh) this.users = [];
+
+        console.log(resp.data);
+        resp.data.users.forEach(user => {
+          this.users.push(new User().initialize(user));
+        })
+
+        if(refresh) this.infinitScroll.disabled = false
+
+        if(this.random){
+          this.showSlides = true
+          this.initialSlide = 0
+        }
+
+        if(event){
+          event.target.complete();
+          if(!resp.data.more && !refresh) event.target.disabled = true;
+        }
+
+        if(refresh && this.slides){
+          this.slides.slideTo(0, 200)
+        }
+
+        this.pageLoading = false;
+        this.changeDetectorRef.detectChanges()
+      },
+      err => {
+        this.pageLoading = false;
+        console.log(err);
+      }
+    )
+  }
+
+  async presentSearchByModal(){
+    const modal = await this.modalController.create({
+      componentProps: {
+        checkItems: {
+          profession: this.options.profession,
+          education: this.options.education,
+          interests: this.options.interests,
+        },
+        gender: this.options.gender
+      },
+      component: SearchOptionsComponent
+    });
+    await modal.present();
+    const { data } = await modal.onDidDismiss();
+    console.log(data);
+
+    if(Object.keys(data).length){
+      this.options = data;
+      this.page = 0;
+      this.getNearUsers(null, true)
+    }
+  }
+
+  showUser(ind: number){
     this.initialSlide = ind;
+    this.showSlides = true
   }
 
-  setUsers(users: User[]){
-    this.users = users;
+  loadMoreData(){
+    console.log('hi');
   }
+
+  showProfile(id: string){
+    this.router.navigateByUrl('/tabs/profile/display/' + id)
+  }
+
 }

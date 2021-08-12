@@ -1,7 +1,7 @@
 <app-header
   [menu]="myProfile"
   [back]="!myProfile"
-  [title]=" !user || myProfile ? 'My Profile' : (user ? user.fullName: '')"
+  [title]=" !user ? 'Profile' :  (myProfile ? 'My Profile' : user.fullName)"
 >
   <div id="end-buttons" *ngIf="user">
     <ion-button shape="round" *ngIf="myProfile" routerLink="/tabs/profile/form">
@@ -156,4 +156,13 @@
         </ion-row>
       </div>
   </div>
+
+
+  <div class="h-100 d-flex align-items-center" *ngIf="!user && !pageLoading">
+    <div class="w-100 text-center px-4">
+      <img src="./../../../../assets/not-found.svg" alt="">
+      <span class="empty-alert d-block mt-4">this profile is unavailable</span>
+    </div>
+  </div>
+
 </ion-content>
