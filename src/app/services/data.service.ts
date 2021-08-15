@@ -3,6 +3,7 @@ import { HTTP } from '@ionic-native/http/ngx';
 import { Inject, Injectable } from '@angular/core';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import constants from './../helpers/constants';
+import { Platform, AlertController } from '@ionic/angular';
 
 type HttpMethod = 'get' | 'post' | 'put' | 'patch' | 'head' | 'delete' | 'upload' | 'download';
 type HttpSerializer = 'json' | 'urlencoded' | 'utf8' | 'multipart' | 'raw';
@@ -23,7 +24,7 @@ export class DataService{
   url = "";
 
   constructor(@Inject('string') url: string, private nativeStorage: NativeStorage, protected http: HTTP,
-              private router: Router) {
+              private router: Router, private platform: Platform) {
     this.url += url
   }
 
@@ -66,12 +67,31 @@ export class DataService{
             err => {
               console.log('err');
               console.log(err);
-              if(err.status == -1){
-                this.router.navigateByUrl('internet-error');
+              let error;
+              try{
+                error = JSON.parse(err.error)
+              }catch(e){
+                error = err;
               }
-              if(err.status == 400){
+              if(err.status == -1){
+                this.router.navigateByUrl('/error/connection');
+              }
+              else if(err.status === 500 && error.code && error.code === 1001){
+                console.log(error)
+                const urls = error.urls;
+                this.router.navigate(['/error/update'], {
+                  queryParams: {
+                    data: JSON.stringify({
+                      url: this.platform.is('ios') ? urls.AppStore : urls.GooglePlay,
+                      message: error.message
+                    })
+                  }
+                });
+              }
+              else if(err.status === 400){
                 reject(JSON.parse(err.error));
-              }else if(err.status == 401){
+              }
+              else if(err.status === 401){
                 this.logout();
               }else{
                 reject(err.error)
@@ -87,4 +107,5 @@ export class DataService{
     this.nativeStorage.remove('user');
     this.router.navigateByUrl('/auth')
   }
+
 }

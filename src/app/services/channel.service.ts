@@ -3,20 +3,21 @@ import { HTTP } from '@ionic-native/http/ngx';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { DataService } from './data.service';
 import { Injectable } from '@angular/core';
+import { Platform } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ChannelService extends DataService {
 
-  constructor(nativeStorage: NativeStorage, http: HTTP, router: Router) {
-    super('channel', nativeStorage, http, router)
+  constructor(nativeStorage: NativeStorage, http: HTTP, router: Router, platform: Platform) {
+    super('channel', nativeStorage, http, router, platform)
   }
 
   myChannels(page: number, search: string){
     return this.sendRequest({
-      method: 'get', 
-      url: '', 
+      method: 'get',
+      url: '',
       data: {page: page.toString(), search}
     })
   }
@@ -24,7 +25,7 @@ export class ChannelService extends DataService {
   followedChannels(page: number, search: string){
     return this.sendRequest({
       method: 'get',
-      url: '/followed', 
+      url: '/followed',
       data: {page: page.toString(), search}
     })
   }
@@ -32,14 +33,14 @@ export class ChannelService extends DataService {
   exploreChannels(page: number, search: string, city: string){
     return this.sendRequest({
       method: 'get',
-      url: '/explore', 
+      url: '/explore',
       data: {page: page.toString(), search, city}
     })
   }
 
   deleteChannel(id: string){
     return this.sendRequest({
-      method: 'delete', 
+      method: 'delete',
       url: '/' + id
     })
   }
@@ -47,7 +48,7 @@ export class ChannelService extends DataService {
   store(data){
     return this.sendRequest({
       method: 'post',
-      url: '', 
+      url: '',
       data,
       serializer: 'multipart'
     });
@@ -63,7 +64,7 @@ export class ChannelService extends DataService {
   getPosts(id: string, page: number){
     return this.sendRequest({
       method: 'get',
-      url: '/' + id + '/post/', 
+      url: '/' + id + '/post/',
       data: {page: page.toString()}
     })
   }
@@ -71,14 +72,14 @@ export class ChannelService extends DataService {
   storePost(id: string, data){
     return this.sendRequest({
       method: 'post',
-      url: '/' + id + '/post', 
+      url: '/' + id + '/post',
       data
     })
   }
 
   deletePost(id: string){
     return this.sendRequest({
-      method: 'delete', 
+      method: 'delete',
       url: '/post/' + id
     })
   }
@@ -86,7 +87,7 @@ export class ChannelService extends DataService {
   voteOnPost(id: string, vote: number){
     return this.sendRequest({
       method: 'post',
-      url: '/post/' + id + '/vote', 
+      url: '/post/' + id + '/vote',
       data: {vote}
     })
   }
@@ -94,7 +95,7 @@ export class ChannelService extends DataService {
   storeComment(id: string, data){
     return this.sendRequest({
       method: 'post',
-      url: '/post/' + id + '/comment', 
+      url: '/post/' + id + '/comment',
       data
     })
   }
@@ -108,7 +109,7 @@ export class ChannelService extends DataService {
 
   deleteComment(id: string){
     return this.sendRequest({
-      method: 'delete', 
+      method: 'delete',
       url: '/comment/' + id
     })
   }
@@ -116,11 +117,11 @@ export class ChannelService extends DataService {
   voteOnComment(id: string, vote: number){
     return this.sendRequest({
       method: 'post',
-      url: '/comment/' + id + '/vote', 
+      url: '/comment/' + id + '/vote',
       data: {vote}
     })
   }
-  
+
   reportChannel(id: string, message: string){
     return this.sendRequest({
       method: 'post',
@@ -128,7 +129,7 @@ export class ChannelService extends DataService {
       data: {message}
     })
   }
-  
+
   reportPost(id: string, message: string){
     return this.sendRequest({
       method: 'post',
@@ -136,7 +137,7 @@ export class ChannelService extends DataService {
       data: {message}
     })
   }
-  
+
   reportComment(id: string, message: string){
     return this.sendRequest({
       method: 'post',

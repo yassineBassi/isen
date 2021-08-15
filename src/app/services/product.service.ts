@@ -3,14 +3,15 @@ import { HTTP } from '@ionic-native/http/ngx';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { DataService } from './data.service';
 import { Injectable } from '@angular/core';
+import { Platform } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService extends DataService {
 
-  constructor(nativeStorage: NativeStorage, http: HTTP, router: Router) {
-    super('product', nativeStorage, http, router);
+  constructor(nativeStorage: NativeStorage, http: HTTP, router: Router, platform: Platform) {
+    super('product', nativeStorage, http, router, platform);
   }
 
   store(data){
@@ -25,7 +26,7 @@ export class ProductService extends DataService {
   posted(page: number, query: string){
     return this.sendRequest({
       method: 'get',
-      url: '/posted', 
+      url: '/posted',
       data: {page: page.toString(), search: query}
     });
   }
@@ -33,7 +34,7 @@ export class ProductService extends DataService {
   available(page: number, query: string){
     return this.sendRequest({
       method: 'get',
-      url: '/available', 
+      url: '/available',
       data: {page: page.toString(), search: query}
     });
   }
@@ -54,18 +55,18 @@ export class ProductService extends DataService {
 
   remove(id: string){
     return this.sendRequest({
-      method: 'delete', 
+      method: 'delete',
       url: '/' + id
     })
   }
 
   sold(id: string){
     return this.sendRequest({
-      method: 'post', 
+      method: 'post',
       url: '/sold/' + id
     })
   }
-  
+
   report(id: string, message: string){
     return this.sendRequest({
       method: 'post',

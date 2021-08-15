@@ -3,14 +3,15 @@ import { Router } from '@angular/router';
 import { HTTP } from '@ionic-native/http/ngx';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { DataService } from './data.service';
+import { Platform } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SubscriptionService extends DataService {
 
-  constructor(nativeStorage: NativeStorage, http: HTTP, router: Router) {
-    super('subscription', nativeStorage, http, router);
+  constructor(nativeStorage: NativeStorage, http: HTTP, router: Router, platform: Platform) {
+    super('subscription', nativeStorage, http, router, platform);
   }
 
   getSubscriptionPrices(){

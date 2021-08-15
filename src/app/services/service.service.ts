@@ -3,20 +3,21 @@ import { DataService } from './data.service';
 import { HTTP } from '@ionic-native/http/ngx';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { Injectable } from '@angular/core';
+import { Platform } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ServiceService extends DataService {
 
-  constructor(nativeStorage: NativeStorage, http: HTTP, router: Router) {
-    super('service', nativeStorage, http, router);
+  constructor(nativeStorage: NativeStorage, http: HTTP, router: Router, platform: Platform) {
+    super('service', nativeStorage, http, router, platform);
   }
 
   store(data){
     return this.sendRequest({
       method: 'post',
-      url: '', 
+      url: '',
       data,
       serializer: 'multipart'
     });
@@ -25,12 +26,12 @@ export class ServiceService extends DataService {
   available(page: number, query: string){
     return this.sendRequest({
       method: 'get',
-      url: '/available', 
+      url: '/available',
       data: {page: page.toString(), search: query}
     });
   }
 
-  
+
   getStorePermession(){
     return this.sendRequest({
       method: 'get',
@@ -41,7 +42,7 @@ export class ServiceService extends DataService {
   posted(page: number, query: string){
     return this.sendRequest({
       method: 'get',
-      url: '/posted', 
+      url: '/posted',
       data: {page: page.toString(), search: query}
     });
   }
@@ -60,7 +61,7 @@ export class ServiceService extends DataService {
     })
   }
 
-  
+
   report(id: string, message: string){
     return this.sendRequest({
       method: 'post',

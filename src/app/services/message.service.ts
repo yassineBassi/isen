@@ -3,20 +3,21 @@ import { HTTP } from '@ionic-native/http/ngx';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { DataService } from './data.service';
 import { Injectable } from '@angular/core';
+import { Platform } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MessageService extends DataService {
 
-  constructor(nativeStorage: NativeStorage, http: HTTP, router: Router) {
-    super('message', nativeStorage, http, router);
+  constructor(nativeStorage: NativeStorage, http: HTTP, router: Router, platform: Platform) {
+    super('message', nativeStorage, http, router, platform);
   }
 
   indexMessages(id: string, page: number){
     return this.sendRequest({
       method: 'get',
-      url: '/' + id, 
+      url: '/' + id,
       data: {page: page.toString()}
     })
   }
@@ -24,7 +25,7 @@ export class MessageService extends DataService {
   usersMessages(page: number){
     return this.sendRequest({
       method: 'get',
-      url: '/users', 
+      url: '/users',
       data: {page: page.toString()}
     })
   }

@@ -3,20 +3,21 @@ import { HTTP } from '@ionic-native/http/ngx';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { DataService } from './data.service';
 import { Injectable } from '@angular/core';
+import { Platform } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
 })
 export class JobService extends DataService{
 
-  constructor(nativeStorage: NativeStorage, http: HTTP, router: Router) {
-    super('job', nativeStorage, http, router);
+  constructor(nativeStorage: NativeStorage, http: HTTP, router: Router, platform: Platform) {
+    super('job', nativeStorage, http, router, platform);
   }
 
   store(data){
     return this.sendRequest({
       method: 'post',
-      url: '', 
+      url: '',
       data,
       serializer: 'multipart'
     });
@@ -33,7 +34,7 @@ export class JobService extends DataService{
   posted(page: number, query: string){
     return this.sendRequest({
       method: 'get',
-      url: '/posted', 
+      url: '/posted',
       data: {page: page.toString(), search: query}
     });
   }

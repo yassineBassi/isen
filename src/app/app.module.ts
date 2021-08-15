@@ -28,12 +28,13 @@ import { ChatComponent } from './pages/messages/chat/chat.component';
 import { VideoComponent } from './pages/messages/chat/video/video.component';
 import { FormsModule } from '@angular/forms';
 import { SharingPipeModule } from './pipes/sharing/sharing-pipe.module';
+import { ErrorComponent } from './pages/error/error.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    InternetErrorComponent,
+    ErrorComponent,
     ChatComponent,
     VideoComponent
   ],

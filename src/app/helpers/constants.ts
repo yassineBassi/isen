@@ -1,7 +1,7 @@
 export default {
   DOMAIN_URL: 'http://212.71.238.50:3300/',
   API_V1: 'api/v1/',
-  VERSION: '1.0.0',
+  VERSION: '0.0.1',
   imagePlaceholder: "default-img2.png",
   STRIPE_PUBLIC_KEY: "pk_live_51JEKkuI9qWJR5OvEyvANakwsHN2yntVnZiMywb4RwjBZ91C5N5Bx94aoqThUyyGtfPc4POpRY2XjYCpDAaWo1WKN00HYQHeKF1",
   ERROR_CODES: {
