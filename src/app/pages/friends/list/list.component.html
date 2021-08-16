@@ -23,7 +23,7 @@
       </ion-avatar>
       <ion-label class="ml-2">
         <span class="d-block">
-          <span class="user-name title">{{ friend.fullName }}, {{ friend.age }}</span>
+          <span class="user-name title">{{ friend.fullName }}{{ (friend.age ? (', ' + friend.age) : '') }}</span>
         </span>
         <small class="d-block">{{ friend.city }}</small>
       </ion-label>

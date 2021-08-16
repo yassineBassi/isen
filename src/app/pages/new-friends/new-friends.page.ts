@@ -52,6 +52,11 @@ export class NewFriendsPage implements OnInit {
     this.getAuthUser();
   }
 
+  toggleRandom(){
+    this.users = [];
+    this.getNearUsers(null, true)
+  }
+
   getAuthUser(){
     this.nativeStorage.getItem('user').then(
       user => {

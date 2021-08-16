@@ -24,6 +24,10 @@ export class SettingsPage implements OnInit {
   user: User;
   socket = SocketService.socket;
   pageLoading = false;
+  ageVisibility = false;
+  randomVisibility = false;
+  loading = false;
+
 
   constructor(private alertController: AlertController, private nativeStorage: NativeStorage, private userService: UserService,
               private toastService: ToastService, private router: Router, private auth: AuthService, private oneSignalService: OneSignalService,
@@ -38,11 +42,14 @@ export class SettingsPage implements OnInit {
   }
 
   getUser(){
-    this.nativeStorage.getItem('user').then(user => {
-      this.pageLoading = false;
-      this.user = new User().initialize(user)
-      console.log(user);
-    })
+    this.auth.getAuthUser().then(
+      (resp: any) => {
+        this.pageLoading = false;
+        this.user = new User().initialize(resp.data);
+        this.randomVisibility = this.user.randomVisible
+        this.ageVisibility = this.user.ageVisible;
+      }
+    )
   }
 
   async changeEmail(){
@@ -64,7 +71,7 @@ export class SettingsPage implements OnInit {
         {
           text: 'CHANGE',
           handler: (res) => {
-            this.pageLoading = true;
+            this.loading = true;
             return this.userService.updateEmail(res.email).then(
               (resp: any) => {
                 this.toastService.presentStdToastr(resp.message);
@@ -72,11 +79,11 @@ export class SettingsPage implements OnInit {
                 this.messengerService.sendMessage({event: 'update-user'});
                 console.log(this.user);
                 this.nativeStorage.setItem('user', this.user);
-                this.pageLoading = false;
+                this.loading = false;
                 return true;
               },
               err => {
-                this.pageLoading = false;
+                this.loading = false;
                 if(typeof err == 'string'){
                   this.toastService.presentStdToastr(err);
                   return false;
@@ -125,14 +132,14 @@ export class SettingsPage implements OnInit {
         {
           text: 'CHANGE',
           handler: (res) => {
-            this.pageLoading = true;
+            this.loading = true;
             this.userService.updatePassword({...res}).then(
               (resp: any) => {
-                this.pageLoading = false;
+                this.loading = false;
                 this.toastService.presentStdToastr(resp.message)
               },
               err => {
-                this.pageLoading = false;
+                this.loading = false;
                 if(typeof err == 'string'){
                   this.toastService.presentStdToastr(err);
                   return false;
@@ -155,33 +162,53 @@ export class SettingsPage implements OnInit {
   }
 
   signout(){
-    this.pageLoading = true;
+    this.loading = true;
     this.auth.signout()
     .then(
       () => {
-        this.pageLoading = false;
+        this.loading = false;
         this.oneSignalService.close();
         this.socket.emit('disconnect-user')
         this.nativeStorage.remove('token');
         this.router.navigate(['/auth/home']);
       },
       err => {
-        this.pageLoading = false;
+        this.loading = false;
         this.toastService.presentStdToastr('sorry an error has occurred, please try again later')
       }
     )
   }
 
   toggleRandomVisibility(event){
-    this.pageLoading = true;
-    this.userService.updateRandomVisibility(!this.user.randomVisible)
+    if(this.randomVisibility == this.user.randomVisible) return;
+    this.loading = true;
+    this.userService.updateRandomVisibility(this.randomVisibility)
     .then(
       (resp: any) => {
-        this.pageLoading = false;
+        this.loading = false;
+        this.user.randomVisible = this.randomVisibility;
         this.toastService.presentStdToastr(resp.message)
       },
       err => {
-        this.pageLoading = false;
+        this.loading = false;
+        this.toastService.presentStdToastr(err)
+      }
+    )
+  }
+
+  toggleAgeVisibility(event){
+    if(this.ageVisibility == this.user.ageVisible) return;
+    console.log('age toggle')
+    this.loading = true;
+    this.userService.updateAgeVisibility(this.ageVisibility)
+    .then(
+      (resp: any) => {
+        this.loading = false;
+        this.user.ageVisible = this.ageVisibility;
+        this.toastService.presentStdToastr(resp.message)
+      },
+      err => {
+        this.loading = false;
         this.toastService.presentStdToastr(err)
       }
     )
@@ -230,5 +257,6 @@ export class SettingsPage implements OnInit {
     })
     await alert.present()
   }
+
 
 }

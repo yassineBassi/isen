@@ -38,6 +38,7 @@ export class User{
 
   private _subscription: userSubscription;
   private _randomVisible: boolean;
+  private _ageVisible: boolean;
 
   constructor(){
   }
@@ -50,7 +51,7 @@ export class User{
     this.avatar = user.avatar;
     this.email = user.email;
     this.gender = user.gender;
-    this.birthDate = new Date(user.birthDate);
+    this.birthDate = user.birthDate ? new Date(user.birthDate) : null;
     this.status = user.status;
     this.address = user.address;
 
@@ -87,6 +88,7 @@ export class User{
 
     this.subscription = user.subscription;
     this.randomVisible = user.randomVisible;
+    this.ageVisible = user.ageVisible;
 
     return this;
   }
@@ -132,6 +134,7 @@ export class User{
   get requests(): Request[] {return this._requests};
   get subscription(): userSubscription {return this._subscription};
   get randomVisible(): boolean {return this._randomVisible};
+  get ageVisible(): boolean {return this._ageVisible};
 
 
   set id(id: string){this._id = id}
@@ -176,6 +179,7 @@ export class User{
     } : null;
   };
   set randomVisible(randomVisible: boolean) {this._randomVisible = randomVisible};
+  set ageVisible(ageVisible: boolean) {this._ageVisible = ageVisible};
 
 
   private sortInterests(){
@@ -206,7 +210,8 @@ export class User{
         _id: this.subscription.id,
         expireDate: this.subscription.expireDate
       } : null,
-      randomVisible: this.randomVisible
+      randomVisible: this.randomVisible,
+      ageVisible: this.ageVisible
     }
   }
 }

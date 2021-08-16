@@ -13,13 +13,12 @@
 
 <ion-item>
   <ion-label class="ml-2">Random</ion-label>
-  <ion-toggle [(ngModel)]="random" (ionChange)="getNearUsers(null, true)" ></ion-toggle>
+  <ion-toggle [(ngModel)]="random" (ionChange)="toggleRandom()" ></ion-toggle>
 </ion-item>
 
 <ion-content>
 
   <app-loader *ngIf="pageLoading" ></app-loader>
-
 
   <ion-refresher *ngIf="!random" slot="fixed" pullFactor="0.5" pullMin="100" pullMax="200"  (ionRefresh)="getNearUsers($event, true)">
     <ion-refresher-content></ion-refresher-content>
@@ -46,7 +45,7 @@
               <img class="w-100" [src]="user.avatar.path" alt="">
             </div>
             <div class="px-2 w-100 text-center pt-1">
-                <span>{{ (user.firstName | resumeText: 12) + ', ' + user.age }}</span>
+                <span>{{ (user.firstName | resumeText: 12) + (user.age ? (', ' + user.age) : '') }}</span>
             </div>
           </div>
         </ion-item>

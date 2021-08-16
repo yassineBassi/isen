@@ -49,7 +49,7 @@
       </app-img-loader>
 
         <span class="user-info p-1 pl-2">
-            <span class="d-block user-name">{{ user.fullName }}, {{ user.age }}</span>
+            <span class="d-block user-name">{{ user.fullName }}, {{ (user.age ? (', ' + user.age) : '') }}</span>
             <span class="d-block">{{ user.country }}, {{ user.city }}</span>
         </span>
 
@@ -94,7 +94,7 @@
               <ion-icon [name]="user.gender || 'male'" size="default" slot="start"></ion-icon>
           </ion-item>
 
-          <ion-item lines="none">
+          <ion-item lines="none" *ngIf="user.age">
               <i class="fas fa-birthday-cake font-icon"></i>
               <ion-label class="ml-1">
                   <ion-text class="d-block">Age</ion-text>

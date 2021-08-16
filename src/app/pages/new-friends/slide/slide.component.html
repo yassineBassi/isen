@@ -6,7 +6,7 @@
     </div>
     <div class="p-2 user-details w-100 pl-3">
       <span (click)="!random ? showProfile() : null" class="user-name d-flex align-items-center">
-        {{ user.fullName }}, {{ user.age }}
+        {{ user.fullName }} {{ user.age ? (',' + user.age ): '' }}
         <span *ngIf="user.online"><i class="fas fa-circle online-icon ml-2"></i></span>
       </span>
       <span class="d-block text-left other-info ">{{ user.gender }}, {{ user.city }}</span>
@@ -40,20 +40,3 @@
     </div>
   </div>
 </div>
-<!-- <div class="position-relative h-100 w-100">
-  <ion-row class="ion-align-items-center mt-2">
-    <ion-col class="ion-no-padding" size="12">
-      <ion-card class="slide-card ion-no-pading mx-3">
-        <ion-card-content class="ion-no-padding">
-          <img (click)="showProfile()" class="w-100" [src]="user.avatar.path" alt="">
-          <div class="p-2 user-details w-100 pl-3">
-            <span (click)="showProfile()" class="user-name d-flex align-items-center">
-              {{ user.fullName }}, {{ user.age }}
-              <span *ngIf="user.online"><i class="fas fa-circle online-icon ml-2"></i></span>
-            </span>
-            <span class="d-block text-left other-info ">{{ user.gender }}, {{ user.city }}</span>
-          </div>
-        </ion-card-content>
-      </ion-card>
-
-</div> -->

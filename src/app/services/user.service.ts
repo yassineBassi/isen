@@ -109,6 +109,14 @@ export class UserService extends DataService {
     })
   }
 
+  updateAgeVisibility(visible: boolean){
+    return this.sendRequest({
+      method: 'put',
+      url: '/ageVisibility',
+      data: {visible}
+    })
+  }
+
   deleteAccount(){
     return this.sendRequest({
       method: 'delete',
