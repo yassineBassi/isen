@@ -18,7 +18,7 @@
         <span *ngIf="user.request == 'requesting'"><i class="text-warning fas fa-user-check"></i></span>
       </span>
     </ion-button>
-    <ion-button [routerLink]="['/messages/video/' + user.id]" *ngIf="!myProfile && authUser && authUser.subscription" shape="round">
+    <ion-button (click)="videoCall()" shape="round">
       <i class="fas fa-video"></i>
     </ion-button>
     <ion-button *ngIf="!myProfile" (click)="follow()" shape="round">
