@@ -10,7 +10,7 @@ import { UserService } from './../../../services/user.service';
 import { Message } from './../../../models/Message';
 import { Camera } from '@ionic-native/camera/ngx';
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
-import { IonContent, IonInfiniteScroll, Platform } from '@ionic/angular';
+import { IonContent, IonInfiniteScroll, Platform, AlertController } from '@ionic/angular';
 import { SocketService } from 'src/app/services/socket.service';
 
 @Component({
@@ -45,7 +45,7 @@ export class ChatComponent implements OnInit {
   constructor(private camera: Camera, private userService: UserService, private route: ActivatedRoute,
               private nativeStorage: NativeStorage, private messageService: MessageService, private changeDetection: ChangeDetectorRef,
               private platfrom: Platform, private uploadFileService: UploadFileService, private webView: WebView,
-              private toastService: ToastService, private location: Location, private router: Router) { }
+              private toastService: ToastService, private location: Location, private router: Router, private alertController: AlertController) { }
 
   ngOnInit() {
   }
@@ -297,5 +297,28 @@ export class ChatComponent implements OnInit {
 
   chatEnabled(){
     return this.allowToChat || (this.messages && (this.messages.length <= 1 || this.messages.filter(msg => !msg.isMine(this.authUser.id)).length > 0))
+  }
+
+  ProfileEnabled(){
+    return this.allowToChat || (this.messages && (this.messages.filter(msg => !msg.isMine(this.authUser.id)).length > 0))
+  }
+
+  showUserProfile(){
+    if(this.ProfileEnabled()) this.router.navigateByUrl('/tabs/profile/display/' + this.user.id)
+    else this.lockedProfileAlert();
+  }
+
+  async lockedProfileAlert(){
+    const alert = await this.alertController.create({
+      header: 'Not Allowed',
+      message: 'You can only access the profile after ' + this.user.fullName + ' respond to your messages',
+      buttons: [
+        {
+          text: 'OK',
+          role: 'cancel'
+        }
+      ]
+    })
+    await alert.present();
   }
 }

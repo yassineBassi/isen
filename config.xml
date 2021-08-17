@@ -2,9 +2,8 @@
 <widget id="com.geloo.app" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Geloo</name>
     <description>An awesome Ionic/Cordova app.</description>
-    <author email="hi@ionicframework.com" href="http://ionicframework.com/">Ionic Framework Team</author>
-    <content original-src="index.html" src="http://localhost:8102" />
-    <content original-src="index.html" />
+    <author email="yassinebassii@gmail.com" href="https://yassinebassi.com/">BASSI Yassine</author>
+    <content original-src="index.html" src="http://localhost:8100" />
     <access origin="*" />
     <allow-navigation href="https://api.stripe.com" />
     <allow-navigation href="*" />
@@ -167,5 +166,5 @@
     <plugin name="cordova-plugin-android-permissions" spec="1.1.2" />
     <allow-navigation href="http://localhost:8100" sessionid="e6d24492" />
     <allow-navigation href="http://localhost:8101" sessionid="8e25552a" />
-    <allow-navigation href="http://localhost:8102" sessionid="97fc92d2" />
+    <allow-navigation href="http://localhost:8102" sessionid="6efaa9c4" />
 </widget>

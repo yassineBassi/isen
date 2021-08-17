@@ -24,6 +24,7 @@ export class HeaderComponent implements OnInit, OnChanges {
   @Input() avatarLink: string;
 
   @Output() searchKeyUp = new EventEmitter();
+  @Output() titleClicked = new EventEmitter();
 
   constructor(private location: Location, private router: Router, private modalCtrl: ModalController) { }
 

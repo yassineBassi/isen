@@ -4,6 +4,7 @@
   [avatar]="!!user"
   [avatarSrc]="user ? user.avatar.path : null"
   [reverseColors]="true"
+  (titleClicked)="showUserProfile()"
 >
   <div id="end-buttons">
     <ion-buttons slot="end">
@@ -52,12 +53,6 @@
                 </ion-text>
               </div>
             </div>
-          </ion-col>
-          <ion-col
-          [class]="[message.isMine(authUser.id) ? 'text-right' : 'text-left']"
-            size="12"
-          >
-
           </ion-col>
         </ion-row>
         <ion-button
