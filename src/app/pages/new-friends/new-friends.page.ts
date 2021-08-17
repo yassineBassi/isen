@@ -78,7 +78,7 @@ export class NewFriendsPage implements OnInit {
           this.users.push(new User().initialize(user));
         })
 
-        if(refresh) this.infinitScroll.disabled = false
+        if(refresh && this.infinitScroll) this.infinitScroll.disabled = false
 
         if(this.random){
           this.showSlides = true

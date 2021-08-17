@@ -36,7 +36,7 @@
   <div class="buttons-div w-100 mb-3">
     <ion-row class="mb-4">
       <ion-col [size]="answer && !answered ? '6' : '12'" class="d-flex justify-content-center">
-        <ion-fab-button (click)="closeCall()" color="danger">
+        <ion-fab-button [disabled]="!myEl || !this.myEl.srcObject" (click)="closeCall()" color="danger">
           <i class="fas fa-phone-slash"></i>
         </ion-fab-button>
       </ion-col>

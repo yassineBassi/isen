@@ -7,6 +7,7 @@ import { UserService } from './../../../services/user.service';
 import { User } from './../../../models/User';
 import { Component, Input, OnInit } from '@angular/core';
 import { Request } from 'src/app/models/Request';
+import { NativeStorage } from '@ionic-native/native-storage/ngx';
 
 @Component({
   selector: 'app-slide',
@@ -20,7 +21,7 @@ export class SlideComponent implements OnInit {
   @Input() random: boolean;
 
   constructor(private userService: UserService, private requestService: RequestService, private toastService: ToastService,
-              private alertCtrl: AlertController, private router: Router) { }
+              private alertCtrl: AlertController, private router: Router, private nativeStorage: NativeStorage) { }
 
   ngOnInit() {}
 
@@ -78,7 +79,7 @@ export class SlideComponent implements OnInit {
     .then(
       (resp: any) => {
         this.user.friend = false;
-        
+
         if(typeof resp.data.request == 'string')  this.user.request = resp.data.request;
         else{
            this.user.requests.push(new Request(resp.data.request));
@@ -137,5 +138,50 @@ export class SlideComponent implements OnInit {
 
   navigateTo(link){
     this.router.navigateByUrl(link)
+  }
+
+  getVideoCalls(){
+    return this.nativeStorage.getItem('videoCalls').then(
+      calls => {
+        return calls;
+      },
+      err => {
+        return [];
+      }
+    )
+  }
+
+  videoCall(){
+    this.getVideoCalls().then(
+      calls => {
+        if(calls.filter(call => new Date().getTime() - call.date < 24 * 60 * 60 * 1000 && call.id == this.authUser.id).length >= 3){
+          if(!this.authUser || !this.authUser.subscription){
+            return this.videoCallSubAlert();
+          }
+        }
+        this.navigateTo('/messages/video/' + this.user.id)
+      }
+    )
+  }
+
+  async videoCallSubAlert(){
+    const alert = await this.alertCtrl.create({
+      header: 'You want more calls ?',
+      message: 'You have just finished your free calls for today, subscribe and get unlimited calls now !!',
+      buttons: [
+        {
+          text: 'cancel',
+          role: 'cancel'
+        },
+        {
+          text: 'Subscribe',
+          cssClass: 'text-danger',
+          handler: () => {
+            this.router.navigateByUrl('/tabs/subscription')
+          }
+        }
+      ]
+    })
+    await alert.present();
   }
 }

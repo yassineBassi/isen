@@ -23,8 +23,8 @@
           </span>
         </ion-button>
     </div>
-    <div *ngIf="random && authUser && authUser.subscription" class="p-0">
-        <ion-button shape="round" class="rounded-button" (click)="navigateTo('/messages/video/' + user.id)" color="primary">
+    <div class="p-0" *ngIf="random">
+        <ion-button shape="round" class="rounded-button" (click)="videoCall()" color="primary">
           <span><i class="fas fa-video"></i></span>
         </ion-button>
     </div>

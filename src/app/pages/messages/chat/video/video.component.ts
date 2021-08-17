@@ -54,6 +54,7 @@ export class VideoComponent implements OnInit {
 
   cancelListener(){
     this.socket.on('video-canceled', () => {
+      this.audio.muted = false
       if(this.audio) this.audio.pause();
       this.messengerService.sendMessage({event: 'stop-audio'})
       this.playAudio("./../../../../../assets/audio/call-cenceled.mp3")
@@ -147,10 +148,35 @@ export class VideoComponent implements OnInit {
         if(this.audio) this.audio.pause();
         this.messengerService.sendMessage({event: 'stop-audio'})
         this.answered = true;
+        this.countVideoCalls();
         this.swapVideo('my-video');
         clearInterval(timer);
       }
     }, 10)
+  }
+
+  getVideoCalls(){
+    return this.nativeStorage.getItem('videoCalls').then(
+      calls => {
+        return calls;
+      },
+      err => {
+        return [];
+      }
+    )
+  }
+
+  countVideoCalls(){
+    this.getVideoCalls().then(
+      calls => {
+        calls = calls.filter(call => new Date().getTime() - call.date < 24 * 60 * 60 * 1000 )
+        calls.push({
+          id: this.user.id,
+          date: new Date().getTime()
+        })
+        this.nativeStorage.setItem('videoCalls', calls)
+      }
+    )
   }
 
   swapVideo(topVideo: string) {
@@ -166,6 +192,7 @@ export class VideoComponent implements OnInit {
     this.location.back();
     this.messengerService.sendMessage({event: 'stop-audio'})
     if(this.audio) this.audio.pause();
+    this.messengerService.sendMessage({event: 'stop-audio'})
     try {
       WebrtcService.call.close();
     } catch (error) {
@@ -185,11 +212,18 @@ export class VideoComponent implements OnInit {
   toggleCamera(){
     this.cameraEnabled = this.webRTC.toggleCamera();
   }
+
   toggleAudio(){
     this.audioEnabled = this.webRTC.toggleAudio();
   }
+
   toggleCameraDirection(){
     this.webRTC.toggleCameraDirection();
+  }
+
+  ionViewWillLeave(){
+    if(this.audio) this.audio.pause();
+    this.messengerService.sendMessage({event: 'stop-audio'})
   }
 
 }
