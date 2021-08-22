@@ -55,7 +55,7 @@ export class SignupComponent implements OnInit {
               private cdr: ChangeDetectorRef, private modalController: ModalController, private nativeStorage: NativeStorage) { }
 
   ionViewWillEnter(){
-    this.step = 0;
+    this.step = 4;
   }
 
   ngOnInit() {
@@ -65,10 +65,10 @@ export class SignupComponent implements OnInit {
   initializeForm(){
     this.form = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email, Validators.max(50)]],
-      password: ['', [Validators.required, Validators.min(8)]],
-      password_confirmation: ['', [Validators.required, Validators.min(8)]],
-      firstName: ['', [Validators.required, Validators.max(50)]],
-      lastName: ['', [Validators.required, Validators.max(50)]],
+      password: ['', [Validators.required, Validators.minLength(8)]],
+      password_confirmation: ['', [Validators.required, Validators.minLength(8)]],
+      firstName: ['', [Validators.required, Validators.maxLength(50)]],
+      lastName: ['', [Validators.required, Validators.maxLength(50)]],
       birthDate: ['', [Validators.required]],
     })
     this.nativeStorage.getItem('countries').then(resp => {
@@ -174,10 +174,12 @@ export class SignupComponent implements OnInit {
     await modal.present();
     const { data } = await modal.onDidDismiss();
     this.selectedCountry = data.data;
-    this.cities = this.countriesObject[this.selectedCountry]
+    this.cities = this.countriesObject[this.selectedCountry];
+    console.log(this.cities);
   }
 
   async presentCitiesModal(){
+    console.log('hi');
     const modal = await this.modalController.create({
       componentProps: {
         data: this.cities,
@@ -187,6 +189,7 @@ export class SignupComponent implements OnInit {
     });
     await modal.present();
     const { data } = await modal.onDidDismiss();
+    console.log('done');
     this.selectedCity = data.data;
   }
 

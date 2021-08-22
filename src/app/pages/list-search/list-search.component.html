@@ -9,10 +9,17 @@
 
 <ion-content>
   <ion-list>
-    <ion-item (click)="selectData(d)" [button]="true" *ngFor="let d of filtredData">
+    <ion-item (click)="selectData(d)" [button]="true" *ngFor="let d of paginatedData">
       <ion-label class="ml-3">
         {{ d }}
       </ion-label>
     </ion-item>
   </ion-list>
+
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadMore($event)">
+    <ion-infinite-scroll-content
+      loadingSpinner="crescent"
+    >
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>

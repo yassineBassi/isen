@@ -1,6 +1,4 @@
-.form{
-  height: 450px;
-}
+
 ion-chip{
   height: 50px;
   display: flex;
@@ -10,7 +8,7 @@ ion-chip{
   margin-top: 22px;
 }
 ion-chip.selected{
-  --background: rgb(0, 174, 255);
+  --background: var(--ion-color-primary);
   color: white;
 }
 .logo-img{

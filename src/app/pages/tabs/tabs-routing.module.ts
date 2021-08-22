@@ -11,13 +11,9 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'profile',
+        redirectTo: 'buy-and-sell',
         pathMatch: 'full'
       },
-      // {
-      //   path: 'profile',
-      //   redirectTo: 'profile/null'
-      // },
       {
         path: 'profile',
         loadChildren: () => import('./../profile/profile.module').then( m => m.ProfilePageModule),
