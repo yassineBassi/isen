@@ -2,7 +2,7 @@ import { MessengerService } from './../../messenger.service';
 import { RequestService } from './../../../services/request.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastService } from './../../../services/toast.service';
-import { ToastController, AlertController, PopoverController } from '@ionic/angular';
+import { ToastController, AlertController, PopoverController, ModalController } from '@ionic/angular';
 import { UploadFileService } from './../../../services/upload-file.service';
 import { AuthService } from './../../../services/auth.service';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
@@ -14,6 +14,7 @@ import constants from 'src/app/helpers/constants';
 import { FullScreenImage } from '@ionic-native/full-screen-image/ngx';
 import { Request } from 'src/app/models/Request';
 import { DropDownComponent } from '../../drop-down/drop-down.component';
+import { WelcomeAlertComponent } from './../welcome-alert/welcome-alert.component';
 
 @Component({
   selector: 'app-display',
@@ -31,7 +32,8 @@ export class DisplayComponent implements OnInit {
 
   constructor(private auth: AuthService, private camera: Camera, private nativeStorage: NativeStorage,private popoverController: PopoverController,
   private userService: UserService, private uploadFileService: UploadFileService, private toastService: ToastService,private messengerService: MessengerService,
-  private route: ActivatedRoute, private requestService: RequestService, private alertCtrl: AlertController, private router: Router) { }
+  private route: ActivatedRoute, private requestService: RequestService, private alertCtrl: AlertController, private router: Router,
+  private modalCtrl: ModalController) { }
 
   ngOnInit() {
   }
@@ -39,6 +41,38 @@ export class DisplayComponent implements OnInit {
   ionViewWillEnter(){
     this.pageLoading = true
     this.getUserId();
+  }
+
+  getDevices(){
+    return this.nativeStorage.getItem('users')
+    .then(
+      users => users,
+      () => []
+    )
+  }
+
+  checkNewDevice(){
+    this.getDevices().then(
+      users => {
+        if(!users.includes(this.user.id)){
+          this.showWelcomeAlert();
+          users.push(this.user.id);
+          this.nativeStorage.setItem('users', users);
+        }
+      }
+    )
+  }
+
+  async showWelcomeAlert(){
+    const modal = await this.modalCtrl.create({
+      component: WelcomeAlertComponent,
+      componentProps: {
+        user: this.user
+      },
+      animated: true,
+      showBackdrop: true,
+    })
+    await modal.present()
   }
 
   getUserId(){
@@ -88,9 +122,9 @@ export class DisplayComponent implements OnInit {
     .then(
       (resp: any) => {
         this.user = new User().initialize(resp.data);
-        console.log(resp.data);
         this.nativeStorage.setItem('user', this.user.toObjeect())
-        if(event) event.target.complete()
+        if(event) event.target.complete();
+        this.checkNewDevice();
         this.pageLoading = false;
       },
       err => {
@@ -345,34 +379,16 @@ export class DisplayComponent implements OnInit {
     await alert.present();
   }
 
-  getVideoCalls(){
-    return this.nativeStorage.getItem('videoCalls').then(
-      calls => {
-        return calls;
-      },
-      err => {
-        return [];
-      }
-    )
-  }
-
   videoCall(){
-    this.getVideoCalls().then(
-      calls => {
-        if(calls.filter(call => new Date().getTime() - call.date < 24 * 60 * 60 * 1000 && call.id == this.authUser.id).length >= 3){
-          if(!this.authUser || !this.authUser.subscription){
-            return this.videoCallSubAlert();
-          }
-        }
-        this.router.navigateByUrl('/messages/video/' + this.user.id)
-      }
-    )
+    if((this.authUser && this.authUser.subscription)){
+      this.router.navigateByUrl('/messages/video/' + this.user.id)
+    }else this.videoCallSubAlert();
   }
 
   async videoCallSubAlert(){
     const alert = await this.alertCtrl.create({
-      header: 'You want more calls ?',
-      message: 'You have just finished your free calls for today, subscribe and get unlimited calls now !!',
+      header: 'You can\'t call ' + this.user.fullName,
+      message: 'Ypi must subscribe to call ' + this.user.fullName,
       buttons: [
         {
           text: 'cancel',

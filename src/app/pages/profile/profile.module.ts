@@ -15,6 +15,7 @@ import { IonicModule, Platform } from '@ionic/angular';
 import { ProfilePageRoutingModule } from './profile-routing.module';
 
 import { ProfilePage } from './profile.page';
+import { WelcomeAlertComponent } from './welcome-alert/welcome-alert.component';
 
 @NgModule({
   imports: [
@@ -29,6 +30,7 @@ import { ProfilePage } from './profile.page';
     ProfilePage,
     FormComponent,
     DisplayComponent,
+    WelcomeAlertComponent
   ],
   providers: [
     Camera,

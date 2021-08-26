@@ -1,0 +1,39 @@
+<app-header
+  [title]="'Welcome ' + user.lastName"
+>
+</app-header>
+<ion-content>
+  <img class="h-100 image" src="./../../../../assets/welcome.jpg" alt="">
+  <div class="d-flex flex-column h-100 content px-1 pt-3">
+    <div class="text-center flex-grow-1 pt-4 px-3">
+      <p>3 daily video  calls with anyone</p>
+      <p>Unlimited chat with anyone</p>
+      <p>Post one product daily</p>
+      <p>Post one job vacancy daily</p>
+      <p>Post one service daily</p>
+      <p>Buy and find products, jobs and services absolutely frees</p>
+      <p>Limit of 3 friend requests daily</p>
+      <p>Create and use channels without limits.....</p>
+      <p>Want more ? you can subscribe to our application and get more features now</p>
+      <ion-button
+        fill='outline'
+        class="sub-btn mt-5"
+        (click)="showSubscription()"
+      >
+        <i class="fas fa-crown mr-2"></i>
+        Subscribe
+      </ion-button>
+    </div>
+    <div class="w-100 text-center">
+        <div class="w-100 text-right pr-2">
+          <ion-button
+            (click)="closeModal()"
+            class="skip-btn"
+            shape="round"
+          >
+            <span class="my-2">Skip <i class="fas fa-chevron-right ml-2"></i></span>
+          </ion-button>
+        </div>
+      </div>
+  </div>
+</ion-content>

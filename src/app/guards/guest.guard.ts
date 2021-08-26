@@ -18,7 +18,7 @@ export class GuestGuard implements CanActivate {
           token => {
             console.log(token);
 
-            this.router.navigate(['/tabs/buy-and-sell'])
+            this.router.navigate(['/tabs/profile'])
             return false
           },
           err => {
