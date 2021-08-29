@@ -22,9 +22,9 @@
           fill="outline"
           size="small"
           class="mt-4"
-          (click)="submit()"
+          routerLink="/auth/signup"
         >
-          Login
+          Register
         </ion-button>
       </ion-list>
     </form>
@@ -37,9 +37,9 @@
     expand="block"
     color="primary"
     class="w-100"
-    routerLink="/auth/signup"
+    (click)="submit()"
   >
-  Register
+    Login
   </ion-button>
   <ion-button
     expand="block"

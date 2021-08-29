@@ -97,13 +97,13 @@ export class FormComponent implements OnInit {
       gender: this.user.gender,
       birthDate: this.user.birthDate.toJSON() ? this.user.birthDate.toJSON().slice(0, 10) : null,
       school: this.user.school,
-      profession: this.user.profession,
       education: this.user.education,
     });
     this.selectedCountry = this.user.country;
     if(this.user.country && this.countriesObject[this.user.country])
       this.cities = this.countriesObject[this.user.country];
     this.selectedCity = this.user.city;
+    this.selectedProfession = this.user.profession;
     this.selectedInterests = this.user.interests;
   }
 
@@ -132,7 +132,6 @@ export class FormComponent implements OnInit {
   public removeInterest(ind: number): void{
     this.selectedInterests.splice(ind, 1);
     this.sortInterests();
-    this.submit();
   }
 
   private sortInterests(){
@@ -147,7 +146,7 @@ export class FormComponent implements OnInit {
     .then(
       resp => {
         this.pageLoading = false;
-        this.toastService.presentStdToastr('your info has been updated successfully')
+        this.toastService.presentStdToastr('updated successfully')
       }, err => {
         this.pageLoading = false;
         if(err.errors){
@@ -193,7 +192,6 @@ export class FormComponent implements OnInit {
     const result = await this.presentSearchListModal(this.cities, 'Cities');
     if(result){
       this.selectedCity = result;
-      this.submit();
     }
   }
 
@@ -201,7 +199,6 @@ export class FormComponent implements OnInit {
     const result = await this.presentSearchListModal(this.professions, 'Professions');
     if(result){
       this.selectedProfession = result;
-      this.submit();
     }
   }
 
@@ -209,7 +206,6 @@ export class FormComponent implements OnInit {
     const result = await this.presentSearchListModal(this.interests, 'Interests');
     if(result){
       this.addInterest(result);
-      this.submit();
     }
   }
 

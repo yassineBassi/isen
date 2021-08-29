@@ -1,6 +1,15 @@
 <app-header
   [title]="'Welcome ' + user.lastName"
 >
+  <div id="end-buttons">
+    <ion-button
+      (click)="closeModal()"
+      class="skip-btn"
+      shape="round"
+    >
+      <span class="my-2">Skip <i class="fas fa-chevron-right ml-2"></i></span>
+    </ion-button>
+  </div>
 </app-header>
 <ion-content>
   <img class="h-100 image" src="./../../../../assets/welcome.jpg" alt="">
@@ -24,16 +33,5 @@
         Subscribe
       </ion-button>
     </div>
-    <div class="w-100 text-center">
-        <div class="w-100 text-right pr-2">
-          <ion-button
-            (click)="closeModal()"
-            class="skip-btn"
-            shape="round"
-          >
-            <span class="my-2">Skip <i class="fas fa-chevron-right ml-2"></i></span>
-          </ion-button>
-        </div>
-      </div>
   </div>
 </ion-content>

@@ -154,7 +154,7 @@ export class User{
   set city(city: string){this._city = city}
 
   set interests(interests: string[]){
-    this._interests = interests;
+    this._interests = interests.filter(interest => interest.length);
     if(this.interests) this.sortInterests();
   }
 
