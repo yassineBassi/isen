@@ -1,6 +1,6 @@
 import { Request } from './Request';
 import { Message } from './Message';
-import { File } from './File';
+import constants from 'src/app/helpers/constants';
 type RequestEnum = 'requesting' | 'requested';
 type userSubscription = {
   id: string,
@@ -16,7 +16,7 @@ export class User{
   private _birthDate: Date;
   private _gender: string;
   private _address: string;
-  private _avatar: File;
+  private _avatar: string;
   private _status: string;
 
   private _education: string;
@@ -43,8 +43,7 @@ export class User{
   constructor(){
   }
 
-  initialize(user: User)
-  {
+  initialize(user: User){
     this.id = user._id;
     this.firstName = user.firstName;
     this.lastName = user.lastName;
@@ -117,7 +116,7 @@ export class User{
 
   get address(): string {return this._address};
   get status(): string {return this._status};
-  get avatar(): File {return this._avatar};
+  get avatar(): string {return this._avatar};
   get education(): string {return this._education};
   get profession(): string {return this._profession};
   get school(): string {return this._school};
@@ -144,7 +143,9 @@ export class User{
   set birthDate(birthDate: Date){this._birthDate = birthDate}
   set gender(gender: string){this._gender = gender}
   set address(address: string){this._address = address}
-  set avatar(avatar: File){this._avatar = avatar}
+  set avatar(avatar: string){
+    this._avatar = (!avatar.includes(constants.DOMAIN_URL) ? constants.DOMAIN_URL : '') + avatar
+  }
   set status(status: string){this._status = status}
 
   set education(education: string){this._education = education}
@@ -154,7 +155,8 @@ export class User{
   set city(city: string){this._city = city}
 
   set interests(interests: string[]){
-    this._interests = interests.filter(interest => interest.length);
+    if(interests && interests.length) this._interests = interests.filter(interest => interest.length);
+    else this._interests = [];
     if(this.interests) this.sortInterests();
   }
 

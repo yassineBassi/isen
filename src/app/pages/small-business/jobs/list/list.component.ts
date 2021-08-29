@@ -23,13 +23,9 @@ export class ListComponent implements OnInit {
               private router: Router) { }
 
   ngOnInit() {
-    console.log('init');
-
   }
 
   ionViewWillEnter(){
-    console.log('return');
-
     this.pageLoading = true;
     this.searchQuery = "";
     this.page = 0;

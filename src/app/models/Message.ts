@@ -1,4 +1,4 @@
-import { File } from './File';
+import constants from '../helpers/constants';
 
 export class Message{
   private _id: string;
@@ -7,7 +7,7 @@ export class Message{
   private _text: string;
   private _state: string;
   private _createdAt: Date;
-  private _image: File;
+  private _image: string;
 
   constructor(){
   }
@@ -29,7 +29,7 @@ export class Message{
   get text(): string {return this._text};
   get state(): string {return this._state};
   get createdAt(): Date {return this._createdAt};
-  get image(): File {return this._image};
+  get image(): string {return this._image};
 
   set id(id: string) {this._id = id};
   set from(from: string) {this._from = from};
@@ -37,7 +37,9 @@ export class Message{
   set text(text: string) {this._text = text};
   set state(state: string) {this._state = state};
   set createdAt(createdAt: Date) {this._createdAt = createdAt};
-  set image(image: File) {this._image = image};
+  set image(image: string) {
+    this._image = (!image.includes(constants.DOMAIN_URL) ? constants.DOMAIN_URL : '') + image
+  };
 
   isMine(id): boolean{
     return this.from === id

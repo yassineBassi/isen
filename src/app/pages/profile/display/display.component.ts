@@ -388,7 +388,7 @@ export class DisplayComponent implements OnInit {
   async videoCallSubAlert(){
     const alert = await this.alertCtrl.create({
       header: 'You can\'t call ' + this.user.fullName,
-      message: 'Ypi must subscribe to call ' + this.user.fullName,
+      message: 'You must subscribe to call ' + this.user.fullName,
       buttons: [
         {
           text: 'cancel',

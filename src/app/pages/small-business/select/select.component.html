@@ -1,25 +1,28 @@
 <app-header title="Small Business" [menu]="true" ></app-header>
 
 <ion-content>
-  <div class="h-100 text-center d-flex align-items-center">
-    <div class="pl-3 pr-4 w-100">
-      <ion-chip routerLink="/tabs/small-business/jobs" class="chip">
-        <ion-label class="w-100 text-center">
-          <span>Jobs</span>
-        </ion-label>
-      </ion-chip>
-      <div class="mx-2 position-relative">
-        <hr class="position-absolute bg-secondary">
-        <span class="">or</span>
+
+  <div class="d-flex flex-column h-100">
+    <div class="flex-grow-1 w-100 text-center">
+      <div class="d-md-flex align-items-center justify-content-between px-2">
+        <ion-chip routerLink="/tabs/small-business/jobs" class="chip">
+          <ion-label class="w-100 text-center">
+            <span>Jobs</span>
+          </ion-label>
+        </ion-chip>
+        <div class="mx-2 position-relative">
+          <hr class="position-absolute bg-secondary">
+          <span class="">or</span>
+        </div>
+        <ion-chip routerLink="/tabs/small-business/services" class="chip">
+          <ion-label class="w-100 text-center">
+            <span>Service</span>
+          </ion-label>
+        </ion-chip>
       </div>
-      <ion-chip routerLink="/tabs/small-business/services" class="chip">
-        <ion-label class="w-100 text-center">
-          <span>Service</span>
-        </ion-label>
-      </ion-chip>
-      <div class="p-4">
-        <img src="./../../../../assets/business.svg" alt="">
-      </div>
+    </div>
+    <div class="overflow-hidden py-2 text-center">
+      <img class="h-100 w-auto" src="./../../../../assets/business.svg" alt="">
     </div>
   </div>
 </ion-content>

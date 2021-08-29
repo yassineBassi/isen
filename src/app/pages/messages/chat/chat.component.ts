@@ -240,10 +240,7 @@ export class ChatComponent implements OnInit {
         message.state = '';
         message.createdAt = new Date()
         if(this.image){
-          message.image = {
-            path: this.image,
-            type: 'png'
-          };
+          message.image = this.image;
         }
 
         this.messages.push(message)
@@ -322,34 +319,16 @@ export class ChatComponent implements OnInit {
     await alert.present();
   }
 
-  getVideoCalls(){
-    return this.nativeStorage.getItem('videoCalls').then(
-      calls => {
-        return calls;
-      },
-      err => {
-        return [];
-      }
-    )
-  }
-
   videoCall(){
-    this.getVideoCalls().then(
-      calls => {
-        if(calls.filter(call => new Date().getTime() - call.date < 24 * 60 * 60 * 1000 && call.id == this.authUser.id).length >= 3){
-          if(!this.authUser || !this.authUser.subscription){
-            return this.videoCallSubAlert();
-          }
-        }
-        this.router.navigateByUrl('/messages/video/' + this.user.id)
-      }
-    )
+    if((this.authUser && this.authUser.subscription)){
+      this.router.navigateByUrl('/messages/video/' + this.user.id)
+    }else this.videoCallSubAlert();
   }
 
   async videoCallSubAlert(){
     const alert = await this.alertController.create({
-      header: 'You want more calls ?',
-      message: 'You have just finished your free calls for today, subscribe and get unlimited calls now !!',
+      header: 'You can\'t call ' + this.user.fullName,
+      message: 'You must subscribe to call ' + this.user.fullName,
       buttons: [
         {
           text: 'cancel',
@@ -366,5 +345,6 @@ export class ChatComponent implements OnInit {
     })
     await alert.present();
   }
+
 
 }

@@ -1,4 +1,4 @@
-import { File } from './File';
+import constants from '../helpers/constants';
 import { User } from './User';
 export class Product{
 
@@ -11,7 +11,7 @@ export class Product{
   private _city: string;
   private _enabled: boolean;
   private _sold: boolean;
-  private _photo: File;
+  private _photo: string;
   private _createdAt: Date;
   private _user: User;
 
@@ -40,7 +40,7 @@ export class Product{
   get enabled(): boolean{ return this._enabled }
   get sold(): boolean{ return this._sold }
   get user(): User{ return this._user }
-  get photo(): File{ return this._photo }
+  get photo(): string{ return this._photo }
   get createdAt(): Date{ return this._createdAt }
 
   set id(id: string){ this._id = id }
@@ -62,6 +62,8 @@ export class Product{
       }
     }
   }
-  set photo(photo: File){ this._photo = photo }
+  set photo(photo: string){
+    this._photo = (!photo.includes(constants.DOMAIN_URL) ? constants.DOMAIN_URL : '') + photo
+   }
   set createdAt(createdAt: Date){ this._createdAt = createdAt }
 }

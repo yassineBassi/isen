@@ -1,8 +1,20 @@
 .image-container{
-  max-height: 350px;
   overflow: hidden;
   position: relative;
 }
+
+@media only screen and (max-width: 300px) {
+  .image-container{
+    max-height: 350px;
+  }
+}
+
+@media only screen and (min-width: 300px) {
+  .image-container{
+    height: 800px;
+  }
+}
+
 .panel{
   background-color: rgb(var(--ion-color-secondary-rgb));
 }

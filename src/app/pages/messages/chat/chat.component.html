@@ -2,7 +2,7 @@
   [title]="user ? user.fullName : ''"
   [back]="true"
   [avatar]="!!user"
-  [avatarSrc]="user ? user.avatar.path : null"
+  [avatarSrc]="user ? user.avatar : null"
   [reverseColors]="true"
   (titleClicked)="showUserProfile()"
 >
@@ -41,7 +41,7 @@
             size="auto"
           >
             <div class="w-100 position-relative">
-              <img class="image" *ngIf="message.image && message.image.path" [src]="message.image.path" alt="">
+              <img class="image" *ngIf="message.image && message.image" [src]="message.image" alt="">
               <div [class.absolute]="!message.text && message.image" class="w-100 text-wrap">
                 <ion-text class="d-block">
                   {{ message.text }}

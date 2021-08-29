@@ -31,7 +31,7 @@ export class ListComponent implements OnInit {
     this.getPageType();
   }
 
-  
+
   showServiceForm(){
     this.pageLoading = true;
     this.serviceService.getStorePermession()

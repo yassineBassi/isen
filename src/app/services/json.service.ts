@@ -17,7 +17,7 @@ export class JsonService extends DataService{
   getCountries(){
     return this.sendRequest({
       method: 'get',
-      url: 'json/countries.json',
+      url: '/json/countries.json',
       noApi: true
     })
   }
@@ -25,7 +25,7 @@ export class JsonService extends DataService{
   getCurrencies(){
     return this.sendRequest({
       method: 'get',
-      url: 'json/currencies.json',
+      url: '/json/currencies.json',
       noApi: true
     })
   }
@@ -33,7 +33,7 @@ export class JsonService extends DataService{
   getProfessions(){
     return this.sendRequest({
       method: 'get',
-      url: 'json/professions.json',
+      url: '/json/professions.json',
       noApi: true
     })
   }
@@ -41,7 +41,7 @@ export class JsonService extends DataService{
   getInterests(){
     return this.sendRequest({
       method: 'get',
-      url: 'json/interests.json',
+      url: '/json/interests.json',
       noApi: true
     })
   }
@@ -49,7 +49,7 @@ export class JsonService extends DataService{
   getEducations(){
     return this.sendRequest({
       method: 'get',
-      url: 'json/education.json',
+      url: '/json/education.json',
       noApi: true
     })
   }

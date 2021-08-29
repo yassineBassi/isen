@@ -1,12 +1,12 @@
+import constants from '../helpers/constants';
 import { User } from './User';
-import { File } from './File';
 export class Channel{
 
   private _id: string;
   private _name: string;
   private _description: string;
   private _approved: boolean;
-  private _photo: File;
+  private _photo: string;
   private _createdAt: Date;
   private _user: User;
 
@@ -36,7 +36,7 @@ export class Channel{
   get description(): string{ return this._description }
   get approved(): boolean{ return this._approved }
   get user(): User{ return this._user }
-  get photo(): File{ return this._photo }
+  get photo(): string{ return this._photo }
   get createdAt(): Date{ return this._createdAt }
 
   get followers(): string[]{ return this._followers }
@@ -57,7 +57,9 @@ export class Channel{
     }
   }
 
-  set photo(photo: File){ this._photo = photo }
+  set photo(photo: string){
+    this._photo = (!photo.includes(constants.DOMAIN_URL) ? constants.DOMAIN_URL : '') + photo
+  }
   set createdAt(createdAt: Date){ this._createdAt = createdAt }
 
   set followers(followers: string[]){ this._followers = followers }

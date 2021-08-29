@@ -38,11 +38,11 @@
     </ion-slides>
 
     <ion-row *ngIf="!random" class="p-2">
-      <ion-col size="4" *ngFor="let user of users">
+      <ion-col size="4" size-sm="3" size-md="2" *ngFor="let user of users">
         <ion-item lines="none" (click)="showProfile(user.id)" >
           <div class="w-100">
             <div class="photo-container overflow-hidden">
-              <img class="w-100" [src]="user.avatar.path" alt="">
+              <img class="w-100" [src]="user.avatar" alt="">
             </div>
             <div class="px-2 w-100 text-center pt-1">
                 <span>{{ (user.firstName | resumeText: 12) + (user.age ? (', ' + user.age) : '') }}</span>

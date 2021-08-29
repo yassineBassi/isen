@@ -64,6 +64,8 @@ export class ListComponent implements OnInit {
       this.channels.push(new Channel().initialize(channel));
     })
 
+    this.channels = [];
+
     if(refresh) this.infinitScroll.disabled = false
 
     if(event){

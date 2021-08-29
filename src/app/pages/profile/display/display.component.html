@@ -44,12 +44,12 @@
     <div class="w-100 image-container" *ngIf="user">
 
       <app-img-loader
-        [src]="user.avatar.path"
+        [src]="user.avatar"
       >
       </app-img-loader>
 
         <span class="user-info p-1 pl-2">
-            <span class="d-block user-name">{{ user.fullName }}, {{ (user.age ? (', ' + user.age) : '') }}</span>
+            <span class="d-block user-name">{{ user.fullName }}{{ (user.age ? (', ' + user.age) : '') }}</span>
             <span class="d-block">{{ user.country }}, {{ user.city }}</span>
         </span>
 

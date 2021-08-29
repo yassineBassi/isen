@@ -14,10 +14,13 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  <div class="h-100 d-flex align-items-center" *ngIf="products && !products.length">
-    <div class="w-100 text-center px-4">
-      <img src="./../../../../assets/shop.svg" alt="">
-      <span class="empty-alert d-block mt-4">
+
+  <div class="h-100 w-100 d-flex flex-column py-2 text-center" *ngIf="products && !products.length">
+    <div class="flex-grow-1 d-flex align-items-end justify-content-center overflow-hidden px-2">
+      <img class="h-100 w-auto image" src="./../../../../assets/shop.svg" alt="">
+    </div>
+    <div class="flex-grow-1 py-2">
+      <span class="empty-alert">
         <span *ngIf="type == 'sell'">
           You didn't post any product yet<br/>
           <small>Click on <i class="fas fa-plus"></i> to sell your first product</small>
@@ -27,13 +30,12 @@
     </div>
   </div>
 
-
   <ion-row *ngIf="products" class="px-2">
-    <ion-col size="6" *ngFor="let product of products">
+    <ion-col size="4" size-sm="3" size-md="2" *ngFor="let product of products">
       <ion-item button="true" [routerLink]="['/tabs/buy-and-sell/product/' + product.id]">
         <div class="w-100">
           <div class="square-container overflow-hidden">
-            <img class="w-100" [src]="product.photo.path" alt="">
+            <img class="w-100" [src]="product.photo" alt="">
           </div>
           <div class="px-2 pt-1">
             <div class="d-flex justify-content-between">
@@ -46,19 +48,6 @@
       </ion-item>
     </ion-col>
   </ion-row>
-  <!-- <div class="px-2" >
-    <ion-list class="mt-0 pt-0" *ngIf="products" >
-      <ion-item *ngFor="let product of products" class="product-item mb-2 podition-relative ion-no-padding" [routerLink]="['/tabs/small-business/products/product/' + product.id]">
-        <img [src]="product.photo.path" alt="">
-        <div class="product-info d-flex">
-          <div class="ml-2 mt-auto">
-            <span class="title d-block">{{ product.label }}</span>
-            <small class="subtitle">{{ product.price + ' ' + product.currency }}</small>
-          </div>
-        </div>
-      </ion-item>
-    </ion-list>
-  </div> -->
 
 
   <ion-infinite-scroll #infinitScroll threshold="100px" (ionInfinite)="getProducts($event)">

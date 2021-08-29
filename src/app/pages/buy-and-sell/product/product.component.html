@@ -23,7 +23,7 @@
       <div class="w-100 image-container">
         <img *ngIf="product.sold" class="sold-image" src="../../../../../assets/sold.png" alt="">
         <app-img-loader
-          [src]="product.photo.path"
+          [src]="product.photo"
         >
         </app-img-loader>
       </div>
