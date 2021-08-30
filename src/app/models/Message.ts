@@ -38,7 +38,8 @@ export class Message{
   set state(state: string) {this._state = state};
   set createdAt(createdAt: Date) {this._createdAt = createdAt};
   set image(image: string) {
-    this._image = (!image.includes(constants.DOMAIN_URL) ? constants.DOMAIN_URL : '') + image
+    if(!image || image == 'undefined') this._image = null;
+    else this._image = (!image.includes(constants.DOMAIN_URL) ? constants.DOMAIN_URL : '') + image
   };
 
   isMine(id): boolean{

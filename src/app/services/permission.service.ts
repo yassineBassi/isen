@@ -10,22 +10,21 @@ export class PermissionService {
 
   constructor(private alertCtrl: AlertController, private openNativeSettings: OpenNativeSettings, private androidPermission: AndroidPermissions) { }
 
-  
-  requestPermission(permission: string){
-    return this.androidPermission.requestPermission(permission)
-    .then(
-      resp => {
-        if(resp.hasPermission) return true;
-        else{
-          this.showPermissionAlert();
-          return false;
-        };
-      },
-      () => {
-        this.showPermissionAlert();
-        return false;
-      }
-    )
+  async requestPermission(permission: string){
+    return new Promise((resolve, reject) => {
+      this.androidPermission.requestPermission(permission)
+      .then(
+        async(resp) => {
+          if(resp.hasPermission) resolve(true);
+          else{
+            reject(await this.showPermissionAlert());
+          };
+        },
+        async() => {
+          reject(await this.showPermissionAlert());
+        }
+      )
+    })
   }
 
   async showPermissionAlert(){
@@ -46,6 +45,8 @@ export class PermissionService {
       ]
     })
     await alert.present();
+    const dismiss = await alert.onDidDismiss()
+    return dismiss.role == 'cancel'
   }
 
   getPermission(permission){
@@ -59,19 +60,17 @@ export class PermissionService {
             this.requestPermission(permission)
             .then(resp => {
               if(resp) resolve(true);
-              else reject();
-            }, () => reject())
+            }, (err) => reject(err))
           }
         },
         () => {
           this.requestPermission(permission)
           .then(resp => {
             if(resp) resolve(true);
-            else reject();
-          }, () => reject())
+          }, (err) => reject(err))
         }
       )
     })
   }
-  
+
 }

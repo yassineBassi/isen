@@ -26,7 +26,7 @@
   </ion-infinite-scroll>
 
   <ion-list *ngIf="authUser && user">
-    <div *ngFor="let message of messages; let ind = index">
+    <div *ngFor="let message of messages; let ind = index" class="my-2">
 
       <ion-row size="12" class="w-100 text-center mb-2" *ngIf="allowToShowDate(ind)">
         <ion-col>{{ message.createdAt | extractDate }}</ion-col>
@@ -68,8 +68,11 @@
         </ion-button>
       </ion-item>
     </div>
-    <div class="w-100 text-center text-danger px-4" *ngIf="messages && !chatEnabled()">
+    <div class="w-100 text-center text-danger px-4" *ngIf="messages && !conversationStarted()">
       You can't send more messages until '{{ user.fullName }}' responded
+    </div>
+    <div class="w-100 text-center text-danger px-4 mt-3" *ngIf="user && messages && !nonFriendsChatEnabled()">
+      You have reached the limit messages for non friends, you should be a friend of {{ user.firstName }} to you can continue chatting with {{ user.gender ? (user.gender == 'male' ? 'him' : 'her') : 'him/her' }}
     </div>
   </ion-list>
 </ion-content>
@@ -86,7 +89,7 @@
       (keydown.enter)="addMessage()"
       (ionFocus)="scrollToBottom()"
       [(ngModel)]="messageText"
-      [disabled]="!chatEnabled()"
+      [disabled]="!conversationStarted() || !nonFriendsChatEnabled()"
       class="mx-2 chat-input"
       placeholder="tape your message here"
     ></ion-input>

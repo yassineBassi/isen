@@ -34,7 +34,6 @@ export class WebrtcService {
     };
   }
 
-
   getMedia(facingMode: string) {
     return navigator.mediaDevices.getUserMedia({
         video: {
@@ -65,8 +64,14 @@ export class WebrtcService {
               this.handleError(e);
               reject(true)
             }
+          }, () => {
+            reject(true)
           })
+        }, () => {
+          reject(true)
         })
+      }, () => {
+        reject(true)
       })
     })
   }

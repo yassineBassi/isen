@@ -132,9 +132,11 @@ export class ChatComponent implements OnInit {
           resp.data.messages.reverse().forEach(message => {
             this.messages.push(new Message().initialize(message));
           });
+
           if(!resp.data.more){
             this.infScroll.disabled = true
           }
+
         }else{
           event.target.complete()
           resp.data.messages.reverse().forEach(message => {
@@ -142,6 +144,8 @@ export class ChatComponent implements OnInit {
           });
           if(!resp.data.more) event.target.disabled = true;
         }
+
+        console.log(this.messages);
 
         this.allowToChat = resp.data.allowToChat;
 
@@ -225,7 +229,7 @@ export class ChatComponent implements OnInit {
   addMessage(){
     if(!this.messageText && !this.imageFile) return;
 
-    if(!this.chatEnabled()){
+    if(!this.conversationStarted()){
       this.messageText = "";
       return;
     }
@@ -292,8 +296,8 @@ export class ChatComponent implements OnInit {
     return true
   }
 
-  chatEnabled(){
-    return this.allowToChat || (this.messages && (this.messages.length <= 1 || this.messages.filter(msg => !msg.isMine(this.authUser.id)).length > 0))
+  conversationStarted(){
+    return (this.allowToChat || (this.messages && (this.messages.length <= 1 || this.messages.filter(msg => !msg.isMine(this.authUser.id)).length > 0)))
   }
 
   ProfileEnabled(){
@@ -346,5 +350,8 @@ export class ChatComponent implements OnInit {
     await alert.present();
   }
 
+  nonFriendsChatEnabled(){
+    return (this.user.friend) || (this.messages.length < 10);
+  }
 
 }

@@ -26,7 +26,7 @@
 
   <div class="h-100" *ngIf="!pageLoading && users && users.length">
     <ion-slides
-      #slides (ionSlideReachEnd)="getNearUsers()"
+      #slides
       *ngIf="random"
       class="h-100"
       pager="false"

@@ -54,6 +54,7 @@ export class NewFriendsPage implements OnInit {
 
   toggleRandom(){
     this.users = [];
+    this.pageLoading = true;
     this.getNearUsers(null, true)
   }
 
@@ -73,7 +74,7 @@ export class NewFriendsPage implements OnInit {
       (resp: any) => {
         if(refresh) this.users = [];
 
-        console.log(resp.data);
+        console.log(resp.data.users)
         resp.data.users.forEach(user => {
           this.users.push(new User().initialize(user));
         })

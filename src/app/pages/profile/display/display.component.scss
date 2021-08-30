@@ -3,15 +3,15 @@
   position: relative;
 }
 
-@media only screen and (max-width: 300px) {
+@media only screen and (min-width: 300px) {
   .image-container{
-    max-height: 350px;
+    max-height: 600px;
   }
 }
 
 @media only screen and (min-width: 300px) {
   .image-container{
-    height: 800px;
+    max-height: 1100px;
   }
 }
 
