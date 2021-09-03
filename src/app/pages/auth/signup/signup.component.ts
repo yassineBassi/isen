@@ -55,7 +55,7 @@ export class SignupComponent implements OnInit {
               private cdr: ChangeDetectorRef, private modalController: ModalController, private nativeStorage: NativeStorage) { }
 
   ionViewWillEnter(){
-    this.step = 0;
+    this.step = 1;
   }
 
   ngOnInit() {
@@ -67,8 +67,8 @@ export class SignupComponent implements OnInit {
       email: ['', [Validators.required, Validators.email, Validators.max(50)]],
       password: ['', [Validators.required, Validators.minLength(8)]],
       password_confirmation: ['', [Validators.required, Validators.minLength(8)]],
-      firstName: ['', [Validators.required, Validators.maxLength(40)]],
-      lastName: ['', [Validators.required, Validators.maxLength(40)]],
+      firstName: ['', [Validators.required, Validators.pattern('[a-zA-Z-_ ]+'), Validators.maxLength(40)]],
+      lastName: ['', [Validators.required, Validators.pattern('[a-zA-Z-_ ]+'), Validators.maxLength(40)]],
       birthDate: ['', [Validators.required]],
     })
     this.nativeStorage.getItem('countries').then(resp => {

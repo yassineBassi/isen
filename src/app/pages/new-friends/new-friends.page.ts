@@ -32,7 +32,8 @@ export class NewFriendsPage implements OnInit {
   authUser: User;
   slideOpts = {
     initialSlide: 0,
-    speed: 400
+    speed: 400,
+    onlyExternal: false
   };
 
 
@@ -46,7 +47,8 @@ export class NewFriendsPage implements OnInit {
     this.page = 0;
     this.slideOpts = {
       initialSlide: 0,
-      speed: 400
+      speed: 400,
+      onlyExternal: false
     }
     this.getNearUsers(null, true);
     this.getAuthUser();
@@ -139,6 +141,10 @@ export class NewFriendsPage implements OnInit {
 
   showProfile(id: string){
     this.router.navigateByUrl('/tabs/profile/display/' + id)
+  }
+
+  skipSlide(){
+    this.slides.slideNext();
   }
 
 }

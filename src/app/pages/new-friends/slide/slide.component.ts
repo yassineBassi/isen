@@ -5,7 +5,7 @@ import { RequestService } from './../../../services/request.service';
 import { ToastService } from './../../../services/toast.service';
 import { UserService } from './../../../services/user.service';
 import { User } from './../../../models/User';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { Request } from 'src/app/models/Request';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 
@@ -19,6 +19,9 @@ export class SlideComponent implements OnInit {
   @Input() user: User;
   @Input() authUser: User;
   @Input() random: boolean;
+  @Input() last: boolean;
+
+  @Output() onSkip = new EventEmitter();
 
   constructor(private userService: UserService, private requestService: RequestService, private toastService: ToastService,
               private alertCtrl: AlertController, private router: Router, private nativeStorage: NativeStorage) { }

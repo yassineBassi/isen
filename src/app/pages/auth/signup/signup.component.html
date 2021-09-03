@@ -36,14 +36,26 @@
             <ion-item class="w-100">
               <ion-input formControlName="firstName" type="text" placeholder="First Name"></ion-input>
             </ion-item>
-            <ion-item class="w-100">
-              <ion-input formControlName="lastName" type="text" placeholder="Last Name"></ion-input>
-            </ion-item>
-            <div class="mt-4">
+            <div class="mt-1 text-left" *ngIf="validationErrors['firstName'] || !firstName.valid">
               <div class="w-100 text-center" *ngIf="validationErrors['firstName']">
                 <span class="d-block text-danger" *ngFor="let error of validationErrors['firstName']">{{ error }}</span>
               </div>
+              <div *ngIf="!firstName.valid && firstName.dirty">
+                <span class="d-block text-danger" *ngIf="firstName.hasError('pattern')">
+                  The first name field must only contain alpha numeric characters, as well as dashes and underscores
+                </span>
+              </div>
+            </div>
 
+            <ion-item class="w-100">
+              <ion-input formControlName="lastName" type="text" placeholder="Last Name"></ion-input>
+            </ion-item>
+            <div class="mt-1 text-left" *ngIf="validationErrors['lastName'] || !lastName.valid">
+              <div *ngIf="!lastName.valid && lastName.dirty">
+                <span class="d-block text-danger" *ngIf="lastName.hasError('pattern')">
+                  The last name field must only contain alpha numeric characters, as well as dashes and underscores
+                </span>
+              </div>
               <div class="w-100 text-center" *ngIf="validationErrors['lastName']">
                 <span class="d-block text-danger" *ngFor="let error of validationErrors['lastName']">{{ error }}</span>
               </div>

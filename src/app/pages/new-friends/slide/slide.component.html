@@ -33,6 +33,11 @@
         <span><i class="fas fa-star"></i></span>
       </ion-button>
     </div>
+    <div *ngIf="!last" class="p-0" >
+        <ion-button shape="round" class="rounded-button" (click)="onSkip.emit()" color="primary">
+          <span><i class="fas fa-times"></i></span>
+        </ion-button>
+    </div>
     <div *ngIf="random" class="p-0" >
         <ion-button shape="round" class="rounded-button" (click)="navigateTo('/messages/chat/' + user.id)" color="primary">
           <span><i class="fas fa-comments"></i></span>
