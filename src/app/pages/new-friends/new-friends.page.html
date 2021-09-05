@@ -33,7 +33,7 @@
       [options]="slideOpts"
     >
       <ion-slide class="h-100 swiper-no-swiping" *ngFor="let user of users; let last = last">
-        <app-slide [last]="last" (onSkip)="skipSlide()" [authUser]="authUser" [random]="random" class="h-100 w-100" [user]="user"></app-slide>
+        <app-slide (onRefresh)="getNearUsers(null, true)" [last]="last" (onSkip)="skipSlide()" [authUser]="authUser" [random]="random" class="h-100 w-100" [user]="user"></app-slide>
       </ion-slide>
     </ion-slides>
 

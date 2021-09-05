@@ -19,12 +19,10 @@
         <ion-button
           expand="block"
           color="primary"
-          fill="outline"
-          size="small"
-          class="mt-4"
-          routerLink="/auth/signup"
+          class="w-100"
+          (click)="submit()"
         >
-          Register
+          Login
         </ion-button>
       </ion-list>
     </form>
@@ -36,10 +34,12 @@
   <ion-button
     expand="block"
     color="primary"
-    class="w-100"
-    (click)="submit()"
+    fill="outline"
+    size="small"
+    class="mt-4"
+    routerLink="/auth/signup"
   >
-    Login
+    Register
   </ion-button>
   <ion-button
     expand="block"

@@ -22,6 +22,7 @@ export class SlideComponent implements OnInit {
   @Input() last: boolean;
 
   @Output() onSkip = new EventEmitter();
+  @Output() onRefresh = new EventEmitter();
 
   constructor(private userService: UserService, private requestService: RequestService, private toastService: ToastService,
               private alertCtrl: AlertController, private router: Router, private nativeStorage: NativeStorage) { }

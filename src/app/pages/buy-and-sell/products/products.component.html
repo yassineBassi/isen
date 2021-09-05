@@ -38,11 +38,11 @@
             <img class="w-100" [src]="product.photo" alt="">
           </div>
           <div class="px-2 pt-1">
-            <div class="d-flex justify-content-between">
+            <div class="d-flex justify-content-between align-items-center">
               <span>{{ product.label | resumeText: 6 }}</span>
-              <span>{{ product.price + ' ' + product.currency }}</span>
+              <small class="time">{{ product.createdAt | extractDiffTime }}</small>
             </div>
-            <small class="time">{{ product.createdAt | extractDiffTime }} ago</small>
+            <span>{{ product.price + ' ' + product.currency }}</span>
           </div>
         </div>
       </ion-item>

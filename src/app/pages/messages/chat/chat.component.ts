@@ -324,15 +324,15 @@ export class ChatComponent implements OnInit {
   }
 
   videoCall(){
-    if((this.authUser && this.authUser.subscription)){
+    if(this.authUser && this.authUser.subscription && this.user && this.user.friend){
       this.router.navigateByUrl('/messages/video/' + this.user.id)
     }else this.videoCallSubAlert();
   }
-
   async videoCallSubAlert(){
+    const message = !this.user.friend ? ('You can only call friends, how about sending a friend request to' + this.user.fullName) : ('You must subscribe to call ' + this.user.fullName)
     const alert = await this.alertController.create({
       header: 'You can\'t call ' + this.user.fullName,
-      message: 'You must subscribe to call ' + this.user.fullName,
+      message: message,
       buttons: [
         {
           text: 'cancel',

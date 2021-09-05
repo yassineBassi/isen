@@ -56,8 +56,8 @@ export class ProductComponent implements OnInit {
       (resp: any) => {
         this.pageLoading = false;
         this.product = new Product(resp.data);
+        console.log(this.product)
         this.page++;
-        console.log(this.product);
         if(event) event.target.complete();
       },
       err => {
@@ -147,7 +147,7 @@ export class ProductComponent implements OnInit {
     }
   }
 
-  
+
   async reportPorduct(){
     const alert = await this.alertCtrl.create({
       header: 'Report ' + this.product.label,

@@ -144,7 +144,7 @@ export class User{
   set gender(gender: string){this._gender = gender}
   set address(address: string){this._address = address}
   set avatar(avatar: string){
-    this._avatar = (!avatar.includes(constants.DOMAIN_URL) ? constants.DOMAIN_URL : '') + avatar
+    this._avatar = avatar ? ((!avatar.includes(constants.DOMAIN_URL) ? constants.DOMAIN_URL : '') + avatar) : ''
   }
   set status(status: string){this._status = status}
 

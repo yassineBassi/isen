@@ -13,7 +13,7 @@
     </div>
   </div>
   <div class="px-3 py-3 d-flex flex-grow-auto justify-content-around w-100">
-    <div *ngIf="!random" class="p-0">
+    <!-- <div *ngIf="!random" class="p-0">
         <ion-button shape="round" class="rounded-button"  (click)="request()" color="primary">
           <span *ngIf="user.friend"><i class="text-success fas fa-minus"></i></span>
           <span *ngIf="!user.friend">
@@ -22,22 +22,27 @@
             <span *ngIf="user.request == 'requesting'"><i class="fas fa-check"></i></span>
           </span>
         </ion-button>
-    </div>
+    </div> -->
     <div class="p-0" *ngIf="random">
         <ion-button shape="round" class="rounded-button" (click)="videoCall()" color="primary">
           <span><i class="fas fa-video"></i></span>
         </ion-button>
     </div>
-    <div *ngIf="!random" class="p-0" >
+    <!-- <div *ngIf="!random" class="p-0" >
       <ion-button shape="round" class="rounded-button" (click)="follow()" [color]="!user.followed ? 'primary' : 'warning'">
         <span><i class="fas fa-star"></i></span>
       </ion-button>
-    </div>
+    </div> -->
     <div *ngIf="!last" class="p-0" >
-        <ion-button shape="round" class="rounded-button" (click)="onSkip.emit()" color="primary">
-          <span><i class="fas fa-times"></i></span>
-        </ion-button>
-    </div>
+      <ion-button shape="round" class="rounded-button" (click)="onSkip.emit()" color="primary">
+        <span><i class="fas fa-times"></i></span>
+      </ion-button>
+  </div>
+  <div *ngIf="last" class="p-0" >
+      <ion-button shape="round" class="rounded-button" (click)="onRefresh.emit()" color="primary">
+        <span><i class="fas fa-sync"></i></span>
+      </ion-button>
+  </div>
     <div *ngIf="random" class="p-0" >
         <ion-button shape="round" class="rounded-button" (click)="navigateTo('/messages/chat/' + user.id)" color="primary">
           <span><i class="fas fa-comments"></i></span>
