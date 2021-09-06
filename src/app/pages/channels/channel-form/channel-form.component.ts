@@ -98,7 +98,7 @@ export class ChannelFormComponent implements OnInit {
     .then(
       (resp: any) => {
         this.pageLoading = false;
-        this.toastService.presentStdToastr('product created successfully');
+        this.toastService.presentStdToastr(resp.message);
         this.router.navigateByUrl('/tabs/channels');
         console.log(resp);
         this.clearProductForm();

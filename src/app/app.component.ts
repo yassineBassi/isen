@@ -58,6 +58,8 @@ export class AppComponent {
   }
 
   playAudio(src){
+    console.log('play app audio')
+    console.log(src)
     this.audio = new Audio();
     this.audio.src = src
     this.audio.load();
@@ -69,7 +71,7 @@ export class AppComponent {
     this.socket.emit('connect-user', this.user.id);
     this.socket.on('called', () => {
       console.log('called')
-      this.playAudio("./../../../../../assets/audio/phone-ringing.mp3");
+      this.playAudio("./../../../../../assets/audio/calling.mp3");
       this.messengerService.onMessage().subscribe(msg => {
         if(msg && msg.event && msg.event == 'stop-audio') this.audio.pause();
       })

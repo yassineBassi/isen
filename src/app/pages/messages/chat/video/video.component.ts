@@ -103,7 +103,7 @@ export class VideoComponent implements OnInit {
           if(this.answer) {
             if(this.audio) this.audio.pause();
             this.messengerService.sendMessage({event: 'stop-audio'})
-            this.playAudio("./../../../../../assets/audio/phone-ringing.mp3");
+            this.playAudio("./../../../../../assets/audio/calling.mp3");
           }
           this.cancelListener();
           clearInterval(timer);
@@ -113,6 +113,8 @@ export class VideoComponent implements OnInit {
   }
 
   playAudio(src){
+    console.log('play video audio')
+    console.log(src)
     this.audio = new Audio();
     this.audio.src = src
     this.audio.load();
@@ -139,7 +141,7 @@ export class VideoComponent implements OnInit {
     this.messengerService.sendMessage({event: 'stop-audio'})
     this.playAudio("./../../../../../assets/audio/ringing.mp3");
     this.webRTC.callPartner(this.partner.id);
-    this.socket.emit('calling', this.partner.id, this.partner.fullName)
+    this.socket.emit('calling', this.partner.id, this.user.fullName)
     this.waitForAnswer();
   }
 

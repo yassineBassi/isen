@@ -39,7 +39,7 @@ export class ListComponent implements OnInit {
     this.route.paramMap
     .subscribe(params => {
       this.type = params.get('type');
-      if(this.type == 'explore'){
+      if(this.type == 'explore' || this.type == 'mines'){
         this.nativeStorage.getItem('user')
         .then(
           user => {
@@ -60,11 +60,10 @@ export class ListComponent implements OnInit {
   handleResponse(resp, event, refresh){
     if(!event || refresh) this.channels = []
 
+    console.log(resp.data.channels)
     resp.data.channels.forEach(channel => {
       this.channels.push(new Channel().initialize(channel));
     })
-
-    this.channels = [];
 
     if(refresh) this.infinitScroll.disabled = false
 

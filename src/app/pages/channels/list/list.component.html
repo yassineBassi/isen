@@ -29,7 +29,7 @@
     </div>
   </div>
 
-  <ion-list class="p-0 m-0" *ngIf="channels && channels.length ">
+  <ion-list class="p-0 m-0 pb-5" *ngIf="channels && channels.length ">
     <ion-item
       *ngFor="let channel of channels"
       lines="none"
@@ -43,7 +43,7 @@
         <span class="channel-name d-block title">{{ channel.name }}</span>
         <small class=" d-block">{{ channel.followers.length }} Follower</small>
       </ion-label>
-      <small *ngIf="user && channel.user.id == user.id">
+      <small *ngIf="user && channel.user.id == user.id" class="mr-2">
         <span *ngIf="channel.approved" class="text-success">Approved</span>
         <span *ngIf="!channel.approved" class="text-danger">Not Approved</span>
       </small>
@@ -73,14 +73,15 @@
     </ion-infinite-scroll-content>
   </ion-infinite-scroll>
 
-  <ion-fab position="fixed" vertical="bottom" horizontal="end" *ngIf="type == 'mines'">
-    <ion-fab-button routerLink="/tabs/channels/form" color="primary">
-      <ion-icon name="add"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
-  <ion-fab position="fixed" vertical="bottom" horizontal="end" *ngIf="type == 'followed'">
-    <ion-fab-button  routerLink="/tabs/channels/list/explore" color="primary">
-      <i class="fas fa-globe-americas"></i>
-    </ion-fab-button>
-  </ion-fab>
 </ion-content>
+
+<ion-fab position="fixed" vertical="bottom" horizontal="end" *ngIf="type == 'mines'">
+  <ion-fab-button routerLink="/tabs/channels/form" color="primary">
+    <ion-icon name="add"></ion-icon>
+  </ion-fab-button>
+</ion-fab>
+<ion-fab position="fixed" vertical="bottom" horizontal="end" *ngIf="type == 'followed'">
+  <ion-fab-button  routerLink="/tabs/channels/list/explore" color="primary">
+    <i class="fas fa-globe-americas"></i>
+  </ion-fab-button>
+</ion-fab>
