@@ -6,6 +6,7 @@ import { IonInfiniteScroll, IonSlides, ModalController } from '@ionic/angular';
 import { UserService } from 'src/app/services/user.service';
 import { SearchOptionsComponent } from './search-options/search-options.component';
 import { User } from './../../models/User';
+import { AdMobFeeService } from './../../services/admobfree.service';
 
 @Component({
   selector: 'app-new-friends',
@@ -38,7 +39,7 @@ export class NewFriendsPage implements OnInit {
 
 
   constructor(private userService: UserService, private modalController: ModalController, private router: Router,
-              private changeDetectorRef: ChangeDetectorRef, private nativeStorage: NativeStorage) { }
+              private changeDetectorRef: ChangeDetectorRef, private nativeStorage: NativeStorage, private adMobFeeService: AdMobFeeService) { }
 
   ngOnInit() {
   }
@@ -70,7 +71,10 @@ export class NewFriendsPage implements OnInit {
   }
 
   getNearUsers(event?, refresh?){
-    if(refresh) this.page = 0
+    if(refresh){
+      this.page = 0;
+      this.adMobFeeService.showInterstitialAd();
+    }
     this.userService.getUsers(this.page++, {...this.options, type: this.random ? 'random' : 'near'})
     .then(
       (resp: any) => {

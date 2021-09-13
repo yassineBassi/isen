@@ -10,6 +10,7 @@ import { AfterViewInit, Component, ElementRef, OnInit } from '@angular/core';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { SocketService } from 'src/app/services/socket.service';
 import { MessengerService } from './../../../messenger.service';
+import { AdMobFeeService } from './../../../../services/admobfree.service';
 
 @Component({
   selector: 'app-video',
@@ -42,7 +43,8 @@ export class VideoComponent implements OnInit {
     private location: Location,
     private nativeStorage: NativeStorage,
     private router: Router,
-    private messengerService: MessengerService
+    private messengerService: MessengerService,
+    private adMobFeeService: AdMobFeeService
   ) {}
 
   ngOnInit() {}
@@ -193,6 +195,7 @@ export class VideoComponent implements OnInit {
 
   cancel(){
     this.location.back();
+    this.adMobFeeService.showInterstitialAd();
     this.messengerService.sendMessage({event: 'stop-audio'})
     if(this.audio) this.audio.pause();
     this.messengerService.sendMessage({event: 'stop-audio'})

@@ -30,7 +30,7 @@ export class PermissionService {
   async showPermissionAlert(){
     const alert = await this.alertCtrl.create({
       header: 'Permission',
-      message: 'Geloo doesn\'t have the permission to perfome this action, please give us the permsiion from the application settings',
+      message: 'Dolphy doesn\'t have the permission to perfome this action, please give us the permsiion from the application settings',
       buttons: [
         {
           text: 'CANCEL',

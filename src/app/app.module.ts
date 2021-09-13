@@ -28,6 +28,7 @@ import { VideoComponent } from './pages/messages/chat/video/video.component';
 import { FormsModule } from '@angular/forms';
 import { SharingPipeModule } from './pipes/sharing/sharing-pipe.module';
 import { ErrorComponent } from './pages/error/error.component';
+import { AdMobFree } from '@ionic-native/admob-free/ngx';
 
 
 @NgModule({
@@ -62,7 +63,8 @@ import { ErrorComponent } from './pages/error/error.component';
     File,
     FilePath,
     WebView,
-    WebrtcService
+    WebrtcService,
+    AdMobFree
   ],
   bootstrap: [AppComponent]
 })
