@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { Stripe, StripeCardTokenParams } from '@ionic-native/stripe/ngx';
+import { ConfirmCardPaymentData } from '@stripe/stripe-js';
+import { StripeService } from 'ngx-stripe';
 // declare var Stripe;
 import constants from 'src/app/helpers/constants';
 import { User } from 'src/app/models/User';
@@ -34,8 +36,10 @@ export class PaymentComponent implements OnInit {
   pageLoading = false;
   success = false;
 
+  clientSecret: string;
+
   constructor(private stripe: Stripe, private toastService: ToastService, private route: ActivatedRoute, private subscriptionService:
-              SubscriptionService, private nativeStorage: NativeStorage) { }
+              SubscriptionService, private nativeStorage: NativeStorage, private stripeService: StripeService) { }
 
 
   ionViewWillEnter(){
@@ -56,15 +60,29 @@ export class PaymentComponent implements OnInit {
     this.pageLoading = true;
     this.route.queryParamMap.subscribe(
       query => {
-        this.pageLoading = false;
         this.price = query.get('price')
         this.duration = query.get('duration')
         this.subscriptionId = query.get('subscription_id')
+        this.getClientSecret();
       }
     )
   }
 
-  validateCard(){
+  getClientSecret(){
+    this.subscriptionService.getClientSecret(this.subscriptionId, {duration: this.duration})
+    .then(
+      (resp: any) => {
+        this.clientSecret = resp.data.client_secret
+        this.pageLoading = false;
+      },
+      err => {
+        this.toastService.presentStdToastr(err)
+        this.pageLoading = false;
+      }
+    )
+  }
+
+  payAndSubscribe(){
     this.pageLoading = true;
     const card: StripeCardTokenParams = {
       number: this.cardNumber,
@@ -76,33 +94,36 @@ export class PaymentComponent implements OnInit {
 
     this.stripe.createCardToken(card)
     .then(
-      token => {
-        this.subscriptionService.pay(this.subscriptionId, {
-          token: token.id, 
-          duration: this.duration
+      res => {
+        this.stripeService.confirmCardPayment(this.clientSecret, {
+          payment_method: {
+            card: {token: res.id},
+          }
         })
-        .then(
-          (resp: any) => {
-            console.log(resp);
-            this.pageLoading = false;
-            this.toastService.presentStdToastr(resp.message);
-            const user = new User().initialize(resp.data)
-            this.nativeStorage.setItem('user', user.toObjeect());
-            this.success = true;
+        .subscribe(
+          resp => {
+            this.subscriptionService.subscribe(this.subscriptionId, {
+              duration: this.duration
+            })
+            .then(
+              (resp: any) => {
+                this.pageLoading = false;
+                this.toastService.presentStdToastr(resp.message);
+                const user = new User().initialize(resp.data)
+                this.nativeStorage.setItem('user', user.toObjeect());
+                this.success = true;
+              },
+              err => {
+                this.pageLoading = false;
+                this.toastService.presentStdToastr(err)
+              }
+            )
           },
           err => {
-            console.log(err);
             this.pageLoading = false;
-            this.toastService.presentStdToastr(err);
+            this.toastService.presentStdToastr(err)
           }
         )
-        console.log('token');
-        console.log(token);
-      },
-      err => {
-        this.pageLoading = false;
-        this.toastService.presentStdToastr(err)
-        console.log(err)
       }
     )
   }

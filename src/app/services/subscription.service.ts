@@ -29,4 +29,20 @@ export class SubscriptionService extends DataService {
     })
   }
 
+  getClientSecret(id: string, data: any){
+    return this.sendRequest({
+      method: 'post',
+      url: '/' + id + '/client-secret',
+      data
+    })
+  }
+
+  subscribe(id: string, data: any){
+    return this.sendRequest({
+      method: 'post',
+      url: '/' + id + '/subscribe',
+      data
+    })
+  }
+
 }

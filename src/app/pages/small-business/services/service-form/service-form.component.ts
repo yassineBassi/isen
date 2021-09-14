@@ -9,6 +9,7 @@ import { Component, OnInit } from '@angular/core';
 import { ListSearchComponent } from 'src/app/pages/list-search/list-search.component';
 import { ModalController } from '@ionic/angular';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
+import { AdMobFeeService } from './../../../../services/admobfree.service';
 
 @Component({
   selector: 'app-service-form',
@@ -17,7 +18,7 @@ import { NativeStorage } from '@ionic-native/native-storage/ngx';
 })
 export class ServiceFormComponent implements OnInit {
 
-  
+
   countriesObject = {};
   countries: string[] = [];
   cities: string[] = [];
@@ -52,7 +53,7 @@ export class ServiceFormComponent implements OnInit {
 
   constructor(private camera: Camera, private formBuilder: FormBuilder, private uploadFile: UploadFileService, private modalController: ModalController,
               private toastService: ToastService, private webView: WebView, private serviceService: ServiceService, private nativeStorage: NativeStorage,
-              private router: Router) { }
+              private router: Router, private adMobFeeService: AdMobFeeService) { }
 
   ngOnInit() {
     this.initializeForm();
@@ -103,7 +104,7 @@ export class ServiceFormComponent implements OnInit {
     return form;
   }
 
-  clearProductForm(){
+  clearServiceForm(){
     this.form.patchValue({
       title: '',
       description: '',
@@ -131,7 +132,8 @@ export class ServiceFormComponent implements OnInit {
         console.log(resp);
         this.toastService.presentStdToastr('service created successfully');
         this.router.navigateByUrl('/tabs/small-business/services');
-        this.clearProductForm();
+        this.adMobFeeService.showInterstitialAd();
+        this.clearServiceForm();
       },
       err => {
         this.pageLoading = false;
@@ -146,7 +148,7 @@ export class ServiceFormComponent implements OnInit {
     )
   }
 
-  
+
   async presentCountriesModal(){
     const result = await this.presentSearchListModal(this.countries, 'Countries');
     if(result){
@@ -173,7 +175,7 @@ export class ServiceFormComponent implements OnInit {
     await modal.present();
     const { data } = await modal.onDidDismiss();
     return data.data;
-  } 
+  }
 
   isFormValid(form){
     return !form.valid || !this.selectedCountry || !this.selectedCountry

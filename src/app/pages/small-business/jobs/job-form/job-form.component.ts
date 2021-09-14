@@ -9,6 +9,7 @@ import { Component, OnInit } from '@angular/core';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { ModalController } from '@ionic/angular';
 import { ListSearchComponent } from 'src/app/pages/list-search/list-search.component';
+import { AdMobFeeService } from './../../../../services/admobfree.service';
 
 @Component({
   selector: 'app-job-form',
@@ -51,7 +52,7 @@ export class JobFormComponent implements OnInit {
 
   constructor(private camera: Camera, private formBuilder: FormBuilder, private uploadFile: UploadFileService, private nativeStorage: NativeStorage,
               private toastService: ToastService, private webView: WebView, private jobService: JobService,
-              private router: Router, private modalController: ModalController) { }
+              private router: Router, private modalController: ModalController, private adMobFeeService: AdMobFeeService) { }
 
   ngOnInit() {
     this.initializeForm();
@@ -106,7 +107,7 @@ export class JobFormComponent implements OnInit {
     return form;
   }
 
-  clearProductForm(){
+  clearJobForm(){
     this.form.patchValue({
       title: '',
       description: '',
@@ -134,7 +135,8 @@ export class JobFormComponent implements OnInit {
         console.log(resp);
         this.toastService.presentStdToastr('job created successfully');
         this.router.navigateByUrl('/tabs/small-business/jobs');
-        this.clearProductForm();
+        this.adMobFeeService.showInterstitialAd();
+        this.clearJobForm();
       },
       err => {
         this.pageLoading = false;
@@ -175,7 +177,7 @@ export class JobFormComponent implements OnInit {
     await modal.present();
     const { data } = await modal.onDidDismiss();
     return data.data;
-  } 
+  }
 
   isFormValid(form){
     return !form.valid || !this.selectedCountry || !this.selectedCountry

@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.dolphy.app" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.geloo.app" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Dolphy</name>
     <description>Dolphy is a new integrated social app, where user can find all he need in one app, with many functions and tools which simplify the connections between users.</description>
     <author email="yassinebassii@gmail.com" href="https://yassinebassi.com/">BASSI Yassine</author>

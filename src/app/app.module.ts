@@ -25,10 +25,12 @@ import { WebView } from '@ionic-native/ionic-webview/ngx';
 import { WebrtcService } from './services/webrtc.service';
 import { ChatComponent } from './pages/messages/chat/chat.component';
 import { VideoComponent } from './pages/messages/chat/video/video.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, FormBuilder } from '@angular/forms';
 import { SharingPipeModule } from './pipes/sharing/sharing-pipe.module';
 import { ErrorComponent } from './pages/error/error.component';
 import { AdMobFree } from '@ionic-native/admob-free/ngx';
+import constants from './helpers/constants';
+import { NgxStripeModule } from 'ngx-stripe';
 
 
 @NgModule({
@@ -44,7 +46,8 @@ import { AdMobFree } from '@ionic-native/admob-free/ngx';
     FormsModule,
     AppRoutingModule,
     SharingModule,
-    SharingPipeModule
+    SharingPipeModule,
+    NgxStripeModule.forRoot(constants.STRIPE_PUBLIC_KEY)
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
@@ -64,7 +67,8 @@ import { AdMobFree } from '@ionic-native/admob-free/ngx';
     FilePath,
     WebView,
     WebrtcService,
-    AdMobFree
+    AdMobFree,
+    FormBuilder
   ],
   bootstrap: [AppComponent]
 })

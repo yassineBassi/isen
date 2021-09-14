@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { ListSearchComponent } from '../../list-search/list-search.component';
 import { ModalController } from '@ionic/angular';
+import { AdMobFeeService } from './../../../services/admobfree.service';
 
 @Component({
   selector: 'app-product-form',
@@ -44,7 +45,8 @@ export class ProductFormComponent implements OnInit {
 
   constructor(private camera: Camera, private formBuilder: FormBuilder, private uploadFile: UploadFileService,
               private toastService: ToastService, private webView: WebView, private productService: ProductService,
-              private router: Router, private nativeStorage: NativeStorage, private modalController: ModalController) { }
+              private router: Router, private nativeStorage: NativeStorage, private modalController: ModalController,
+              private adMobFeeService: AdMobFeeService) { }
 
   ngOnInit(){
     this.initializeForm();
@@ -119,7 +121,7 @@ export class ProductFormComponent implements OnInit {
         this.pageLoading = false;
         this.toastService.presentStdToastr('product created successfully');
         this.router.navigateByUrl('/tabs/buy-and-sell/products/sell');
-        console.log(resp);
+        this.adMobFeeService.showInterstitialAd();
         this.clearProductForm();
       },
       err => {
@@ -151,5 +153,5 @@ export class ProductFormComponent implements OnInit {
     await modal.present();
     const { data } = await modal.onDidDismiss();
     return data.data;
-  } 
+  }
 }
