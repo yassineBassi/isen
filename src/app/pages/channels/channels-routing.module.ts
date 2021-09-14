@@ -13,7 +13,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'list/mines',
+        redirectTo: 'list/followed',
         pathMatch: 'full'
       },
       {

@@ -132,7 +132,7 @@ export class ServiceFormComponent implements OnInit {
         console.log(resp);
         this.toastService.presentStdToastr('service created successfully');
         this.router.navigateByUrl('/tabs/small-business/services');
-        this.adMobFeeService.showInterstitialAd();
+        // this.adMobFeeService.showInterstitialAd();
         this.clearServiceForm();
       },
       err => {

@@ -130,7 +130,7 @@ export class VideoComponent implements OnInit {
 
     if(this.myEl && this.partnerEl){
       this.webRTC.init(this.myEl, this.partnerEl).then(
-        () => {if(!this.answer) this.call()},
+        () => {!this.answer ? this.call() : {} },
         () => this.cancel()
       )
       return true

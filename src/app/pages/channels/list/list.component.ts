@@ -44,11 +44,11 @@ export class ListComponent implements OnInit {
         .then(
           user => {
             this.user = new User().initialize(user);
-            this.getChannels();
+            this.getChannels(null, true);
           }
         )
       }
-      else this.getChannels();
+      else this.getChannels(null, true);
     })
   }
 

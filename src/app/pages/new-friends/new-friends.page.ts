@@ -73,7 +73,7 @@ export class NewFriendsPage implements OnInit {
   getNearUsers(event?, refresh?){
     if(refresh){
       this.page = 0;
-      this.adMobFeeService.showInterstitialAd();
+      // this.adMobFeeService.showInterstitialAd();
     }
     this.userService.getUsers(this.page++, {...this.options, type: this.random ? 'random' : 'near'})
     .then(

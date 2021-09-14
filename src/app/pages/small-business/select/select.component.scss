@@ -1,6 +1,8 @@
 .chip{
   height: 100px;
   width: 100%;
+  background-color: #ddd;
+  opacity: 0.8;
 }
 .chip>ion-label>span{
   font-size: 25px;
