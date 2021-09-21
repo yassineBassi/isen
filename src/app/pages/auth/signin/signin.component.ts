@@ -66,7 +66,7 @@ export class SigninComponent implements OnInit {
         this.nativeStorage.setItem('user', resp.data.user);
         this.socket.emit('connect-user', resp.data.user._id);
         this.oneSignalService.open(resp.data.user._id);
-        this.router.navigate(['/tabs/profile']);
+        this.router.navigate(['/tabs/new-friends']);
       },
       err => {
         this.pageLoading = false;

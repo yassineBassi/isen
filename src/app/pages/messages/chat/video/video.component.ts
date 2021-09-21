@@ -195,7 +195,7 @@ export class VideoComponent implements OnInit {
 
   cancel(){
     this.location.back();
-    this.adMobFeeService.showInterstitialAd();
+    // this.adMobFeeService.showInterstitialAd();
     this.messengerService.sendMessage({event: 'stop-audio'})
     if(this.audio) this.audio.pause();
     this.messengerService.sendMessage({event: 'stop-audio'})

@@ -11,6 +11,7 @@ import { Network } from '@ionic-native/network/ngx';
 import { WebrtcService } from './services/webrtc.service';
 import { Router } from '@angular/router';
 import { MessengerService } from './pages/messenger.service';
+import { AdMobFeeService } from './services/admobfree.service';
 
 @Component({
   selector: 'app-root',
@@ -34,7 +35,8 @@ export class AppComponent {
     private splashScreen: SplashScreen,
     private network: Network,
     private router: Router,
-    private messengerService: MessengerService
+    private messengerService: MessengerService,
+    private adMobFreeService: AdMobFeeService
   ) {
     this.initializeApp();
   }
@@ -43,6 +45,7 @@ export class AppComponent {
     this.platform.ready().then(() => {
       this.getUserData();
       this.getJsonData();
+      // this.adMobFreeService.showBannerAd();
       this.statusBar.styleLightContent();
       setTimeout(() => {
         this.splashScreen.hide();

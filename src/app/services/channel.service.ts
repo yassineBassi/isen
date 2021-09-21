@@ -145,4 +145,11 @@ export class ChannelService extends DataService {
       data: {message}
     })
   }
+
+  getPost(id: string){
+    return this.sendRequest({
+      method: 'get',
+      url: '/post/' + id
+    })
+  }
 }

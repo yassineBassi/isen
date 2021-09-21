@@ -20,7 +20,7 @@
     <div class="flex-grow-1 d-flex flex-column justify-content-center">
       <div class="text-center px-4 ">
         <form [formGroup]="form" class="form w-100 text-center">
-          <img *ngIf="steps[step] != 'success'" src="../../../../assets/logo.svg" class="logo-img" alt="">
+          <img *ngIf="steps[step] != 'success'" src="../../../../assets/logo.png" class="logo-img" alt="">
 
           <div class="form-group" *ngIf="steps[step] == 'email'">
             <h2>What's your email ?</h2>
@@ -114,7 +114,7 @@
 
           <div *ngIf="steps[step] == 'location'">
             <h2>Almost done!</h2>
-            <h2>Where do you live ?</h2>
+            <h2 class="my-0">Where do you live ?</h2>
             <ion-item class="w-100 mt-3">
               <div class="w-100 h-100">
                 <ion-button
@@ -178,7 +178,12 @@
     </div>
   </div>
 </ion-content>
-<ion-footer class="px-4">
+<ion-footer class="px-4 text-center">
+  <small *ngIf="step == steps.length - 2">
+    By continuing you agree to the terms
+    <a class="link">Terms of Service</a> and
+    <a class="link">Privacy Policy</a>
+  </small>
   <ion-button
     expand="block"
     color="primary"

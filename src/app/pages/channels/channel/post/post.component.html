@@ -59,7 +59,7 @@
       </ion-button>
     </div>
   </div>
-  
+
   <ion-button
     size="small"
     class="d-block ion-no-margin ion-no-padding"
@@ -67,6 +67,7 @@
     fill="clear"
     [style]="{'color': post.color}"
     (click)="showComments()"
+    *ngIf="showCommentsBtn"
   >
     <i class="far fa-comments mr-1"></i>
     <span>{{ post.comments.length }} comments</span>

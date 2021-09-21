@@ -3,7 +3,7 @@
     <name>Dolphy</name>
     <description>Dolphy is a new integrated social app, where user can find all he need in one app, with many functions and tools which simplify the connections between users.</description>
     <author email="yassinebassii@gmail.com" href="https://yassinebassi.com/">BASSI Yassine</author>
-    <content src="index.html" />
+    <content original-src="index.html" src="http://localhost:8100" />
     <access origin="*" />
     <allow-navigation href="*" />
     <allow-navigation href="https://api.stripe.com" />

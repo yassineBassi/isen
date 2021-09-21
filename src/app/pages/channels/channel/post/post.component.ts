@@ -18,10 +18,11 @@ export class PostComponent implements OnInit {
   @Output() removePost = new EventEmitter();
   @Input() post: Post;
   @Input() user: User;
+  @Input() showCommentsBtn = true;
 
   deleteLoading = false;
 
-  constructor(private alertCtrl: AlertController, private channelService: ChannelService, private toastService:ToastService, 
+  constructor(private alertCtrl: AlertController, private channelService: ChannelService, private toastService:ToastService,
               private modalCtrl: ModalController, private router: Router, private popoverController: PopoverController) { }
 
   ngOnInit() {}
@@ -45,15 +46,7 @@ export class PostComponent implements OnInit {
   }
 
   async showComments(){
-    const modal = await this.modalCtrl.create({
-      component: CommentsComponent,
-      animated: true,
-      componentProps: {
-        post: this.post,
-        user: this.user
-      }
-    });
-    await modal.present();
+    this.router.navigateByUrl('/tabs/channels/post/' + this.post.id)
   }
 
   showUserProfile(id: string){

@@ -152,7 +152,7 @@ export class SignupComponent implements OnInit {
 
   isValid(){
     if(this.steps[this.step] == 'name'){
-      return this.firstName.valid && this.lastName;
+      return this.firstName.valid && this.lastName.valid;
     }else if(this.steps[this.step] == 'password'){
       return this.password.valid && this.password.value === this.password_confirmation.value;
     }else if(this.steps[this.step] == 'location'){

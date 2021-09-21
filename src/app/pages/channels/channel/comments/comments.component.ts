@@ -5,6 +5,7 @@ import { ToastService } from './../../../../services/toast.service';
 import { ChannelService } from './../../../../services/channel.service';
 import { Post } from './../../../../models/Post';
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-comments',
@@ -16,8 +17,9 @@ export class CommentsComponent implements OnInit {
   @ViewChild('infinitScroll') infinitScroll: IonInfiniteScroll;
 
   @Output() addComment = new EventEmitter();
-  @Input() post: Post;
-  @Input() user: User;
+  post: Post;
+  postId: string;
+  user: User;
 
   anonyme = false;
 
@@ -28,12 +30,36 @@ export class CommentsComponent implements OnInit {
   page = 0;
   pageLoading = false;
 
-  constructor(private channelService: ChannelService, private toastService: ToastService) { }
+  constructor(private channelService: ChannelService, private toastService: ToastService, private route: ActivatedRoute) { }
 
   ngOnInit() {}
 
   ionViewWillEnter(){
-    this.getComments();
+    this.pageLoading = true;
+    this.getPostId();
+    // this.getComments();
+  }
+
+  getPostId(){
+    this.route.paramMap.subscribe(
+      params => {
+        this.postId = params.get('id');
+        this.getPost()
+      }
+    )
+  }
+
+  getPost(){
+    this.channelService.getPost(this.postId).then(
+      (resp: any) => {
+        this.post = new Post().initialize(resp.data);
+        this.getComments(null, true);
+      },
+      err => {
+        this.pageLoading = false;
+        this.toastService.presentStdToastr(err);
+      }
+    )
   }
 
   getComments(event?, refresh?){
@@ -61,6 +87,7 @@ export class CommentsComponent implements OnInit {
       },
       err => {
         this.pageLoading = false;
+        this.toastService.presentStdToastr(err);
       }
     )
   }

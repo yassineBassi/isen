@@ -16,9 +16,7 @@ export class GuestGuard implements CanActivate {
         return this.nativeStorage.getItem('token')
         .then(
           token => {
-            console.log(token);
-
-            this.router.navigate(['/tabs/profile'])
+            this.router.navigate(['/tabs/new-friends'])
             return false
           },
           err => {

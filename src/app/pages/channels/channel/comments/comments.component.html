@@ -1,6 +1,5 @@
 <app-header
   [back]="true"
-  [modal]="true"
   title="Comments"
 ></app-header>
 
@@ -14,6 +13,7 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
+
   <div class="h-100 d-flex align-items-center" [style]="{'--background': post.backgroundColor}" *ngIf="comments && !comments.length && !pageLoading">
     <div class="w-100 text-center px-4">
       <img src="./../.../../../../../..//assets/comment.svg" alt="">
@@ -23,6 +23,13 @@
     </div>
   </div>
 
+  <div *ngIf="!pageLoading && comments">
+    <app-post
+      [post]="post"
+      [user]="user"
+      [showCommentsBtn]="false"
+    ></app-post>
+  </div>
   <app-comment
     (removeComment)="removeComment(ind)"
     [backgroundColor]="post.backgroundColor"

@@ -71,6 +71,7 @@ export class NewFriendsPage implements OnInit {
   }
 
   getNearUsers(event?, refresh?){
+    this.pageLoading = true
     if(refresh){
       this.page = 0;
       // this.adMobFeeService.showInterstitialAd();
@@ -80,7 +81,6 @@ export class NewFriendsPage implements OnInit {
       (resp: any) => {
         if(refresh) this.users = [];
 
-        console.log(resp.data.users)
         resp.data.users.forEach(user => {
           this.users.push(new User().initialize(user));
         })
@@ -105,6 +105,11 @@ export class NewFriendsPage implements OnInit {
         this.changeDetectorRef.detectChanges()
       },
       err => {
+        if(event){
+          event.target.complete();
+        }
+        if(refresh && this.infinitScroll) this.infinitScroll.disabled = false
+
         this.pageLoading = false;
         console.log(err);
       }

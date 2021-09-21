@@ -5,6 +5,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { ChannelsPage } from './channels.page';
+import { CommentsComponent } from './channel/comments/comments.component';
 
 const routes: Routes = [
   {
@@ -27,6 +28,10 @@ const routes: Routes = [
       {
         path: 'channel',
         component: ChannelComponent
+      },
+      {
+        path: 'post/:id',
+        component: CommentsComponent
       }
     ]
   },

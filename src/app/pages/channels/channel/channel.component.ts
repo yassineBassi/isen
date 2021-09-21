@@ -36,6 +36,7 @@ export class ChannelComponent implements OnInit {
   ngOnInit() {}
 
   ionViewWillEnter(){
+    this.page = 0;
     this.pageLoading = true;
     this.getChannelParams();
   }
@@ -50,7 +51,7 @@ export class ChannelComponent implements OnInit {
         .then(
           user => {
             this.user = new User().initialize(user);
-            this.getChannelPosts();
+            this.getChannelPosts(null, true);
           }
         )
       }
@@ -181,7 +182,7 @@ export class ChannelComponent implements OnInit {
         this.toastService.presentStdToastr(resp.message);
         if(resp.data)
           this.channel.followers.push(this.user.id);
-        else 
+        else
           this.channel.followers.splice(this.channel.followers.indexOf(this.user.id), 1)
       },
       err => {
